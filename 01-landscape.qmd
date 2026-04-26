@@ -14,41 +14,231 @@ By the end of this chapter you should be able to:
 - Adopt the *cybernetic teammate* framing: human-AI
   collaboration as delegation with verification, not
   command-and-execute.
-- Reason about cost, latency, and context-window tradeoffs
-  in selecting models for routine versus high-stakes
-  biostatistical work.
+- Reason about cost, latency, and context-window
+  tradeoffs in selecting models for routine versus
+  high-stakes biostatistical work.
 
 ## Orientation
 
-(TODO)
+A biostatistician in 2026 has access to four classes of
+generative AI capability that did not exist as a coherent
+toolkit five years earlier: chat models that converse
+fluently, reasoning models that work through problems
+with extended internal computation, agentic systems that
+take multi-step autonomous action, and multimodal models
+that read images, audio, and structured documents
+alongside text. Each class is genuinely useful and
+genuinely limited; none is a general substitute for
+biostatistical judgement; and the field changes faster
+than any textbook chapter can keep pace with.
+
+This chapter establishes the framing the rest of the
+book inherits. Three concepts do most of the work:
+**capability classes** (a taxonomy that survives
+specific model releases), **the jagged frontier**
+(capability is uneven and opaque), and **the cybernetic
+teammate** (human-AI work is delegation, not command).
+The taxonomy and the framing are stable; the examples
+are contemporary as of writing and will date. The
+companion `docs/mollick-digest.md` and the weekly
+pundit-scan pipeline are the audit trail that keeps the
+chapter examples current.
+
+The orientation matters because the alternative —
+treating generative AI as a single 'thing' that one
+either uses or does not — produces both over- and
+under-confident analyses. The biostatistician who treats
+every prompt as 'asking the AI' misses the substantial
+difference between asking a chat model for a code
+snippet, asking a reasoning model to plan a trial
+analysis, and asking an agent to run that analysis end
+to end. The discipline starts with naming what kind of
+collaboration is in play.
 
 ## The statistician's contribution {#sec-landscape-human}
 
-(TODO)
+Before the practical taxonomy, name the judgements that
+are not delegable. Generative AI in 2026 is sufficiently
+capable that the temptation to outsource analytical
+decisions to it has become real and is, in specific
+ways, dangerous. Three judgements remain the
+biostatistician's responsibility regardless of how
+capable the tooling becomes.
 
-**(Judgement 1.)** TODO.
+**(Judgement 1.) Selection of the question.** A model can
+help phrase a research question, draft an analysis plan,
+and produce code that addresses the plan. It cannot tell
+you whether the question being asked is the question
+that should be asked. The same dataset can support a
+clinically meaningful question (does treatment X reduce
+30-day mortality?) and a clinically misleading one (is
+treatment X associated with reduced 30-day mortality
+controlling for severity?, where severity is a
+post-treatment confounder). Distinguishing the two is
+domain judgement, not a prompt-engineering problem. The
+biostatistician's first contribution is to insist on the
+right question being asked and to push back when the AI
+tooling produces a clean answer to the wrong one.
 
-**(Judgement 2.)** TODO.
+**(Judgement 2.) Verification proportionate to stakes.** A
+chat model's code output can be verified by running it.
+A reasoning model's conclusion about whether a
+non-inferiority margin is appropriate cannot — verifying
+it requires statistical judgement about the clinical
+context. Agents that take multi-step action produce
+artefacts whose intermediate steps may be partially
+correct, partially fabricated, and partially the product
+of opaque internal reasoning. The biostatistician
+designs the verification regime to match the stakes:
+heavier verification for clinical-grade analyses, lighter
+verification for exploratory work, and honest
+acknowledgement when verification is impossible at the
+budget available.
 
-**(Judgement 3.)** TODO.
+**(Judgement 3.) The decision about delegation itself.**
+Generative AI is now capable enough that the right
+choice is sometimes 'do not use it'. Some
+biostatistical questions are better answered by reading
+the textbook. Some pre-trial decisions are better made
+by talking to the principal investigator. Some
+quality-control checks should be done by hand, slowly,
+to catch what no AI is yet reliably noticing. The
+discipline includes saying no — and saying so explicitly
+in the analysis report so reviewers can understand which
+parts of the work were AI-assisted and which were not.
 
 These judgements are what distinguish an analysis that
-survives review from one that does not.
+survives review from one that does not. They do not
+diminish as AI capability grows; if anything, the more
+capable the tooling, the more load they bear, because
+the biostatistician's role increasingly becomes one of
+adjudication rather than execution.
 
 ## Capability classes: chat, reasoning, agentic, multimodal
 
-(TODO)
+The taxonomy that has emerged across applied-AI
+syllabi [@kuhn2024tidymodels; @mollick_2025_opinionated]
+treats current generative AI as four overlapping
+capability classes rather than a single product. Each
+class has a characteristic strength, a characteristic
+failure mode, and a characteristic cost profile.
+
+**Chat models** are the most familiar form. Token-by-token
+text generation conditioned on a system prompt and a
+conversation history. ChatGPT-4o, Claude Sonnet, Gemini
+Flash. They are fast (responses in seconds), cheap (cents
+per query at the consumer tier), and broadly capable on
+tasks where the answer is implicit in the training
+distribution: drafting an email, explaining a concept,
+producing standard code. They are weak on novel
+multi-step reasoning and on tasks where the wrong-but-
+plausible answer is hard to detect.
+
+For biostatisticians, chat models are the right tool for:
+boilerplate code generation (write me a `dplyr` pipeline
+that filters and summarises this data), prose drafting
+(turn this bullet list into a methods paragraph), and
+quick conceptual lookups (what is the difference between
+ROC and PR curves). They are wrong tools for: novel
+analytical decisions, clinical-grade interpretation, or
+any task where the cost of a confident wrong answer is
+high.
+
+**Reasoning models** add an explicit thinking phase before
+producing the user-visible output. The model spends extra
+compute generating intermediate reasoning that the user
+does not see, then collapses to a final answer. OpenAI's
+o-series, Claude with extended thinking, Gemini 2.5,
+DeepSeek R1. They take longer (tens of seconds to a
+minute or more), cost more (an order of magnitude or
+more per query), and substantially outperform chat models
+on multi-step reasoning, mathematical problems, and
+complex code [@openai_2024_o1; @deepseek_2025_r1].
+
+The trade is opacity. The thinking trace is partial or
+hidden, the model's confidence in its answer is high
+even when the answer is wrong, and the user has fewer
+hooks for verification than with a chat model whose
+output can be inspected step by step. Reasoning models
+are the right tool for: planning a complex analysis,
+debugging a non-trivial statistical bug, evaluating
+whether a proposed trial design has hidden flaws. They
+are wrong tools for: tasks where verification matters
+more than depth, or where the cost of a confident wrong
+answer is high and verification is impractical.
+
+**Agentic models** combine a reasoning model (or chat
+model) with the ability to take actions: browse the web,
+read and write files, execute code, query databases,
+call APIs. The model is given a goal and a set of tools
+and operates in a loop, choosing actions and observing
+their results until the goal is met or the budget is
+exhausted [@yao_2023_react; @anthropic_2024_mcp]. Claude
+with computer use, GPT-5's autonomous mode, the Model
+Context Protocol stack [@mcp_2025_spec].
+
+Agents are powerful and dangerous. They can complete
+tasks that no single chat or reasoning prompt can: 'go
+read these 200 papers, extract the trial design and
+primary endpoint from each, and produce a structured
+table'. They can also take incorrect action with
+confidence, fabricate intermediate results that are
+never inspected, and accumulate small errors over many
+steps into a final output that is wrong in ways that are
+hard to detect from the final output alone. Agents are
+the right tool when the work is long-running, the
+intermediate steps are independently verifiable, and the
+cost of a single wrong step is contained. They are wrong
+tools when the work is short, when verification of
+intermediate steps is impractical, or when the cost of
+silent error is high.
+
+**Multimodal models** read or generate beyond text:
+images (clinical photographs, chest X-rays,
+histopathology), audio (clinical scribes, voice
+interfaces), video (procedural videos, ultrasound), and
+structured documents (PDFs with tables, EHR exports).
+GPT-5o, Claude 3.7 Sonnet with vision, Gemini 3 Pro
+multimodal, plus specialised biomedical models like
+MedSAM [@ma_2024_medsam], RETFound [@zhou_2023_retfound],
+and BiomedCLIP [@zhang_2025_biomedclip].
+
+For biostatisticians, multimodal models are the entry
+point for clinical-imaging research, OCR and table
+extraction from clinical documents, and the AI scribe
+applications discussed in @sec-multimodal-medical. They
+are limited by the same training-data biases as any
+other model, with the additional concern that
+distribution shift in imaging (different scanners,
+patient populations, acquisition protocols) is harder to
+detect than distribution shift in tabular data.
 
 ::: {.callout-note icon=false collapse=true}
-## Check your understanding: TODO
+## Check your understanding: choosing the class
 
-**Question.** TODO.
+**Question.** A collaborator asks you to use AI to
+'analyse this trial dataset and produce a report'. Which
+capability class is the right starting point — and what
+should your follow-up question be?
 
 ::: {.content-visible when-format='html'}
 <details><summary>Answer</summary>
 :::
 
-TODO.
+The honest answer is *none of them yet*, because the
+ask is under-specified. 'Analyse and produce a report'
+hides decisions about: what is the primary endpoint, what
+adjustments are pre-specified, what level of statistical
+rigour is required (exploratory vs registration-grade),
+and whether intermediate results need human review. Your
+follow-up question is *what decisions does this analysis
+inform, and at what level of stakes*. Once that is
+clear: a chat model is right for boilerplate code; a
+reasoning model is right for planning the analysis; an
+agent is right only if the steps are independently
+verifiable and the analysis is exploratory; multimodal
+matters only if the data includes images or PDFs. The
+ask routes to the class; the ask must come first.
 
 ::: {.content-visible when-format='html'}
 </details>
@@ -57,58 +247,458 @@ TODO.
 
 ## The jagged frontier
 
-(TODO)
+A canonical observation about modern AI capability is
+that it is **uneven** in ways that defy ordinary
+intuition. The same model that produces graduate-level
+analysis of a complex epidemiological question fails
+elementary arithmetic. The same model that solves a
+novel coding problem cannot reliably count letters in a
+word. The same model that generates a publication-quality
+methods section invents citations to papers that do not
+exist. Mollick [@mollick_2025_jagged] names this the
+*jagged frontier*: capability rises in some directions
+and remains subhuman in adjacent ones, with no consistent
+predictor of which is which from the user's perspective.
+
+The pattern matters because it breaks two intuitive
+heuristics that biostatisticians (and everyone else)
+naturally apply. The first is the **transferability
+heuristic**: 'if it can do X, it can probably do Y where
+Y is similar to X'. The transferability heuristic fails
+on jagged-frontier systems. A model that successfully
+plans a multi-arm trial analysis may produce nonsense on
+a routine power calculation, because the two tasks
+exercise different parts of the training distribution
+and the user has no visibility into which.
+
+The second failed heuristic is the **confidence
+heuristic**: 'if it produces an answer with confidence,
+the answer is more likely to be right'. Generative AI
+systems produce all answers with confidence, including
+wrong answers. Hallucinated citations are not flagged.
+Wrong arithmetic is not flagged. Confidently incorrect
+analytical interpretations are not flagged. Calibration
+between expressed confidence and actual accuracy remains
+poor across all current systems, despite improvements at
+the model-card-benchmark level.
+
+The implication for biostatistical work is direct:
+**verification cannot be skipped, and verification cost
+must be budgeted from the start of any AI-assisted
+analysis.** The jagged frontier is not a temporary
+problem that the next model release will fix. It is a
+structural property of the way these systems are trained
+and evaluated. New models close some jagged gaps and
+open others. The biostatistician's protection is not to
+guess which gaps are open today but to design every
+AI-assisted workflow with verification points at the
+boundaries where gaps tend to land.
+
+Three patterns of verification work across most jagged-
+frontier failures:
+
+1. **Run the code.** AI-generated code that runs and
+   produces sensible output on a known test case has
+   passed a meaningful check. AI-generated code that has
+   never been executed is worth less than a notepad
+   sketch.
+
+2. **Cross-check against a second source.** A reasoning
+   model's interpretation of a regulatory question can
+   be checked against the actual regulation; a citation
+   can be verified by looking up the paper; an
+   analytical recommendation can be checked against a
+   textbook. The cost of cross-checking is usually small
+   relative to the cost of acting on a wrong answer.
+
+3. **Demand traceable provenance.** When the model
+   produces a substantive claim, ask it to cite the
+   source. When the model produces a code change, ask it
+   to explain why the change is correct. The trace is
+   not always faithful to internal reasoning, but it
+   gives the user a verification target that the bare
+   output does not.
 
 ## The cybernetic teammate
 
-(TODO)
+The third concept is a stance, not a technology. Mollick
+[@mollick_2025_cyberteammate] reports a randomised
+controlled trial of 776 professionals at Procter &
+Gamble, randomised to alone-versus-team and AI-versus-no-
+AI conditions on realistic product-development workshops.
+The findings: AI-enabled individuals matched the
+performance of two-person teams without AI. Teams with
+AI outperformed teams without. AI eliminated the
+expertise silo between R&D and commercial specialists.
+Participants using AI reported higher positive emotion
+and lower anxiety.
 
-## Worked example: TODO
+The framing this supports is that AI-assisted work is
+best understood as **collaboration with a teammate, not
+operation of a tool.** A spreadsheet does what you tell
+it. An LLM does what you ask, plus things you did not
+ask, plus occasionally refuses on grounds of its own
+making, plus occasionally produces a partial result and
+asks for more information. The interaction is more like
+working with a junior colleague than running a script.
 
-(TODO)
+The shift in framing has practical implications for the
+biostatistician.
+
+**The binding skill is delegation, not prompting.**
+Mollick [@mollick_2026_management] argues the underlying
+skill is precise specification of deliverables, fast
+evaluation of output, and judicious choice of what to
+delegate. These are management fundamentals: clear
+product requirement documents, iterative feedback,
+recognising when to assign and when to retain. The
+biostatistician who sees AI as a tool will write
+under-specified prompts and accept under-evaluated
+output. The biostatistician who sees AI as a teammate
+will specify deliverables, set up rapid evaluation, and
+maintain judgement over the work.
+
+**Domain expertise becomes more valuable, not less.** In a
+world where compute is abundant and execution is cheap,
+the binding constraint shifts to knowing what to ask and
+recognising when the answer is wrong. The
+biostatistician's domain expertise — clinical-trial
+methodology, statistical inference, the regulatory
+context — is what makes good delegation possible. The AI
+can produce code; only the biostatistician knows whether
+the code is solving the right problem.
+
+**Adoption emerges at the edges.** Mollick
+[@mollick_2024_latent] documents that the most useful AI
+applications come from individual practitioners
+discovering workflows in their own work, not from
+centralised IT prescription. For a biostatistics group,
+this means encouraging individual experimentation,
+sharing what works, and treating the discovery of useful
+patterns as part of the work rather than overhead. The
+runbook conventions established in
+@sec-customisation-teams formalise this.
+
+## Cost, latency, and context-window tradeoffs
+
+A practical taxonomy needs to address what each class
+costs and how long each takes. The constraints are not
+fixed (cost has fallen substantially across all classes
+in 2024–2026 and continues to fall), but the relative
+ranking is stable enough to inform routine decisions.
+
+| Class | Latency | Cost / query | Context window | Best for |
+|-------|---------|---------------|----------------|----------|
+| Chat | seconds | cents | 100k–500k | boilerplate, lookups, drafting |
+| Reasoning | tens of seconds to minutes | tens of cents | 100k–1M | planning, debugging, hard problems |
+| Agentic | minutes to hours | dollars to tens of dollars | 100k–1M with compaction | multi-step autonomous work |
+| Multimodal | seconds to minutes | cents to tens of cents | 100k–1M | imaging, OCR, voice |
+
+Two practical decision rules.
+
+**Match the model to the task, not the budget.** The
+temptation to default to the cheapest model on cost
+grounds is strong and usually wrong. A reasoning model
+that costs ten times more per query but produces an
+answer that does not need to be re-asked is cheaper than
+a chat model that costs a tenth as much and is wrong
+half the time. The economics work backwards: cost-per-
+correct-answer is usually a better metric than cost-per-
+query.
+
+**Context windows are not free.** A million-token
+context window does not mean that a million tokens of
+input produces high-quality output. Empirical findings
+suggest most current models attend strongly to the
+beginning and end of long contexts and weakly to the
+middle, an effect colloquially called 'lost in the
+middle'. For biostatistical work where every detail
+matters (a trial protocol, a regulatory submission), the
+right move is usually to summarise input down to the
+relevant parts rather than dump the whole document.
+Reasoning models with extended thinking partially
+compensate but do not eliminate the issue.
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: cost per correct answer
+
+**Question.** Two models are available for a biostat-
+team's daily code-writing tasks. Model A costs $0.05 per
+query and produces correct code 70% of the time. Model B
+costs $0.50 per query and produces correct code 95% of
+the time. Each correct answer is worth one unit of work;
+each wrong answer requires a re-run plus the
+biostatistician's time to diagnose, valued at $5. Which
+is cheaper per unit of correct work?
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+Model A: $0.05 + 0.30 × $5 = $1.55 per query, but
+each correct answer requires 1/0.70 = 1.43 queries on
+average, so $2.21 per correct answer. Model B: $0.50 +
+0.05 × $5 = $0.75 per query, requiring 1/0.95 = 1.05
+queries per correct answer, so $0.79 per correct
+answer. Model B is roughly three times cheaper per unit
+of correct work despite being ten times more expensive
+per query. The lesson: the per-query price hides most of
+the cost when accuracy varies. The right metric is cost-
+per-correct-output, not cost-per-query.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## Worked example: choosing tools for a trial-data analysis
+
+A specific worked example fixes the framework. The trial
+is a multi-centre randomised study of a novel diabetes
+medication; the primary endpoint is HbA1c change at 26
+weeks; secondary endpoints include weight loss, adverse
+events, and patient-reported outcomes. The dataset is
+3,400 patients across 18 centres. The biostatistician
+is the lead analyst; the report is for the data
+monitoring committee.
+
+The work decomposes into roughly twelve sub-tasks. For
+each, the question is which capability class is the
+right tool — and where verification points need to land.
+
+**1. Drafting the statistical analysis plan.** Reasoning
+model: the SAP needs to integrate the trial protocol,
+the regulatory context, and the sponsor's pre-specified
+hypotheses. Chat-model output would be plausible-looking
+but miss subtleties. The biostatistician verifies by
+reading the protocol, the prior SAPs in the same
+indication, and any FDA Type C meeting minutes that
+inform the design.
+
+**2. Generating the analysis dataset specification.**
+Chat model: the spec is largely boilerplate (variable
+names, derivations, missingness conventions). Verify by
+inspecting the spec against a similar prior study and by
+running the code it produces against the actual data.
+
+**3. Computing baseline characteristics tables.** Chat
+model: standard `tableone`-style output, easy to verify.
+The model produces R or Python code; the biostatistician
+runs it and inspects the output for sensibility.
+
+**4. Implementing the primary efficacy analysis.**
+Reasoning model: the primary analysis is a mixed model
+for repeated measures with interaction terms; the
+biostatistician needs the model to think through the
+fixed-effects specification, the random-effects
+structure, and the missing-data assumption. Verify by
+hand-computing the result on a small subset and
+comparing.
+
+**5. Sensitivity analyses.** Reasoning model: a tipping-
+point analysis or pattern-mixture model is non-trivial
+and benefits from extended thinking. Verify by running
+the code, checking against a second implementation if
+available, and reading the model's reasoning trace
+critically.
+
+**6. Subgroup analyses with multiplicity correction.**
+Reasoning model: subgroup analyses are easy to get wrong
+in published reports. The model can plan the
+multiplicity correction; the biostatistician decides
+whether subgroups are pre-specified versus exploratory
+and ensures the report makes the distinction.
+
+**7. Adverse-event tabulation.** Chat model: standard
+tabulation, easy to verify, no analytical judgement.
+
+**8. Patient-reported outcome scoring.** Chat model:
+deterministic scoring rules from the questionnaire
+documentation. Verify by spot-checking a sample of
+patients.
+
+**9. Forest plots and other figures.** Chat model: clean
+ggplot2 code, easy to verify.
+
+**10. Drafting the methods section of the report.** Chat
+or reasoning model. Chat model produces an acceptable
+draft; reasoning model produces a draft that integrates
+nuance from the SAP. The biostatistician reads, edits,
+and is responsible for accuracy.
+
+**11. Drafting the results section.** Chat model with the
+table and figure outputs as input. Verify by reading
+against the underlying numbers — the model will
+sometimes paraphrase a number incorrectly.
+
+**12. Cross-checking the report against the SAP.**
+Reasoning model with both documents in context. The
+model can flag where the report deviates from the SAP;
+the biostatistician adjudicates whether the deviations
+are intentional and disclosed.
+
+The agentic class does not appear in the workflow. For a
+registration-grade trial analysis, the verification
+overhead of agentic execution is higher than the time
+savings, and the regulatory expectation is that
+intermediate results are inspected. Agents may be
+appropriate for the literature search step that informs
+the SAP — that is the topic of @sec-deep-research — but
+not for the analysis itself.
+
+The total cost of the AI-assisted portion of this work
+is roughly $20–$50 in API charges across the analysis;
+the biostatistician's time saved is several days. The
+total verification overhead is roughly 30% of what the
+AI-assisted portion would have cost without
+verification — non-negligible but small relative to the
+time savings.
 
 ## Collaborating with an LLM on the generative AI landscape
 
-(TODO)
+Three prompt patterns illustrate how the chapter's
+concepts apply when the work itself is conducted with
+LLM assistance.
 
-**Prompt 1: TODO.** TODO.
+**Prompt 1: 'Which capability class should I use for this
+task?'** Provide the task description, the stakes, and
+the time budget.
 
-*What to watch for.* TODO.
+*What to watch for.* The LLM will often default to
+recommending its own class — a chat model recommends
+chat-model use, a reasoning model recommends reasoning-
+model use. The recommendation may not reflect the
+genuinely right choice. The LLM also tends to under-
+specify the verification step; ask explicitly for the
+verification recommendation.
 
-*Verification.* TODO.
+*Verification.* For at least the first dozen times you
+ask this, sanity-check the recommendation against the
+table earlier in this chapter. If the LLM recommends
+chat for a task that needs reasoning, or recommends
+agentic for a task with high cost-of-error, override
+without ceremony. The class taxonomy is small enough to
+internalise quickly.
 
-**Prompt 2: TODO.** TODO.
+**Prompt 2: 'Identify the jagged-frontier risks in this
+analysis plan.'** Provide the plan and ask for a list of
+spots where AI-assisted execution would be likely to
+fail silently.
 
-*What to watch for.* TODO.
+*What to watch for.* The LLM is generally honest about
+its own failure modes when asked directly, but it will
+tend to flag generic risks (hallucination, calibration)
+without being specific to the analysis. Ask follow-up
+questions about specific calculations or judgements in
+the plan.
 
-*Verification.* TODO.
+*Verification.* Compare the LLM's flagged risks against
+your domain experience. If the LLM flagged risks you
+did not anticipate, take them seriously. If the LLM
+missed risks you anticipated, take that as evidence the
+LLM has gaps in this domain that affect other prompts in
+the same area.
 
-**Prompt 3: TODO.** TODO.
+**Prompt 3: 'Plan the human verification steps for an AI-
+assisted version of this work.'** Provide the work
+description and ask for a verification regime.
 
-*What to watch for.* TODO.
+*What to watch for.* The LLM is enthusiastic about
+verification but tends to under-budget the time required
+and over-rely on automated checks (tests, type checks,
+linting) that do not catch the substantive errors that
+matter most. Ask for human-in-the-loop checkpoints
+specifically.
 
-*Verification.* TODO.
+*Verification.* The verification regime is a contract
+with yourself. If you cannot afford the verification the
+LLM proposes, you cannot afford the work as proposed —
+either reduce the AI-assisted scope or accept the
+elevated risk explicitly.
 
-The meta-pattern: TODO.
+The meta-pattern: the LLM is a useful **first-pass
+collaborator** for thinking about its own use. It is not
+a substitute for the biostatistician's judgement about
+which work is appropriate to delegate. Treat its
+recommendations the way you would treat recommendations
+from a fluent intern — useful starting points, never
+final answers.
 
 ## Principle in use
 
 Three habits define defensible work in this area:
 
-1. **TODO.**
-2. **TODO.**
-3. **TODO.**
+1. **Name the class before you use the model.** Before
+   sending a prompt, identify which of the four
+   capability classes you are using and why. The
+   discipline takes seconds and prevents the most common
+   misuse pattern (chat-model output treated as
+   reasoning-model output, or reasoning-model speed
+   expected from agentic work).
+
+2. **Budget the verification cost up front.** Estimate
+   the verification time before starting the work. If
+   the verification is more expensive than the work, do
+   not delegate the work. If the verification is cheaper
+   than the work but you do not budget the time, you
+   will skip it.
+
+3. **Document AI assistance in the analysis report.**
+   The methods section should disclose which classes of
+   AI assistance were used and how their output was
+   verified. The disclosure is part of the audit trail
+   and is increasingly an explicit reviewer expectation
+   for clinical and regulatory work.
 
 ## Exercises
 
-1. TODO.
-2. TODO.
-3. TODO.
-4. TODO.
-5. TODO.
+1. Take a recent analysis you completed without AI
+   assistance. Decompose it into sub-tasks. For each,
+   identify which capability class would have been the
+   right tool and what the verification step would have
+   been. Estimate the time savings and verification
+   cost.
+
+2. Pick a task you currently do with a chat model and
+   try the same task with a reasoning model. Compare
+   the output quality, the time, and the cost. Identify
+   one task where the reasoning model is worth the
+   premium and one where the chat model is sufficient.
+
+3. Use a reasoning model to plan an analysis you do not
+   know how to do yet. Read the model's plan critically,
+   identify three points where you suspect the plan is
+   wrong, and check each. Document the plan, your
+   suspicions, and the resolution.
+
+4. Take a multimodal task in your work (a clinical
+   image, a PDF table, an audio recording) and try
+   solving it with a multimodal model. Compare against
+   manual extraction. Identify the failure modes and
+   estimate the error rate.
+
+5. For a biostatistical project of your choice, draft a
+   one-paragraph 'AI assistance disclosure' that would
+   accompany the methods section. The disclosure should
+   list classes used, verification regime, and any
+   delegation decisions you made consciously.
 
 ## Further reading
 
-- TODO (canonical reference).
-- TODO (modern applied reference).
-- TODO (Mollick anchor post).
+- @mollick_2025_opinionated, *An Opinionated Guide to
+  Using AI Right Now*. The clearest contemporary
+  capability-tier taxonomy, written for a general
+  audience but precise enough for technical readers.
+- @mollick_2025_jagged, *The Shape of AI: Jaggedness,
+  Bottlenecks and Salients*. The reference treatment of
+  the jagged-frontier concept.
+- @mollick_2025_cyberteammate, *The Cybernetic Teammate*.
+  The randomised-controlled-trial evidence underwriting
+  the teammate framing.
+- @bubeck_2023_sparks, *Sparks of Artificial General
+  Intelligence: Early experiments with GPT-4*. The
+  capability-mapping document that established the
+  modern jagged-frontier vocabulary.
+- @thirunavukarasu_2023_lmm, *Large language models in
+  medicine*. The applied-medical context for the
+  capability classes treated here.

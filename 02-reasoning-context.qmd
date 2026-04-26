@@ -18,35 +18,176 @@ By the end of this chapter you should be able to:
 
 ## Orientation
 
-(TODO)
+The 'prompt engineering' framing that dominated 2023–2024
+applied-AI material does not survive the arrival of
+reasoning models. When the model can spend tens of
+seconds working through a problem internally, the user's
+prompt-phrasing tricks (zero-shot vs few-shot vs chain-of-
+thought) matter much less than what the user puts in
+context, what the user asks for as output, and how the
+user verifies what comes back. The skill that scales is
+**context engineering**: assembling the right inputs and
+expected outputs so that the model has what it needs and
+the verification path is clear.
+
+The chapter develops three parallel themes. **What
+reasoning models change**: extended thinking absorbs much
+of the chain-of-thought work that prompt-engineering
+guides used to teach manually, while introducing a new
+opacity that makes per-step inspection harder. **How to
+construct context for biomedical work**: structured
+inputs, structured outputs, and the small number of
+prompt patterns that consistently improve quality
+without becoming superstition. **Verification under
+opacity**: when you cannot inspect the model's reasoning,
+what verification looks like — provisional trust, output
+connoisseurship, and independent computation as the
+ground truth.
+
+The framing inherits Mollick's *Working with Wizards*
+[@mollick_2025_wizards] observation that competence and
+opacity rise together. The applied implication for
+biostatistical work is that the binding skill is no
+longer 'how to phrase the prompt' but 'how to verify the
+output of a system whose reasoning you cannot inspect'.
 
 ## The statistician's contribution {#sec-reasoning-context-human}
 
-(TODO)
+Three judgements are not delegable in this chapter's
+domain.
 
-**(Judgement 1.)** TODO.
+**(Judgement 1.) The decision about when to invoke
+reasoning.** Extended thinking is not a free upgrade. It
+costs more, takes longer, and produces output that is
+opaque in characteristic ways. For routine tasks
+(boilerplate code, lookups, prose drafting) it is
+overkill; for novel multi-step problems (analytical
+planning, debugging hard bugs) it is the right tool. The
+biostatistician decides when the additional cost and
+opacity are warranted. A team that defaults to reasoning
+mode for everything will spend more and verify less than
+a team that uses reasoning selectively.
 
-**(Judgement 2.)** TODO.
+**(Judgement 2.) The verification regime.** Reasoning
+model outputs cannot be verified by the same methods that
+work for chat-model outputs. A chat model's mistakes
+often appear as obvious surface errors (wrong syntax,
+contradiction with the prompt). A reasoning model's
+mistakes often appear as subtly wrong conclusions that
+read fluently and require domain expertise to catch. The
+biostatistician designs verification regimes that match
+the failure mode: independent computation for analytical
+results, source-checking for citations, cross-model
+comparison for novel claims. The verification regime is
+not optional and is not the model's responsibility.
 
-**(Judgement 3.)** TODO.
+**(Judgement 3.) The provisional-trust contract.** Some
+work cannot be verified end-to-end at the budget
+available. A 50-page literature review cannot be
+exhaustively fact-checked; a complex sensitivity analysis
+cannot be re-implemented from scratch. The
+biostatistician makes an explicit decision about how
+much trust to extend provisionally and documents what
+was verified in detail and what was sampled. The
+contract is with the reader of the analysis as much as
+with the model: 'I verified these specific claims; I
+sampled these others; I take responsibility for the
+unsampled remainder'.
 
-These judgements are what distinguish an analysis that
-survives review from one that does not.
+These judgements are what distinguish defensible
+reasoning-model use from the pattern that produces
+publication scandals: confident output, no verification,
+silent error.
 
 ## What reasoning models change
 
-(TODO)
+Reasoning models — OpenAI's o-series, Claude with
+extended thinking, Gemini 2.5 Pro, DeepSeek R1
+[@openai_2024_o1; @deepseek_2025_r1; @anthropic_2025_extended] —
+add a thinking phase between input and output. The model
+generates intermediate tokens that are not shown to the
+user (or are shown in summarised form), then collapses
+to a final answer. The thinking phase is reinforcement-
+learned: models are trained to think more on harder
+problems and less on easier ones, with the reward
+signal coming from final-answer correctness on
+benchmarks.
+
+The empirical effect is substantial. On novel
+mathematical problems, reasoning models solve problems
+that chat models cannot. On code generation for non-
+trivial algorithms, they produce working code where chat
+models produce plausible-looking but broken code. On
+multi-step analytical questions, they integrate
+constraints and produce defensible recommendations where
+chat models produce shallower answers.
+
+Three changes matter for biostatistical work.
+
+**Less prompt engineering required.** Mollick
+[@mollick_2024_goodenough] argues that 'good enough
+prompting' is the right standard for modern systems.
+Elaborate few-shot examples, complex chain-of-thought
+templates, and prompt-engineering tricks that were
+load-bearing in 2023 are largely subsumed by extended
+thinking. The user provides context and asks the
+question; the model handles the reasoning internally.
+What used to be 'prompt engineering' is now context
+engineering: getting the right material in front of the
+model, not contriving the right phrasing.
+
+**Higher capability ceiling, lower verifiability floor.**
+Reasoning models solve harder problems. They also produce
+output whose internal reasoning is harder to inspect. The
+thinking trace is partial, summarised, or hidden,
+depending on the model. Even when shown, the trace is
+not always faithful to the actual computation that
+produced the answer; it is closer to a post-hoc
+rationalisation than a transparent log. The user gets a
+better answer with less visibility into how the answer
+was reached.
+
+**Calibration remains poor.** Reasoning models express
+the same confidence on right and wrong answers. The
+extra compute does not produce calibrated uncertainty;
+it produces a single best guess at higher accuracy. For
+biostatistical work where uncertainty quantification is
+load-bearing, this is a structural limitation: do not
+trust expressed confidence as a signal.
 
 ::: {.callout-note icon=false collapse=true}
-## Check your understanding: TODO
+## Check your understanding: when reasoning helps
 
-**Question.** TODO.
+**Question.** A biostatistician asks a chat model to
+write a function that computes a Cox model with stratified
+baselines and time-varying covariates. The chat model
+produces code that looks reasonable but fails on the
+team's actual dataset with an obscure error. The
+biostatistician suspects the chat model handled the
+time-varying part incorrectly. Should the next step be
+(a) re-prompt the chat model with the error message, or
+(b) escalate to a reasoning model with the original
+question and the dataset structure?
 
 ::: {.content-visible when-format='html'}
 <details><summary>Answer</summary>
 :::
 
-TODO.
+Probably (b). When the failure mode is 'plausible code
+that fails on the actual data', the issue is usually
+that the chat model produced something near a known
+example without integrating the specific structure of
+the input. Re-prompting with the error message often
+just produces another plausible-but-broken iteration.
+Escalating to a reasoning model with the data structure
+included in context lets the model think through the
+specific structure (stratification variable, time-
+varying covariate parameterisation, ID variable for
+clustering) before producing code. The cost of one
+reasoning-model query is much less than the cost of
+three chat-model iterations followed by manual
+debugging. As a heuristic: when chat models fail more
+than once on the same problem, escalate.
 
 ::: {.content-visible when-format='html'}
 </details>
@@ -55,58 +196,478 @@ TODO.
 
 ## Constructing context for biomedical work
 
-(TODO)
+Modern reasoning models have large context windows
+(100k–1M tokens) and good attention to in-context
+material when it is well-structured. The skill is
+arranging context so the model has what it needs without
+drowning the relevant bits in noise.
+
+Four practical patterns recur across biomedical
+applications.
+
+**Pattern 1: Structure the input.** Plain-text dumps of
+clinical narratives, protocol documents, or trial data
+work but produce noisy results. Structured input —
+clearly labelled sections, explicit data dictionaries,
+key-value summaries of relevant facts — produces better
+results because the model can attend to specific parts
+without confusing them. For a clinical question that
+hinges on a particular lab value, lead with the lab
+value labelled clearly; do not bury it in a paragraph of
+narrative.
+
+```
+PATIENT SUMMARY
+- Age: 67, female
+- Diagnosis: Type 2 diabetes (10y duration), CKD stage 3a
+- Current HbA1c: 8.4% (target 7.0%)
+- Current eGFR: 52 mL/min/1.73m^2
+- Current medications: metformin 2000mg/day,
+  empagliflozin 10mg/day
+
+QUESTION
+Should we add a GLP-1 agonist?
+
+PROTOCOL CONTEXT
+[paste relevant ADA guideline section here, clearly
+labelled, with the recommendation and the supporting
+evidence quotes]
+```
+
+The structured form makes verification easier — the
+biostatistician can check that the model attended to the
+right inputs by examining whether the output references
+them — and reduces hallucination by giving the model
+explicit material to ground in.
+
+**Pattern 2: Specify the output schema.** Free-form
+output is fine for prose drafting; for any output that
+will be parsed, summarised, or compared, specify the
+shape. Modern models support structured-output modes
+(JSON schema, Pydantic, regex-constrained generation)
+that produce machine-readable output reliably. For a
+risk-of-bias assessment across 200 papers, specify the
+output as JSON with explicit keys for each domain rather
+than asking for prose summaries.
+
+The structured-output discipline is also a verification
+discipline: a missing field is a flag that the model did
+not attend to that aspect of the question; a malformed
+field is a flag that the model is uncertain.
+
+**Pattern 3: Use few-shot examples for domain-specific
+formatting only.** The chain-of-thought-via-examples
+pattern that was load-bearing in 2023 is mostly subsumed
+by extended thinking. Few-shot examples remain useful
+when the desired output format is unusual or domain-
+specific — a particular CONSORT-style table layout, a
+specific clinical-note phrasing convention, a custom
+markdown template — because the model needs to see what
+'right' looks like for the format. Use one or two
+examples; more is rarely better and often worse.
+
+**Pattern 4: Ask for the reasoning trace explicitly when
+verification matters.** Reasoning models can be asked to
+'think step by step and show your work' or to produce
+the reasoning alongside the conclusion. The trace is not
+fully faithful to internal computation but it is a
+verification target. For high-stakes work, request the
+reasoning; spot-check whether the reasoning supports the
+conclusion.
+
+```
+You are reviewing a proposed analytical strategy for a
+non-inferiority trial. Provide:
+1. Your conclusion (proceed / do not proceed / proceed
+   with modifications)
+2. Your reasoning, in numbered steps that can be
+   independently checked
+3. The specific assumptions your conclusion depends on
+4. The verification I should perform before accepting
+   your conclusion
+```
+
+The fourth field is the load-bearing one: it asks the
+model to specify what it would have you check, which
+makes the verification path explicit.
 
 ## Verification under opacity
 
-(TODO)
+Reasoning model outputs cannot be verified by the same
+patterns that work for chat models. Three patterns
+generalise across biomedical applications.
 
-## Worked example: TODO
+**Independent computation as ground truth.** Where the
+output is something computable — a regression coefficient,
+a sample size, a probability — verify by independent
+computation. The biostatistician hand-computes the result
+on a small example, runs a second implementation in a
+different language, or uses a known-good library. The
+goal is a separate path to the same answer; if the paths
+agree, the answer is probably right; if they disagree,
+investigate before trusting either.
 
-(TODO)
+**Source-checking for citations and claims.** Where the
+output cites a source — a paper, a guideline, a
+regulation — verify the source exists, says what the
+model claims it says, and is the right source for the
+claim. Citation hallucination remains the most common
+failure mode of reasoning-model output in academic
+contexts. The verification cost is small: open the URL,
+read the paragraph. Skip it at your peril.
+
+**Cross-model comparison for novel claims.** Where the
+output is a novel claim that cannot be independently
+computed and is not citable, ask a second model the same
+question and compare. Disagreement is informative:
+either one model is wrong, or the question is genuinely
+contested in the literature. Agreement is weak evidence
+of correctness — both models could be wrong in the same
+way — but disagreement is strong evidence that further
+investigation is warranted.
+
+A useful concept from Mollick is **provisional trust**
+[@mollick_2025_wizards]: the user accepts the output as a
+working assumption, with the understanding that material
+that turns out to be wrong will be corrected when found
+out. Provisional trust is appropriate when (a)
+independent verification is impractical at the budget
+available, (b) the cost of being wrong is bounded and
+recoverable, and (c) the work has downstream
+verification points that will catch material errors.
+Provisional trust is **not** appropriate for clinical-
+grade analyses, regulatory submissions, or any decision
+where being wrong has unrecoverable consequences.
+
+The contract with the reader matters. A report that
+discloses 'AI-assisted with verification of these specific
+claims and provisional acceptance of the remainder'
+gives the reader a basis for adjudicating trust. A
+report that does not disclose AI assistance, or that
+implies verification was performed when it was not, is
+the kind of work that produces retraction notices.
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: provisional vs verified
+
+**Question.** A biostatistician uses a reasoning model
+to draft a 30-page background section for a grant
+application. The section cites 60 papers. Verifying each
+citation takes about 2 minutes. The biostatistician has
+3 hours of grant-writing time remaining. Should they (a)
+verify a random sample of 20 citations, (b) verify all
+citations, (c) skip verification and disclose the AI
+assistance in the methods section?
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+(a) is the right answer. (b) is the ideal but is
+infeasible: 60 × 2 = 120 minutes leaves no time for
+anything else. (c) is irresponsible: citation
+hallucination in grant applications is a serious
+problem and 'I disclosed it' does not absolve the
+biostatistician of responsibility for the claims. (a)
+is provisional trust applied honestly: verify a random
+sample (which catches systematic citation hallucination
+patterns) and disclose in the methods that 'a random
+20% sample of citations was verified manually'. The
+disclosure tells the reader what trust to extend. The
+sampling rate is calibrated to the available time. If
+the sample turns up multiple hallucinated citations,
+the right move is to extend the verification or rewrite
+the section without AI; if the sample turns up zero
+hallucinations, provisional acceptance of the remainder
+is defensible.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## When reasoning models help and when they do not
+
+A practical decision framework: use a reasoning model
+when **at least one** of these conditions holds.
+
+- The task requires multi-step planning where each
+  step's correctness depends on the others (analysis
+  plan, trial design, debugging non-trivial code).
+- The task involves a novel calculation or argument
+  that cannot be looked up.
+- The task hinges on integrating constraints from
+  multiple sources (a protocol, a regulation, a
+  statistical conventions document).
+- The task has previously failed with a chat model and
+  the failure was substantive rather than syntactic.
+
+Use a chat model when **all** of these conditions hold.
+
+- The task is routine in the sense that similar tasks
+  have well-known solutions.
+- The output is short enough to verify by inspection.
+- The cost-of-error is bounded (re-running the task is
+  cheap and quick).
+- Latency matters (a real-time interaction, an
+  iterative debugging loop).
+
+The middle ground — tasks that are not quite routine but
+not strictly novel — is where the choice matters most
+for cost and where individual experimentation pays off.
+Run the task with both classes occasionally; over a few
+months you will develop intuition for when the
+reasoning-model premium is worth paying.
+
+## Worked example: planning a sensitivity analysis with extended thinking
+
+A specific worked example fixes the framework. The
+context: a non-inferiority trial of a new oral
+anticoagulant against warfarin in atrial fibrillation,
+with 12% missing data on the primary endpoint at the
+5-year follow-up. The trial pre-specified a tipping-point
+sensitivity analysis but did not specify the parameter
+range. The biostatistician needs to choose the parameter
+range, justify it, and implement the analysis.
+
+The chat-model attempt fails as follows. The chat model
+produces code for a tipping-point analysis with a default
+parameter range (0 to 1, in 0.05 increments). The code
+runs. The output is a plot showing the result tips at
+parameter value 0.45. The chat model does not justify
+the parameter range, does not anchor it to clinical
+plausibility, and does not address whether the tipping
+point at 0.45 is informative.
+
+The reasoning-model attempt is structured differently.
+The biostatistician provides:
+- The trial protocol (relevant sections only)
+- The pre-specified analysis plan
+- A summary of the missing-data pattern (12% missing,
+  primarily monotone dropout, more missing in the
+  treatment arm)
+- The clinical question: 'is the parameter range we
+  use defensible, and what does the tipping point mean?'
+
+The reasoning model thinks for about 90 seconds and
+produces a structured response:
+
+```
+PARAMETER RANGE RECOMMENDATION
+
+The default 0–1 range is inappropriate for this trial.
+The parameter represents the conditional event rate
+among missing-treatment patients relative to observed-
+treatment patients. Clinically plausible bounds:
+
+Lower bound: 0.7 (treatment effect attenuated by 30%
+among missing patients — bounded by what would happen if
+half of missing patients secretly switched to control
+arm)
+
+Upper bound: 1.5 (treatment effect amplified by 50%
+among missing patients — corresponds to the scenario
+where missing patients are sicker and the treatment is
+more effective in sicker patients; supported by the
+subgroup analysis in the per-protocol set)
+
+JUSTIFICATION
+
+The lower bound is clinically conservative: it allows
+for substantial attenuation but rules out scenarios
+where the treatment is actively harmful in missing
+patients (which would imply a different mechanism than
+the trial population suggests).
+
+The upper bound mirrors the subgroup-analysis-implied
+interaction. Going beyond 1.5 implies the treatment
+effect is more than twice as large in missing patients,
+which has no basis in the observed data.
+
+INTERPRETATION OF TIPPING POINT
+
+If the tipping point falls inside the [0.7, 1.5] range,
+the trial result is sensitive to plausible departures
+from MAR; if outside, the trial is robust. The current
+analysis (tipping at 0.45) is well outside the
+clinically plausible range, suggesting robustness.
+
+VERIFICATION
+
+Cross-check the lower-bound rationale against the
+pattern-mixture analysis we ran in the EU trial last
+year (similar drug, similar dropout pattern). The 0.7
+bound there was justified on the same logic and was
+accepted by EMA in the regulatory submission.
+```
+
+The reasoning model's output is not the answer; it is a
+proposal that the biostatistician evaluates. The
+biostatistician verifies:
+- The parameter interpretation against the original MAR
+  formulation in the SAP.
+- The bound rationale against the EU trial document
+  (the cross-check the model itself recommends).
+- The 'tipping at 0.45 is well outside [0.7, 1.5]'
+  conclusion against the actual computation.
+
+The verification takes about 30 minutes. The
+biostatistician adopts the proposed parameter range with
+two adjustments (the upper bound is tightened to 1.3 to
+align more closely with the subgroup analysis, and the
+lower bound is widened to 0.6 to be conservative). The
+final analysis is robust within the adjusted range. The
+written interpretation, drafted by the model and edited
+by the biostatistician, is included in the final report
+with disclosure that the model assisted with parameter-
+range selection.
+
+The total cost of the reasoning-model assistance: about
+$0.50 in API charges. The biostatistician's time saved:
+half a day of literature review and parameter-justification
+drafting. The verification overhead: 30 minutes, well
+within budget.
 
 ## Collaborating with an LLM on reasoning and context
 
-(TODO)
+Three prompt patterns illustrate how to use reasoning
+models well.
 
-**Prompt 1: TODO.** TODO.
+**Prompt 1: 'Plan this complex analysis and identify
+where I should verify your reasoning.'** Provide the
+analysis context (data, question, constraints) and ask
+for a structured plan plus verification recommendations.
 
-*What to watch for.* TODO.
+*What to watch for.* The reasoning model will produce a
+detailed plan. It tends to under-specify the
+verification step; it will say 'verify the result'
+without specifying what 'verify' means. Push back: ask
+for specific verification steps, with expected results.
 
-*Verification.* TODO.
+*Verification.* The plan is a hypothesis. Try the first
+step or two and confirm the model's predictions of what
+you would see. If the predictions are wrong, the plan
+has a flaw the model did not flag.
 
-**Prompt 2: TODO.** TODO.
+**Prompt 2: 'Show me your reasoning trace, then critique
+your own conclusion.'** Ask the model to produce its
+reasoning explicitly and then to identify the weakest
+link in its own argument.
 
-*What to watch for.* TODO.
+*What to watch for.* Reasoning models are reasonably good
+at self-critique when explicitly asked. They will
+identify weaknesses in their own arguments that they did
+not flag in the original answer. The self-critique is
+useful for the user even when the user knew the
+weakness already, because it makes the model's
+acknowledgement of the weakness explicit.
 
-*Verification.* TODO.
+*Verification.* Read the self-critique critically. Does
+the model identify the weakness you would identify? If
+yes, the model has reasonable calibration on this
+problem. If no, your verification needs to compensate
+for blind spots the model has.
 
-**Prompt 3: TODO.** TODO.
+**Prompt 3: 'I have a verified ground-truth answer. Walk
+me through how you would have arrived at it.'** Useful
+for calibration: pick a problem you already know the
+answer to, ask the model to solve it, and compare.
 
-*What to watch for.* TODO.
+*What to watch for.* The model will sometimes produce a
+correct answer through a wrong reasoning path, and
+sometimes a wrong answer through a path that looks
+plausible. The reasoning trace, when faithful, is more
+informative than the final answer for understanding the
+model's competence on this kind of problem.
 
-*Verification.* TODO.
+*Verification.* Calibration prompts of this kind are
+worth running periodically on a few representative
+problems. They establish, for your specific use cases,
+where the model is reliable and where it is not.
 
-The meta-pattern: TODO.
+The meta-pattern: **reasoning models are diligent junior
+colleagues with extensive book knowledge but limited
+domain experience.** They will produce careful work and
+can be self-critical when asked. They will not catch
+domain errors that domain expertise reveals. The
+biostatistician's role is to bring the domain expertise
+the model lacks, not to bring the careful work the
+model already does.
 
 ## Principle in use
 
 Three habits define defensible work in this area:
 
-1. **TODO.**
-2. **TODO.**
-3. **TODO.**
+1. **Escalate to reasoning when chat fails twice.** If a
+   chat model produces wrong output on the same task
+   more than once, the issue is usually the model
+   class, not the prompt. Escalate to a reasoning
+   model rather than continue iterating.
+
+2. **Verify the kind of error the model is prone to.**
+   Each model class has characteristic failure modes.
+   Build the verification regime around those modes.
+   For reasoning models: independent computation,
+   source-checking, cross-model comparison. For chat
+   models: code execution, surface inspection.
+
+3. **Disclose AI assistance with the verification
+   regime.** A methods section that says 'AI-assisted'
+   without specifying the verification regime is
+   inadequate. The disclosure should specify which
+   parts of the work used AI, what verification was
+   performed, and what was provisionally trusted.
 
 ## Exercises
 
-1. TODO.
-2. TODO.
-3. TODO.
-4. TODO.
-5. TODO.
+1. Take a debugging task you have struggled with. Run it
+   with a chat model and with a reasoning model.
+   Compare the outputs and the time. Identify what the
+   reasoning model caught that the chat model missed.
+
+2. Construct a structured-output schema (JSON) for a
+   common task in your work — a risk-of-bias
+   assessment, a baseline-characteristics extraction, a
+   methods-summary table. Use it as the requested output
+   format for several inputs and inspect the
+   consistency.
+
+3. Pick a recent claim made by a reasoning model that
+   you accepted without verification. Verify it now.
+   Document whether the claim was correct, partially
+   correct, or wrong. Use the result to update your
+   verification regime.
+
+4. Run the same novel question through three different
+   reasoning models (e.g., Claude, OpenAI o-series,
+   Gemini). Compare the outputs. Where they agree, the
+   answer is more likely correct; where they disagree,
+   investigate. Document what you learn about each
+   model's characteristic biases.
+
+5. Draft a one-paragraph 'AI assistance and verification'
+   disclosure for a recent project of yours. The
+   disclosure should specify reasoning vs chat usage,
+   the verification regime, and the provisional-trust
+   contract.
 
 ## Further reading
 
-- TODO (canonical reference).
-- TODO (modern applied reference).
-- TODO (Mollick anchor post).
+- @mollick_2025_wizards, *On Working with Wizards*. The
+  reference treatment of competence-and-opacity rising
+  together.
+- @mollick_2024_goodenough, *Getting started with AI:
+  Good enough prompting*. The argument against
+  elaborate prompt engineering for modern systems.
+- @mollick_2024_thinkinglike, *Thinking Like an AI*. A
+  practical mental model for token prediction, training
+  data, and context windows.
+- @openai_2024_o1, *OpenAI o1 System Card*. The first-
+  party document on the reasoning paradigm.
+- @anthropic_2025_extended, *Claude with extended
+  thinking*. First-party documentation of Anthropic's
+  reasoning-model approach.
+- @wei_2022_cot, *Chain-of-thought prompting elicits
+  reasoning in large language models*. The technique-
+  defining paper, useful for historical context even
+  though much of it is now subsumed by reasoning models.
