@@ -1,0 +1,406 @@
+#!/usr/bin/env python3
+"""Weekly Simon Willison refresh.
+
+Mirrors scripts/mollick_refresh.py with an Atom-feed fetcher in place
+of the Substack JSON API, and a tightened analysis prompt that filters
+aggressively against Willison's high posting volume. Many posts will be
+tagged NR; the high-signal hits land in Ch 2, 6, and 8.
+
+Required env vars:
+  ANTHROPIC_API_KEY    -- Claude API access
+  SMTP_USERNAME        -- Gmail address for outbound mail
+  SMTP_PASSWORD        -- Gmail app password
+  NOTIFY_EMAIL         -- recipient address
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import re
+import smtplib
+import sys
+from datetime import date, datetime, timezone
+from email.message import EmailMessage
+from pathlib import Path
+from typing import Any
+
+import feedparser
+import requests
+from anthropic import Anthropic
+
+SOURCE_NAME = 'willison'
+SOURCE_AUTHOR = 'Simon Willison'
+SOURCE_DESCRIPTOR = "Simon Willison's blog (simonwillison.net)"
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DIGEST = REPO_ROOT / 'docs' / f'{SOURCE_NAME}-digest.md'
+BIB = REPO_ROOT / 'references.bib'
+ATOM_URL = 'https://simonwillison.net/atom/everything/'
+USER_AGENT = (
+  f'{SOURCE_NAME}-refresh-bot (rgt47/applied-genai; weekly refresh)'
+)
+
+CHAPTERS = {
+  'Ch1': 'Generative AI Landscape',
+  'Ch2': 'Reasoning Models, Context, Verification',
+  'Ch3': 'Biomedical RAG',
+  'Ch4': 'Synthetic Data and Privacy',
+  'Ch5': 'Multimodal Medical AI',
+  'Ch6': 'Agents, Tool Use, MCP',
+  'Ch7': 'Deep Research and Evidence Synthesis',
+  'Ch8': 'Evaluation Beyond the Benchmark',
+  'Ch9': 'Safety, Bias, Red-Teaming',
+  'Ch10': 'Regulation, Privacy, IRB',
+  'Ch11': 'Customisation and Adoption',
+  'Ch12': 'Deployment',
+  'XC': 'Cross-cutting',
+  'NR': 'Not relevant',
+}
+
+ANALYSIS_PROMPT = """You are reviewing a new post by {author} for
+relevance to a graduate biostatistics textbook,
+*Applied Generative AI for Public Health and Biostatistics*. The book
+has 12 chapters:
+
+{chapters}
+
+This source ({descriptor}) publishes technical, often tool-specific
+posts at high volume (often daily). Filter aggressively: when in doubt,
+tag NR. Reserve HIGH and MEDIUM impact for posts that introduce a
+genuinely new capability, technique, or evaluation methodology that
+would change a chapter's framing or content. Posts that are TIL
+notes, link round-ups, or commentary on existing tools should be
+tagged LOW or NR. Weight 'concrete capability or API change' higher
+than 'general framing'.
+
+Read the post below and return a JSON object with these keys:
+  chapter_code: one of {codes}
+  rationale: one sentence on why this chapter
+  summary: 100-150 words faithful to the post
+  load_bearing_claim: a direct quote (under 30 words) that captures the
+    single most citable observation
+  impact: one of HIGH, MEDIUM, LOW. HIGH means the post would change a
+    chapter's framing, scope, or section structure. MEDIUM means the
+    post adds material warranting an Exercise or Further Reading entry.
+    LOW means the post is a citation candidate only.
+  impact_recommendation: if HIGH or MEDIUM, one sentence on what to
+    revise; if LOW, the empty string.
+
+Return ONLY the JSON object, no preamble.
+
+POST TITLE: {title}
+POST DATE: {date}
+POST URL: {url}
+
+POST CONTENT:
+{content}
+"""
+
+
+def load_existing_cutoff() -> str:
+  if not DIGEST.exists():
+    return date.today().isoformat()
+  content = DIGEST.read_text(encoding='utf-8')
+  dates = re.findall(r'\| (20\d\d-\d\d-\d\d) \|', content)
+  if not dates:
+    return date.today().isoformat()
+  return max(dates)
+
+
+def fetch_archive() -> list[dict[str, Any]]:
+  '''Parse the Atom feed and normalise to the canonical post shape.'''
+  feed = feedparser.parse(ATOM_URL)
+  out: list[dict[str, Any]] = []
+  for entry in feed.entries:
+    published = getattr(entry, 'published', '') or getattr(
+      entry, 'updated', ''
+    )
+    post_date = published[:10] if published else ''
+    out.append(
+      {
+        'title': getattr(entry, 'title', ''),
+        'post_date': post_date,
+        'canonical_url': getattr(entry, 'link', ''),
+      }
+    )
+  return out
+
+
+def filter_new(
+  posts: list[dict[str, Any]], cutoff: str
+) -> list[dict[str, Any]]:
+  out = []
+  for post in posts:
+    date_str = (post.get('post_date') or '')[:10]
+    if date_str and date_str > cutoff:
+      out.append(post)
+  return sorted(out, key=lambda p: p['post_date'])
+
+
+def fetch_post_text(url: str) -> str:
+  response = requests.get(
+    url, headers={'User-Agent': USER_AGENT}, timeout=30
+  )
+  response.raise_for_status()
+  html = response.text
+  text = re.sub(r'<script[\s\S]*?</script>', ' ', html)
+  text = re.sub(r'<style[\s\S]*?</style>', ' ', text)
+  text = re.sub(r'<[^>]+>', ' ', text)
+  text = re.sub(r'\s+', ' ', text)
+  return text[:18000]
+
+
+def analyse_post(
+  client: Anthropic, post: dict[str, Any]
+) -> dict[str, Any]:
+  url = post.get('canonical_url') or post.get('url')
+  prompt = ANALYSIS_PROMPT.format(
+    author=SOURCE_AUTHOR,
+    descriptor=SOURCE_DESCRIPTOR,
+    chapters='\n'.join(
+      f'  {code}: {name}' for code, name in CHAPTERS.items()
+    ),
+    codes=', '.join(CHAPTERS.keys()),
+    title=post.get('title', ''),
+    date=(post.get('post_date') or '')[:10],
+    url=url,
+    content=fetch_post_text(url),
+  )
+  msg = client.messages.create(
+    model='claude-opus-4-7',
+    max_tokens=2000,
+    messages=[{'role': 'user', 'content': prompt}],
+  )
+  raw = msg.content[0].text.strip()
+  match = re.search(r'\{[\s\S]*\}', raw)
+  if not match:
+    raise ValueError(f'No JSON in response: {raw[:200]}')
+  return json.loads(match.group(0))
+
+
+def write_refresh_file(
+  today: str,
+  cutoff: str,
+  analyses: list[tuple[dict[str, Any], dict[str, Any]]],
+) -> Path:
+  out_path = REPO_ROOT / 'docs' / f'refresh-{SOURCE_NAME}-{today}.md'
+  lines: list[str] = []
+  lines.append(f'# {SOURCE_AUTHOR} refresh {today}')
+  lines.append('')
+  lines.append(f'_Cutoff: {cutoff}. New posts: {len(analyses)}._')
+  lines.append('')
+
+  if not analyses:
+    lines.append('No new posts since the previous cutoff.')
+    out_path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+    return out_path
+
+  relevant = [a for _, a in analyses if a.get('chapter_code') != 'NR']
+  high = [a for _, a in analyses if a.get('impact') == 'HIGH']
+  medium = [a for _, a in analyses if a.get('impact') == 'MEDIUM']
+  low = [a for _, a in analyses if a.get('impact') == 'LOW']
+  nr = [a for _, a in analyses if a.get('chapter_code') == 'NR']
+  lines.append(
+    f'_Impact distribution: {len(high)} HIGH, {len(medium)} MEDIUM, '
+    f'{len(low)} LOW, {len(nr)} NR. Relevant: {len(relevant)}._'
+  )
+  lines.append('')
+
+  if high or medium:
+    lines.append('## Chapter-affecting shifts')
+    lines.append('')
+    for post, analysis in analyses:
+      if analysis.get('impact') in ('HIGH', 'MEDIUM'):
+        title = post.get('title', '')
+        rec = analysis.get('impact_recommendation', '')
+        code = analysis.get('chapter_code', 'XC')
+        lines.append(
+          f'- **{analysis["impact"]} ({code}): {title}** -- {rec}'
+        )
+    lines.append('')
+
+  lines.append('## Post-by-post (relevant only)')
+  lines.append('')
+  for post, analysis in analyses:
+    if analysis.get('chapter_code') == 'NR':
+      continue
+    title = post.get('title', '')
+    post_date = (post.get('post_date') or '')[:10]
+    url = post.get('canonical_url') or post.get('url')
+    code = analysis.get('chapter_code', 'XC')
+    rationale = analysis.get('rationale', '')
+    summary = analysis.get('summary', '')
+    claim = analysis.get('load_bearing_claim', '')
+    impact = analysis.get('impact', 'LOW')
+    lines.append(f'### {post_date}: {title}')
+    lines.append('')
+    lines.append(f'- URL: <{url}>')
+    lines.append(f'- Chapter: **{code}** -- {rationale}')
+    lines.append(f'- Impact: **{impact}**')
+    lines.append('')
+    lines.append(summary)
+    lines.append('')
+    lines.append(f'> {claim}')
+    lines.append('')
+
+  if nr:
+    lines.append('## NR titles (filtered)')
+    lines.append('')
+    for post, analysis in analyses:
+      if analysis.get('chapter_code') == 'NR':
+        title = post.get('title', '')
+        post_date = (post.get('post_date') or '')[:10]
+        lines.append(f'- {post_date}: {title}')
+    lines.append('')
+
+  out_path.write_text('\n'.join(lines) + '\n', encoding='utf-8')
+  return out_path
+
+
+def append_to_digest(
+  analyses: list[tuple[dict[str, Any], dict[str, Any]]],
+) -> None:
+  if not analyses:
+    return
+  if not DIGEST.exists():
+    return
+  current = DIGEST.read_text(encoding='utf-8')
+  rows = []
+  for post, analysis in analyses:
+    title = post.get('title', '')
+    post_date = (post.get('post_date') or '')[:10]
+    url = post.get('canonical_url') or post.get('url')
+    code = analysis.get('chapter_code', 'XC')
+    rows.append(f'| {post_date} | {title} | <{url}> | {code} |')
+  appended = current.rstrip() + '\n' + '\n'.join(rows) + '\n'
+  DIGEST.write_text(appended, encoding='utf-8')
+
+
+def append_to_bib(
+  analyses: list[tuple[dict[str, Any], dict[str, Any]]],
+) -> None:
+  '''Only emit BibTeX entries for relevant posts; Willison NR is noisy.'''
+  if not analyses:
+    return
+  if not BIB.exists():
+    return
+  surname = SOURCE_AUTHOR.split()[-1].lower()
+  entries: list[str] = []
+  for post, analysis in analyses:
+    if analysis.get('chapter_code') == 'NR':
+      continue
+    title = post.get('title', '').replace('{', '').replace('}', '')
+    post_date = (post.get('post_date') or '')[:10]
+    year = post_date[:4] if post_date else 'n.d.'
+    url = post.get('canonical_url') or post.get('url')
+    slug = re.sub(r'[^a-z0-9]+', '_', title.lower()).strip('_')
+    short = slug.split('_')[0] if slug else 'post'
+    key = f'{surname}_{year}_{short}'
+    today = date.today().isoformat()
+    entries.append(
+      f'@misc{{{key},\n'
+      f'  author = {{{SOURCE_AUTHOR.split()[-1]}, {SOURCE_AUTHOR.split()[0]}}},\n'
+      f'  title = {{{title}}},\n'
+      f'  howpublished = {{simonwillison.net}},\n'
+      f'  year = {{{year}}},\n'
+      f'  url = {{{url}}},\n'
+      f'  urldate = {{{today}}}\n'
+      f'}}'
+    )
+  if not entries:
+    return
+  with BIB.open('a', encoding='utf-8') as fh:
+    fh.write(f'\n\n% --- {SOURCE_AUTHOR} blog ---\n')
+    fh.write('\n\n'.join(entries) + '\n')
+
+
+def send_email(
+  refresh_file: Path,
+  analyses: list[tuple[dict[str, Any], dict[str, Any]]],
+  today: str,
+) -> None:
+  user = os.environ.get('SMTP_USERNAME')
+  pwd = os.environ.get('SMTP_PASSWORD')
+  to_addr = os.environ.get('NOTIFY_EMAIL')
+  if not (user and pwd and to_addr):
+    print('SMTP credentials not configured; skipping email')
+    return
+  relevant = [a for _, a in analyses if a.get('chapter_code') != 'NR']
+  subject = (
+    f'{SOURCE_AUTHOR} refresh {today}: {len(relevant)} relevant '
+    f'(of {len(analyses)} new)'
+  )
+  body_lines = [
+    f'{SOURCE_AUTHOR} refresh complete for {today}.',
+    f'New posts total: {len(analyses)}',
+    f'Relevant (non-NR): {len(relevant)}',
+    '',
+    f'See {refresh_file.name} in the repo for the full digest.',
+    '',
+  ]
+  high = [a for _, a in analyses if a.get('impact') == 'HIGH']
+  if high:
+    body_lines.append(f'HIGH-impact posts ({len(high)}):')
+    for post, analysis in analyses:
+      if analysis.get('impact') == 'HIGH':
+        body_lines.append(
+          f'  - {analysis.get("chapter_code", "XC")}: '
+          f'{post.get("title", "")}'
+        )
+
+  msg = EmailMessage()
+  msg['Subject'] = subject
+  msg['From'] = user
+  msg['To'] = to_addr
+  msg.set_content('\n'.join(body_lines))
+  with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+    smtp.login(user, pwd)
+    smtp.send_message(msg)
+  print(f'Email sent to {to_addr}')
+
+
+def main() -> int:
+  api_key = os.environ.get('ANTHROPIC_API_KEY')
+  if not api_key:
+    print('ANTHROPIC_API_KEY missing', file=sys.stderr)
+    return 1
+  client = Anthropic(api_key=api_key)
+  today = datetime.now(timezone.utc).date().isoformat()
+  cutoff = load_existing_cutoff()
+  print(f'{SOURCE_NAME} cutoff: {cutoff}; today: {today}')
+  archive = fetch_archive()
+  print(f'Archive size: {len(archive)}')
+  new = filter_new(archive, cutoff)
+  print(f'New posts: {len(new)}')
+
+  analyses: list[tuple[dict[str, Any], dict[str, Any]]] = []
+  for post in new:
+    try:
+      analysis = analyse_post(client, post)
+      analyses.append((post, analysis))
+      print(
+        f'  {post.get("post_date", "")[:10]}: '
+        f'{post.get("title", "")} -> '
+        f'{analysis.get("chapter_code")} '
+        f'({analysis.get("impact")})'
+      )
+    except Exception as exc:
+      print(
+        f'  Failed on {post.get("title", "")}: {exc}',
+        file=sys.stderr,
+      )
+
+  refresh_file = write_refresh_file(today, cutoff, analyses)
+  append_to_digest(analyses)
+  append_to_bib(analyses)
+  try:
+    send_email(refresh_file, analyses, today)
+  except Exception as exc:
+    print(f'Email failed: {exc}', file=sys.stderr)
+  print(f'Refresh file: {refresh_file}')
+  return 0
+
+
+if __name__ == '__main__':
+  sys.exit(main())
