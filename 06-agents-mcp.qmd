@@ -1,0 +1,114 @@
+# Agents, Tool Use, and the Model Context Protocol {#sec-agents-mcp}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Adopt the *manager mindset* for agent design: precise
+  specification of deliverables, fast evaluation, and
+  judicious delegation, in place of step-by-step
+  prompting.
+- Wire LLMs to R, databases, and statistical software via
+  the Model Context Protocol (MCP), with appropriate
+  permission models and audit logging.
+- Design agent loops with appropriate termination
+  conditions, error handling, and human-in-the-loop
+  checkpoints.
+- Recognise when an agent is the right tool, when a
+  reasoning model with tools is sufficient, and when
+  neither is appropriate.
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-agents-mcp-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## The manager mindset: prompting as delegation
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## The Model Context Protocol
+
+(TODO)
+
+## Designing agent loops for biostatistical tasks
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on agents and tool use
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (Mollick anchor post).

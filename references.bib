@@ -1,0 +1,1166 @@
+% =============================================================================
+% references.bib
+% Applied Generative AI for Public Health and Biostatistics
+% Compiled 2026-04-25 to support the 12-chapter TOC in
+% docs/syllabi-survey.md. Citation keys follow the pattern
+% firstauthor_year_keyword. Web-only resources carry urldate=2026-04-26.
+% =============================================================================
+
+
+% --- Chapter 1: The Generative AI Landscape for Biostatisticians ---
+
+@article{vaswani_2017_attention,
+  author       = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and
+                  Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and
+                  Kaiser, {\L}ukasz and Polosukhin, Illia},
+  title        = {{Attention Is All You Need}},
+  booktitle    = {Advances in Neural Information Processing Systems},
+  volume       = {30},
+  year         = {2017},
+  archivePrefix = {arXiv},
+  eprint       = {1706.03762},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/1706.03762}
+}
+
+@article{brown_2020_gpt3,
+  author       = {Brown, Tom B. and Mann, Benjamin and Ryder, Nick and
+                  Subbiah, Melanie and Kaplan, Jared and Dhariwal, Prafulla
+                  and Neelakantan, Arvind and Shyam, Pranav and Sastry,
+                  Girish and Askell, Amanda and others},
+  title        = {{Language Models are Few-Shot Learners}},
+  booktitle    = {Advances in Neural Information Processing Systems},
+  volume       = {33},
+  year         = {2020},
+  archivePrefix = {arXiv},
+  eprint       = {2005.14165},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2005.14165}
+}
+
+@inproceedings{devlin_2019_bert,
+  author       = {Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and
+                  Toutanova, Kristina},
+  title        = {{BERT}: {Pre-training of Deep Bidirectional Transformers
+                  for Language Understanding}},
+  booktitle    = {Proceedings of NAACL-HLT 2019},
+  year         = {2019},
+  pages        = {4171--4186},
+  doi          = {10.18653/v1/N19-1423},
+  url          = {https://aclanthology.org/N19-1423/}
+}
+
+@article{thirunavukarasu_2023_llms_medicine,
+  author       = {Thirunavukarasu, Arun James and Ting, Darren Shu Jeng and
+                  Elangovan, Kabilan and Gutierrez, Laura and Tan, Ting Fang
+                  and Ting, Daniel Shu Wei},
+  title        = {{Large language models in medicine}},
+  journal      = {Nature Medicine},
+  volume       = {29},
+  pages        = {1930--1940},
+  year         = {2023},
+  doi          = {10.1038/s41591-023-02448-8},
+  url          = {https://www.nature.com/articles/s41591-023-02448-8}
+}
+
+@article{zhu_2025_biostatisticians_ai,
+  author       = {Zhu, Yuxin and others},
+  title        = {{Biostatisticians Meet AI}: {Navigating Shifts While
+                  Preserving Principles}},
+  journal      = {Statistics in Medicine},
+  year         = {2025},
+  doi          = {10.1002/sim.70271},
+  url          = {https://onlinelibrary.wiley.com/doi/10.1002/sim.70271}
+}
+
+@article{jcts_2024_llm_biostat,
+  author       = {{Anonymous}},
+  title        = {{Integrating Large Language Models in Biostatistical
+                  Workflows for Clinical and Translational Research}},
+  journal      = {Journal of Clinical and Translational Science},
+  year         = {2024},
+  url          = {https://www.cambridge.org/core/journals/journal-of-clinical-and-translational-science/article/integrating-large-language-models-in-biostatistical-workflows-for-clinical-and-translational-research/44E8054B0DFFB978CB005ED42CC0C9CC}
+}
+
+@article{llmstatisticians_2025_overview,
+  title        = {{An Overview of Large Language Models for Statisticians}},
+  author       = {{Anonymous}},
+  journal      = {arXiv preprint},
+  year         = {2025},
+  archivePrefix = {arXiv},
+  eprint       = {2502.17814},
+  primaryClass = {stat.ML},
+  url          = {https://arxiv.org/abs/2502.17814}
+}
+
+@article{llmbiomedhealth_2024_landscape,
+  title        = {{Large Language Models in Biomedicine and Health}: {Current
+                  Research Landscape and Future Directions}},
+  author       = {{Anonymous}},
+  journal      = {Journal of the American Medical Informatics Association},
+  year         = {2024},
+  url          = {https://pmc.ncbi.nlm.nih.gov/articles/PMC11339542/}
+}
+
+@article{xing_2024_chatgpt_statistics,
+  author       = {Xing, and others},
+  title        = {{Exploring the Use of ChatGPT in Learning and Instructing
+                  Statistics and Data Analytics}},
+  journal      = {Teaching Statistics},
+  year         = {2024},
+  doi          = {10.1111/test.12367},
+  url          = {https://onlinelibrary.wiley.com/doi/10.1111/test.12367}
+}
+
+@article{sallam_2023_chatgpt_healthcare,
+  author       = {Sallam, Malik},
+  title        = {{ChatGPT Utility in Healthcare Education, Research, and
+                  Practice}: {Systematic Review on the Promising Perspectives
+                  and Valid Concerns}},
+  journal      = {Healthcare},
+  volume       = {11},
+  number       = {6},
+  pages        = {887},
+  year         = {2023},
+  doi          = {10.3390/healthcare11060887},
+  url          = {https://www.mdpi.com/2227-9032/11/6/887}
+}
+
+
+% --- Chapter 2: Context Engineering and Reasoning Models ---
+
+@article{wei_2022_chain_of_thought,
+  author       = {Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma,
+                  Maarten and Ichter, Brian and Xia, Fei and Chi, Ed H. and
+                  Le, Quoc V. and Zhou, Denny},
+  title        = {{Chain-of-Thought Prompting Elicits Reasoning in Large
+                  Language Models}},
+  booktitle    = {Advances in Neural Information Processing Systems},
+  volume       = {35},
+  year         = {2022},
+  archivePrefix = {arXiv},
+  eprint       = {2201.11903},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2201.11903}
+}
+
+@misc{openai_2024_o1_system_card,
+  author       = {{OpenAI}},
+  title        = {{OpenAI o1 System Card}},
+  year         = {2024},
+  howpublished = {\url{https://cdn.openai.com/o1-system-card-20241205.pdf}},
+  archivePrefix = {arXiv},
+  eprint       = {2412.16720},
+  primaryClass = {cs.CL},
+  urldate      = {2026-04-26}
+}
+
+@article{deepseek_2025_r1,
+  author       = {{DeepSeek-AI} and Guo, Daya and Yang, Dejian and Zhang,
+                  Haowei and Song, Junxiao and Zhang, Ruoyu and Xu, Runxin
+                  and others},
+  title        = {{DeepSeek-R1}: {Incentivizing Reasoning Capability in LLMs
+                  via Reinforcement Learning}},
+  journal      = {arXiv preprint},
+  year         = {2025},
+  archivePrefix = {arXiv},
+  eprint       = {2501.12948},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2501.12948}
+}
+
+@misc{anthropic_2025_extended_thinking,
+  author       = {{Anthropic}},
+  title        = {{Claude's Extended Thinking}},
+  year         = {2025},
+  howpublished = {\url{https://www.anthropic.com/news/visible-extended-thinking}},
+  urldate      = {2026-04-26}
+}
+
+@article{bubeck_2023_sparks_agi,
+  author       = {Bubeck, S{\'e}bastien and Chandrasekaran, Varun and Eldan,
+                  Ronen and Gehrke, Johannes and Horvitz, Eric and Kamar,
+                  Ece and Lee, Peter and Lee, Yin Tat and Li, Yuanzhi and
+                  Lundberg, Scott and others},
+  title        = {{Sparks of Artificial General Intelligence}: {Early
+                  experiments with GPT-4}},
+  journal      = {arXiv preprint},
+  year         = {2023},
+  archivePrefix = {arXiv},
+  eprint       = {2303.12712},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2303.12712}
+}
+
+
+% --- Chapter 3: Retrieval-Augmented Generation over Biomedical Corpora ---
+
+@inproceedings{lewis_2020_rag,
+  author       = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and
+                  Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and
+                  K{\"u}ttler, Heinrich and Lewis, Mike and Yih, Wen-tau and
+                  Rockt{\"a}schel, Tim and Riedel, Sebastian and Kiela,
+                  Douwe},
+  title        = {{Retrieval-Augmented Generation for Knowledge-Intensive
+                  NLP Tasks}},
+  booktitle    = {Advances in Neural Information Processing Systems},
+  volume       = {33},
+  year         = {2020},
+  archivePrefix = {arXiv},
+  eprint       = {2005.11401},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2005.11401}
+}
+
+@inproceedings{karpukhin_2020_dpr,
+  author       = {Karpukhin, Vladimir and O{\u{g}}uz, Barlas and Min, Sewon
+                  and Lewis, Patrick and Wu, Ledell and Edunov, Sergey and
+                  Chen, Danqi and Yih, Wen-tau},
+  title        = {{Dense Passage Retrieval for Open-Domain Question
+                  Answering}},
+  booktitle    = {Proceedings of the 2020 Conference on Empirical Methods in
+                  Natural Language Processing (EMNLP)},
+  year         = {2020},
+  pages        = {6769--6781},
+  doi          = {10.18653/v1/2020.emnlp-main.550},
+  url          = {https://aclanthology.org/2020.emnlp-main.550/}
+}
+
+@inproceedings{xiong_2024_medrag,
+  author       = {Xiong, Guangzhi and Jin, Qiao and Lu, Zhiyong and Zhang,
+                  Aidong},
+  title        = {{Benchmarking Retrieval-Augmented Generation for
+                  Medicine}},
+  booktitle    = {Findings of the Association for Computational Linguistics:
+                  ACL 2024},
+  year         = {2024},
+  archivePrefix = {arXiv},
+  eprint       = {2402.13178},
+  primaryClass = {cs.CL},
+  url          = {https://aclanthology.org/2024.findings-acl.372/}
+}
+
+@article{zakka_2024_almanac,
+  author       = {Zakka, Cyril and Shad, Rohan and Chaurasia, Akash and
+                  Dalal, Alex R. and Kim, Jennifer L. and Moor, Michael and
+                  Fong, Robyn and Phillips, Curran and Alexander, Kevin and
+                  Ashley, Euan and Boyd, Jack and Boyd, Kathleen and others},
+  title        = {{Almanac --- Retrieval-Augmented Language Models for
+                  Clinical Medicine}},
+  journal      = {NEJM AI},
+  volume       = {1},
+  number       = {2},
+  year         = {2024},
+  doi          = {10.1056/AIoa2300068},
+  url          = {https://ai.nejm.org/doi/abs/10.1056/AIoa2300068}
+}
+
+@inproceedings{shahul_2024_ragas,
+  author       = {Shahul, Es and James, Jithin and Espinosa-Anke, Luis and
+                  Schockaert, Steven},
+  title        = {{RAGAS}: {Automated Evaluation of Retrieval Augmented
+                  Generation}},
+  booktitle    = {Proceedings of the 18th Conference of the European Chapter
+                  of the Association for Computational Linguistics: System
+                  Demonstrations (EACL)},
+  year         = {2024},
+  archivePrefix = {arXiv},
+  eprint       = {2309.15217},
+  primaryClass = {cs.CL},
+  url          = {https://aclanthology.org/2024.eacl-demo.16/}
+}
+
+
+% --- Chapter 4: Synthetic Data and Privacy-Preserving Generation ---
+
+@inproceedings{xu_2019_ctgan,
+  author       = {Xu, Lei and Skoularidou, Maria and Cuesta-Infante, Alfredo
+                  and Veeramachaneni, Kalyan},
+  title        = {{Modeling Tabular Data using Conditional GAN}},
+  booktitle    = {Advances in Neural Information Processing Systems},
+  volume       = {32},
+  year         = {2019},
+  archivePrefix = {arXiv},
+  eprint       = {1907.00503},
+  primaryClass = {cs.LG},
+  url          = {https://arxiv.org/abs/1907.00503}
+}
+
+@inproceedings{qian_2023_synthcity,
+  author       = {Qian, Zhaozhi and Davis, Rob and van der Schaar, Mihaela},
+  title        = {{Synthcity}: {A Benchmark Framework for Diverse Use Cases
+                  of Tabular Synthetic Data}},
+  booktitle    = {Advances in Neural Information Processing Systems Datasets
+                  and Benchmarks Track},
+  volume       = {36},
+  year         = {2023},
+  archivePrefix = {arXiv},
+  eprint       = {2301.07573},
+  primaryClass = {cs.LG},
+  url          = {https://arxiv.org/abs/2301.07573}
+}
+
+@inproceedings{choi_2017_medgan,
+  author       = {Choi, Edward and Biswal, Siddharth and Malin, Bradley and
+                  Duke, Jon and Stewart, Walter F. and Sun, Jimeng},
+  title        = {{Generating Multi-label Discrete Patient Records using
+                  Generative Adversarial Networks}},
+  booktitle    = {Proceedings of the 2nd Machine Learning for Healthcare
+                  Conference (MLHC)},
+  year         = {2017},
+  archivePrefix = {arXiv},
+  eprint       = {1703.06490},
+  primaryClass = {cs.LG},
+  url          = {https://arxiv.org/abs/1703.06490}
+}
+
+@article{dwork_2014_dp_foundations,
+  author       = {Dwork, Cynthia and Roth, Aaron},
+  title        = {{The Algorithmic Foundations of Differential Privacy}},
+  journal      = {Foundations and Trends in Theoretical Computer Science},
+  volume       = {9},
+  number       = {3--4},
+  pages        = {211--487},
+  year         = {2014},
+  doi          = {10.1561/0400000042},
+  url          = {https://www.cis.upenn.edu/~aaroth/privacybook.html}
+}
+
+@article{vanbuuren_2011_mice,
+  author       = {van Buuren, Stef and Groothuis-Oudshoorn, Karin},
+  title        = {{mice}: {Multivariate Imputation by Chained Equations in
+                  R}},
+  journal      = {Journal of Statistical Software},
+  volume       = {45},
+  number       = {3},
+  pages        = {1--67},
+  year         = {2011},
+  doi          = {10.18637/jss.v045.i03},
+  url          = {https://www.jstatsoft.org/v45/i03/}
+}
+
+
+% --- Chapter 5: Multimodal Medical AI for Public Health Tasks ---
+
+@article{ma_2024_medsam,
+  author       = {Ma, Jun and He, Yuting and Li, Feifei and Han, Lin and
+                  You, Chenyu and Wang, Bo},
+  title        = {{Segment Anything in Medical Images}},
+  journal      = {Nature Communications},
+  volume       = {15},
+  pages        = {654},
+  year         = {2024},
+  doi          = {10.1038/s41467-024-44824-z},
+  url          = {https://www.nature.com/articles/s41467-024-44824-z}
+}
+
+@article{zhou_2023_retfound,
+  author       = {Zhou, Yukun and Chia, Mark A. and Wagner, Siegfried K.
+                  and Ayhan, Murat S. and Williamson, Dominic J. and
+                  Struyven, Robbert R. and Liu, Timing and Xu, Moucheng and
+                  Lozano, Mateo G. and Woodward-Court, Peter and others},
+  title        = {{A Foundation Model for Generalizable Disease Detection
+                  from Retinal Images}},
+  journal      = {Nature},
+  volume       = {622},
+  pages        = {156--163},
+  year         = {2023},
+  doi          = {10.1038/s41586-023-06555-x},
+  url          = {https://www.nature.com/articles/s41586-023-06555-x}
+}
+
+@article{zhang_2025_biomedclip,
+  author       = {Zhang, Sheng and Xu, Yanbo and Usuyama, Naoto and Xu,
+                  Hanwen and Bagga, Jaspreet and Tinn, Robert and Preston,
+                  Sam and Rao, Rajesh and Wei, Mu and Valluri, Naveen and
+                  Wong, Cliff and Tupini, Andrea and Wang, Yu and Mazzola,
+                  Matt and Shukla, Swadheen and Liden, Lars and Gao,
+                  Jianfeng and Lungren, Matthew P. and Naumann, Tristan and
+                  Wang, Sheng and Poon, Hoifung},
+  title        = {{BiomedCLIP}: {A Multimodal Biomedical Foundation Model
+                  Pretrained from Fifteen Million Scientific Image-Text
+                  Pairs}},
+  journal      = {NEJM AI},
+  year         = {2025},
+  archivePrefix = {arXiv},
+  eprint       = {2303.00915},
+  primaryClass = {cs.CV},
+  url          = {https://arxiv.org/abs/2303.00915}
+}
+
+@article{zhang_2024_biomedgpt,
+  author       = {Zhang, Kai and Zhou, Rong and Adhikarla, Eashan and Yan,
+                  Zhiling and Liu, Yixin and Yu, Jun and Liu, Zhengliang and
+                  Chen, Xun and Davison, Brian D. and Ren, Hui and others},
+  title        = {{A Generalist Vision--Language Foundation Model for
+                  Diverse Biomedical Tasks}},
+  journal      = {Nature Medicine},
+  volume       = {30},
+  pages        = {3129--3141},
+  year         = {2024},
+  doi          = {10.1038/s41591-024-03185-2},
+  url          = {https://www.nature.com/articles/s41591-024-03185-2}
+}
+
+@article{tu_2025_amie,
+  author       = {Tu, Tao and Palepu, Anil and Schaekermann, Mike and Saab,
+                  Khaled and Freyberg, Jan and Tanno, Ryutaro and Wang, Amy
+                  and Li, Brenna and Amin, Mohamed and Tomasev, Nenad and
+                  Azizi, Shekoofeh and Singhal, Karan and others},
+  title        = {{Towards Conversational Diagnostic Artificial
+                  Intelligence}},
+  journal      = {Nature},
+  volume       = {642},
+  pages        = {442--450},
+  year         = {2025},
+  doi          = {10.1038/s41586-025-08866-7},
+  archivePrefix = {arXiv},
+  eprint       = {2401.05654},
+  url          = {https://www.nature.com/articles/s41586-025-08866-7}
+}
+
+@article{cruzrivera_2020_spirit_ai,
+  author       = {Cruz Rivera, Samantha and Liu, Xiaoxuan and Chan,
+                  An-Wen and Denniston, Alastair K. and Calvert, Melanie J.
+                  and {SPIRIT-AI and CONSORT-AI Working Group}},
+  title        = {{Guidelines for Clinical Trial Protocols for Interventions
+                  Involving Artificial Intelligence}: {The SPIRIT-AI
+                  Extension}},
+  journal      = {Nature Medicine},
+  volume       = {26},
+  pages        = {1351--1363},
+  year         = {2020},
+  doi          = {10.1038/s41591-020-1037-7},
+  url          = {https://www.nature.com/articles/s41591-020-1037-7}
+}
+
+@article{liu_2020_consort_ai,
+  author       = {Liu, Xiaoxuan and Cruz Rivera, Samantha and Moher, David
+                  and Calvert, Melanie J. and Denniston, Alastair K. and
+                  {SPIRIT-AI and CONSORT-AI Working Group}},
+  title        = {{Reporting Guidelines for Clinical Trial Reports for
+                  Interventions Involving Artificial Intelligence}: {The
+                  CONSORT-AI Extension}},
+  journal      = {Nature Medicine},
+  volume       = {26},
+  pages        = {1364--1374},
+  year         = {2020},
+  doi          = {10.1038/s41591-020-1034-x},
+  url          = {https://www.nature.com/articles/s41591-020-1034-x}
+}
+
+
+% --- Chapter 6: Agents, Tool Use, and the Model Context Protocol ---
+
+@inproceedings{yao_2023_react,
+  author       = {Yao, Shunyu and Zhao, Jeffrey and Yu, Dian and Du, Nan
+                  and Shafran, Izhak and Narasimhan, Karthik and Cao, Yuan},
+  title        = {{ReAct}: {Synergizing Reasoning and Acting in Language
+                  Models}},
+  booktitle    = {International Conference on Learning Representations
+                  (ICLR)},
+  year         = {2023},
+  archivePrefix = {arXiv},
+  eprint       = {2210.03629},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2210.03629}
+}
+
+@inproceedings{schick_2023_toolformer,
+  author       = {Schick, Timo and Dwivedi-Yu, Jane and Dess{\`i}, Roberto
+                  and Raileanu, Roberta and Lomeli, Maria and Zettlemoyer,
+                  Luke and Cancedda, Nicola and Scialom, Thomas},
+  title        = {{Toolformer}: {Language Models Can Teach Themselves to
+                  Use Tools}},
+  booktitle    = {Advances in Neural Information Processing Systems},
+  volume       = {36},
+  year         = {2023},
+  archivePrefix = {arXiv},
+  eprint       = {2302.04761},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2302.04761}
+}
+
+@misc{anthropic_2024_mcp,
+  author       = {{Anthropic}},
+  title        = {{Introducing the Model Context Protocol}},
+  year         = {2024},
+  howpublished = {\url{https://www.anthropic.com/news/model-context-protocol}},
+  urldate      = {2026-04-26}
+}
+
+@misc{mcp_2025_specification,
+  author       = {{Model Context Protocol Working Group}},
+  title        = {{Model Context Protocol Specification}},
+  year         = {2025},
+  howpublished = {\url{https://modelcontextprotocol.io/specification/2025-11-25}},
+  urldate      = {2026-04-26}
+}
+
+@inproceedings{fleming_2024_medalign,
+  author       = {Fleming, Scott L. and Lozano, Alejandro and Haberkorn,
+                  William J. and Jindal, Jenelle A. and Reis, Eduardo P. and
+                  Thapa, Rahul and Blankemeier, Louis and Genkins, Julian Z.
+                  and Steinberg, Ethan and Nayak, Ashwin and Patel, Birju
+                  S. and Chiang, Chia-Chun and Callahan, Alison and Huo,
+                  Zepeng and Gatidis, Sergios and Adams, Scott J. and
+                  Fayanju, Oluseyi and Shah, Shreya J. and Savage, Thomas
+                  and Goh, Ethan and Chaudhari, Akshay S. and Aghaeepour,
+                  Nima and Sharp, Christopher and Pfeffer, Michael A. and
+                  Liang, Percy and Chen, Jonathan H. and Morse, Keith E. and
+                  Brunskill, Emma P. and Fries, Jason A. and Shah, Nigam H.},
+  title        = {{MedAlign}: {A Clinician-Generated Dataset for Instruction
+                  Following with Electronic Medical Records}},
+  booktitle    = {Proceedings of the AAAI Conference on Artificial
+                  Intelligence},
+  year         = {2024},
+  archivePrefix = {arXiv},
+  eprint       = {2308.14089},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2308.14089}
+}
+
+
+% --- Chapter 7: Deep Research and Evidence Synthesis Pipelines ---
+
+@article{marshall_2019_review_automation,
+  author       = {Marshall, Iain J. and Wallace, Byron C.},
+  title        = {{Toward Systematic Review Automation}: {A Practical Guide
+                  to Using Machine Learning Tools in Research Synthesis}},
+  journal      = {Systematic Reviews},
+  volume       = {8},
+  pages        = {163},
+  year         = {2019},
+  doi          = {10.1186/s13643-019-0974-z},
+  url          = {https://systematicreviewsjournal.biomedcentral.com/articles/10.1186/s13643-019-0974-z}
+}
+
+
+% --- Chapter 8: Evaluation Harnesses for Biostatistical Tasks ---
+
+@inproceedings{zheng_2023_llm_judge,
+  author       = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and
+                  Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and
+                  Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P.
+                  and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
+  title        = {{Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena}},
+  booktitle    = {Advances in Neural Information Processing Systems Datasets
+                  and Benchmarks Track},
+  volume       = {36},
+  year         = {2023},
+  archivePrefix = {arXiv},
+  eprint       = {2306.05685},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2306.05685}
+}
+
+@article{jin_2021_medqa,
+  author       = {Jin, Di and Pan, Eileen and Oufattole, Nassim and Weng,
+                  Wei-Hung and Fang, Hanyi and Szolovits, Peter},
+  title        = {{What Disease Does This Patient Have? A Large-Scale Open
+                  Domain Question Answering Dataset from Medical Exams}},
+  journal      = {Applied Sciences},
+  volume       = {11},
+  number       = {14},
+  pages        = {6421},
+  year         = {2021},
+  archivePrefix = {arXiv},
+  eprint       = {2009.13081},
+  primaryClass = {cs.CL},
+  doi          = {10.3390/app11146421},
+  url          = {https://arxiv.org/abs/2009.13081}
+}
+
+@inproceedings{hendrycks_2021_mmlu,
+  author       = {Hendrycks, Dan and Burns, Collin and Basart, Steven and
+                  Zou, Andy and Mazeika, Mantas and Song, Dawn and
+                  Steinhardt, Jacob},
+  title        = {{Measuring Massive Multitask Language Understanding}},
+  booktitle    = {International Conference on Learning Representations
+                  (ICLR)},
+  year         = {2021},
+  archivePrefix = {arXiv},
+  eprint       = {2009.03300},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2009.03300}
+}
+
+@article{singhal_2023_med_palm,
+  author       = {Singhal, Karan and Azizi, Shekoofeh and Tu, Tao and Mahdavi,
+                  S. Sara and Wei, Jason and Chung, Hyung Won and Scales,
+                  Nathan and Tanwani, Ajay and Cole-Lewis, Heather and
+                  Pfohl, Stephen and Payne, Perry and Seneviratne, Martin
+                  and Gamble, Paul and Kelly, Chris and Babiker, Abubakr
+                  and Sch{\"a}rli, Nathanael and Chowdhery, Aakanksha and
+                  Mansfield, Philip and Demner-Fushman, Dina and Ag{\"u}era
+                  y Arcas, Blaise and Webster, Dale and Corrado, Greg S.
+                  and Matias, Yossi and Chou, Katherine and Gottweis, Juraj
+                  and Tomasev, Nenad and Liu, Yun and Rajkomar, Alvin and
+                  Barral, Joelle and Semturs, Christopher and Karthikesalingam,
+                  Alan and Natarajan, Vivek},
+  title        = {{Large Language Models Encode Clinical Knowledge}},
+  journal      = {Nature},
+  volume       = {620},
+  pages        = {172--180},
+  year         = {2023},
+  doi          = {10.1038/s41586-023-06291-2},
+  url          = {https://www.nature.com/articles/s41586-023-06291-2}
+}
+
+@article{singhal_2025_medpalm2,
+  author       = {Singhal, Karan and Tu, Tao and Gottweis, Juraj and
+                  Sayres, Rory and Wulczyn, Ellery and Hou, Le and Clark,
+                  Kevin and Pfohl, Stephen and Cole-Lewis, Heather and
+                  Neal, Darlene and Schaekermann, Mike and Wang, Amy and
+                  Amin, Mohamed and Lachgar, Sami and Mansfield, Philip and
+                  Prakash, Sushant and Green, Bradley and Dominowska, Ewa
+                  and Ag{\"u}era y Arcas, Blaise and Tomasev, Nenad and Liu,
+                  Yun and Wong, Renee and Semturs, Christopher and Mahdavi,
+                  S. Sara and Barral, Joelle and Webster, Dale and Corrado,
+                  Greg S. and Matias, Yossi and Azizi, Shekoofeh and
+                  Karthikesalingam, Alan and Natarajan, Vivek},
+  title        = {{Toward Expert-Level Medical Question Answering with Large
+                  Language Models}},
+  journal      = {Nature Medicine},
+  volume       = {31},
+  pages        = {943--950},
+  year         = {2025},
+  doi          = {10.1038/s41591-024-03423-7},
+  archivePrefix = {arXiv},
+  eprint       = {2305.09617},
+  url          = {https://www.nature.com/articles/s41591-024-03423-7}
+}
+
+
+% --- Chapter 9: Safety, Bias, and Red-Teaming in Health Contexts ---
+
+@inproceedings{mitchell_2019_modelcards,
+  author       = {Mitchell, Margaret and Wu, Simone and Zaldivar, Andrew
+                  and Barnes, Parker and Vasserman, Lucy and Hutchinson,
+                  Ben and Spitzer, Elena and Raji, Inioluwa Deborah and
+                  Gebru, Timnit},
+  title        = {{Model Cards for Model Reporting}},
+  booktitle    = {Proceedings of the Conference on Fairness, Accountability,
+                  and Transparency (FAT*)},
+  year         = {2019},
+  pages        = {220--229},
+  doi          = {10.1145/3287560.3287596},
+  archivePrefix = {arXiv},
+  eprint       = {1810.03993},
+  primaryClass = {cs.LG},
+  url          = {https://arxiv.org/abs/1810.03993}
+}
+
+@article{obermeyer_2019_racial_bias,
+  author       = {Obermeyer, Ziad and Powers, Brian and Vogeli, Christine
+                  and Mullainathan, Sendhil},
+  title        = {{Dissecting Racial Bias in an Algorithm Used to Manage
+                  the Health of Populations}},
+  journal      = {Science},
+  volume       = {366},
+  number       = {6464},
+  pages        = {447--453},
+  year         = {2019},
+  doi          = {10.1126/science.aax2342},
+  url          = {https://www.science.org/doi/abs/10.1126/science.aax2342}
+}
+
+@article{gallifant_2025_tripod_llm,
+  author       = {Gallifant, Jack and Afshar, Majid and Ameen, Saleem and
+                  Aphinyanaphongs, Yindalon and Chen, Shan and Cacciamani,
+                  Giovanni and Demner-Fushman, Dina and Dligach, Dmitriy
+                  and Daneshjou, Roxana and Fernandes, Chrystinne and
+                  others and Bitterman, Danielle S.},
+  title        = {{The TRIPOD-LLM Reporting Guideline for Studies Using
+                  Large Language Models}},
+  journal      = {Nature Medicine},
+  volume       = {31},
+  pages        = {60--69},
+  year         = {2025},
+  doi          = {10.1038/s41591-024-03425-5},
+  url          = {https://www.nature.com/articles/s41591-024-03425-5}
+}
+
+@inproceedings{bender_2021_stochastic_parrots,
+  author       = {Bender, Emily M. and Gebru, Timnit and McMillan-Major,
+                  Angelina and Shmitchell, Shmargaret},
+  title        = {{On the Dangers of Stochastic Parrots}: {Can Language
+                  Models Be Too Big?}},
+  booktitle    = {Proceedings of the 2021 ACM Conference on Fairness,
+                  Accountability, and Transparency (FAccT)},
+  year         = {2021},
+  pages        = {610--623},
+  doi          = {10.1145/3442188.3445922},
+  url          = {https://dl.acm.org/doi/10.1145/3442188.3445922}
+}
+
+@article{finlayson_2019_adversarial_medical,
+  author       = {Finlayson, Samuel G. and Bowers, John D. and Ito, Joichi
+                  and Zittrain, Jonathan L. and Beam, Andrew L. and Kohane,
+                  Isaac S.},
+  title        = {{Adversarial Attacks on Medical Machine Learning}},
+  journal      = {Science},
+  volume       = {363},
+  number       = {6433},
+  pages        = {1287--1289},
+  year         = {2019},
+  doi          = {10.1126/science.aaw4399},
+  url          = {https://www.science.org/doi/10.1126/science.aaw4399}
+}
+
+@inproceedings{greshake_2023_prompt_injection,
+  author       = {Greshake, Kai and Abdelnabi, Sahar and Mishra, Shailesh
+                  and Endres, Christoph and Holz, Thorsten and Fritz,
+                  Mario},
+  title        = {{Not What You've Signed Up For}: {Compromising Real-World
+                  LLM-Integrated Applications with Indirect Prompt
+                  Injection}},
+  booktitle    = {Proceedings of the 16th ACM Workshop on Artificial
+                  Intelligence and Security (AISec)},
+  year         = {2023},
+  pages        = {79--90},
+  doi          = {10.1145/3605764.3623985},
+  archivePrefix = {arXiv},
+  eprint       = {2302.12173},
+  primaryClass = {cs.CR},
+  url          = {https://arxiv.org/abs/2302.12173}
+}
+
+@article{mittelstadt_2016_ethics_algorithms,
+  author       = {Mittelstadt, Brent Daniel and Allo, Patrick and Taddeo,
+                  Mariarosaria and Wachter, Sandra and Floridi, Luciano},
+  title        = {{The Ethics of Algorithms}: {Mapping the Debate}},
+  journal      = {Big Data \& Society},
+  volume       = {3},
+  number       = {2},
+  year         = {2016},
+  doi          = {10.1177/2053951716679679},
+  url          = {https://journals.sagepub.com/doi/10.1177/2053951716679679}
+}
+
+
+% --- Chapter 10: Regulation, Privacy, and the IRB ---
+
+@misc{fda_2024_pccp_final,
+  author       = {{U.S. Food and Drug Administration}},
+  title        = {{Marketing Submission Recommendations for a Predetermined
+                  Change Control Plan for Artificial Intelligence-Enabled
+                  Device Software Functions}},
+  year         = {2024},
+  howpublished = {\url{https://www.fda.gov/regulatory-information/search-fda-guidance-documents/marketing-submission-recommendations-predetermined-change-control-plan-artificial-intelligence}},
+  urldate      = {2026-04-26},
+  note         = {Final guidance issued December 2024}
+}
+
+@misc{eu_2024_ai_act,
+  author       = {{European Parliament and Council}},
+  title        = {{Regulation (EU) 2024/1689 of the European Parliament and
+                  of the Council Laying Down Harmonised Rules on Artificial
+                  Intelligence (Artificial Intelligence Act)}},
+  year         = {2024},
+  howpublished = {\url{https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:L_202401689}},
+  urldate      = {2026-04-26}
+}
+
+@article{gebru_2021_datasheets,
+  author       = {Gebru, Timnit and Morgenstern, Jamie and Vecchione,
+                  Briana and Vaughan, Jennifer Wortman and Wallach,
+                  Hanna and Daum{\'e} III, Hal and Crawford, Kate},
+  title        = {{Datasheets for Datasets}},
+  journal      = {Communications of the ACM},
+  volume       = {64},
+  number       = {12},
+  pages        = {86--92},
+  year         = {2021},
+  doi          = {10.1145/3458723},
+  archivePrefix = {arXiv},
+  eprint       = {1803.09010},
+  primaryClass = {cs.DB},
+  url          = {https://arxiv.org/abs/1803.09010}
+}
+
+
+% --- Chapter 11: Fine-Tuning vs Context Engineering ---
+
+@inproceedings{hu_2022_lora,
+  author       = {Hu, Edward J. and Shen, Yelong and Wallis, Phillip and
+                  Allen-Zhu, Zeyuan and Li, Yuanzhi and Wang, Shean and
+                  Wang, Lu and Chen, Weizhu},
+  title        = {{LoRA}: {Low-Rank Adaptation of Large Language Models}},
+  booktitle    = {International Conference on Learning Representations
+                  (ICLR)},
+  year         = {2022},
+  archivePrefix = {arXiv},
+  eprint       = {2106.09685},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2106.09685}
+}
+
+@inproceedings{dettmers_2023_qlora,
+  author       = {Dettmers, Tim and Pagnoni, Artidoro and Holtzman, Ari and
+                  Zettlemoyer, Luke},
+  title        = {{QLoRA}: {Efficient Finetuning of Quantized LLMs}},
+  booktitle    = {Advances in Neural Information Processing Systems},
+  volume       = {36},
+  year         = {2023},
+  archivePrefix = {arXiv},
+  eprint       = {2305.14314},
+  primaryClass = {cs.LG},
+  url          = {https://arxiv.org/abs/2305.14314}
+}
+
+@inproceedings{houlsby_2019_adapters,
+  author       = {Houlsby, Neil and Giurgiu, Andrei and Jastrzebski,
+                  Stanislaw and Morrone, Bruna and de Laroussilhe, Quentin
+                  and Gesmundo, Andrea and Attariyan, Mona and Gelly,
+                  Sylvain},
+  title        = {{Parameter-Efficient Transfer Learning for NLP}},
+  booktitle    = {Proceedings of the 36th International Conference on
+                  Machine Learning (ICML)},
+  year         = {2019},
+  archivePrefix = {arXiv},
+  eprint       = {1902.00751},
+  primaryClass = {cs.LG},
+  url          = {https://arxiv.org/abs/1902.00751}
+}
+
+@article{bolton_2024_biomedlm,
+  author       = {Bolton, Elliot and Venigalla, Abhinav and Yasunaga,
+                  Michihiro and Hall, David and Xiong, Betty and Lee,
+                  Tony and Daneshjou, Roxana and Frankle, Jonathan and
+                  Liang, Percy and Carbin, Michael and Manning, Christopher
+                  D.},
+  title        = {{BioMedLM}: {A 2.7B Parameter Language Model Trained on
+                  Biomedical Text}},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  archivePrefix = {arXiv},
+  eprint       = {2403.18421},
+  primaryClass = {cs.CL},
+  url          = {https://arxiv.org/abs/2403.18421}
+}
+
+
+% --- Chapter 12: Deploying Reliable AI Assistants ---
+
+@article{finlayson_2021_dataset_shift,
+  author       = {Finlayson, Samuel G. and Subbaswamy, Adarsh and Singh,
+                  Karandeep and Bowers, John and Kupke, Annabel and Zittrain,
+                  Jonathan and Kohane, Isaac S. and Saria, Suchi},
+  title        = {{The Clinician and Dataset Shift in Artificial
+                  Intelligence}},
+  journal      = {New England Journal of Medicine},
+  volume       = {385},
+  pages        = {283--286},
+  year         = {2021},
+  doi          = {10.1056/NEJMc2104626},
+  url          = {https://www.nejm.org/doi/full/10.1056/NEJMc2104626}
+}
+
+@article{tierney_2024_ai_scribe,
+  author       = {Tierney, Aaron A. and Gayre, Gregg and Hoberman, Brian
+                  and Mattern, Britt and Ballesca, Manuel and Kipnis, Patricia
+                  and Liu, Vincent and Lee, Kristine},
+  title        = {{Ambient Artificial Intelligence Scribes to Alleviate the
+                  Burden of Clinical Documentation}},
+  journal      = {NEJM Catalyst Innovations in Care Delivery},
+  volume       = {5},
+  number       = {3},
+  year         = {2024},
+  doi          = {10.1056/CAT.23.0404},
+  url          = {https://catalyst.nejm.org/doi/full/10.1056/CAT.23.0404}
+}
+
+
+% --- Cross-cutting: AI Ethics, Pedagogy, and Foundational Texts ---
+
+@misc{mollick_2023_how_to_use_ai,
+  author       = {Mollick, Ethan and Mollick, Lilach},
+  title        = {{How to Use AI to Do Stuff}: {An Opinionated Guide}},
+  year         = {2023},
+  howpublished = {\url{https://www.oneusefulthing.org/p/how-to-use-ai-to-do-stuff-an-opinionated}},
+  urldate      = {2026-04-26}
+}
+
+@book{jurafsky_2023_speech_language,
+  author       = {Jurafsky, Daniel and Martin, James H.},
+  title        = {{Speech and Language Processing}},
+  edition      = {3rd},
+  publisher    = {Prentice Hall},
+  year         = {2023},
+  url          = {https://web.stanford.edu/~jurafsky/slp3/}
+}
+
+@book{wickham_2023_r4ds,
+  author       = {Wickham, Hadley and {\c{C}}etinkaya-Rundel, Mine and
+                  Grolemund, Garrett},
+  title        = {{R for Data Science}},
+  edition      = {2nd},
+  publisher    = {O'Reilly Media},
+  year         = {2023},
+  url          = {https://r4ds.hadley.nz/}
+}
+
+@book{kuhn_2022_tidymodels,
+  author       = {Kuhn, Max and Silge, Julia},
+  title        = {{Tidy Modeling with R}: {A Framework for Modeling in the
+                  Tidyverse}},
+  publisher    = {O'Reilly Media},
+  year         = {2022},
+  url          = {https://www.tmwr.org/}
+}
+
+
+% --- Mollick Substack ---
+
+@misc{mollick_2024_strawberry_reasoning,
+  author       = {Mollick, Ethan},
+  title        = {{Something New: On OpenAI's `Strawberry' and Reasoning}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2024},
+  url          = {https://www.oneusefulthing.org/p/something-new-on-openais-strawberry},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2024_claude_mouse,
+  author       = {Mollick, Ethan},
+  title        = {{When you give a Claude a mouse}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2024},
+  url          = {https://www.oneusefulthing.org/p/when-you-give-a-claude-a-mouse},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2024_thinking_like_ai,
+  author       = {Mollick, Ethan},
+  title        = {{Thinking Like an AI}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2024},
+  url          = {https://www.oneusefulthing.org/p/thinking-like-an-ai},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2024_good_enough_prompting,
+  author       = {Mollick, Ethan},
+  title        = {{Getting started with AI: Good enough prompting}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2024},
+  url          = {https://www.oneusefulthing.org/p/getting-started-with-ai-good-enough},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2024_what_just_happened,
+  author       = {Mollick, Ethan},
+  title        = {{What just happened}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2024},
+  url          = {https://www.oneusefulthing.org/p/what-just-happened},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2024_15_times,
+  author       = {Mollick, Ethan},
+  title        = {{15 Times to use AI, and 5 Not to}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2024},
+  url          = {https://www.oneusefulthing.org/p/15-times-to-use-ai-and-5-not-to},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2024_speaking_to_ai,
+  author       = {Mollick, Ethan},
+  title        = {{On speaking to AI}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2024},
+  url          = {https://www.oneusefulthing.org/p/on-speaking-to-ai},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2024_four_singularities,
+  author       = {Mollick, Ethan},
+  title        = {{Four Singularities for Research}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2024},
+  url          = {https://www.oneusefulthing.org/p/four-singularities-for-research},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2024_latent_expertise,
+  author       = {Mollick, Ethan},
+  title        = {{Latent Expertise: Everyone is in R{\&}D}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2024},
+  url          = {https://www.oneusefulthing.org/p/latent-expertise-everyone-is-in-r},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2024_captains_log,
+  author       = {Mollick, Ethan},
+  title        = {{Captain's log: the irreducible weirdness of prompting AIs}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2024},
+  url          = {https://www.oneusefulthing.org/p/captains-log-the-irreducible-weirdness},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_deep_research,
+  author       = {Mollick, Ethan},
+  title        = {{The End of Search, The Beginning of Research}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/the-end-of-search-the-beginning-of},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_prophecies_flood,
+  author       = {Mollick, Ethan},
+  title        = {{Prophecies of the Flood}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/prophecies-of-the-flood},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_cybernetic_teammate,
+  author       = {Mollick, Ethan},
+  title        = {{The Cybernetic Teammate}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/the-cybernetic-teammate},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_no_elephants,
+  author       = {Mollick, Ethan},
+  title        = {{No elephants: Breakthroughs in image generation}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/no-elephants-breakthroughs-in-image},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_jagged_agi,
+  author       = {Mollick, Ethan},
+  title        = {{On Jagged AGI: o3, Gemini 2.5, and everything after}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/on-jagged-agi-o3-gemini-25-and-everything},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_personality_persuasion,
+  author       = {Mollick, Ethan},
+  title        = {{Personality and Persuasion}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/personality-and-persuasion},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_gpt5_just_does,
+  author       = {Mollick, Ethan},
+  title        = {{GPT-5: It Just Does Stuff}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/gpt-5-it-just-does-stuff},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_mass_intelligence,
+  author       = {Mollick, Ethan},
+  title        = {{Mass Intelligence}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/mass-intelligence},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_wizards,
+  author       = {Mollick, Ethan},
+  title        = {{On Working with Wizards}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/on-working-with-wizards},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_real_agents,
+  author       = {Mollick, Ethan},
+  title        = {{Real AI Agents and Real Work}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/real-ai-agents-and-real-work},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_opinionated_guide,
+  author       = {Mollick, Ethan},
+  title        = {{An Opinionated Guide to Using AI Right Now}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/an-opinionated-guide-to-using-ai},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_job_interview,
+  author       = {Mollick, Ethan},
+  title        = {{Giving your AI a Job Interview}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/giving-your-ai-a-job-interview},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2025_shape_of_ai,
+  author       = {Mollick, Ethan},
+  title        = {{The Shape of AI: Jaggedness, Bottlenecks and Salients}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2025},
+  url          = {https://www.oneusefulthing.org/p/the-shape-of-ai-jaggedness-bottlenecks},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2026_claude_code,
+  author       = {Mollick, Ethan},
+  title        = {{Claude Code and What Comes Next}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2026},
+  url          = {https://www.oneusefulthing.org/p/claude-code-and-what-comes-next},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2026_management_superpower,
+  author       = {Mollick, Ethan},
+  title        = {{Management as AI Superpower}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2026},
+  url          = {https://www.oneusefulthing.org/p/management-as-ai-superpower},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2026_shape_of_thing,
+  author       = {Mollick, Ethan},
+  title        = {{The Shape of the Thing}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2026},
+  url          = {https://www.oneusefulthing.org/p/the-shape-of-the-thing},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2026_claude_dispatch,
+  author       = {Mollick, Ethan},
+  title        = {{Claude Dispatch and the Power of Interfaces}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2026},
+  url          = {https://www.oneusefulthing.org/p/claude-dispatch-and-the-power-of},
+  urldate      = {2026-04-26}
+}
+
+@misc{mollick_2026_gpt55,
+  author       = {Mollick, Ethan},
+  title        = {{Sign of the future: GPT-5.5}},
+  howpublished = {One Useful Thing (Substack)},
+  year         = {2026},
+  url          = {https://www.oneusefulthing.org/p/sign-of-the-future-gpt-55},
+  urldate      = {2026-04-26}
+}

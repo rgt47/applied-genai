@@ -1,0 +1,125 @@
+# Preface {.unnumbered}
+
+This volume is the fourth in a graduate sequence on
+biostatistical computing. The first three volumes cover
+the methods and infrastructure of biostatistical practice:
+introductory and advanced statistical computing, plus a
+practicum on the workflow tools that surround them. This
+fourth volume covers the orthogonal axis that has reshaped
+biostatistical practice between 2023 and 2026: the use of
+generative AI as a working collaborator.
+
+The book assumes familiarity with biostatistical methods at
+the level of a first-year graduate sequence and fluency in
+R at the level of *R for Data Science*. It does not assume
+prior experience with large language models, agents, or
+multimodal AI; those are introduced from the ground up,
+oriented to the biostatistical use cases the audience
+will encounter.
+
+## What this book covers
+
+The 12-chapter structure is organised in five parts:
+
+1. **Foundations for the applied user**: the generative
+   AI landscape and capability classes; reasoning models,
+   context, and the verification problem.
+2. **Working with biomedical knowledge and data**:
+   retrieval-augmented generation over biomedical corpora;
+   synthetic data with privacy guarantees; multimodal
+   medical AI.
+3. **Agentic workflows and tool use**: agents, tool use,
+   and the Model Context Protocol; deep research and
+   evidence synthesis pipelines.
+4. **Evaluation, safety, and governance**: evaluation
+   beyond the benchmark; safety, bias, and red-teaming;
+   regulation, privacy, and the IRB.
+5. **Customisation, deployment, and practice**:
+   fine-tuning, distillation, and AI-augmented teams;
+   deploying AI in biostatistical practice.
+
+The chapter list was constructed by surveying current
+graduate-level applied-AI curricula across major US
+biostatistics, public-health, and adjacent programmes (the
+survey is documented in `docs/syllabi-survey.md`) and
+cross-checking the result against a 24-month digest of
+Ethan Mollick's *One Useful Thing* Substack
+(`docs/mollick-digest.md`) — a touchstone for contemporary
+applied genAI thinking. The result is a curriculum that
+reflects mainstream 2026 practice while staying anchored to
+biostatistical use cases.
+
+## What this book does not cover
+
+The book deliberately omits topics that are taught
+elsewhere in the sequence or in dedicated courses:
+
+- The mechanics of training large language models from
+  scratch, including pre-training and reinforcement
+  learning from human feedback. We treat models as
+  capability tiers to be selected and verified, not
+  artefacts to be trained.
+- Classical machine learning, which is treated in
+  *Advanced Statistical Computing in the Age of AI*,
+  Chapter 10.
+- General software engineering for statisticians, which
+  is treated in *Advanced Statistical Computing in the
+  Age of AI*, Chapter 11.
+
+Pointers to relevant chapters appear where they arise.
+
+## Three load-bearing concepts
+
+Three concepts thread through every chapter and earn the
+'applied' framing.
+
+**The jagged frontier.** Generative AI capability is
+uneven: superhuman in some dimensions, subhuman in
+adjacent ones. The frontier is also opaque — capability
+and verification difficulty grow together. The
+biostatistician's contribution is to identify which jagged
+edges still require human judgement and which do not, and
+to design verification proportionate to the stakes.
+
+**The cybernetic teammate.** Modern AI assistance is more
+fruitfully framed as collaboration with a teammate than as
+operation of a tool. The 2024–2026 arc has shifted the
+human role from prompter to manager: the binding skill is
+precise specification of deliverables, fast evaluation,
+and judicious delegation. This framing organises the book
+from Chapter 1 forward.
+
+**Verification as a first-class concern.** Every chapter
+treats verification not as a final step but as a design
+property. The section template in every chapter front-loads
+*The statistician's contribution* — the judgements no AI
+can make on the reader's behalf — and ends with
+*Collaborating with an LLM*, where specific prompts are
+paired with what to watch for and how to verify. The
+dialectic structures the chapter rather than decorating it.
+
+## How to read this book
+
+Each content chapter follows the same structure: Learning
+objectives, Orientation, The statistician's contribution,
+content sections (with collapsible Check-your-understanding
+callouts at natural pauses), Worked example,
+Collaborating with an LLM, Principle in use, Exercises,
+Further reading.
+
+Chapters can be read in order or out of order. Topics with
+a chain of dependencies (e.g., Chapter 6 builds on
+Chapter 2; Chapter 12 builds on Chapter 11) are noted in
+the relevant Orientation sections.
+
+## Acknowledgements
+
+The chapter list reflects a survey of graduate-level genAI
+curricula across roughly twenty US programmes and several
+industry-adjacent open courses. Ethan Mollick's *One
+Useful Thing* Substack provided the contemporary frame
+against which the chapter list was tested. The authors of
+*R for Data Science*, *Advanced R*, *R Packages*,
+*Bayesian Data Analysis*, and *Statistical Rethinking*
+established conventions this book inherits from its
+sister volumes.

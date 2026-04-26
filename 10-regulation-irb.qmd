@@ -1,0 +1,118 @@
+# Regulation, Privacy, and the IRB {#sec-regulation-irb}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Reason about FDA regulation of AI Software as a Medical
+  Device (SaMD), including predetermined change control
+  plans (PCCPs) for adaptive AI.
+- Identify when an AI use case falls under EU AI Act
+  high-risk medical classification and what compliance
+  obligations follow.
+- Draft IRB protocol language that addresses AI-assisted
+  analysis, including data flow, vendor agreements, and
+  audit logging.
+- Apply HIPAA in the LLM era: business associate
+  agreements (BAAs), zero-data-retention configurations,
+  and on-prem versus API tradeoffs for protected health
+  information.
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-regulation-irb-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## FDA SaMD and predetermined change control plans
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## EU AI Act and high-risk medical classification
+
+(TODO)
+
+## HIPAA in the LLM era: BAAs, zero-retention, on-prem
+
+(TODO)
+
+## IRB language for AI-assisted protocols
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on regulation and the IRB
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (regulatory document pointer).

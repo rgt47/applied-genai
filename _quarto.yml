@@ -1,0 +1,123 @@
+project:
+  type: book
+  output-dir: _book
+
+book:
+  title: 'Applied Generative AI for Public Health and Biostatistics'
+  subtitle: 'A graduate textbook in biostatistics'
+  author: 'Ronald "Ryy" G. Thomas'
+  date: today
+  date-format: 'YYYY-MM-DD'
+
+  cover-image: images/cover.png
+  favicon: images/favicon.png
+
+  site-url: https://applied-genai.rgtlab.org
+  repo-url: https://github.com/rgt47/applied-genai
+  repo-branch: main
+  repo-actions: [edit, issue]
+
+  search: true
+  page-navigation: true
+  bread-crumbs: true
+  sidebar:
+    style: docked
+    collapse-level: 1
+
+  chapters:
+    - half-title.qmd
+    - copyright.qmd
+    - index.qmd
+    - preface.qmd
+    - conventions.qmd
+    - 00-intro.qmd
+
+    - part: 'Foundations for the Applied User'
+      chapters:
+        - 01-landscape.qmd
+        - 02-reasoning-context.qmd
+
+    - part: 'Working with Biomedical Knowledge and Data'
+      chapters:
+        - 03-rag-biomedical.qmd
+        - 04-synthetic-data-privacy.qmd
+        - 05-multimodal-medical.qmd
+
+    - part: 'Agentic Workflows and Tool Use'
+      chapters:
+        - 06-agents-mcp.qmd
+        - 07-deep-research.qmd
+
+    - part: 'Evaluation, Safety, and Governance'
+      chapters:
+        - 08-evaluation.qmd
+        - 09-safety-bias.qmd
+        - 10-regulation-irb.qmd
+
+    - part: 'Customisation, Deployment, and Practice'
+      chapters:
+        - 11-customisation-teams.qmd
+        - 12-deployment.qmd
+
+    - references.qmd
+
+  appendices:
+    - credits.qmd
+    - colophon.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - applied-genai.scss
+    include-after-body: nav-toggle.html
+    code-annotations: hover
+    code-link: true
+    code-copy: hover
+    code-overflow: wrap
+    code-tools:
+      source: repo
+      toggle: false
+    code-block-bg: true
+    code-block-border-left: '#a06a1f'
+    highlight-style: arrow
+    fig-width: 7
+    fig-height: 4.5
+    fig-align: center
+    tbl-cap-location: top
+    toc-depth: 3
+    anchor-sections: true
+    smooth-scroll: true
+
+  pdf:
+    documentclass: scrbook
+    classoption: [11pt]
+    code-annotations: below
+    highlight-style: arrow
+    geometry:
+      - paperwidth=6.5in
+      - paperheight=9in
+      - top=0.9in
+      - bottom=0.9in
+      - inner=0.9in
+      - outer=0.7in
+    include-in-header:
+      text: |
+        \usepackage{fontspec}
+        \setmonofont{DejaVu Sans Mono}[Scale=0.9]
+
+bibliography: references.bib
+csl: https://www.zotero.org/styles/apa
+
+execute:
+  freeze: auto
+  echo: true
+  warning: false
+  message: false
+
+knitr:
+  opts_chunk:
+    comment: '#>'
+    collapse: true
+    fig.retina: 2
+    dpi: 150

@@ -1,0 +1,113 @@
+# Retrieval-Augmented Generation over Biomedical Corpora {#sec-rag-biomedical}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Build a RAG pipeline over biomedical corpora (PubMed,
+  clinical guidelines, protocol libraries) with
+  appropriate chunking, embedding, and retrieval choices.
+- Distinguish dense retrieval, sparse (BM25) retrieval,
+  and hybrid approaches, and choose between them for a
+  biomedical task.
+- Implement citation-grounded generation that cites the
+  retrieved sources and refuses to fabricate when
+  retrieval is empty.
+- Evaluate a RAG system with retrieval-quality metrics
+  (recall, MRR) and end-to-end answer-quality metrics
+  (RAGAS-style faithfulness, answer relevance).
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-rag-biomedical-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## Embeddings and retrieval for biomedical text
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## Citation-grounded generation
+
+(TODO)
+
+## Evaluating a biomedical RAG pipeline
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on biomedical RAG
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (package documentation pointer).

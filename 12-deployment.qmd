@@ -1,0 +1,118 @@
+# Deploying AI in Biostatistical Practice {#sec-deployment}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Recognise that interface design — not raw model
+  capability — is now the binding constraint on real-world
+  AI value, and design deployments accordingly.
+- Apply a shadow-mode rollout pattern: run the AI in
+  parallel with the existing workflow, log outputs, and
+  promote to production only after a quantified
+  comparison.
+- Design drift and regression monitoring appropriate to
+  external-API-backed models that change underneath you,
+  including version pinning and rollback procedures.
+- Apply the *15 Times to Use AI, and 5 Not To* framework
+  as a practical decision filter for biostatistical
+  workflows.
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-deployment-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## Interfaces are the bottleneck
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## Shadow-mode rollout and quantified promotion
+
+(TODO)
+
+## Drift, regression, and version pinning
+
+(TODO)
+
+## When to use AI, and when not to
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on deployment
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (Mollick — Claude Dispatch and the Power of Interfaces).

@@ -1,0 +1,113 @@
+# Multimodal Medical AI for Public Health Tasks {#sec-multimodal-medical}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Distinguish vision foundation models (MedSAM, RETFound,
+  BiomedCLIP) from general-purpose multimodal LLMs and
+  choose between them for an imaging task.
+- Use clinical AI scribes appropriately, with attention to
+  documentation quality, attestation, and the
+  scribe-clinician verification handoff.
+- Apply OCR and table-extraction tools to clinical PDFs
+  and structured-form documents at the scale a
+  biostatistical workflow requires.
+- Reason about CONSORT-AI and TRIPOD-LLM reporting
+  standards as they apply to multimodal medical AI
+  studies.
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-multimodal-medical-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## Vision foundation models for biomedical imaging
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## Clinical AI scribes: documentation and attestation
+
+(TODO)
+
+## OCR and structured extraction from clinical documents
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on multimodal medical AI
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (Mollick anchor post).

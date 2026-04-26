@@ -1,0 +1,116 @@
+# Safety, Bias, and Red-Teaming in Health Contexts {#sec-safety-bias}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Identify sources of bias in biomedical LLMs (training-
+  data composition, demographic skew, label-leakage in
+  evaluation) and conduct subgroup-fairness audits.
+- Recognise the distinct public-health risk of AI-tailored
+  persuasion at scale (vaccination counselling, clinical-
+  trial recruitment) and design mitigations.
+- Conduct adversarial evaluation and red-teaming of
+  clinical agents, including jailbreak and prompt-
+  injection testing.
+- Produce model cards and incident-reporting documentation
+  appropriate to a clinical or public-health deployment.
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-safety-bias-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## Sources of bias in biomedical LLMs
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## AI-tailored persuasion in public-health contexts
+
+(TODO)
+
+## Adversarial evaluation: jailbreaks and prompt injection
+
+(TODO)
+
+## Model cards and incident reporting
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on safety and bias auditing
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (Mollick anchor post — Personality and Persuasion).

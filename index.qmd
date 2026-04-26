@@ -1,0 +1,47 @@
+# Welcome {.unnumbered}
+
+This is the online version of **Applied Generative AI for
+Public Health and Biostatistics** by Ronald 'Ryy' G. Thomas,
+a graduate textbook in biostatistics.
+
+The book covers the practical use of generative AI — large
+language models, reasoning models, agents, and multimodal
+systems — in public-health and biostatistical research and
+practice. It is designed for students who already know the
+biostatistical methods and are now adding AI assistance to
+their workflow with appropriate discipline and verification.
+
+The book sits alongside three companion volumes in the
+series:
+
+- [*Statistical Computing in the Age of AI*](https://scai.rgtlab.org)
+  — the introductory graduate computing volume.
+- [*Advanced Statistical Computing in the Age of AI*](https://scai-advanced.rgtlab.org)
+  — the advanced computing volume covering numerical
+  stability, optimisation, Monte Carlo, and high-dimensional
+  methods.
+- [*Biostatistics Practicum*](https://practicum.rgtlab.org)
+  — the workflow companion covering Git, Docker, renv,
+  Quarto, CDISC, and SAS.
+
+This fourth volume treats generative AI as the orthogonal
+axis: not a method to be added to the curriculum but a
+collaborator to be integrated into every stage of
+biostatistical practice, from exploratory analysis through
+deployment.
+
+See the [Preface](preface.qmd) for motivation and the
+[Conventions](conventions.qmd) page for visual cues used
+throughout.
+
+## License
+
+This book is licensed to you under a
+[Creative Commons
+Attribution-NonCommercial-NoDerivatives 4.0 International
+License](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+
+The code samples in this book are licensed under
+[Creative Commons CC0 1.0 Universal (CC0
+1.0)](https://creativecommons.org/publicdomain/zero/1.0/),
+i.e. public domain.

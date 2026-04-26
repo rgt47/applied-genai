@@ -1,0 +1,113 @@
+# Synthetic Data and Privacy-Preserving Generation {#sec-synthetic-data}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Distinguish tabular synthesis (CTGAN, Synthcity),
+  clinical-narrative synthesis, and LLM-based synthesis,
+  and choose between them for a biostatistical use case.
+- Apply differential privacy at a working level: epsilon
+  budgets, composition, post-processing, and the
+  practical implications for utility.
+- Conduct a re-identification audit on a synthetic dataset
+  using membership-inference and attribute-inference
+  attacks.
+- Reason about HIPAA Safe Harbor versus expert
+  determination as alternative paths to de-identification,
+  and where synthetic data fits in each.
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-synthetic-data-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## Tabular synthesis: CTGAN, Synthcity, and friends
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## Differential privacy for biostatistical data
+
+(TODO)
+
+## Re-identification audits
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on synthetic data generation
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (package documentation pointer).

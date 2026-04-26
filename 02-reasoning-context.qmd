@@ -1,0 +1,112 @@
+# Reasoning Models, Context, and the Verification Problem {#sec-reasoning-context}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Distinguish reasoning models from chat models and
+  describe what extended thinking changes about both
+  capability and verification.
+- Construct context (system messages, structured
+  outputs, few-shot examples) for biomedical tasks in a
+  way that supports rather than obscures verification.
+- Recognise when reasoning models help and when they
+  introduce overhead without benefit.
+- Apply verification patterns appropriate to opaque
+  outputs — provisional trust, output connoisseurship,
+  cross-check against independent computation.
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-reasoning-context-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## What reasoning models change
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## Constructing context for biomedical work
+
+(TODO)
+
+## Verification under opacity
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on reasoning and context
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (Mollick anchor post).

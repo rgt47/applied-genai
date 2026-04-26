@@ -1,0 +1,121 @@
+# Customisation and Adoption: Fine-Tuning, Distillation, and AI-Augmented Teams {#sec-customisation-teams}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Apply a decision framework for when to customise: when
+  context engineering is sufficient, when fine-tuning
+  (PEFT/LoRA) is warranted, and when distillation or on-
+  prem deployment is the right answer.
+- Reason about institutional-data fine-tuning under HIPAA,
+  including BAA constraints, audit requirements, and the
+  reproducibility implications of model versioning.
+- Design adoption patterns for biostatistics teams that
+  reflect the *cybernetic teammate* evidence: AI-augmented
+  individuals matching team-without-AI baselines, and the
+  organisational R&D pattern for surfacing useful
+  workflows.
+- Distinguish productive adoption patterns (latent
+  expertise at the edge, expert-in-the-loop verification)
+  from anti-patterns (centralised IT prescription, AI as
+  uncritical replacement).
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-customisation-teams-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## Decision framework: when to customise
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## PEFT, LoRA, and distillation at a working level
+
+(TODO)
+
+## Adoption in biostatistics teams
+
+(TODO)
+
+## Latent expertise: organisational R&D patterns
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on customisation and team adoption
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (Mollick — The Cybernetic Teammate; Latent Expertise).

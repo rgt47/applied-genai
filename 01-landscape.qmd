@@ -1,0 +1,114 @@
+# The Generative AI Landscape for Biostatisticians {#sec-landscape}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Distinguish the four current capability classes of
+  generative AI (chat, reasoning, agentic, multimodal)
+  and select the right class for a given biostatistical
+  task.
+- Articulate the *jagged frontier* — the unevenness and
+  opacity of AI capability — and its implications for
+  verification in biostatistical work.
+- Adopt the *cybernetic teammate* framing: human-AI
+  collaboration as delegation with verification, not
+  command-and-execute.
+- Reason about cost, latency, and context-window tradeoffs
+  in selecting models for routine versus high-stakes
+  biostatistical work.
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-landscape-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## Capability classes: chat, reasoning, agentic, multimodal
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## The jagged frontier
+
+(TODO)
+
+## The cybernetic teammate
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on the generative AI landscape
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (Mollick anchor post).

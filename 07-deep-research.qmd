@@ -1,0 +1,114 @@
+# Deep Research and Evidence Synthesis Pipelines {#sec-deep-research}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Use deep-research modes (OpenAI Deep Research, Elicit,
+  Scite, Claude with extended thinking + web tools) for
+  scoping reviews, background searches, and evidence
+  synthesis.
+- Design a living-review pipeline that combines LLM
+  screening with human adjudication and tracks PRISMA-
+  aligned documentation.
+- Apply LLM-assisted risk-of-bias assessment with
+  appropriate human verification.
+- Distinguish tasks where deep research adds value
+  (background searches, broad-scope mapping) from tasks
+  where it does not (formal systematic-review
+  methodology, meta-analysis pooling).
+
+## Orientation
+
+(TODO)
+
+## The statistician's contribution {#sec-deep-research-human}
+
+(TODO)
+
+**(Judgement 1.)** TODO.
+
+**(Judgement 2.)** TODO.
+
+**(Judgement 3.)** TODO.
+
+These judgements are what distinguish an analysis that
+survives review from one that does not.
+
+## Deep research as a class of narrow agent
+
+(TODO)
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: TODO
+
+**Question.** TODO.
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+TODO.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## Living reviews: LLM screening with human adjudication
+
+(TODO)
+
+## Risk-of-bias assessment with verification
+
+(TODO)
+
+## Worked example: TODO
+
+(TODO)
+
+## Collaborating with an LLM on deep research workflows
+
+(TODO)
+
+**Prompt 1: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 2: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+**Prompt 3: TODO.** TODO.
+
+*What to watch for.* TODO.
+
+*Verification.* TODO.
+
+The meta-pattern: TODO.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **TODO.**
+2. **TODO.**
+3. **TODO.**
+
+## Exercises
+
+1. TODO.
+2. TODO.
+3. TODO.
+4. TODO.
+5. TODO.
+
+## Further reading
+
+- TODO (canonical reference).
+- TODO (modern applied reference).
+- TODO (Mollick anchor post).
