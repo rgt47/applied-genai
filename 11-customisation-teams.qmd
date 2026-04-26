@@ -23,35 +23,184 @@ By the end of this chapter you should be able to:
 
 ## Orientation
 
-(TODO)
+The decision to customise — fine-tune a model on
+institutional data, distill a smaller model from a
+larger one, deploy an open-weights model on-prem — is
+expensive in setup and maintenance. The default for most
+biostatistical teams should be context engineering: use
+a frontier API, supply institutional context per query
+through RAG and prompt scaffolding, and let the model do
+the work. Customisation pays off in a narrow set of
+cases that are worth identifying explicitly.
+
+The adoption side of the chapter is equally important.
+The empirical evidence — Mollick's
+*Cybernetic Teammate* RCT [@mollick_2025_cyberteammate]
+showing AI-enabled individuals matching the performance
+of unaugmented two-person teams — points to a specific
+adoption pattern that works: latent-expertise discovery
+at the team-member level, knowledge-sharing across the
+team, and gradual codification of useful patterns into
+team-level conventions. The anti-pattern — centralised
+IT prescription of when and how AI should be used — is
+documented to underperform.
+
+The chapter develops three threads. **The customisation
+decision**: when context wins, when fine-tuning is
+warranted, when on-prem becomes necessary. **PEFT and
+LoRA at a working level**: enough to make sound choices
+without going into the training mechanics that belong
+in a different book. **Adoption patterns for
+biostatistics teams**: how to organise the team's
+discovery and use of AI assistance so the team's
+collective knowledge grows over time.
 
 ## The statistician's contribution {#sec-customisation-teams-human}
 
-(TODO)
+Three judgements are not delegable.
 
-**(Judgement 1.)** TODO.
+**(Judgement 1.) The customisation question is a cost-
+benefit calculation, not an engineering preference.**
+The temptation to fine-tune is strong: the customised
+model feels like it is 'really yours'. The reality is
+that fine-tuning is expensive (in API cost, in
+infrastructure, in maintenance) and obsoletes when the
+underlying model is updated (which is often). Most
+of the time, the right answer is context engineering
+with a frontier API. The biostatistician evaluates the
+trade rather than defaulting to one or the other.
 
-**(Judgement 2.)** TODO.
+**(Judgement 2.) Adoption is the longest-lived
+artefact.** Specific models change every few months;
+specific tools change every year. The team's
+disposition toward AI-assisted work — the habits of
+specification, verification, and disclosure — outlast
+all of them. The biostatistician shapes the team's
+adoption pattern with the long view in mind: build
+habits that survive the next model release.
 
-**(Judgement 3.)** TODO.
+**(Judgement 3.) Centralised prescription does not
+work.** The Mollick RCT and the *Latent Expertise*
+[@mollick_2024_latent] argument both point in the
+same direction: useful AI applications are
+discovered by individual practitioners in their own
+work, not prescribed by IT. The biostatistician's
+role is to encourage individual experimentation,
+share what works, and treat the discovery process as
+part of the work. Trying to mandate specific tools
+or prompts from above produces compliance theatre
+rather than productivity.
 
-These judgements are what distinguish an analysis that
-survives review from one that does not.
+These judgements are what distinguish thoughtful
+adoption from the patterns that produce expensive
+failures (over-customised stacks, mandated tooling
+that no one uses).
 
 ## Decision framework: when to customise
 
-(TODO)
+A decision tree organises the choice.
+
+**Step 1: Is context engineering insufficient?**
+
+Most tasks can be addressed by frontier-API + good
+context (system prompt + retrieved documents +
+structured input/output). If the model produces
+acceptable results with this setup, do not customise.
+Customisation pays off when context is genuinely
+insufficient, not when it is annoying to set up.
+
+Signs context engineering is sufficient:
+- The frontier API produces correct output most of
+  the time on the team's tasks.
+- The remaining failures can be addressed by improved
+  prompts or retrieval.
+- The latency and cost are acceptable.
+
+Signs context engineering is genuinely insufficient:
+- The model consistently fails on tasks that require
+  domain-specific terminology or conventions even
+  with substantial context.
+- The required context is so large it does not fit
+  in the context window, or so complex that
+  retrieval cannot reliably find the right pieces.
+- Latency is unacceptable due to the size of context
+  required per query.
+
+**Step 2: If insufficient, what kind of customisation?**
+
+Three customisation paths.
+
+**Fine-tuning (PEFT / LoRA)** trains a small
+adapter on top of a frontier model, leaving the base
+model intact. The adapter encodes specific behaviours
+(domain terminology, response style, structured-
+output conventions) without retraining the base. PEFT
+methods like LoRA [@hu_2022_lora] add a few million
+parameters; QLoRA [@dettmers_2023_qlora] adds
+quantization to make training feasible on modest
+hardware. Cost: thousands of dollars in compute and
+some weeks of work. Maintenance: the adapter needs
+re-training when the base model is updated, which is
+non-trivial.
+
+**Distillation** trains a smaller model to mimic a
+larger one on the team's tasks. The result is a
+smaller, faster, cheaper model that performs well on
+the specific tasks but does not have the larger
+model's general capabilities. Useful when high-volume
+inference cost is the binding constraint.
+
+**On-prem open-weights deployment** runs an open-
+weights model (BioMedLM [@bolton_2024_biomedlm], Llama
+3, Mistral) on the institution's infrastructure. The
+trade is operational: gain on-prem control of the
+data and the model; lose the convenience of a managed
+API. For PHI-heavy use cases where API
+configuration is not adequate, this is the path.
+
+**Step 3: Match path to use case.**
+
+| Use case | Recommended path |
+|----------|------------------|
+| Domain-specific style or output format | LoRA fine-tune |
+| High-volume inference at low latency | Distill to smaller model |
+| Strict on-prem requirement (PHI, contractual) | Open-weights on-prem |
+| Most everything else | Context engineering |
+
+A common pattern: start with context engineering, observe
+what specifically is failing, and customise narrowly to
+address that. A blanket fine-tune of a frontier model
+because 'we want our own model' is rarely the right
+answer.
 
 ::: {.callout-note icon=false collapse=true}
-## Check your understanding: TODO
+## Check your understanding: when to fine-tune
 
-**Question.** TODO.
+**Question.** A biostatistics team has a frontier API
+that produces acceptable results on most tasks but
+fails on a specific kind of task: generating SAS code
+in the institution's house style (specific macros,
+indentation conventions, comment patterns). Should they
+fine-tune?
 
 ::: {.content-visible when-format='html'}
 <details><summary>Answer</summary>
 :::
 
-TODO.
+Probably not yet. Try context engineering first: include
+3–5 example outputs in the institution's house style as
+part of the prompt or as a system-message example
+library. Modern reasoning models pick up house style
+from a few examples reliably. If that does not work
+across enough variation, the next step is to build a
+larger few-shot library with retrieval (the right
+examples for the specific task). Only if that still
+fails consistently — say, on novel tasks not represented
+in the example library — does fine-tuning become worth
+considering. The fine-tune cost ($1k–$5k in compute and
+several weeks of work, plus maintenance when the base
+model updates) is much higher than the example-library
+cost.
 
 ::: {.content-visible when-format='html'}
 </details>
@@ -60,62 +209,362 @@ TODO.
 
 ## PEFT, LoRA, and distillation at a working level
 
-(TODO)
+Three concepts at the level a biostatistician needs to
+make sound choices.
+
+**LoRA: low-rank adaptation.** Instead of fine-tuning all
+parameters of a model, LoRA adds small low-rank
+matrices to specific layers. The adapter has 0.1–1% as
+many parameters as the base model. Training the
+adapter is much cheaper than full fine-tuning and
+empirically achieves similar performance on most tasks
+[@hu_2022_lora].
+
+The training process:
+1. Collect training data — usually 1,000–10,000
+   examples of input/output pairs in the desired
+   style.
+2. Set up a LoRA training environment (Hugging Face
+   `peft` library is the reference).
+3. Train the adapter for a small number of epochs
+   (1–3 typically), monitoring loss on a held-out set.
+4. Evaluate on a downstream task suite (the
+   evaluation suite from @sec-evaluation).
+5. If acceptable, deploy: the base model is loaded
+   plus the adapter at inference time.
+
+**QLoRA: quantized LoRA.** LoRA combined with 4-bit
+quantization of the base model. Quantization reduces
+memory requirements substantially, enabling LoRA
+training on a single high-end GPU instead of a
+multi-GPU cluster. The quality penalty is small for
+most tasks. QLoRA is what makes LoRA training tractable
+for individual research groups in 2026.
+
+**Adapter management.** Multiple LoRA adapters can be
+trained for the same base model — one for code
+generation in the team's house style, another for
+methods drafting in the team's voice, another for
+RoB assessment. At inference, the appropriate adapter
+is loaded for the task. Adapter swapping is cheaper
+than maintaining multiple full models and is the
+emerging pattern for organisation-specific
+customisation.
+
+**Maintenance.** When the base model is updated (a
+new release of the same family, e.g., Llama 3.5 →
+Llama 4), the adapter does not automatically
+transfer. Re-training is required to get the
+benefits of the base-model improvements while
+preserving the customised behaviour. This maintenance
+overhead is the under-appreciated cost of fine-
+tuning.
+
+**Distillation** is conceptually different. A smaller
+student model is trained to imitate a larger teacher
+model's outputs on a target distribution of tasks.
+The student is faster and cheaper at inference but
+lacks the teacher's capability outside the trained
+distribution.
+
+For biostatistical work, distillation makes sense when:
+- A specific repetitive task dominates inference cost
+  (e.g., abstract screening for a living systematic
+  review).
+- The teacher model's capability on that task can
+  be captured by the student.
+- The deployment constraints favour the smaller
+  model (latency, cost, on-prem).
+
+The distillation workflow is more involved than LoRA
+but well-supported by libraries like Hugging Face
+`transformers`.
 
 ## Adoption in biostatistics teams
 
-(TODO)
+Mollick's *Cybernetic Teammate* RCT
+[@mollick_2025_cyberteammate] studied 776 professionals
+at Procter & Gamble in a 4-arm trial: alone or in
+two-person teams, with or without AI access, on
+realistic product-development tasks. Findings:
+- AI-enabled individuals matched the performance of
+  two-person teams without AI (about a 0.37 SD
+  improvement over baseline).
+- AI-enabled teams outperformed non-AI teams,
+  especially on the production of exceptional
+  solutions.
+- AI dissolved the expertise silo between R&D and
+  commercial specialists; participants using AI
+  reported higher positive emotion and lower
+  anxiety.
+
+The implications for a biostatistics team:
+
+**Individual capability rises.** A biostatistician
+working with AI assistance can produce work that
+previously required the biostatistician plus a junior
+analyst. The team's effective capacity increases by
+some multiplier — the empirical estimates vary but are
+substantial.
+
+**Cross-discipline collaboration improves.** A
+biostatistician collaborating with a clinician using
+AI on both sides can communicate more efficiently;
+the AI assists in translation across vocabularies.
+Cross-discipline projects that previously had high
+coordination cost become more tractable.
+
+**The right unit is the augmented individual, not
+the augmented team.** Many AI deployments default to
+'the team uses AI' when the more productive pattern
+is 'each person uses AI in their own work and shares
+what works'. The team-level pattern emerges from the
+individual-level adoption.
 
 ## Latent expertise: organisational R&D patterns
 
-(TODO)
+Mollick's *Latent Expertise* observation
+[@mollick_2024_latent] is that the most useful AI
+applications are discovered by individual
+practitioners in their own work, not prescribed by
+IT or product teams. The pattern that produces value
+is:
 
-## Worked example: TODO
+1. Individuals experiment with AI in their work.
+2. Useful patterns emerge.
+3. Successful patterns are shared with peers.
+4. Peers adapt and refine.
+5. The team gradually codifies what works into
+   conventions.
+6. Codification feeds into onboarding for new
+   team members.
 
-(TODO)
+This is recognisably a research-and-development
+pattern, applied to AI workflow. It works because it
+respects the diversity of work in the team — each
+biostatistician's tasks are slightly different — and
+allows local optimisation.
+
+The anti-pattern is centralised prescription: 'the
+biostatistics team will use Tool X for Task Y, and
+will use Prompt Z for Sub-task W'. This produces
+compliance theatre (people use the prescribed tool
+when watched, and their own tools the rest of the
+time) and misses the workflow innovations that come
+from people who actually do the work.
+
+The biostatistician (or team lead) supporting good
+adoption:
+- Encourages individual experimentation with AI
+  tools.
+- Sets up channels (Slack, internal Wiki, weekly
+  show-and-tell) where people share what works.
+- Captures successful patterns into shared
+  conventions: a team prompt library, a team
+  evaluation suite, a team's idiomatic API
+  configuration.
+- Onboards new team members into the conventions
+  rather than into individual tools.
+- Periodically refreshes the conventions as new
+  patterns emerge.
+
+A specific working pattern for a 6–10 person
+biostatistics group:
+- A shared `prompts/` directory in the team's
+  internal repo, with per-task prompt templates.
+- A `runbooks/` directory with specific workflows
+  (e.g., 'how we do RoB assessment with LLM
+  assistance').
+- A weekly 30-minute show-and-tell where one
+  person demonstrates a recent AI workflow that
+  worked well.
+- A monthly update to the team's evaluation suite
+  based on lessons learned.
+
+## Worked example: a biostatistics team's first 6 months
+
+A biostatistics group of 7 people adopts AI
+assistance starting Q1 2026. The trajectory:
+
+**Month 1: individual experimentation.** Each team
+member is given a frontier API budget (~$50/month)
+and encouraged to try AI assistance on routine work.
+A weekly meeting captures observations, frustrations,
+discoveries.
+
+**Month 2: emerging patterns.** Three patterns have
+clear value: (1) boilerplate code generation, (2)
+methods-section drafting, (3) literature scoping.
+The team agrees informal conventions: AI-drafted
+methods sections are reviewed by another team member
+before submission, AI-generated code is run with
+test data before commitment.
+
+**Month 3: codification.** The team builds a shared
+prompt library for the three patterns. The library
+includes example outputs and the verification regime
+expected for each. Each team member contributes their
+working prompts.
+
+**Month 4: evaluation.** The team builds an
+evaluation suite (per @sec-evaluation) with 25 tasks
+reflecting their actual work. They evaluate the
+frontier API on the suite as a baseline; they will
+re-run the evaluation when models update.
+
+**Month 5: workflow integration.** The patterns are
+integrated into the team's standard workflows.
+Methods-drafting templates link to the methods-
+drafting prompts. The team's analytical SOPs include
+verification steps that explicitly cover AI-generated
+artefacts. Onboarding for a new junior analyst
+includes the conventions.
+
+**Month 6: customisation question.** The team
+considers fine-tuning. Looking at the data, the only
+task where context engineering consistently
+underperforms is generating SAS code in the
+institution's house style (deep PROC SQL nesting,
+specific macro libraries). They build a 200-example
+library, set up retrieval over it, and find the
+results match their target. They decide against
+fine-tuning at this stage; the example-library
+approach works.
+
+**6-month retrospective.** The team's effective
+capacity has increased materially (rough estimate:
+30–40% more analytical output for the same headcount).
+Junior analysts are productive on tasks that
+previously required senior involvement. The team's
+analytical reports are more thoroughly prepared
+because the AI-assisted drafting frees time for
+review. No clinical errors attributable to AI
+assistance have been reported; verification has
+caught all material errors before they reached
+publication.
+
+The pattern reproducible: encourage experimentation,
+share what works, codify patterns, defer
+customisation until clearly necessary.
 
 ## Collaborating with an LLM on customisation and team adoption
 
-(TODO)
+Three prompt patterns illustrate working with LLMs on
+adoption-shaped problems.
 
-**Prompt 1: TODO.** TODO.
+**Prompt 1: 'Should we fine-tune for this task?'**
+Provide the task description and the current
+context-engineering performance.
 
-*What to watch for.* TODO.
+*What to watch for.* The LLM tends to recommend
+fine-tuning when context engineering would suffice.
+Push back: 'what would have to be true for context
+engineering to fail here? have we tested those
+conditions?'
 
-*Verification.* TODO.
+*Verification.* The decision is empirical. Run the
+context-engineering version against the evaluation
+suite; if it scores below the team's threshold,
+investigate why. Often the failure is improvable
+without fine-tuning.
 
-**Prompt 2: TODO.** TODO.
+**Prompt 2: 'Help our team adopt AI for biostatistical
+work.'** Provide the team's structure and current
+processes.
 
-*What to watch for.* TODO.
+*What to watch for.* The LLM tends to recommend
+top-down rollouts: 'choose a tool, train the team,
+mandate use'. The Mollick evidence suggests
+bottom-up adoption is more effective. Push toward
+patterns that respect individual variation.
 
-*Verification.* TODO.
+*Verification.* Read the LLM's recommendations
+against the *Cybernetic Teammate* and *Latent
+Expertise* findings. If the recommendations are
+top-down-prescriptive, modify them.
 
-**Prompt 3: TODO.** TODO.
+**Prompt 3: 'Build a prompt library for our team.'**
+Provide a list of the team's tasks.
 
-*What to watch for.* TODO.
+*What to watch for.* The LLM produces a competent
+draft library. The library is a starting point; the
+team owns it and refines it. Do not adopt the
+LLM's prompts wholesale without team review.
 
-*Verification.* TODO.
+*Verification.* Each prompt in the library is
+tested against representative tasks before adoption.
+The team's evaluation suite is the criterion.
 
-The meta-pattern: TODO.
+The meta-pattern: **adoption is a team practice, not
+a tool-purchase decision.** The LLM accelerates
+the construction of artefacts (prompt libraries,
+runbooks, evaluation suites) but the team's
+disposition and discipline are what make them work.
 
 ## Principle in use
 
 Three habits define defensible work in this area:
 
-1. **TODO.**
-2. **TODO.**
-3. **TODO.**
+1. **Default to context engineering.** Fine-tuning is
+   expensive and obsoletes; context engineering is
+   cheap and survives base-model updates.
+   Customisation is for when context demonstrably
+   fails.
+
+2. **Encourage individual discovery.** Adoption
+   emerges at the team-member level. The team
+   lead's job is to surface and codify patterns,
+   not to prescribe them.
+
+3. **Treat conventions as living.** The team's
+   prompt library, evaluation suite, and runbooks
+   are living artefacts updated as patterns evolve.
+   A frozen library decays.
 
 ## Exercises
 
-1. TODO.
-2. TODO.
-3. TODO.
-4. TODO.
-5. TODO.
+1. Catalogue your team's routine tasks. For each,
+   identify whether context engineering, fine-tuning,
+   or distillation is the right starting point.
+
+2. Build a prompt library entry for one of your
+   team's most common tasks. Include the prompt,
+   example inputs, expected outputs, and verification
+   steps.
+
+3. Run a 4-week experiment in your team: each
+   member tracks one AI-assisted task per week.
+   Aggregate the patterns at the end of the month.
+
+4. Calculate the cost of a LoRA fine-tune for a
+   task you would consider customising. Include
+   compute, training data construction, and
+   maintenance over a year. Compare to context
+   engineering.
+
+5. Audit your team's current AI adoption. Identify
+   one centralised prescription and one bottom-up
+   pattern. Reflect on which is producing more value.
 
 ## Further reading
 
-- TODO (canonical reference).
-- TODO (modern applied reference).
-- TODO (Mollick — The Cybernetic Teammate; Latent Expertise).
+- @hu_2022_lora, *LoRA: Low-Rank Adaptation of Large
+  Language Models*. The reference paper for the
+  LoRA method.
+- @dettmers_2023_qlora, *QLoRA: Efficient Finetuning
+  of Quantized LLMs*. The reference for the
+  quantization-plus-LoRA approach that makes
+  fine-tuning practically accessible.
+- @houlsby_2019_adapters, *Parameter-Efficient
+  Transfer Learning for NLP*. The earlier
+  adapter-based PEFT paper that informs the LoRA
+  family.
+- @bolton_2024_biomedlm, *BioMedLM*. The
+  open-weights biomedical language model that is
+  the natural starting point for biomedical
+  on-prem deployment.
+- @mollick_2025_cyberteammate, *The Cybernetic
+  Teammate*. The RCT evidence underwriting the
+  augmented-individual framing.
+- @mollick_2024_latent, *Latent Expertise: Everyone
+  is in R&D*. The argument for bottom-up adoption.
