@@ -7,8 +7,8 @@ By the end of this chapter you should be able to:
 - Distinguish vision foundation models (MedSAM, RETFound,
   BiomedCLIP) from general-purpose multimodal LLMs and
   choose between them for an imaging task.
-- Use clinical AI scribes appropriately, with attention to
-  documentation quality, attestation, and the
+- Use clinical AI scribes appropriately, with attention
+  to documentation quality, attestation, and the
   scribe-clinician verification handoff.
 - Apply OCR and table-extraction tools to clinical PDFs
   and structured-form documents at the scale a
@@ -19,35 +19,191 @@ By the end of this chapter you should be able to:
 
 ## Orientation
 
-(TODO)
+The arrival of robust multimodal capability changes what
+can be analysed in clinical research. Datasets that
+previously required manual abstraction — chest X-rays,
+pathology slides, clinical-photograph series, free-text
+notes, scanned forms, ultrasound video, voice
+recordings — are now amenable to AI-assisted extraction
+at scale. The question for the biostatistician is no
+longer 'can we use this kind of data' but 'how do we
+validate the AI-assisted extraction so the downstream
+analysis is defensible'.
+
+The chapter walks through three practical settings:
+**vision foundation models** for biomedical imaging,
+**clinical AI scribes** that produce structured
+documentation from voice recordings of patient
+encounters, and **OCR and table extraction** for
+clinical PDFs. Each has emerged into routine practice
+in the past two to three years, and each has a
+characteristic failure mode the biostatistician must
+control for.
+
+The unifying theme is that multimodal output, like
+reasoning-model output, requires a verification regime
+proportionate to stakes. A radiology report drafted by a
+multimodal model and signed by a radiologist is different
+from a research-only annotation; an OCR'd clinical form
+audited by a research coordinator is different from one
+fed unchecked into a regression. The biostatistician
+designs the validation to match the use.
 
 ## The statistician's contribution {#sec-multimodal-medical-human}
 
-(TODO)
+Three judgements are not delegable.
 
-**(Judgement 1.)** TODO.
+**(Judgement 1.) Distribution shift in imaging is
+silent.** A model trained on Stanford radiographs may
+underperform on Brigham radiographs in ways that produce
+plausible-looking but biased extractions. Different
+scanners, acquisition protocols, patient populations,
+and even time-of-day produce subtle shifts that
+undermine model performance. The biostatistician
+designs the validation to detect distribution shift —
+typically by reserving a substantial site-specific
+holdout — and treats inter-site variability as a first-
+order concern.
 
-**(Judgement 2.)** TODO.
+**(Judgement 2.) AI-extracted variables are not
+interchangeable with manually-extracted variables.** A
+'left-ventricular ejection fraction' field populated by
+multimodal extraction from echocardiogram reports is
+not the same as one populated by trained clinical
+abstractors, even if the marginal distributions match.
+The error patterns differ, the systematic biases differ,
+and downstream analyses can be biased in
+characteristic ways. The biostatistician documents the
+extraction method and validates against a manual
+reference on a sample.
 
-**(Judgement 3.)** TODO.
-
-These judgements are what distinguish an analysis that
-survives review from one that does not.
+**(Judgement 3.) Reporting standards are part of the
+analysis.** CONSORT-AI [@liu_2020_consort_ai] and TRIPOD-
+LLM [@gallifant_2025_tripod_llm] specify what must be
+reported when AI is involved in a clinical study —
+training data composition, validation strategy,
+performance subgroups, deployment context. The
+biostatistician follows these standards from the start
+of the study, not retrofitted at submission. Studies
+that ignore them are increasingly returned by reviewers
+and by journals.
 
 ## Vision foundation models for biomedical imaging
 
-(TODO)
+Three classes of multimodal model handle biomedical
+imaging differently.
+
+**General-purpose multimodal LLMs** (GPT-5o, Claude 3.7
+Sonnet with vision, Gemini 3 Pro multimodal) are
+trained on broad image-text pairs from the web. They
+handle natural images, diagrams, screenshots, and
+moderate-quality medical images reasonably. They
+perform poorly on specialised modalities (histopathology
+slides, fundus photographs, mammograms) because the
+training distribution is sparse on these. They are the
+right starting point for OCR-shaped tasks (extract a
+table from a clinical PDF), for clinical-photograph
+description, and for screening triage where rough
+classification is enough.
+
+**Domain-specific foundation models** are trained on
+biomedical image-text pairs and substantially outperform
+general-purpose models on specialised modalities. Three
+have become reference points:
+
+- **MedSAM** [@ma_2024_medsam] is a foundation model for
+  medical image segmentation. Given an image and a
+  prompt (a bounding box or a text description), it
+  produces a segmentation mask. Useful for organ
+  segmentation, lesion delineation, and tumour
+  measurement. Outperforms general-purpose segmentation
+  on specialised modalities.
+
+- **RETFound** [@zhou_2023_retfound] is a foundation
+  model for retinal images, trained on 1.6 million
+  retinal photographs. It produces representations
+  useful for downstream tasks (diabetic retinopathy
+  grading, age-related macular degeneration
+  classification, systemic disease prediction) with
+  small fine-tuning datasets.
+
+- **BiomedCLIP** [@zhang_2025_biomedclip] is a vision-
+  language foundation model trained on biomedical
+  image-text pairs from PubMed. Useful for zero-shot
+  classification, image-text retrieval, and as an
+  embedding model for biomedical image retrieval
+  pipelines.
+
+**Specialty-specific clinical models** are smaller,
+deeper-domain models for narrow tasks: a chest-X-ray
+abnormality classifier, a histopathology grading model,
+a fundus diabetic-retinopathy grader. These have been
+common since 2018; the foundation-model approach
+generally subsumes them but specialty models can still
+win on narrow benchmarks where they were trained.
+
+The decision rule:
+
+| Task | Recommended starting point |
+|------|----------------------------|
+| Clinical PDF OCR / table extraction | General multimodal LLM |
+| Clinical photograph description | General multimodal LLM |
+| Image segmentation (medical) | MedSAM |
+| Retinal image analysis | RETFound (fine-tuned) |
+| Cross-modal retrieval (image ↔ text) | BiomedCLIP |
+| Specialty radiology / pathology | Specialty model where available, else BiomedCLIP |
+
+A workflow for using a foundation model on a research
+task:
+
+```python
+import torch
+from medsam import MedSAM_Inference
+
+model = MedSAM_Inference.load('medsam_vit_b.pth')
+
+# Provide image and bounding box for segmentation
+mask = model.segment(
+    image=ct_slice,
+    bbox=[120, 80, 380, 320],
+)
+
+# Compute volumetric measurement
+volume_mm3 = mask.sum() * voxel_volume
+```
+
+The output (volume_mm3) becomes a study variable. The
+validation question is: how well does this volume agree
+with manual segmentation by a radiologist? The answer
+is task-, site-, and modality-dependent and must be
+established empirically on a representative subset.
 
 ::: {.callout-note icon=false collapse=true}
-## Check your understanding: TODO
+## Check your understanding: model selection by modality
 
-**Question.** TODO.
+**Question.** A research team wants to extract liver
+volume from abdominal CT scans for a 5,000-patient
+hepatocellular carcinoma cohort. They have manual liver
+segmentations on 100 randomly-selected scans for
+validation. Which model is the right starting point?
 
 ::: {.content-visible when-format='html'}
 <details><summary>Answer</summary>
 :::
 
-TODO.
+MedSAM, with prompts (either bounding boxes or
+'liver' text prompts depending on the implementation).
+The task is segmentation of a well-defined organ in CT,
+which is exactly MedSAM's design target. A general-
+purpose multimodal LLM would not produce per-pixel
+segmentation. A specialty liver-segmentation model
+(several exist) might outperform MedSAM on the
+specific task, but would require more setup and may
+not generalise to the cohort's specific scanner mix. The
+right workflow: start with MedSAM, validate on the 100
+manual segmentations, and consider specialty models
+only if MedSAM falls short on Dice coefficient or
+volume-Pearson-correlation against the manual reference.
 
 ::: {.content-visible when-format='html'}
 </details>
@@ -56,58 +212,348 @@ TODO.
 
 ## Clinical AI scribes: documentation and attestation
 
-(TODO)
+Voice-driven AI scribes have become routine in clinical
+workflows in 2025–2026. The clinician sees the patient,
+the scribe records audio (with patient consent), and a
+multimodal model produces a draft clinical note in the
+EHR. The clinician reviews and signs.
+
+The technology is mature: products from Abridge, Suki,
+Nuance DAX, and others integrate with major EHRs and
+produce structured notes that include HPI, exam,
+assessment, and plan. From a research perspective, the
+arrival of AI scribes changes two things:
+
+**Note quality is more variable than before.** A scribe-
+generated note approved by a busy clinician may include
+errors the clinician did not catch. For research that
+uses clinical notes as input — chart abstraction,
+phenotype identification, NLP pipelines — the data is
+noisier than pre-scribe-era notes, often in
+characteristic ways: medications listed but not
+prescribed, problems hallucinated from passing mention,
+exam findings inserted that the clinician did not
+perform.
+
+**Attestation patterns matter for research consent.** A
+scribe-generated note signed by the clinician is the
+clinician's attestation. The patient consented to the
+encounter and to the scribe; the clinician attests to
+the content. For research that uses the note, the
+research consent and IRB approval cover the use of the
+note as documented; the AI-assisted nature of the
+documentation is usually disclosed in IRB protocols
+because it affects what the data represents.
+
+The biostatistician's role:
+
+**Validate phenotype extraction in the AI-scribe era.**
+A phenotyping pipeline trained on pre-2024 notes may
+underperform on post-2024 notes because the writing
+style and content patterns have shifted. Re-validation
+on a recent sample is appropriate when the cohort
+spans the scribe transition.
+
+**Document the AI-assisted documentation.** When
+publishing on a cohort, disclose whether and when AI
+scribes were used. The disclosure is increasingly an
+explicit reviewer expectation.
+
+**Consider the systematic-bias question.** Some patient
+groups (non-English-speaking, atypical presentations,
+quiet voices) are systematically under-represented in
+AI-scribe training and may be under-served by the
+output. The biostatistician evaluates whether the cohort
+includes such groups and whether systematic bias in
+note quality could affect the analysis.
+
+A clinical AI scribe is in the literature beginning to
+be evaluated in randomised trials for its effects on
+clinician workload, note quality, and patient outcomes.
+[@tu_2025_amie] is the canonical example. The empirical
+findings: documentation time falls substantially,
+clinician satisfaction rises, note quality is comparable
+or slightly better on objective measures. The harder
+questions — does the scribe miss things the clinician
+would have caught, does it propagate errors, does it
+affect patient safety — are still being studied.
 
 ## OCR and structured extraction from clinical documents
 
-(TODO)
+Clinical research routinely encounters PDFs with
+structured tables, scanned forms, and other documents
+where the data is human-readable but not machine-
+readable. Multimodal LLMs are very good at this task —
+substantially better than dedicated OCR libraries on
+typical clinical documents — and have become the
+default tool for extraction at moderate scale.
 
-## Worked example: TODO
+A working pattern:
 
-(TODO)
+```python
+from anthropic import Anthropic
+import base64
+from pathlib import Path
+
+client = Anthropic()
+
+def extract_table(pdf_page_path: Path) -> dict:
+    image_data = base64.standard_b64encode(
+        pdf_page_path.read_bytes()
+    ).decode('utf-8')
+
+    response = client.messages.create(
+        model='claude-opus-4-7',
+        max_tokens=4000,
+        messages=[{
+            'role': 'user',
+            'content': [
+                {'type': 'image', 'source': {
+                    'type': 'base64',
+                    'media_type': 'image/png',
+                    'data': image_data,
+                }},
+                {'type': 'text', 'text':
+                 'Extract the laboratory values from '
+                 'this clinical document as JSON with '
+                 'keys: test_name, value, units, '
+                 'reference_range, date_collected. '
+                 'Return ONLY valid JSON.'},
+            ],
+        }],
+    )
+    return parse_json(response.content[0].text)
+```
+
+The extraction quality is high but not perfect. Three
+patterns of validation:
+
+**Schema validation.** The output is JSON; check it
+parses and has the expected keys. Failures here are
+malformed output, easily caught.
+
+**Sample manual review.** For a sample of extractions
+(5–10% is typical), have a research coordinator review
+the original document against the extracted output. Log
+discrepancies; address systematic ones with prompt
+changes.
+
+**Distribution checks.** For continuous variables, the
+distribution of extracted values should look like the
+expected clinical distribution (heart rate centred near
+75, not near 750 because of unit confusion). Outliers
+flag both genuine outliers and extraction errors;
+investigate either way.
+
+A nuance: **multimodal extraction from PDFs with native
+text** sometimes underperforms text-only extraction
+from the same PDF. If the PDF has selectable text, use
+PyPDF or pdfplumber to extract text, then ask the model
+to parse the text — faster, cheaper, and often more
+accurate than image-based extraction. Reserve image-
+based extraction for scanned forms, handwritten notes,
+and documents where layout matters more than text.
+
+## Worked example: a chest-X-ray cohort study
+
+A pulmonology team wants to study trajectories of
+pulmonary fibrosis in a cohort of 800 patients with
+serial chest X-rays. Each patient has 3–6 X-rays over
+2–10 years; the goal is to extract a fibrosis severity
+score from each X-ray for longitudinal modelling.
+
+**Step 1: define the variable.** The team specifies a
+0–4 fibrosis severity score, with anchored definitions
+for each level matching the radiologist scoring used in
+two prior published cohorts.
+
+**Step 2: choose the extraction approach.** The team
+considers three options:
+- Manual scoring by a radiologist: gold standard, ~5
+  minutes per image, ~$10/image, total ~$30,000 across
+  3,000 images.
+- Multimodal LLM with the score definitions as part of
+  the prompt: $0.05 per image, total $150, fast.
+- Specialty CXR model fine-tuned for fibrosis scoring:
+  requires a labelled training set; not available.
+
+The team chooses a hybrid: multimodal LLM for the bulk
+of the cohort, plus radiologist scoring on a 200-image
+validation subset.
+
+**Step 3: build and validate the extraction pipeline.**
+The validation subset shows the multimodal LLM has a
+weighted Cohen's kappa of 0.71 against the
+radiologist — moderate-substantial agreement. The
+agreement is weaker for severe fibrosis (kappa 0.61 for
+score 3-4) than for mild (kappa 0.78 for score 0-1).
+The team documents the validation and decides:
+- Use the LLM scores for all 3,000 images.
+- Include kappa = 0.71 in the methods.
+- Plan a sensitivity analysis where the longitudinal
+  model is refit using only the 200 radiologist-scored
+  images, to confirm robustness.
+
+**Step 4: extract.** The pipeline runs in about 4
+hours, costs about $150, and produces fibrosis scores
+for all 3,000 images.
+
+**Step 5: longitudinal model.** A linear mixed model
+with a fibrosis-score outcome, time as the primary
+predictor, and patient-level random intercepts and
+slopes. The fixed-effect coefficient on time is the
+quantity of interest.
+
+**Step 6: sensitivity analysis.** Refit the model on the
+200 radiologist-scored images. The time coefficient is
+within 6% of the LLM-score-based estimate; the
+confidence intervals overlap. The conclusion that
+fibrosis progresses at roughly the published rate is
+robust.
+
+**Step 7: report.** The methods section discloses:
+- The fibrosis scoring rubric.
+- The multimodal LLM extraction with kappa against
+  radiologist reference.
+- The sensitivity analysis results.
+- The CONSORT-AI / TRIPOD-LLM checklist as a
+  supplementary file.
+
+The total study cost is roughly $30,000 less than the
+all-manual approach, the sensitivity analysis confirms
+the substantive conclusion, and the disclosure
+documents the AI-assisted nature of the extraction
+honestly.
 
 ## Collaborating with an LLM on multimodal medical AI
 
-(TODO)
+Three prompt patterns illustrate working with multimodal
+models on biomedical tasks.
 
-**Prompt 1: TODO.** TODO.
+**Prompt 1: 'Extract this structured data from the
+attached clinical document.'** Provide the document
+(PDF, image) and the schema.
 
-*What to watch for.* TODO.
+*What to watch for.* Multimodal extraction is sensitive
+to prompt specificity. 'Extract the lab values' will
+produce variable output; 'Extract lab values matching
+this JSON schema with the following fields...' produces
+consistent output. Specify units, expected types, and
+what to do when values are absent.
 
-*Verification.* TODO.
+*Verification.* Schema-validate the output. Spot-check a
+sample against the source. Investigate any systematic
+discrepancies.
 
-**Prompt 2: TODO.** TODO.
+**Prompt 2: 'Describe the abnormalities in this medical
+image.'** Provide the image with relevant context (study
+type, clinical question).
 
-*What to watch for.* TODO.
+*What to watch for.* General multimodal LLMs produce
+plausible-sounding image descriptions that may include
+findings that are not present (especially when prompted
+in a way that suggests there should be findings). They
+can also miss subtle findings that specialty models
+catch. Use only as a triage or screening tool, never as
+a diagnostic substitute.
 
-*Verification.* TODO.
+*Verification.* Compare against radiologist reads on a
+sample. For research use, treat the LLM description as a
+preliminary annotation that requires expert review
+before becoming a study variable.
 
-**Prompt 3: TODO.** TODO.
+**Prompt 3: 'Audit this AI-scribe-generated note for
+accuracy.'** Provide the note and the audio transcript.
 
-*What to watch for.* TODO.
+*What to watch for.* The LLM can flag obvious errors
+(medications listed but not discussed in transcript,
+findings hallucinated from passing mention) but may
+miss subtle ones (the clinician's tone implying
+disagreement that the transcript flattens). The audit
+catches gross errors; expert review catches the rest.
 
-*Verification.* TODO.
+*Verification.* For high-stakes notes (oncology,
+surgery), human audit. For routine notes, LLM audit
+with random sampling for human review.
 
-The meta-pattern: TODO.
+The meta-pattern: **multimodal models accelerate
+extraction but do not replace expert review for high-
+stakes decisions.** Use them where the speed-up is
+substantial and the validation can be made rigorous;
+avoid them where the cost of a missed finding is high
+and validation cannot keep pace.
 
 ## Principle in use
 
 Three habits define defensible work in this area:
 
-1. **TODO.**
-2. **TODO.**
-3. **TODO.**
+1. **Validate against expert reference on a sample.**
+   Every multimodal extraction pipeline that produces a
+   study variable has a validated agreement statistic
+   against an expert-derived reference on a
+   representative subset. Without it, the study cannot
+   answer the question 'how much do extraction errors
+   bias the result'.
+
+2. **Plan distribution-shift checks across sites.**
+   When a cohort spans multiple imaging sites or
+   scanner makes, the extraction performance can vary
+   substantially. Build site-stratified validation into
+   the protocol.
+
+3. **Disclose AI-assisted extraction in methods.** The
+   disclosure includes the model, the validation
+   approach, the agreement statistic, and any
+   sensitivity analyses comparing AI-extracted to
+   expert-extracted variables.
 
 ## Exercises
 
-1. TODO.
-2. TODO.
-3. TODO.
-4. TODO.
-5. TODO.
+1. Take a multimodal task in your workflow (a PDF, an
+   image, a structured form) and extract data with a
+   multimodal LLM. Validate against manual extraction
+   on 20 records. Compute agreement statistics and
+   document the failure modes.
+
+2. Run the same image through a general-purpose
+   multimodal LLM and a specialty model (e.g., MedSAM
+   for segmentation, RETFound for retinal). Compare
+   the outputs.
+
+3. For a cohort study using AI-extracted variables,
+   plan a sensitivity analysis: what specific
+   assumption about AI accuracy could change the
+   substantive conclusion? Implement and report.
+
+4. Compare LLM extraction from a PDF using image-based
+   prompting versus text-extracted prompting (where
+   text is extractable). Document the relative
+   accuracy and cost.
+
+5. Audit an AI-scribe-generated note against the
+   underlying audio (or pre-AI-era equivalent
+   documentation). Identify the failure modes and
+   their frequency.
 
 ## Further reading
 
-- TODO (canonical reference).
-- TODO (modern applied reference).
-- TODO (Mollick anchor post).
+- @ma_2024_medsam, *Segment Anything in Medical
+  Images*. The MedSAM reference.
+- @zhou_2023_retfound, *A foundation model for
+  generalizable disease detection from retinal
+  images*. The RETFound reference.
+- @zhang_2025_biomedclip, *BiomedCLIP: a multimodal
+  biomedical foundation model pretrained from fifteen
+  million scientific image-text pairs*. The
+  BiomedCLIP reference.
+- @cruzrivera_2020_spirit_ai, *Guidelines for clinical
+  trial protocols for interventions involving
+  artificial intelligence: the SPIRIT-AI extension*.
+  The reference for protocol-stage AI reporting.
+- @liu_2020_consort_ai, *Reporting guidelines for
+  clinical trial reports for interventions involving
+  artificial intelligence: the CONSORT-AI extension*.
+  The reference for trial-report AI reporting.
+- @gallifant_2025_tripod_llm, *TRIPOD-LLM*. The
+  reporting guidance specifically for LLM-based
+  prediction models in clinical research.

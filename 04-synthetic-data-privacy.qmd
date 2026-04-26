@@ -6,48 +6,215 @@ By the end of this chapter you should be able to:
 
 - Distinguish tabular synthesis (CTGAN, Synthcity),
   clinical-narrative synthesis, and LLM-based synthesis,
-  and choose between them for a biostatistical use case.
+  and choose between them for a biostatistical use
+  case.
 - Apply differential privacy at a working level: epsilon
   budgets, composition, post-processing, and the
   practical implications for utility.
-- Conduct a re-identification audit on a synthetic dataset
-  using membership-inference and attribute-inference
-  attacks.
+- Conduct a re-identification audit on a synthetic
+  dataset using membership-inference and attribute-
+  inference attacks.
 - Reason about HIPAA Safe Harbor versus expert
-  determination as alternative paths to de-identification,
-  and where synthetic data fits in each.
+  determination as alternative paths to de-
+  identification, and where synthetic data fits in
+  each.
 
 ## Orientation
 
-(TODO)
+Synthetic data is a tool of last resort that has become a
+tool of first resort. The traditional path to working
+with patient-level data — IRB review, data-use agreement,
+honest broker, secure environment — is slow, expensive,
+and badly matched to the iterative cadence of modern
+analysis. Synthetic data offers an alternative: generate
+a dataset that preserves the statistical structure of
+the original without exposing individual patients. The
+synthetic data can be shared more freely, used for
+methods development, exposed to external collaborators,
+and embedded in tutorials and software demos.
+
+The promise comes with a hidden cost. Synthetic data is
+only as good as the generator. A generator that
+preserves marginal distributions but breaks key
+correlations produces a dataset that looks plausible
+and supports false conclusions. A generator with
+inadequate privacy guarantees produces a dataset that
+appears synthetic but leaks individual patients
+through membership-inference and attribute-inference
+attacks. The biostatistician's task is to choose the
+right generator for the use case, audit the output for
+both utility and privacy, and document the tradeoffs
+honestly.
+
+The chapter develops three threads. **Generation
+methods** for tabular biomedical data, clinical
+narratives, and structured records. **Differential
+privacy** as the principled framework for what 'private
+enough' means and how to achieve it. **Auditing** to
+verify that a generated dataset is private enough for
+release and useful enough to draw conclusions from.
 
 ## The statistician's contribution {#sec-synthetic-data-human}
 
-(TODO)
+Three judgements are not delegable.
 
-**(Judgement 1.)** TODO.
+**(Judgement 1.) The use case dictates the generator.**
+Synthetic data for software-testing tutorials is a
+different problem from synthetic data for methods
+development is a different problem from synthetic data
+for cross-institutional collaboration. The first needs
+plausible structure; the second needs preservation of
+specific statistical properties; the third needs formal
+privacy guarantees. The biostatistician chooses the
+generator and the privacy regime to match the use case
+rather than defaulting to whatever tool is most familiar.
 
-**(Judgement 2.)** TODO.
+**(Judgement 2.) Privacy-utility tradeoffs are explicit
+choices.** Differential privacy with small epsilon
+provides strong privacy and weak utility; large epsilon
+provides weak privacy and strong utility; no formal
+privacy provides best utility and unknown privacy
+exposure. The biostatistician picks the operating point
+deliberately, documents the choice, and justifies it to
+reviewers and IRB. 'We used synthetic data' is not a
+disclosure; the operating point and the audit results
+are.
 
-**(Judgement 3.)** TODO.
+**(Judgement 3.) Synthetic data does not bypass the
+IRB.** A common misconception is that synthetic data
+generation, being on derived data, escapes the IRB
+process that governs the original. This is wrong. The
+generation process uses the original data as input, so
+the use of synthetic data in research is governed by the
+data-use agreement and IRB protocol that govern the
+original data. The biostatistician confirms IRB approval
+covers synthetic-data generation and documents the
+provenance accordingly.
 
-These judgements are what distinguish an analysis that
-survives review from one that does not.
+These judgements are what distinguish responsible
+synthetic-data use from the kind of work that produces
+re-identification incidents and IRB violations.
 
 ## Tabular synthesis: CTGAN, Synthcity, and friends
 
-(TODO)
+Tabular biomedical data — patient demographics,
+laboratory values, vital signs, medication histories —
+is the most common synthesis target. Several methods
+have matured into deployable tools.
+
+**CTGAN** [@xu_2019_ctgan] (Conditional Tabular GAN) is
+the reference generative-adversarial-network method for
+mixed numeric-categorical tabular data. It handles class
+imbalance by conditional sampling and produces synthetic
+records that preserve marginal distributions and
+pairwise correlations reasonably well. The R interface
+is via the `synthpop` package indirectly; the Python
+interface via `sdv` (Synthetic Data Vault) is more
+mature.
+
+**TVAE** (Tabular Variational Autoencoder) is the
+companion method to CTGAN, often slightly better on
+numeric-heavy data. The choice between TVAE and CTGAN is
+empirical: try both on a sample and compare utility
+metrics.
+
+**Synthcity** [@qian_2023_synthcity] is the most actively
+maintained Python library for tabular synthesis as of
+late 2025. It includes CTGAN, TVAE, ARF (adversarial
+random forests), and several differentially-private
+methods (PATE-GAN, DP-GAN). For a biostatistician
+starting fresh, Synthcity is the recommended starting
+point.
+
+**MedGAN** [@choi_2017_medgan] and its descendants are
+specialised for binary high-dimensional medical-claims
+data: ICD codes, procedure codes, medication codes,
+where each patient has hundreds or thousands of binary
+indicators and the data is sparse. The general-purpose
+methods underperform on this structure; MedGAN is the
+right tool when the data shape is sparse-binary.
+
+**LLM-based tabular synthesis** is an emerging approach.
+A reasoning model is given a data dictionary, a sample of
+real records, and instructed to generate similar
+records. The output is plausible at small scale but is
+hard to scale, expensive per record, and offers no
+formal privacy guarantee. Useful for tutorial-scale
+synthesis (a few hundred records); not useful for
+methods development at trial scale.
+
+A practical workflow for tabular synthesis:
+
+```python
+from synthcity.plugins import Plugins
+from synthcity.metrics import Metrics
+
+# Load real data (in a secure environment)
+real_data = load_trial_data()
+
+# Choose and fit a generator
+generator = Plugins().get('ctgan')
+generator.fit(real_data)
+
+# Sample synthetic data
+synthetic = generator.generate(count=len(real_data))
+
+# Evaluate utility
+utility = Metrics().evaluate(
+    real_data, synthetic,
+    metrics={'stats': ['ks_test', 'wd'],
+             'detection': ['detection_xgb']}
+)
+print(utility)
+
+# Evaluate privacy
+privacy = Metrics().evaluate(
+    real_data, synthetic,
+    metrics={'privacy': ['k_anonymization',
+                         'l_diversity',
+                         'membership_inference']}
+)
+print(privacy)
+```
+
+The utility metrics quantify how well the synthetic data
+preserves marginals, correlations, and is
+indistinguishable from real data by an ML classifier.
+The privacy metrics quantify how easily an adversary
+could identify or infer information about individual
+records in the training set. Both are necessary; either
+in isolation is incomplete.
 
 ::: {.callout-note icon=false collapse=true}
-## Check your understanding: TODO
+## Check your understanding: utility without privacy
 
-**Question.** TODO.
+**Question.** A synthetic dataset has utility metrics
+identical to the real data — every statistical property
+matches to within sampling noise. The privacy metrics
+show that a membership-inference attack achieves 95%
+accuracy. Is the synthetic dataset useful? Is it safe to
+release?
 
 ::: {.content-visible when-format='html'}
 <details><summary>Answer</summary>
 :::
 
-TODO.
+It is useful for analysis (the statistical properties
+are right) but it is not safe to release. 95%
+membership-inference accuracy means an adversary with
+access to the synthetic data and a candidate record can
+determine whether the candidate was in the training set
+with 95% accuracy. For most patients this is a privacy
+violation — knowing someone was in a clinical trial
+reveals their diagnosis. The dataset is essentially a
+high-fidelity copy of the real data with cosmetic
+changes; the structural fidelity that produces the
+utility is what enables the attack. The right move is
+to add noise or constrain the generator (differential
+privacy) until membership-inference accuracy approaches
+random (50% on a balanced test) at the cost of some
+utility. There is no synthesis approach that gives both
+perfect utility and perfect privacy.
 
 ::: {.content-visible when-format='html'}
 </details>
@@ -56,58 +223,380 @@ TODO.
 
 ## Differential privacy for biostatistical data
 
-(TODO)
+Differential privacy [@dwork_2014_dp] is the principled
+framework for quantifying the privacy guarantee of a
+data analysis or release. The intuition: an analysis is
+$(\epsilon, \delta)$-differentially private if removing
+any single individual from the dataset changes the
+distribution of the analysis output by at most a factor
+of $e^\epsilon$, with probability at least $1 - \delta$.
+Smaller epsilon means stronger privacy. Epsilon = 0
+means perfect privacy (the output does not depend on
+any individual); epsilon = $\infty$ means no privacy
+(the output may depend arbitrarily on individuals).
+
+Three properties make DP particularly suited to
+biostatistical work.
+
+**Composition.** If you run two $\epsilon$-DP analyses
+on the same data, the joint analysis is at most
+$2\epsilon$-DP. Composition lets you reason about a
+total privacy budget across multiple analyses, releases,
+or queries.
+
+**Post-processing.** Any function of a DP output is at
+most as DP as the input. You cannot reduce privacy
+guarantees by post-processing the output. This means a
+DP-synthesised dataset can be analysed downstream with
+no further privacy loss.
+
+**Robust to auxiliary information.** DP guarantees hold
+regardless of what an adversary knows. An adversary
+with detailed knowledge of every other patient in the
+study still cannot infer information about the target
+patient beyond the $\epsilon$ bound. This robustness is
+distinctive — most other privacy frameworks assume
+specific adversary models.
+
+For synthetic data generation, DP enters through the
+training algorithm. **DP-SGD** (differentially private
+stochastic gradient descent) adds noise to gradient
+updates during model training, with epsilon controlling
+the noise magnitude. PATE-GAN, DP-CTGAN, and similar
+methods produce synthetic data with formal DP
+guarantees.
+
+The practical operating points:
+
+- **$\epsilon < 1$**: strong privacy, suitable for
+  public release of synthetic datasets. Utility is
+  typically degraded; useful for software demos and
+  tutorials.
+- **$\epsilon = 1$ to $10$**: moderate privacy, the
+  range used in production by tech companies (US Census
+  used $\epsilon \approx 17$ for the 2020 Census, much
+  debated). Useful for cross-institutional research.
+- **$\epsilon > 10$**: weak formal privacy. The
+  guarantee is mostly nominal; if you accept this you
+  might as well use no formal DP and rely on auditing.
+
+The choice is contextual. A synthetic dataset for a
+methods paper that will appear in a Quarto book is
+under stronger privacy pressure than a synthetic dataset
+shared with a long-term collaborator under a DUA.
+
+A working pattern:
+
+```python
+from synthcity.plugins import Plugins
+
+# DP-CTGAN with epsilon=2.0
+gen = Plugins().get('dpgan', epsilon=2.0, delta=1e-5)
+gen.fit(real_data)
+synthetic = gen.generate(count=len(real_data))
+```
+
+The epsilon is reported in the methods section. The
+delta is set to roughly 1/n where n is the dataset size
+— the standard convention.
 
 ## Re-identification audits
 
-(TODO)
+DP gives a formal privacy guarantee at the generator
+level. Auditing gives empirical evidence that the
+guarantee holds in practice and that no other privacy
+failures have crept in. Two attacks dominate.
 
-## Worked example: TODO
+**Membership-inference attack.** Given the synthetic
+data and a candidate record, can an adversary determine
+whether the candidate was in the training set? The
+attack is implemented as a classifier: train a model to
+distinguish 'records whose nearest synthetic neighbour
+is very close' from 'records whose nearest synthetic
+neighbour is far'. The 'in-training' records tend to
+have closer synthetic neighbours (the generator
+overfits slightly). High accuracy on this classifier
+means the synthetic data leaks training-set membership.
 
-(TODO)
+```python
+from sklearn.metrics import roc_auc_score
+from sklearn.neighbors import NearestNeighbors
+
+def membership_inference_audit(real, synthetic,
+                                holdout):
+    '''Return AUC of distinguishing real-in-training
+    from real-not-in-training based on distance to
+    nearest synthetic neighbour.'''
+    nn = NearestNeighbors(n_neighbors=1).fit(synthetic)
+    in_dist, _ = nn.kneighbors(real)
+    out_dist, _ = nn.kneighbors(holdout)
+    distances = np.concatenate([
+        in_dist.flatten(),
+        out_dist.flatten(),
+    ])
+    labels = np.concatenate([
+        np.ones(len(real)),
+        np.zeros(len(holdout)),
+    ])
+    return roc_auc_score(labels, -distances)
+```
+
+AUC near 0.5 means the attack fails (good privacy). AUC
+near 1.0 means the attack succeeds (bad privacy).
+Practical thresholds: AUC > 0.6 is concerning, > 0.7
+suggests the synthesis is close to a memorised copy.
+
+**Attribute-inference attack.** Given the synthetic data
+and partial information about a candidate (e.g., age,
+sex, ZIP), can the adversary infer a sensitive attribute
+(diagnosis, lab value)? Implemented as a regression or
+classification model trained on the synthetic data
+predicting the sensitive attribute from the partial
+information. The attack succeeds if the model performs
+well on real held-out individuals.
+
+The attack model trained on synthetic data is allowed to
+generalise; the question is whether it generalises in a
+way that compromises real individuals. Measure
+performance on held-out real records and compare against
+a baseline (predicting the mode or marginal). Substantial
+improvement over baseline indicates leakage.
+
+A useful framing: synthetic data should be auditable
+against the **worst-case adversary** the use case can
+plausibly produce. For internal use, the adversary is a
+curious colleague; auditing against light attacks is
+adequate. For external release, the adversary is a
+motivated attacker with substantial computing resources;
+auditing against state-of-the-art membership-inference
+techniques is appropriate.
+
+## HIPAA Safe Harbor and expert determination
+
+For US clinical-data work, the privacy regime is HIPAA
+[@hhs_hipaa]. Two paths to de-identification:
+
+**Safe Harbor.** Remove 18 specified identifiers (names,
+dates more granular than year for ages > 89, ZIP codes
+above 3 digits, etc.) and assert no actual knowledge of
+re-identification. The dataset is then 'de-identified'
+under HIPAA and not protected health information (PHI).
+Synthetic data does not by default qualify for Safe
+Harbor — the question is whether the synthesis was
+trained on PHI, not whether the synthetic data contains
+identifiers in the listed categories.
+
+**Expert determination.** A qualified expert determines
+that the risk of re-identification is 'very small'. The
+expert's determination is documented and accompanies the
+data. For synthetic data, the expert determination is
+typically the appropriate path: a statistician (often
+the biostatistician on the project) certifies that the
+synthesis method, the privacy budget, and the audit
+results together produce a dataset where re-
+identification risk is acceptably low.
+
+The expert-determination path requires written
+documentation. The biostatistician produces a report
+that includes:
+- The synthesis method and parameters.
+- The DP budget (epsilon, delta) if applicable.
+- The audit results (membership-inference AUC,
+  attribute-inference performance).
+- A risk assessment relative to the use case.
+- A statement of the expert's qualifications and
+  conclusion.
+
+The report is not boilerplate; it is the documented
+basis for the privacy claim. IRBs and journal reviewers
+will increasingly ask for it; preparing it after the
+fact is harder than as you go.
+
+## Worked example: synthesising a trial-emulation cohort
+
+A cardiology team wants to publish a methods paper on
+trial-emulation in observational data. The real cohort
+is 12,000 patients from the institutional EHR with
+detailed cardiovascular risk factors and outcomes. The
+team cannot share the real cohort externally; they want
+synthetic data that supports replication of the methods
+paper's analyses.
+
+Step 1: characterise the use case. The synthetic data
+will be released with a methods paper; external readers
+will use it to reproduce the analyses. The privacy
+regime is therefore strong: external researchers cannot
+be vetted, and the data will live in perpetuity. Target
+$\epsilon = 1$ as the privacy budget. The utility
+requirement is that the methods paper's analyses
+produce qualitatively similar results on synthetic and
+real data.
+
+Step 2: choose the method. The data is mixed numeric-
+categorical with 30 variables. Synthcity's DP-CTGAN with
+$\epsilon = 1, \delta = 10^{-5}$ is the chosen method.
+
+Step 3: generate. About 4 hours of training on a single
+GPU, producing a synthetic dataset of 12,000 patients
+with the same variable structure.
+
+Step 4: audit utility. Run the methods paper's primary
+analyses on the synthetic data and compare. The hazard
+ratios in the trial-emulation analysis are within 8% of
+the real data results; the confidence intervals overlap
+substantially. The conclusion that the trial-emulation
+estimate matches the published trial within 0.05 hazard
+ratio units is preserved on the synthetic data.
+
+Step 5: audit privacy. Run a membership-inference attack
+using the audit code shown above. AUC = 0.51 — the
+attack fails, as expected with $\epsilon = 1$. Run an
+attribute-inference attack on cardiovascular outcomes
+given baseline characteristics. The synthetic-data-
+trained classifier achieves AUC 0.62 on held-out real
+data; the baseline (predicting from marginal) achieves
+0.51. The 11-point improvement is concerning but
+modest; the team documents it and proceeds.
+
+Step 6: write the expert-determination report. The
+biostatistician documents the method, the DP parameters,
+the audit results, and concludes that the re-
+identification risk is very small in the context of the
+publication's purpose. The IRB reviews and approves the
+release.
+
+Step 7: release with documentation. The synthetic
+dataset is published alongside the paper with a README
+that includes the synthesis method, the privacy budget,
+the utility comparison, the audit results, and the
+expert determination. External readers can reproduce
+the analyses with full transparency about the synthetic
+nature of the data.
 
 ## Collaborating with an LLM on synthetic data generation
 
-(TODO)
+Three prompt patterns illustrate working with LLMs on
+synthetic-data tasks.
 
-**Prompt 1: TODO.** TODO.
+**Prompt 1: 'Choose a synthesis method for this data
+shape and use case.'** Provide the data structure and
+the use case (internal use, external release,
+publication, software demo).
 
-*What to watch for.* TODO.
+*What to watch for.* The LLM will recommend whichever
+method is most popular, often without checking whether
+it suits the specific data structure. For high-
+dimensional sparse-binary data (medical claims), the
+LLM may recommend CTGAN even though MedGAN is the
+appropriate tool. Push back: ask 'what about MedGAN for
+this case?'
 
-*Verification.* TODO.
+*Verification.* Run a small benchmark: try two or
+three candidate methods on a sample of the data and
+compare utility and runtime. The right choice is
+empirical.
 
-**Prompt 2: TODO.** TODO.
+**Prompt 2: 'Audit this synthetic dataset for privacy.'**
+Provide the synthetic data, a sample of real held-out
+data, and the schema. Ask for an audit plan and
+implementation.
 
-*What to watch for.* TODO.
+*What to watch for.* The LLM will produce a reasonable
+audit plan including membership inference and attribute
+inference. It will not always check for less-common
+attacks (linkage to external data, model inversion).
+For high-stakes releases, supplement the LLM-produced
+audit with literature review of recent attack methods.
 
-*Verification.* TODO.
+*Verification.* The audit code should run end-to-end
+and produce numbers. Check the numbers against your
+expectation: AUC near 0.5 for membership inference is
+expected with strong DP; substantially higher AUC means
+something is wrong.
 
-**Prompt 3: TODO.** TODO.
+**Prompt 3: 'Draft the expert-determination report for
+this synthetic dataset.'** Provide the method, parameters,
+audit results, and use case.
 
-*What to watch for.* TODO.
+*What to watch for.* The LLM will produce a competent-
+looking report. The biostatistician must verify every
+claim — the LLM may confuse $\epsilon$ values, mis-
+state the audit results, or over-state the privacy
+guarantees. The report is the basis for the privacy
+claim in the publication; it must be exactly right.
 
-*Verification.* TODO.
+*Verification.* Read the report against the actual
+audit numbers. Confirm the privacy claim is supported
+by the audit. Confirm the expert qualifications and
+conclusion match what the biostatistician will sign.
 
-The meta-pattern: TODO.
+The meta-pattern: **LLMs accelerate the
+mechanics of synthetic-data work but cannot verify the
+privacy claim.** The biostatistician owns the
+determination, the documentation, and the responsibility
+for the release.
 
 ## Principle in use
 
 Three habits define defensible work in this area:
 
-1. **TODO.**
-2. **TODO.**
-3. **TODO.**
+1. **Audit before release.** Every synthetic dataset
+   intended for external release passes a documented
+   audit. The audit is not 'we used DP'; the audit is
+   numbers from membership-inference and attribute-
+   inference attacks on the actual generated data.
+
+2. **Document the privacy budget explicitly.** The
+   methods section of any paper using synthetic data
+   states the synthesis method, the privacy parameters
+   (DP epsilon if used, no-DP otherwise), and the audit
+   results. Reviewers should not have to ask.
+
+3. **Match the privacy regime to the use case.** Public
+   release demands stronger privacy than internal use.
+   The biostatistician chooses the operating point
+   deliberately and re-evaluates if the use case
+   changes (e.g., from internal use to public release).
 
 ## Exercises
 
-1. TODO.
-2. TODO.
-3. TODO.
-4. TODO.
-5. TODO.
+1. Take a small biostatistical dataset of your choice
+   and synthesise it with two methods (e.g., CTGAN and
+   TVAE). Compare utility (correlation preservation,
+   marginal preservation) and runtime.
+
+2. Add differential privacy to your synthesis with
+   $\epsilon = 1, 5, 10$. Plot utility (e.g., hazard
+   ratio of a key analysis) against epsilon.
+
+3. Implement the membership-inference audit shown in
+   this chapter. Run it on your synthetic datasets at
+   each epsilon level.
+
+4. Draft an expert-determination report for one of your
+   synthetic datasets. Include method, parameters,
+   audit results, and a privacy claim. Have a
+   colleague review it.
+
+5. Compare LLM-based tabular synthesis (using a
+   reasoning model with the data dictionary and a
+   sample) against CTGAN on the same dataset. Document
+   the relative utility, cost, and scalability.
 
 ## Further reading
 
-- TODO (canonical reference).
-- TODO (modern applied reference).
-- TODO (package documentation pointer).
+- @dwork_2014_dp, *The Algorithmic Foundations of
+  Differential Privacy*. The textbook reference for DP.
+- @xu_2019_ctgan, *Modeling Tabular data using
+  Conditional GAN*. The CTGAN paper.
+- @qian_2023_synthcity, *Synthcity: facilitating
+  innovative use cases of synthetic data in different
+  data modalities*. The reference for the Synthcity
+  library.
+- @choi_2017_medgan, *Generating Multi-label Discrete
+  Patient Records using Generative Adversarial
+  Networks*. The original MedGAN paper.
+- @vanbuuren_2011_mice, *mice: Multivariate Imputation
+  by Chained Equations in R*. Adjacent: imputation as
+  a synthesis-like operation, often appropriate when
+  full synthesis is not.
