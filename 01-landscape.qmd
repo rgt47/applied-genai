@@ -228,11 +228,7 @@ detect than distribution shift in tabular data.
 capability class is the right starting point, and what
 should your follow-up question be?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-The honest answer is *none of them yet*, because the
+**Answer.** The honest answer is *none of them yet*, because the
 ask is under-specified. 'Analyse and produce a report'
 hides decisions about: what is the primary endpoint, what
 adjustments are pre-specified, what level of statistical
@@ -247,9 +243,6 @@ verifiable and the analysis is exploratory; multimodal
 matters only if the data includes images or PDFs. The
 ask routes to the class; the ask must come first.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## The jagged frontier
@@ -438,11 +431,7 @@ each wrong answer requires a re-run plus the
 biostatistician's time to diagnose, valued at $5. Which
 is cheaper per unit of correct work?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-Model A: $0.05 + 0.30 × $5 = $1.55 per query, but
+**Answer.** Model A: $0.05 + 0.30 × $5 = $1.55 per query, but
 each correct answer requires 1/0.70 = 1.43 queries on
 average, so $2.21 per correct answer. Model B: $0.50 +
 0.05 × $5 = $0.75 per query, requiring 1/0.95 = 1.05
@@ -453,9 +442,6 @@ per query. The lesson: the per-query price hides most of
 the cost when accuracy varies. The right metric is cost-
 per-correct-output, not cost-per-query.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## Worked example: choosing tools for a trial-data analysis

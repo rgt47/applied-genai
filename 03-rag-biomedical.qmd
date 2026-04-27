@@ -200,11 +200,7 @@ specific drug names. Dense retrieval consistently
 returns the wrong sections. What is the likely cause and
 the recommended fix?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-The likely cause is that the embedding model averages
+**Answer.** The likely cause is that the embedding model averages
 across many tokens; rare terms (specific drug names) get
 diluted in the chunk's overall semantic representation.
 The fix is to add BM25 retrieval alongside the dense
@@ -216,9 +212,6 @@ then produces rankings that are good on both common
 queries (where dense wins) and rare-term queries (where
 sparse wins).
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## Citation-grounded generation

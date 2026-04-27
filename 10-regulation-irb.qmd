@@ -157,11 +157,7 @@ accuracy, regulatory compliance). The score is shown to
 clinicians as feedback during their charting workflow.
 Is this SaMD?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-It depends on the use case but is unlikely to be SaMD
+**Answer.** It depends on the use case but is unlikely to be SaMD
 in the standard interpretation. Documentation-quality
 scoring is administrative; the score does not produce a
 diagnostic or treatment recommendation. If the score is
@@ -177,9 +173,6 @@ contribution is to clarify the use case with the
 product team and document the intended-use language
 that supports the chosen classification.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## EU AI Act and high-risk medical classification

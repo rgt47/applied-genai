@@ -154,11 +154,7 @@ evaluation suite, Model A scores 0.82, Model B
 scores 0.78. Cost is similar; latency is similar.
 Which should the team adopt for routine use?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-Model A. The organisation-specific suite is the
+**Answer.** Model A. The organisation-specific suite is the
 relevant signal; the public-benchmark equivalence is
 roughly informative but is dominated by the organisation-
 specific gap. The 4-point spread (0.82 vs 0.78) is
@@ -170,9 +166,6 @@ usually within sampling noise; for suites with 50+
 tasks, it is more stable. If the suite is small,
 extend it before deciding.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## LLM-as-judge with calibration

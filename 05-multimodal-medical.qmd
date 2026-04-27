@@ -187,11 +187,7 @@ hepatocellular carcinoma cohort. They have manual liver
 segmentations on 100 randomly-selected scans for
 validation. Which model is the right starting point?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-MedSAM, with prompts (either bounding boxes or
+**Answer.** MedSAM, with prompts (either bounding boxes or
 'liver' text prompts depending on the implementation).
 The task is segmentation of a well-defined organ in CT,
 which is exactly MedSAM's design target. A general-
@@ -205,9 +201,6 @@ manual segmentations, and consider specialty models
 only if MedSAM falls short on Dice coefficient or
 volume-Pearson-correlation against the manual reference.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## Clinical AI scribes: documentation and attestation

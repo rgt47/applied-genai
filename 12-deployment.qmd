@@ -168,11 +168,7 @@ not at all. The team lead is considering whether to
 mandate use. What is the more productive
 intervention?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-The more productive intervention is to study why the
+**Answer.** The more productive intervention is to study why the
 non-users are not using it and to address the
 interface friction those users face, rather than
 mandating use. Common causes:
@@ -193,9 +189,6 @@ develop applications, or improve the verification
 workflow. Mandating use does not address any of
 these and produces resentment without productivity.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## Shadow-mode rollout

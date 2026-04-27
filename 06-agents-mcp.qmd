@@ -164,11 +164,7 @@ the primary endpoint for the upcoming Phase II trial
 based on the FDA guidance and the natural-history data
 we have'. Which is suitable for agent delegation?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-(a) is well-shaped for agent delegation. The
+**Answer.** (a) is well-shaped for agent delegation. The
 deliverable is defined (replication or non-replication
 with a specific result), the verification path is
 concrete (the agent's analysis can be cross-checked
@@ -182,9 +178,6 @@ analysis to inform the decision (and probably should),
 but the decision itself stays with the biostatistician
 and the team.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## The Model Context Protocol

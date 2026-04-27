@@ -187,11 +187,7 @@ Asian patients, 0.71 for Black patients, 0.74 for
 Hispanic patients. The model will be deployed for
 all patients. Is this acceptable?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-The 0.71 AUC for Black patients (a 10-point gap from
+**Answer.** The 0.71 AUC for Black patients (a 10-point gap from
 the best-served group) is a flag that should not be
 ignored. Whether to deploy depends on:
 - What the model is used for. If it routes patients
@@ -214,9 +210,6 @@ mitigation, and the institution's clinical leadership
 makes the deployment decision informed by the
 documented analysis.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## AI-tailored persuasion in public-health contexts

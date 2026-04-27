@@ -178,11 +178,7 @@ The team has 2 weeks before the protocol must be
 finalised. Should they use deep research or commission
 a formal systematic review?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-For a 2-week timeline, deep research is the right
+**Answer.** For a 2-week timeline, deep research is the right
 tool. A systematic review takes 3–9 months including
 title/abstract screening, full-text review, data
 extraction, risk-of-bias assessment, and synthesis.
@@ -199,9 +195,6 @@ regulatory implications, a formal review may still be
 warranted post-hoc; for protocol design, deep research
 is usually adequate and the trade-off is reasonable.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## Living reviews: LLM screening with human adjudication

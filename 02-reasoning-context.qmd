@@ -169,11 +169,7 @@ time-varying part incorrectly. Should the next step be
 (b) escalate to a reasoning model with the original
 question and the dataset structure?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-Probably (b). When the failure mode is 'plausible code
+**Answer.** Probably (b). When the failure mode is 'plausible code
 that fails on the actual data', the issue is usually
 that the chat model produced something near a known
 example without integrating the specific structure of
@@ -189,9 +185,6 @@ three chat-model iterations followed by manual
 debugging. As a heuristic: when chat models fail more
 than once on the same problem, escalate.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## Constructing context for biomedical work
@@ -359,11 +352,7 @@ verify a random sample of 20 citations, (b) verify all
 citations, (c) skip verification and disclose the AI
 assistance in the methods section?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-(a) is the right answer. (b) is the ideal but is
+**Answer.** (a) is the right answer. (b) is the ideal but is
 infeasible: 60 × 2 = 120 minutes leaves no time for
 anything else. (c) is irresponsible: citation
 hallucination in grant applications is a serious
@@ -381,9 +370,6 @@ the section without AI; if the sample turns up zero
 hallucinations, provisional acceptance of the remainder
 is defensible.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## When reasoning models help and when they do not

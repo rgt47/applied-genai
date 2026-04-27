@@ -183,11 +183,7 @@ in the institution's house style (specific macros,
 indentation conventions, comment patterns). Should they
 fine-tune?
 
-::: {.content-visible when-format='html'}
-<details><summary>Answer</summary>
-:::
-
-Probably not yet. Try context engineering first: include
+**Answer.** Probably not yet. Try context engineering first: include
 3–5 example outputs in the institution's house style as
 part of the prompt or as a system-message example
 library. Modern reasoning models pick up house style
@@ -202,9 +198,6 @@ several weeks of work, plus maintenance when the base
 model updates) is much higher than the example-library
 cost.
 
-::: {.content-visible when-format='html'}
-</details>
-:::
 :::
 
 ## PEFT, LoRA, and distillation at a working level
