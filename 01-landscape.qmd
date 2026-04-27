@@ -44,7 +44,7 @@ companion `docs/mollick-digest.md` and the weekly
 pundit-scan pipeline are the audit trail that keeps the
 chapter examples current.
 
-The orientation matters because the alternative , 
+The orientation matters because the alternative:
 treating generative AI as a single 'thing' that one
 either uses or does not, produces both over- and
 under-confident analyses. The biostatistician who treats
@@ -117,7 +117,7 @@ adjudication rather than execution.
 ## Capability classes: chat, reasoning, agentic, multimodal
 
 The taxonomy that has emerged across applied-AI
-syllabi [@kuhn_2022_tidymodels; @mollick_2025_opinionated_guide]
+syllabi [@mollick_2025_opinionated_guide]
 treats current generative AI as four overlapping
 capability classes rather than a single product. Each
 class has a characteristic strength, a characteristic
@@ -605,7 +605,7 @@ specifically.
 
 *Verification.* The verification regime is a contract
 with yourself. If you cannot afford the verification the
-LLM proposes, you cannot afford the work as proposed , 
+LLM proposes, you cannot afford the work as proposed:
 either reduce the AI-assisted scope or accept the
 elevated risk explicitly.
 

@@ -267,7 +267,7 @@ Three operational concerns.
 
 **Drift detection.** Run the team's evaluation suite
 (per @sec-evaluation) periodically against the
-deployed model. If the score drops materially , 
+deployed model. If the score drops materially:
 say, by more than the suite's noise level, investigate
 whether the underlying model has changed. The
 provider's release notes should be checked; if the

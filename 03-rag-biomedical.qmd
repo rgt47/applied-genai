@@ -445,7 +445,7 @@ context but splitting long sections) raises Recall@10 to
 0.91 with no impact on the other metrics.
 
 The second-pass results highlight a different issue:
-faithfulness is high but context precision is low , 
+faithfulness is high but context precision is low:
 the model is being given more context than it needs and
 mostly ignoring the irrelevant parts. Adding a re-ranker
 (a cross-encoder model that re-scores the top-50 to

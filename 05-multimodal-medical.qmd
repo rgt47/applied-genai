@@ -60,7 +60,7 @@ plausible-looking but biased extractions. Different
 scanners, acquisition protocols, patient populations,
 and even time-of-day produce subtle shifts that
 undermine model performance. The biostatistician
-designs the validation to detect distribution shift , 
+designs the validation to detect distribution shift:
 typically by reserving a substantial site-specific
 holdout, and treats inter-site variability as a first-
 order concern.
@@ -80,7 +80,7 @@ reference on a sample.
 **(Judgement 3.) Reporting standards are part of the
 analysis.** CONSORT-AI [@liu_2020_consort_ai] and TRIPOD-
 LLM [@gallifant_2025_tripod_llm] specify what must be
-reported when AI is involved in a clinical study , 
+reported when AI is involved in a clinical study:
 training data composition, validation strategy,
 performance subgroups, deployment context. The
 biostatistician follows these standards from the start
@@ -276,7 +276,7 @@ affect patient safety, are still being studied.
 Clinical research routinely encounters PDFs with
 structured tables, scanned forms, and other documents
 where the data is human-readable but not machine-
-readable. Multimodal LLMs are very good at this task , 
+readable. Multimodal LLMs are very good at this task:
 substantially better than dedicated OCR libraries on
 typical clinical documents, and have become the
 default tool for extraction at moderate scale.
@@ -296,7 +296,7 @@ def extract_table(pdf_page_path: Path) -> dict:
     ).decode('utf-8')
 
     response = client.messages.create(
-        model='claude-opus-4-7',
+        model=os.environ.get('LLM_MODEL', 'claude-opus-4-7'),
         max_tokens=4000,
         messages=[{
             'role': 'user',

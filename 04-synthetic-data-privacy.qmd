@@ -98,7 +98,7 @@ re-identification incidents and IRB violations.
 ## Tabular synthesis: CTGAN, Synthcity, and friends
 
 Tabular biomedical data, patient demographics,
-laboratory values, vital signs, medication histories , 
+laboratory values, vital signs, medication histories:
 is the most common synthesis target. Several methods
 have matured into deployable tools.
 

@@ -110,7 +110,7 @@ the model's worldview, judgement, and personality.
 'How would you approach a sensitivity analysis for
 this trial?' 'What would you do if you couldn't get
 the cohort to converge?' The point is not the
-specific answer but the texture of the response , 
+specific answer but the texture of the response:
 does the model reason like a careful biostatistician,
 or does it produce confident-sounding non-answers?
 

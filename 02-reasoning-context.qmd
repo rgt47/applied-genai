@@ -103,7 +103,7 @@ silent error.
 
 Reasoning models, OpenAI's o-series, Claude with
 extended thinking, Gemini 2.5 Pro, DeepSeek R1
-[@openai_2024_o1_system_card; @deepseek_2025_r1; @anthropic_2025_extended_thinking] , 
+[@openai_2024_o1_system_card; @deepseek_2025_r1; @anthropic_2025_extended_thinking]:
 add a thinking phase between input and output. The model
 generates intermediate tokens that are not shown to the
 user (or are shown in summarised form), then collapses
@@ -200,7 +200,7 @@ applications.
 
 **Pattern 1: Structure the input.** Plain-text dumps of
 clinical narratives, protocol documents, or trial data
-work but produce noisy results. Structured input , 
+work but produce noisy results. Structured input:
 clearly labelled sections, explicit data dictionaries,
 key-value summaries of relevant facts, produces better
 results because the model can attend to specific parts

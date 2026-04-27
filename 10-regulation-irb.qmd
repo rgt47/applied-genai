@@ -54,7 +54,7 @@ review board has what it needs.
 Three judgements are not delegable.
 
 **(Judgement 1.) Identifying when a tool is a medical
-device.** A model that produces a clinical decision , 
+device.** A model that produces a clinical decision:
 'this patient is high risk for sepsis', that informs
 clinician action is potentially regulated by the FDA as
 SaMD. A model used for research-only analysis is

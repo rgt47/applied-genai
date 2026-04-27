@@ -217,7 +217,8 @@ documented analysis.
 A 2024 study showed that AI given personal data
 persuades roughly 80% more effectively than human
 debaters when the persuasion is tailored to individual
-beliefs [@mollick_2025_personality_persuasion summarises]. The
+beliefs [@salvi_2024_persuasion;
+@mollick_2025_personality_persuasion]. The
 mechanism: the AI tailors arguments to what the
 specific person already believes, using exactly the
 evidence and framings that person finds compelling.
@@ -241,7 +242,7 @@ discussions.
 **Clinical-trial recruitment.** AI-tailored recruitment
 materials can substantially improve enrolment rates,
 particularly for underserved populations. The same
-mechanism that makes the materials effective , 
+mechanism that makes the materials effective:
 personalisation to individual profile, raises the
 question of whether the tailoring constitutes undue
 influence or biased presentation of risks.
