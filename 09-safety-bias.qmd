@@ -177,7 +177,7 @@ deficiencies. The biostatistician investigates,
 documents, and either accepts the gap with explicit
 justification or remediates.
 
-::: {.callout-note icon=false collapse=true}
+:::: {.callout-note icon=false collapse=true}
 ## Check your understanding: a subgroup gap
 
 **Question.** A model for predicting 30-day
@@ -217,7 +217,7 @@ documented analysis.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-:::
+::::
 
 ## AI-tailored persuasion in public-health contexts
 

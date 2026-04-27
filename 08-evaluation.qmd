@@ -144,7 +144,7 @@ weights), latest score per evaluated model, notes.
 Update when models are released, when failures are
 observed in production, when team needs evolve.
 
-::: {.callout-note icon=false collapse=true}
+:::: {.callout-note icon=false collapse=true}
 ## Check your understanding: vibes vs benchmarks
 
 **Question.** Two models score identically on a
@@ -173,7 +173,7 @@ extend it before deciding.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-:::
+::::
 
 ## LLM-as-judge with calibration
 

@@ -1,0 +1,601 @@
+# Retrieval-Augmented Generation over Biomedical Corpora {#sec-rag-biomedical}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Build a RAG pipeline over biomedical corpora (PubMed,
+  clinical guidelines, protocol libraries) with
+  appropriate chunking, embedding, and retrieval choices.
+- Distinguish dense retrieval, sparse (BM25) retrieval,
+  and hybrid approaches, and choose between them for a
+  biomedical task.
+- Implement citation-grounded generation that cites the
+  retrieved sources and refuses to fabricate when
+  retrieval is empty.
+- Evaluate a RAG system with retrieval-quality metrics
+  (recall, MRR) and end-to-end answer-quality metrics
+  (RAGAS-style faithfulness, answer relevance).
+
+## Orientation
+
+A reasoning model with a million-token context window
+can hold a few hundred pages of text. PubMed has 35
+million abstracts. The gap between the two is the
+problem retrieval-augmented generation (RAG) solves.
+RAG pipelines retrieve a small set of documents relevant
+to a query and pass them to the model as context, so the
+model can produce a grounded answer that cites the
+retrieved sources rather than relying on its training
+distribution alone.
+
+For biostatisticians, RAG is the right architecture
+when the answer needs to draw on a specific corpus that
+the model was not trained on (or was trained on
+incompletely): institutional protocol libraries,
+regulatory submissions, recent literature, internal
+SOPs, the team's prior trial reports. The RAG output is
+defensible in a way that pure model output is not — the
+citations exist and can be checked — and is stable
+against the training cutoff: a RAG over current PubMed
+will reflect last week's papers, while the underlying
+model's training data may be a year stale.
+
+The chapter develops three concerns. **Retrieval**:
+chunking, embedding, search strategy. **Generation**:
+prompting the model to cite, refuse when retrieval is
+empty, and avoid mixing retrieved facts with parametric
+knowledge. **Evaluation**: how to know whether the
+pipeline is working — separately for the retrieval step
+and for the end-to-end answer.
+
+## The statistician's contribution {#sec-rag-biomedical-human}
+
+Three judgements are not delegable.
+
+**(Judgement 1.) Corpus selection is part of the analysis.**
+A RAG pipeline is only as defensible as the corpus it
+retrieves from. A pipeline pointed at all of arXiv plus
+all of PubMed will produce different answers from one
+pointed at the team's institutional protocol library
+alone. The biostatistician decides what corpus to
+include, what to exclude, and what to disclose. A
+literature-search RAG that silently excludes papers from
+journals not in PMC is a methodological artefact, not a
+systematic search.
+
+**(Judgement 2.) The retrieval failure mode determines
+the answer's reliability.** A RAG pipeline can fail in
+two ways: it retrieves the wrong documents (and the
+model produces a confident answer based on irrelevant
+material), or it retrieves nothing and the model falls
+back on parametric knowledge (and produces an answer
+that looks grounded but is not). The biostatistician
+designs the pipeline to fail loudly: a 'no relevant
+documents found' response that the model is instructed
+to honour, rather than a graceful degradation that hides
+the retrieval failure.
+
+**(Judgement 3.) The evaluation contract.** RAG
+evaluation is not a one-time benchmark; it is an
+ongoing discipline. A pipeline that worked yesterday on
+sample queries may fail today on production queries
+because the corpus drifted, the embedding model was
+swapped, or the chunking changed. The biostatistician
+sets up evaluation queries that are run periodically
+and treats degradation as a maintenance problem, not a
+catastrophe.
+
+These judgements are what distinguish a RAG-supported
+analysis from one that uses RAG as a way to launder
+unsupported claims through the appearance of citation.
+
+## Embeddings and retrieval for biomedical text
+
+A RAG pipeline has four stages: chunk the source corpus
+into retrievable units, embed each chunk into a vector
+representation, store the embeddings in a searchable
+index, and at query time embed the query and find the
+nearest chunks. Each stage has biomedical-specific
+considerations.
+
+**Chunking strategy.** The unit of retrieval matters.
+Chunks too small lose context (a single sentence stripped
+from its paragraph is rarely useful); chunks too large
+dilute the embedding (a 10,000-token chunk gets a single
+average vector that does not represent any specific
+piece). The default convention for general text is
+500–1,000 tokens per chunk with 100–200 token overlap.
+For biomedical text, the structure of the source matters
+more than token counts: a PubMed abstract is naturally
+one chunk; a clinical guideline section is naturally one
+chunk; a randomised-trial paper benefits from chunking
+by section (Methods, Results, etc.) so a query about a
+specific outcome retrieves the relevant Results
+paragraph rather than the whole paper.
+
+For protocol documents and SOPs, chunk by section
+header and include the section title in the embedding
+text. The title acts as a strong signal for the
+embedding model and improves retrieval precision.
+
+**Embedding model.** General-purpose embedding models
+(OpenAI text-embedding-3-large, Cohere embed-v3) work
+well on biomedical text but lose to domain-specific
+models on technical retrieval tasks. BiomedCLIP
+[@zhang_2025_biomedclip], BiomedBERT-derived embeddings,
+and SapBERT are designed for biomedical use and
+outperform general-purpose models on UMLS-concept-
+linking tasks. For most applications, a strong general-
+purpose model is the right starting point; switch to
+domain-specific only when retrieval quality is
+demonstrably inadequate.
+
+**Index choice.** For corpora under a few hundred
+thousand chunks, a flat in-memory index (FAISS-IVF,
+HNSWlib, or even an in-memory dense vector list) is
+sufficient and avoids the operational overhead of a
+managed vector database. For larger corpora, hosted
+vector stores (Pinecone, Weaviate, pgvector with HNSW)
+are appropriate. The performance differences within the
+small-corpus regime are minor compared with the
+chunking and embedding choices upstream.
+
+**Retrieval strategy.** Three approaches, ranked by
+typical performance on biomedical tasks.
+
+**Sparse (BM25) retrieval** computes a token-overlap
+score between query and chunk. It is fast, cheap, and
+strong on queries that share rare terms with the source
+(drug names, gene names, specific clinical terminology).
+It misses semantic matches: a query about 'hypertension'
+will not retrieve a chunk about 'high blood pressure'
+unless the term is also present.
+
+**Dense retrieval** uses the embedding model: query and
+chunks are embedded, and the nearest chunks by cosine
+similarity are retrieved. Dense retrieval handles
+semantic matches well but underperforms BM25 on rare-
+term queries because the embedding model averages over
+many tokens.
+
+**Hybrid retrieval** combines both: retrieve top-k from
+each, merge with a weighted combination, and re-rank.
+The reciprocal-rank-fusion (RRF) algorithm is a clean
+implementation: it combines rankings from multiple
+retrievers without requiring score calibration. Hybrid
+retrieval is the default recommendation for biomedical
+RAG; the additional engineering is small and the
+retrieval quality is consistently better.
+
+```python
+def rrf_merge(rankings, k=60):
+    '''Reciprocal-rank fusion of multiple rankings.'''
+    scores = {}
+    for ranking in rankings:
+        for rank, doc_id in enumerate(ranking):
+            scores[doc_id] = scores.get(doc_id, 0) + 1 / (
+                k + rank
+            )
+    return sorted(scores, key=scores.get, reverse=True)
+```
+
+**Re-ranking.** After initial retrieval, a re-ranker
+model (a cross-encoder, smaller and slower than the
+embedding model, but more accurate) can re-score the
+top-k retrieved chunks for the query. Re-ranking adds
+modest latency for substantial precision gains and is
+worth implementing for any RAG that informs a
+substantive decision. The MedRAG benchmark
+[@xiong_2024_medrag] demonstrates that re-ranking is the
+single largest lever in biomedical RAG performance after
+the initial retrieval choice.
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: when sparse beats dense
+
+**Question.** A RAG pipeline over a clinical guidelines
+corpus is performing poorly on queries that involve
+specific drug names. Dense retrieval consistently
+returns the wrong sections. What is the likely cause and
+the recommended fix?
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+The likely cause is that the embedding model averages
+across many tokens; rare terms (specific drug names) get
+diluted in the chunk's overall semantic representation.
+The fix is to add BM25 retrieval alongside the dense
+retrieval and merge the results (hybrid retrieval). BM25
+will rank chunks containing the exact drug name highly,
+even if the chunk's overall semantic content is not the
+closest match. The reciprocal-rank-fusion combination
+then produces rankings that are good on both common
+queries (where dense wins) and rare-term queries (where
+sparse wins).
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## Citation-grounded generation
+
+The generation step takes the retrieved chunks and the
+query and produces an answer. The discipline that
+distinguishes good RAG from bad is **citation
+grounding**: the generated answer cites which chunk
+supports each claim, and the model is instructed to
+refuse when retrieval is empty.
+
+Three patterns work in practice.
+
+**Pattern 1: Inline citations with chunk IDs.** The
+prompt instructs the model to cite each substantive
+claim by chunk ID:
+
+```
+Answer the question below using ONLY the provided
+chunks. Cite each substantive claim with the chunk ID
+in square brackets, e.g. [chunk_42]. If the chunks do
+not contain enough information to answer, say so
+explicitly.
+
+CHUNKS:
+[chunk_12] (PubMed PMID 12345678): The PIONEER 6 trial
+randomised 3,183 patients with type 2 diabetes...
+[chunk_15] (PubMed PMID 23456789): Cardiovascular
+outcomes were assessed with a composite endpoint...
+[...]
+
+QUESTION:
+What was the primary cardiovascular outcome of the
+PIONEER 6 trial, and what proportion of patients
+experienced it?
+```
+
+The output looks like: 'The primary outcome was a
+composite of cardiovascular death, non-fatal MI, and
+non-fatal stroke [chunk_15]. The composite occurred in
+3.8% of the oral semaglutide arm and 4.8% of the
+placebo arm [chunk_12]'. The biostatistician can verify
+each citation by going to chunk_15 and chunk_12 in the
+retrieved set.
+
+**Pattern 2: Refusal on empty retrieval.** The prompt
+instructs the model to refuse if the retrieved chunks
+do not contain the answer. The honest refusal is
+'According to the retrieved sources, I cannot answer
+this question. The retrieved chunks discuss [topic],
+but not [specific question].' The temptation to fall
+back on parametric knowledge ('Based on general medical
+knowledge, the answer is...') is strong; the prompt
+should explicitly prohibit it.
+
+**Pattern 3: Source attribution at the chunk level.** Each
+chunk should include its source metadata in the
+embedding text and in the LLM context. For PubMed: the
+PMID, title, authors, year. For guidelines: the
+guideline name, section, version. For institutional
+documents: the document name and version. The
+attribution makes citations traceable and provides the
+biostatistician with the path to verify each cited
+claim.
+
+A failure mode worth naming: **citation hallucination
+inside RAG**. Even with retrieved chunks in context,
+models occasionally cite sources that are not in the
+retrieved set, mis-attribute claims to the wrong chunk,
+or invent chunk IDs. The fix is post-processing: parse
+the model's citations, verify each citation exists in
+the retrieved set, and either drop unverifiable
+citations or mark them in the output. The verification
+is a few lines of code and catches this failure
+reliably.
+
+## Evaluating a biomedical RAG pipeline
+
+RAG evaluation has two layers: **retrieval quality**
+(did we retrieve the right chunks?) and **answer
+quality** (given the retrieved chunks, did the model
+produce a good answer?). Evaluating only the end-to-end
+answer hides which layer is failing when results
+disappoint.
+
+**Retrieval evaluation.** Construct a labelled query set:
+50–200 representative queries, each paired with the
+chunk IDs that should be retrieved for the answer. The
+construction is manual and time-consuming but is the
+single highest-value investment in a RAG pipeline. Run
+the pipeline on the query set and compute:
+
+- **Recall@k**: proportion of queries where the
+  relevant chunk appears in the top k retrieved.
+  Recall@10 is a useful headline number.
+- **Mean reciprocal rank (MRR)**: average of 1/rank of
+  the first relevant chunk. Higher is better.
+- **NDCG**: normalised discounted cumulative gain,
+  weights high-ranked relevant results more heavily.
+
+Recall@10 below 0.8 is a sign the retrieval needs
+work. Recall@10 above 0.95 with poor MRR (say below
+0.5) suggests retrieval is good but ranking needs work
+— the right answer is in the top 10 but not at the top.
+
+**Answer evaluation.** Several frameworks have emerged
+for evaluating RAG output, of which RAGAS
+[@shahul_2024_ragas] is the most widely adopted. Four
+metrics matter:
+
+- **Faithfulness**: does the answer follow from the
+  retrieved chunks, or does it introduce claims not
+  supported by them? Computed by an LLM-as-judge.
+- **Answer relevance**: does the answer address the
+  question, or does it answer a related but different
+  question? Computed by embedding similarity between
+  the question and the answer.
+- **Context precision**: of the retrieved chunks, what
+  proportion are actually used in the answer? Low
+  precision wastes context window.
+- **Context recall**: did retrieval find all the
+  information needed? Requires labelled ground truth.
+
+For a biomedical pipeline, faithfulness is the most
+important metric — unfaithful answers are unsupported
+claims dressed up as cited claims, which is worse than
+no answer.
+
+**Continuous evaluation.** RAG pipelines drift. A
+pipeline that scored 0.92 faithfulness last month may
+score 0.78 today because the underlying model was
+updated, the embedding API was changed, or the corpus
+was extended. Set up a small evaluation harness that
+runs nightly or weekly on a representative query set and
+alerts on degradation.
+
+## Worked example: a RAG over institutional protocols
+
+A biostatistics group at a research hospital maintains
+an internal library of trial protocols, statistical
+analysis plans, and methodological SOPs across about 200
+documents and 4,000 chunks. The team wants a RAG that
+answers questions like 'have we used a Bayesian
+adaptive design before?' or 'what's our default missing-
+data approach for non-inferiority trials?'.
+
+The pipeline construction:
+
+```python
+import pypdf
+import openai
+from rank_bm25 import BM25Okapi
+import numpy as np
+
+# Step 1: ingest and chunk
+def ingest(directory):
+    chunks = []
+    for path in directory.rglob('*.pdf'):
+        text = extract_text(path)
+        for section in split_by_headers(text):
+            chunks.append({
+                'source': path.name,
+                'section': section.title,
+                'text': section.body,
+            })
+    return chunks
+
+# Step 2: embed
+def embed_chunks(chunks):
+    client = openai.OpenAI()
+    texts = [
+        f"{c['source']} -- {c['section']}\n{c['text']}"
+        for c in chunks
+    ]
+    response = client.embeddings.create(
+        model='text-embedding-3-large',
+        input=texts,
+    )
+    return np.array([r.embedding for r in response.data])
+
+# Step 3: BM25 corpus
+def build_bm25(chunks):
+    tokenized = [
+        c['text'].lower().split() for c in chunks
+    ]
+    return BM25Okapi(tokenized)
+
+# Step 4: hybrid retrieval
+def retrieve(query, embeddings, bm25, chunks, k=10):
+    query_emb = embed_query(query)
+    dense_scores = embeddings @ query_emb
+    dense_top = np.argsort(-dense_scores)[:50]
+    sparse_scores = bm25.get_scores(query.lower().split())
+    sparse_top = np.argsort(-sparse_scores)[:50]
+    merged = rrf_merge([dense_top.tolist(),
+                        sparse_top.tolist()])
+    return [chunks[i] for i in merged[:k]]
+
+# Step 5: generation with citation
+def answer(query, retrieved):
+    chunks_block = '\n\n'.join(
+        f"[chunk_{i}] ({c['source']}, {c['section']}):\n"
+        f"{c['text'][:1500]}"
+        for i, c in enumerate(retrieved)
+    )
+    prompt = f"""Answer using ONLY the provided chunks.
+Cite each substantive claim with [chunk_N]. If chunks
+don't contain enough information, say so explicitly.
+
+CHUNKS:
+{chunks_block}
+
+QUESTION: {query}
+"""
+    return claude_call(prompt)
+```
+
+The evaluation set is 80 queries hand-labelled by the
+biostatistics team: 40 'historical' queries (we know
+the answer because we wrote the document) and 40
+'methodological' queries (we know the answer because
+it's standard methodology).
+
+The first-pass results: Recall@10 = 0.71, faithfulness
+= 0.84, context precision = 0.41. The recall is below
+target; investigation reveals that the chunking by
+header section is too coarse — multi-page sections
+produce single chunks too large to embed well. Re-chunking
+with a 1,500-token cap on chunk size (preserving header
+context but splitting long sections) raises Recall@10 to
+0.91 with no impact on the other metrics.
+
+The second-pass results highlight a different issue:
+faithfulness is high but context precision is low —
+the model is being given more context than it needs and
+mostly ignoring the irrelevant parts. Adding a re-ranker
+(a cross-encoder model that re-scores the top-50 to
+produce the top-10) raises context precision to 0.78
+and improves answer relevance further. The cost is about
+500ms of additional latency per query, accepted.
+
+The deployed pipeline answers questions in 3–5 seconds,
+serves the whole biostatistics group, and is updated
+when new protocols are added (a nightly re-embed
+pipeline). The team verifies a sample of answers each
+week against the source documents; the failure rate is
+under 5% and trending down as edge cases are
+identified and fixed.
+
+## Collaborating with an LLM on biomedical RAG
+
+Three prompt patterns illustrate working with LLMs on
+RAG-shaped problems.
+
+**Prompt 1: 'Help me design the chunking strategy for
+this corpus.'** Provide a sample document and the kinds
+of questions the RAG should answer.
+
+*What to watch for.* The LLM will recommend a default
+500–1,000 token chunking with 200-token overlap and
+move on. For biomedical corpora, this is often wrong:
+the right chunking respects document structure (paper
+sections, guideline subsections, protocol modules). Push
+back: 'show me how chunking-by-section would compare
+with token-based chunking on this document'.
+
+*Verification.* Implement both strategies on the sample
+document, run the eval queries, and compare. The right
+chunking is empirical; the LLM's default is a starting
+point, not the answer.
+
+**Prompt 2: 'Audit this RAG output for faithfulness.'**
+Provide the question, the retrieved chunks, and the
+generated answer. Ask the model to identify claims in
+the answer not supported by the chunks.
+
+*What to watch for.* LLMs can be reasonable
+faithfulness judges when given clear instructions and
+explicit chunks. They miss subtler unfaithfulness — a
+correct chunk supporting a slightly different claim
+than what the answer states. The LLM-as-judge approach
+catches gross unfaithfulness; the biostatistician
+catches the rest.
+
+*Verification.* For high-stakes queries, the
+biostatistician audits manually. For routine queries,
+LLM-as-judge with random sampling for human verification
+is adequate.
+
+**Prompt 3: 'Generate evaluation queries for this RAG.'**
+Provide the corpus description and the use case.
+
+*What to watch for.* The LLM produces queries that
+sound reasonable but may be unrepresentative of actual
+user queries. Ask for a mix of query types: factual
+lookup, comparative, methodological, edge cases.
+
+*Verification.* The evaluation set should be ground-
+truth-labelled by humans. The LLM can generate
+candidates, but the labels (which chunks should be
+retrieved, what the answer should be) require human
+judgement.
+
+The meta-pattern: **LLMs are useful for RAG-pipeline
+construction but cannot replace the empirical eval
+loop.** A good RAG pipeline is the result of measuring
+recall, precision, faithfulness, and iterating on each.
+The LLM accelerates the iteration; the iteration itself
+remains the work.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **Build the eval set before the pipeline.** A
+   labelled query set with expected retrieval and
+   expected answers is the asset that makes pipeline
+   improvements measurable. Building it after the fact
+   is harder and biases toward the queries the pipeline
+   already handles.
+
+2. **Refuse on empty retrieval.** The pipeline should
+   say 'I don't know' when retrieval is empty rather
+   than fall back on parametric knowledge. Empty
+   retrieval is a feature, not a bug — it is the
+   pipeline's mechanism for telling the user the
+   corpus does not contain the answer.
+
+3. **Verify citations with code.** Parse the model's
+   citations and confirm they exist in the retrieved
+   set. Drop or flag unverifiable citations. The check
+   is a few lines and catches a common failure mode
+   reliably.
+
+## Exercises
+
+1. Build a small RAG pipeline (under 100 lines) over a
+   corpus of your choice — 10–30 PDFs work as a starting
+   point. Measure Recall@10 on 20 hand-built queries.
+   Iterate on chunking until Recall@10 > 0.85.
+
+2. Implement reciprocal-rank fusion to combine BM25 and
+   dense retrieval. Compare the hybrid recall against
+   each retriever alone on your eval set.
+
+3. Implement a faithfulness check using LLM-as-judge.
+   Compare its judgements against your manual
+   judgements on 30 queries. Document the agreement
+   rate.
+
+4. Take an existing RAG pipeline and write a query that
+   should produce 'I don't know'. Verify the pipeline
+   produces it rather than fabricating an answer. If
+   the pipeline fabricates, modify the prompt to
+   prohibit parametric fallback.
+
+5. Build a continuous evaluation harness: a script that
+   runs your eval set nightly and produces a summary
+   of recall, faithfulness, and answer relevance. Set
+   up alerts for material degradation.
+
+## Further reading
+
+- @lewis_2020_rag, *Retrieval-Augmented Generation for
+  Knowledge-Intensive NLP Tasks*. The reference paper
+  that named the architecture.
+- @karpukhin_2020_dpr, *Dense Passage Retrieval for
+  Open-Domain Question Answering*. The dense-retrieval
+  reference.
+- @xiong_2024_medrag, *Benchmarking Retrieval-Augmented
+  Generation for Medicine*. Biomedical-specific RAG
+  benchmarking with empirical guidance on retrieval
+  choices.
+- @zakka_2024_almanac, *Almanac: Retrieval-Augmented
+  Language Models for Clinical Medicine*. An applied
+  case study of biomedical RAG in a clinical decision
+  support context.
+- @shahul_2024_ragas, *RAGAS: Automated Evaluation of
+  Retrieval Augmented Generation*. The reference RAG-
+  evaluation framework.

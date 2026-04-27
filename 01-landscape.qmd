@@ -213,7 +213,7 @@ distribution shift in imaging (different scanners,
 patient populations, acquisition protocols) is harder to
 detect than distribution shift in tabular data.
 
-::: {.callout-note icon=false collapse=true}
+:::: {.callout-note icon=false collapse=true}
 ## Check your understanding: choosing the class
 
 **Question.** A collaborator asks you to use AI to
@@ -243,7 +243,7 @@ ask routes to the class; the ask must come first.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-:::
+::::
 
 ## The jagged frontier
 
@@ -419,7 +419,7 @@ relevant parts rather than dump the whole document.
 Reasoning models with extended thinking partially
 compensate but do not eliminate the issue.
 
-::: {.callout-note icon=false collapse=true}
+:::: {.callout-note icon=false collapse=true}
 ## Check your understanding: cost per correct answer
 
 **Question.** Two models are available for a biostat-
@@ -449,7 +449,7 @@ per-correct-output, not cost-per-query.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-:::
+::::
 
 ## Worked example: choosing tools for a trial-data analysis
 

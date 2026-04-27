@@ -185,7 +185,7 @@ could identify or infer information about individual
 records in the training set. Both are necessary; either
 in isolation is incomplete.
 
-::: {.callout-note icon=false collapse=true}
+:::: {.callout-note icon=false collapse=true}
 ## Check your understanding: utility without privacy
 
 **Question.** A synthetic dataset has utility metrics
@@ -219,7 +219,7 @@ perfect utility and perfect privacy.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-:::
+::::
 
 ## Differential privacy for biostatistical data
 

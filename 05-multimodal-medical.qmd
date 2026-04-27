@@ -178,7 +178,7 @@ with manual segmentation by a radiologist? The answer
 is task-, site-, and modality-dependent and must be
 established empirically on a representative subset.
 
-::: {.callout-note icon=false collapse=true}
+:::: {.callout-note icon=false collapse=true}
 ## Check your understanding: model selection by modality
 
 **Question.** A research team wants to extract liver
@@ -208,7 +208,7 @@ volume-Pearson-correlation against the manual reference.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-:::
+::::
 
 ## Clinical AI scribes: documentation and attestation
 

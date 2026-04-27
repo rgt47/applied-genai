@@ -1,0 +1,558 @@
+# Agents, Tool Use, and the Model Context Protocol {#sec-agents-mcp}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Adopt the *manager mindset* for agent design: precise
+  specification of deliverables, fast evaluation, and
+  judicious delegation, in place of step-by-step
+  prompting.
+- Wire LLMs to R, databases, and statistical software via
+  the Model Context Protocol (MCP), with appropriate
+  permission models and audit logging.
+- Design agent loops with appropriate termination
+  conditions, error handling, and human-in-the-loop
+  checkpoints.
+- Recognise when an agent is the right tool, when a
+  reasoning model with tools is sufficient, and when
+  neither is appropriate.
+
+## Orientation
+
+An agent is a model that takes actions in a loop. Given
+a goal, the agent chooses an action from a set of
+available tools, observes the result, and decides what
+to do next. The loop continues until the goal is met,
+the budget is exhausted, or the agent gives up. The
+shift from chat to agent is a shift in interaction
+modality: instead of asking the model and reading the
+answer, you assign the model a task and review what it
+produced.
+
+For biostatisticians, the agent paradigm matters because
+substantial chunks of biostatistical work are well-shaped
+for delegation: 'fit these candidate models to the data
+and report which performs best on the held-out fold',
+'reproduce the analyses in this paper using our cohort',
+'find all the trials in our institutional database that
+used a stratified Cox model and summarise the
+stratification choices'. Each is a multi-step task with
+defined success criteria — the kind of work an agent
+can complete autonomously in the time it would take a
+human to start.
+
+The chapter develops three threads. **The manager
+mindset**: how to think about delegation as a craft
+distinct from prompting. **MCP and tool wiring**: the
+protocol that has emerged for connecting agents to R,
+databases, and other systems. **Agent loops in practice**:
+designing the loop with termination conditions, error
+handling, and verification points so the work is
+trustworthy. The chapter is the most contemporary in
+the book; the technology stabilised in 2024–2025 and
+is moving fast. Pointers to current source documentation
+are essential.
+
+## The statistician's contribution {#sec-agents-mcp-human}
+
+Three judgements are not delegable.
+
+**(Judgement 1.) The decision about what to delegate.** An
+agent can run an analysis, draft a report, file a
+ticket, send an email. The question is whether the work
+should be delegated. Some work — pre-trial decisions,
+DMC reports, regulatory submissions — should not be
+agent-completed regardless of capability, because the
+human attestation is part of the artefact's value. The
+biostatistician decides what the agent does and what
+remains in human hands; the choice is a professional
+judgement, not a technology one.
+
+**(Judgement 2.) The specification of the deliverable.**
+Mollick [@mollick_2026_management_superpower] frames effective AI
+collaboration as importing management fundamentals:
+clear product requirement documents, iterative feedback,
+fast evaluation. The biostatistician writes the
+deliverable specification — what the output is, what the
+acceptance criteria are, what the verification points
+are. An under-specified delegation is the leading cause
+of agent runs that produce plausible-looking but wrong
+work.
+
+**(Judgement 3.) The verification regime.** Agent output
+has a different failure mode than chat or reasoning-
+model output. Errors compound across steps; intermediate
+results may never be inspected; the final output may
+look polished while resting on broken intermediate
+work. The biostatistician designs verification points at
+the boundaries that matter: data ingest, model
+specification, key calculation, final output. Skipping
+these because the agent reported success is the
+characteristic failure mode of the era.
+
+These judgements are what distinguish agent use that
+saves the biostatistician's time from agent use that
+produces work that has to be redone, distrusted, or
+retracted.
+
+## The manager mindset: prompting as delegation
+
+The shift from prompt engineering to agent management is
+qualitative. A chat-model prompt is a request for a
+deliverable in one turn. An agent assignment is a
+delegation that the agent will work on for minutes,
+hours, or days, taking actions that affect data and
+systems along the way.
+
+The skills that matter shift accordingly. Mollick
+[@mollick_2026_management_superpower; @mollick_2025_real_agents]
+articulates the analogy precisely: effective delegation
+to an agent is the same skill as effective delegation
+to a junior colleague, with the same fundamentals.
+
+**Specification before assignment.** Before kicking off
+an agent run, write down the deliverable as if for a
+human: what is being produced, what makes it
+acceptable, what the bounds are. Not 'analyse the data'
+but 'fit a Cox model with these covariates, produce a
+forest plot of the hazard ratios with 95% CIs, and
+write a paragraph interpreting the result for the
+clinical audience'. The specification is the contract;
+the work either meets it or does not.
+
+**Acceptance criteria up front.** What does 'done' look
+like? For an analysis: the figure exists, the numbers
+match independent computation, the prose is correct.
+For a code-writing task: the code passes the test
+suite, runs on a sample input. For a literature review:
+the cited papers exist, the summaries are accurate, the
+synthesis addresses the question. The criteria
+determine what verification looks like and prevent the
+'looks plausible' acceptance trap.
+
+**Iterative feedback, not one-shot.** Agents are best
+used in iterative loops: kick off, evaluate, refine the
+specification, kick off again. The first iteration's
+output is rarely the final output. The biostatistician
+who expects one-shot success is using the tool wrong.
+
+**Choose what to delegate.** Some work is well-shaped
+for agents (well-specified, verifiable end-to-end,
+contained in scope); some is not (open-ended, requires
+ongoing judgement, has high blast radius). The
+biostatistician's first decision is whether to delegate
+at all.
+
+The decision rule, simplified:
+
+| Work has | Use a |
+|---------|-------|
+| Defined deliverable, verifiable output, contained scope | agent |
+| Multi-step reasoning, single deliverable, no autonomous action needed | reasoning model |
+| Single-turn output, surface verification | chat model |
+| Open-ended judgement, unrecoverable consequences | the biostatistician |
+
+::: {.callout-note icon=false collapse=true}
+## Check your understanding: when not to delegate
+
+**Question.** Two work items are on the agenda: (a)
+'reproduce the published analysis from this paper using
+our cohort, with the same model specification, and
+report whether the result replicates', and (b) 'decide
+the primary endpoint for the upcoming Phase II trial
+based on the FDA guidance and the natural-history data
+we have'. Which is suitable for agent delegation?
+
+::: {.content-visible when-format='html'}
+<details><summary>Answer</summary>
+:::
+
+(a) is well-shaped for agent delegation. The
+deliverable is defined (replication or non-replication
+with a specific result), the verification path is
+concrete (the agent's analysis can be cross-checked
+against the published methods), and the scope is
+contained. (b) is not. It involves clinical, regulatory,
+and stakeholder considerations the agent cannot weigh;
+the deliverable is a decision with substantial blast
+radius; verification is by professional judgement, not
+a calculation. An agent could produce a plausible
+analysis to inform the decision (and probably should),
+but the decision itself stays with the biostatistician
+and the team.
+
+::: {.content-visible when-format='html'}
+</details>
+:::
+:::
+
+## The Model Context Protocol
+
+The Model Context Protocol (MCP) [@anthropic_2024_mcp;
+@mcp_2025_specification] is an open specification for connecting
+LLMs to external systems. An MCP server exposes a set
+of tools (functions the model can call) and resources
+(data the model can read) over a standardised protocol.
+An MCP client (the LLM application) discovers what is
+available and uses it.
+
+The protocol has emerged as the de-facto standard for
+agent–system integration in 2025–2026. Its strengths:
+
+- **Decoupled** — the same MCP server works with any
+  MCP-compatible client (Claude desktop, Claude Code,
+  custom applications).
+- **Discoverable** — the server exposes its tools and
+  schemas; the model knows what is available without
+  hardcoding.
+- **Permissioned** — the protocol supports per-tool
+  permission grants, so users approve tool use rather
+  than giving blanket access.
+- **Auditable** — tool calls produce logs that can be
+  reviewed.
+
+For biostatistical work, three classes of MCP server
+matter.
+
+**R/Python execution servers.** Run code in an isolated
+environment, return output and any generated artefacts.
+The agent can fit models, produce figures, run
+simulations. Care is required around environment
+isolation, file-system access, and resource limits.
+
+**Database servers.** Execute queries against a database
+(typically with read-only credentials), return result
+sets. The agent can pull cohorts, summarise data,
+identify cases. The discipline that matters: the database
+server should expose a read-only credential, the schema
+the agent sees should be appropriately scoped, and the
+queries should be logged.
+
+**Knowledge servers.** Provide access to corpora — PubMed,
+internal protocol libraries, institutional SOPs — via
+search, retrieval, or RAG-style interfaces. The
+biomedical RAG of @sec-rag-biomedical can be wrapped as
+an MCP server, making it available to any compatible
+agent.
+
+A working pattern: the biostatistician sets up an MCP
+server for the team's R environment, an MCP server for
+the institutional clinical database (read-only), and an
+MCP server for the team's protocol library. The agent
+running in Claude Code or a similar client has access to
+all three. A request like 'run the survival analysis for
+the patients in our prostate-cancer cohort using the
+methods from our 2023 paper' becomes:
+- Read the methods from the protocol library (MCP
+  knowledge server).
+- Pull the cohort from the database (MCP database
+  server).
+- Fit the model in R (MCP execution server).
+- Return the analysis, including the figures and a
+  summary.
+
+An MCP server is roughly 50–200 lines of code in
+Python or TypeScript. The Anthropic documentation and
+the emerging community libraries (`@modelcontextprotocol/`
+SDKs) make standing up a server tractable for a
+biostatistics team's IT support.
+
+A minimal R-execution MCP server skeleton (Python):
+
+```python
+from mcp.server import Server
+from mcp.types import Tool, TextContent
+import subprocess
+
+server = Server('r-execution')
+
+@server.tool()
+async def run_r_code(code: str) -> str:
+    '''Execute R code and return the output.'''
+    result = subprocess.run(
+        ['Rscript', '-e', code],
+        capture_output=True,
+        text=True,
+        timeout=120,
+    )
+    if result.returncode != 0:
+        return f'ERROR: {result.stderr}'
+    return result.stdout
+
+@server.list_tools()
+async def list_tools() -> list[Tool]:
+    return [Tool(
+        name='run_r_code',
+        description='Execute R code in a sandboxed env',
+        inputSchema={
+            'type': 'object',
+            'properties': {
+                'code': {'type': 'string'},
+            },
+            'required': ['code'],
+        },
+    )]
+
+if __name__ == '__main__':
+    server.run()
+```
+
+The skeleton omits production concerns (sandboxing,
+resource limits, audit logging) but illustrates the
+shape. A real deployment would run the R process in a
+Docker container with restricted capabilities, log every
+call to a structured audit file, and require human
+approval for first-time tool calls per session.
+
+## Designing agent loops for biostatistical tasks
+
+The agent loop has a small number of design decisions
+with outsized impact on outcomes.
+
+**Termination conditions.** The agent must know when to
+stop. Three patterns:
+
+- **Goal achieved.** The agent has produced the deliverable
+  and its self-check confirms acceptance criteria are
+  met. This is the desired termination.
+- **Budget exhausted.** The agent has used a pre-set
+  budget (number of tool calls, wall-clock time, dollar
+  cost) and stops with whatever progress it has made.
+- **Loop detected.** The agent has taken the same action
+  twice without progress. Some agent frameworks detect
+  this; many do not.
+
+The biostatistician sets the budget and the goal. A
+budget too small terminates the agent before completion;
+a budget too large runs up cost on a stuck agent. Start
+small, observe, expand.
+
+**Error handling.** When a tool call fails, the agent
+sees the error and decides what to do. Sometimes the
+right move is to retry (transient error); sometimes it
+is to try a different approach (the tool does not
+support what was attempted); sometimes it is to abort
+and report (the failure indicates a structural problem).
+Modern agent harnesses handle the simple cases
+automatically; complex cases require explicit error-
+handling instructions in the agent's system prompt.
+
+**Human-in-the-loop checkpoints.** For high-stakes
+work, the agent should pause at defined points and
+request human review before proceeding. Examples:
+'before running the analysis, show me the cohort
+filter and confirm'; 'before sending the report,
+confirm I should send'. The pause adds friction but
+prevents agent runs from cascading errors past the
+point where the human could catch them.
+
+**Audit trail.** Every tool call should be logged with
+input, output, timestamp, and (where applicable) the
+model's reasoning. The audit trail is the basis for
+post-hoc verification, debugging, and any required
+regulatory documentation.
+
+## Worked example: a literature-screening agent
+
+A research team is conducting a systematic review on
+a narrow biomedical question. The protocol defines
+inclusion criteria; the team has run a search and
+identified 4,200 candidate papers. Manual screening
+to identify the ~300 papers for full-text review will
+take 60–80 hours of senior reviewer time.
+
+An agent-assisted approach:
+
+```
+Specification:
+- Goal: identify the ~300 papers most likely to meet
+  inclusion criteria for full-text review.
+- Tool: PubMed-MCP server (fetch abstracts), R-MCP
+  server (logging).
+- Inputs: list of 4,200 PMIDs, inclusion criteria.
+- Output: structured CSV with PMID, title, abstract,
+  inclusion-criteria-match scores, suggested action
+  (full-text-review or exclude), and a one-sentence
+  rationale.
+- Acceptance: 100% of papers receive an action; the
+  match scores are calibrated against a 100-paper
+  human-reviewed validation set with kappa > 0.7.
+
+Loop design:
+- Budget: 10,000 tool calls, ~$50 in API costs.
+- Per-paper: fetch abstract, score against criteria,
+  log result.
+- Self-check: kappa against the validation set every
+  500 papers; if it falls below 0.65, pause for human
+  review.
+- Termination: all 4,200 papers processed, or budget
+  exhausted.
+
+Human-in-the-loop:
+- After 100 papers: human spot-check on a random 20%.
+  Refine criteria interpretation if systematic errors
+  found.
+- After 500 papers: kappa check on validation set.
+- At completion: human review of all 'full-text-
+  review' papers (~300) before proceeding.
+```
+
+The agent runs in roughly 4 hours (rate-limited on
+PubMed). The output is a CSV with 4,200 rows, of which
+the agent flagged 287 for full-text review. The human
+reviewer audits the 287 + a random 100 of the excluded
+in 6 hours. Of the 287, 12 are excluded after audit;
+of the 100 excluded sample, 1 is added to full-text
+review. The final full-text-review count is 276, with
+documented agreement metrics against the agent's
+recommendations.
+
+The cost: roughly $50 in API + 6 hours of senior
+reviewer time, against an estimated 70 hours fully
+manual. The audit trail (every tool call, every score,
+every rationale) is preserved in the systematic-review
+documentation.
+
+The published systematic review discloses the agent
+involvement, the validation set, the kappa, and the
+human-audit results. The documentation meets PRISMA
+requirements with the addition of an AI-tools-section.
+
+## Collaborating with an LLM on agents and tool use
+
+Three prompt patterns illustrate working with LLMs on
+agent-shaped problems.
+
+**Prompt 1: 'Design the specification for delegating
+this task to an agent.'** Provide the task description.
+
+*What to watch for.* The LLM produces a draft
+specification. It tends to under-specify the verification
+points and over-specify the implementation details. Push
+back: 'what is the verification at each step? what is
+the human-in-the-loop checkpoint?'
+
+*Verification.* Read the specification critically. If
+you cannot identify the verification points, the spec is
+incomplete. If you cannot identify what you would do
+when the agent reports success, the spec is incomplete.
+
+**Prompt 2: 'Audit this agent run.'** Provide the audit
+log of an agent run; ask the LLM to identify steps where
+verification is needed.
+
+*What to watch for.* The LLM is reasonably good at
+identifying verification points in an after-the-fact
+audit. It is less good at identifying steps that
+should not have been allowed in the first place (the
+agent should not have had access to that database;
+the agent should have paused before that operation).
+The biostatistician brings the policy judgement.
+
+*Verification.* Run the verification the LLM
+recommends. If issues are found, decide whether they
+indicate a problem with this run or a problem with the
+agent design that needs to be fixed before the next
+run.
+
+**Prompt 3: 'Build me an MCP server that exposes this
+functionality.'** Provide the functionality (e.g.,
+'query the institutional clinical database for cohort
+counts') and the constraints (read-only, audit-logged,
+rate-limited).
+
+*What to watch for.* The LLM produces a working server
+skeleton. It often omits production concerns:
+authentication, audit logging, error handling, resource
+limits. The skeleton works in development but is not
+production-ready. The biostatistician (or IT support)
+hardens it before deployment.
+
+*Verification.* Test the server against malicious
+inputs (SQL injection in the query, oversized
+inputs, repeated calls). Verify the audit log captures
+all calls. Verify the credentials are scoped read-only.
+
+The meta-pattern: **agents amplify both your
+productivity and your blast radius.** A well-specified
+agent run with a tight verification regime is among
+the highest-leverage moves the biostatistician can
+make. An under-specified agent run with weak
+verification is among the lowest. The difference is
+the discipline of specification and verification, not
+the technology.
+
+## Principle in use
+
+Three habits define defensible work in this area:
+
+1. **Specify before delegating.** A written deliverable
+   specification with acceptance criteria precedes
+   every agent run. The specification is the contract
+   between the biostatistician and the agent; without
+   it, the work cannot be evaluated.
+
+2. **Verify at the boundaries.** Verification is at the
+   data ingest, the model specification, the key
+   calculation, and the final output. Skipping
+   verification because the agent reported success is
+   the characteristic failure mode.
+
+3. **Audit every tool call.** Every agent run produces
+   a structured audit trail of tool calls, inputs,
+   outputs, and reasoning. The trail is the basis for
+   any subsequent claim that the work is defensible.
+
+## Exercises
+
+1. Take a routine multi-step task in your work and
+   write a deliverable specification for delegating it
+   to an agent. Include acceptance criteria,
+   verification points, and human-in-the-loop
+   checkpoints. Do not run the agent; review the spec
+   with a colleague.
+
+2. Stand up a minimal MCP server for a tool you use
+   regularly (an R function, a database query, a file-
+   system access). Test it with an MCP-compatible
+   client.
+
+3. Run an agent on a low-stakes task with full audit
+   logging. After completion, audit the trail
+   yourself. Identify steps where you would have
+   inserted a checkpoint.
+
+4. For a published systematic review or methods paper
+   in your area, design an agent-assisted version of
+   the work. Identify which steps could be delegated,
+   the verification approach, and the projected
+   savings.
+
+5. Compare the cost (in API + human time) of an
+   agent-assisted task you ran against the all-manual
+   alternative. Document the comparison and the
+   accuracy difference.
+
+## Further reading
+
+- @yao_2023_react, *ReAct: Synergizing Reasoning and
+  Acting in Language Models*. The conceptual reference
+  for agent loops.
+- @schick_2023_toolformer, *Toolformer: Language
+  Models Can Teach Themselves to Use Tools*. Adjacent:
+  the precursor to MCP-style tool use.
+- @anthropic_2024_mcp, *Introducing the Model Context
+  Protocol*. The first-party announcement of MCP.
+- @mcp_2025_specification, the MCP specification document.
+- @mollick_2026_management_superpower, *Management as AI
+  Superpower*. The reference for the manager-mindset
+  framing.
+- @mollick_2025_real_agents, *Real AI Agents and Real
+  Work*. Applied evidence on agent capabilities for
+  knowledge work.
+- @fleming_2024_medalign, *MedAlign: a clinician-
+  generated dataset for instruction following with
+  electronic medical records*. The biomedical context
+  for instruction-following evaluation that informs
+  agent design.

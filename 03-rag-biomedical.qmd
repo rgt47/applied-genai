@@ -191,7 +191,7 @@ substantive decision. The MedRAG benchmark
 single largest lever in biomedical RAG performance after
 the initial retrieval choice.
 
-::: {.callout-note icon=false collapse=true}
+:::: {.callout-note icon=false collapse=true}
 ## Check your understanding: when sparse beats dense
 
 **Question.** A RAG pipeline over a clinical guidelines
@@ -219,7 +219,7 @@ sparse wins).
 ::: {.content-visible when-format='html'}
 </details>
 :::
-:::
+::::
 
 ## Citation-grounded generation
 
