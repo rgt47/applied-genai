@@ -76,11 +76,11 @@ relevant, the literal verbatim model response.
 The book repository at
 <https://github.com/rgt47/applied-genai> contains:
 
-- `docs/syllabi-survey.md` — the curriculum survey that
+- `docs/syllabi-survey.md`, the curriculum survey that
   shaped the chapter list.
-- `docs/mollick-digest.md` — the 24-month *One Useful
+- `docs/mollick-digest.md`, the 24-month *One Useful
   Thing* digest used to test the TOC for contemporariness.
-- `references.bib` — the working bibliography.
+- `references.bib`, the working bibliography.
 
 Both companion documents are intended as audit-trail
 artefacts; they explain why the book is shaped the way it

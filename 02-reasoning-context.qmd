@@ -13,7 +13,7 @@ By the end of this chapter you should be able to:
 - Recognise when reasoning models help and when they
   introduce overhead without benefit.
 - Apply verification patterns appropriate to opaque
-  outputs — provisional trust, output connoisseurship,
+  outputs, provisional trust, output connoisseurship,
   cross-check against independent computation.
 
 ## Orientation
@@ -40,7 +40,7 @@ inputs, structured outputs, and the small number of
 prompt patterns that consistently improve quality
 without becoming superstition. **Verification under
 opacity**: when you cannot inspect the model's reasoning,
-what verification looks like — provisional trust, output
+what verification looks like, provisional trust, output
 connoisseurship, and independent computation as the
 ground truth.
 
@@ -101,9 +101,9 @@ silent error.
 
 ## What reasoning models change
 
-Reasoning models — OpenAI's o-series, Claude with
+Reasoning models, OpenAI's o-series, Claude with
 extended thinking, Gemini 2.5 Pro, DeepSeek R1
-[@openai_2024_o1_system_card; @deepseek_2025_r1; @anthropic_2025_extended_thinking] —
+[@openai_2024_o1_system_card; @deepseek_2025_r1; @anthropic_2025_extended_thinking] , 
 add a thinking phase between input and output. The model
 generates intermediate tokens that are not shown to the
 user (or are shown in summarised form), then collapses
@@ -207,9 +207,9 @@ applications.
 
 **Pattern 1: Structure the input.** Plain-text dumps of
 clinical narratives, protocol documents, or trial data
-work but produce noisy results. Structured input —
+work but produce noisy results. Structured input , 
 clearly labelled sections, explicit data dictionaries,
-key-value summaries of relevant facts — produces better
+key-value summaries of relevant facts, produces better
 results because the model can attend to specific parts
 without confusing them. For a clinical question that
 hinges on a particular lab value, lead with the lab
@@ -234,10 +234,10 @@ labelled, with the recommendation and the supporting
 evidence quotes]
 ```
 
-The structured form makes verification easier — the
+The structured form makes verification easier, the
 biostatistician can check that the model attended to the
 right inputs by examining whether the output references
-them — and reduces hallucination by giving the model
+them, and reduces hallucination by giving the model
 explicit material to ground in.
 
 **Pattern 2: Specify the output schema.** Free-form
@@ -260,9 +260,9 @@ formatting only.** The chain-of-thought-via-examples
 pattern that was load-bearing in 2023 is mostly subsumed
 by extended thinking. Few-shot examples remain useful
 when the desired output format is unusual or domain-
-specific — a particular CONSORT-style table layout, a
+specific, a particular CONSORT-style table layout, a
 specific clinical-note phrasing convention, a custom
-markdown template — because the model needs to see what
+markdown template, because the model needs to see what
 'right' looks like for the format. Use one or two
 examples; more is rarely better and often worse.
 
@@ -298,8 +298,8 @@ patterns that work for chat models. Three patterns
 generalise across biomedical applications.
 
 **Independent computation as ground truth.** Where the
-output is something computable — a regression coefficient,
-a sample size, a probability — verify by independent
+output is something computable, a regression coefficient,
+a sample size, a probability, verify by independent
 computation. The biostatistician hand-computes the result
 on a small example, runs a second implementation in a
 different language, or uses a known-good library. The
@@ -308,8 +308,8 @@ agree, the answer is probably right; if they disagree,
 investigate before trusting either.
 
 **Source-checking for citations and claims.** Where the
-output cites a source — a paper, a guideline, a
-regulation — verify the source exists, says what the
+output cites a source, a paper, a guideline, a
+regulation, verify the source exists, says what the
 model claims it says, and is the right source for the
 claim. Citation hallucination remains the most common
 failure mode of reasoning-model output in academic
@@ -322,8 +322,8 @@ computed and is not citable, ask a second model the same
 question and compare. Disagreement is informative:
 either one model is wrong, or the question is genuinely
 contested in the literature. Agreement is weak evidence
-of correctness — both models could be wrong in the same
-way — but disagreement is strong evidence that further
+of correctness, both models could be wrong in the same
+way, but disagreement is strong evidence that further
 investigation is warranted.
 
 A useful concept from Mollick is **provisional trust**
@@ -412,8 +412,8 @@ Use a chat model when **all** of these conditions hold.
 - Latency matters (a real-time interaction, an
   iterative debugging loop).
 
-The middle ground — tasks that are not quite routine but
-not strictly novel — is where the choice matters most
+The middle ground, tasks that are not quite routine but
+not strictly novel, is where the choice matters most
 for cost and where individual experimentation pays off.
 Run the task with both classes occasionally; over a few
 months you will develop intuition for when the
@@ -461,12 +461,12 @@ among missing-treatment patients relative to observed-
 treatment patients. Clinically plausible bounds:
 
 Lower bound: 0.7 (treatment effect attenuated by 30%
-among missing patients — bounded by what would happen if
+among missing patients, bounded by what would happen if
 half of missing patients secretly switched to control
 arm)
 
 Upper bound: 1.5 (treatment effect amplified by 50%
-among missing patients — corresponds to the scenario
+among missing patients, corresponds to the scenario
 where missing patients are sicker and the treatment is
 more effective in sicker patients; supported by the
 subgroup analysis in the per-protocol set)
@@ -626,7 +626,7 @@ Three habits define defensible work in this area:
    reasoning model caught that the chat model missed.
 
 2. Construct a structured-output schema (JSON) for a
-   common task in your work — a risk-of-bias
+   common task in your work, a risk-of-bias
    assessment, a baseline-characteristics extraction, a
    methods-summary table. Use it as the requested output
    format for several inputs and inspect the

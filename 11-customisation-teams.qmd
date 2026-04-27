@@ -23,9 +23,9 @@ By the end of this chapter you should be able to:
 
 ## Orientation
 
-The decision to customise — fine-tune a model on
+The decision to customise, fine-tune a model on
 institutional data, distill a smaller model from a
-larger one, deploy an open-weights model on-prem — is
+larger one, deploy an open-weights model on-prem, is
 expensive in setup and maintenance. The default for most
 biostatistical teams should be context engineering: use
 a frontier API, supply institutional context per query
@@ -34,15 +34,15 @@ the work. Customisation pays off in a narrow set of
 cases that are worth identifying explicitly.
 
 The adoption side of the chapter is equally important.
-The empirical evidence — Mollick's
+The empirical evidence, Mollick's
 *Cybernetic Teammate* RCT [@mollick_2025_cybernetic_teammate]
 showing AI-enabled individuals matching the performance
-of unaugmented two-person teams — points to a specific
+of unaugmented two-person teams, points to a specific
 adoption pattern that works: latent-expertise discovery
 at the team-member level, knowledge-sharing across the
 team, and gradual codification of useful patterns into
-team-level conventions. The anti-pattern — centralised
-IT prescription of when and how AI should be used — is
+team-level conventions. The anti-pattern, centralised
+IT prescription of when and how AI should be used, is
 documented to underperform.
 
 The chapter develops three threads. **The customisation
@@ -73,8 +73,8 @@ trade rather than defaulting to one or the other.
 **(Judgement 2.) Adoption is the longest-lived
 artefact.** Specific models change every few months;
 specific tools change every year. The team's
-disposition toward AI-assisted work — the habits of
-specification, verification, and disclosure — outlast
+disposition toward AI-assisted work, the habits of
+specification, verification, and disclosure, outlast
 all of them. The biostatistician shapes the team's
 adoption pattern with the long view in mind: build
 habits that survive the next model release.
@@ -195,8 +195,8 @@ from a few examples reliably. If that does not work
 across enough variation, the next step is to build a
 larger few-shot library with retrieval (the right
 examples for the specific task). Only if that still
-fails consistently — say, on novel tasks not represented
-in the example library — does fine-tuning become worth
+fails consistently, say, on novel tasks not represented
+in the example library, does fine-tuning become worth
 considering. The fine-tune cost ($1k–$5k in compute and
 several weeks of work, plus maintenance when the base
 model updates) is much higher than the example-library
@@ -221,7 +221,7 @@ empirically achieves similar performance on most tasks
 [@hu_2022_lora].
 
 The training process:
-1. Collect training data — usually 1,000–10,000
+1. Collect training data, usually 1,000–10,000
    examples of input/output pairs in the desired
    style.
 2. Set up a LoRA training environment (Hugging Face
@@ -242,7 +242,7 @@ most tasks. QLoRA is what makes LoRA training tractable
 for individual research groups in 2026.
 
 **Adapter management.** Multiple LoRA adapters can be
-trained for the same base model — one for code
+trained for the same base model, one for code
 generation in the team's house style, another for
 methods drafting in the team's voice, another for
 RoB assessment. At inference, the appropriate adapter
@@ -304,7 +304,7 @@ The implications for a biostatistics team:
 working with AI assistance can produce work that
 previously required the biostatistician plus a junior
 analyst. The team's effective capacity increases by
-some multiplier — the empirical estimates vary but are
+some multiplier, the empirical estimates vary but are
 substantial.
 
 **Cross-discipline collaboration improves.** A
@@ -341,8 +341,8 @@ is:
 
 This is recognisably a research-and-development
 pattern, applied to AI workflow. It works because it
-respects the diversity of work in the team — each
-biostatistician's tasks are slightly different — and
+respects the diversity of work in the team, each
+biostatistician's tasks are slightly different, and
 allows local optimisation.
 
 The anti-pattern is centralised prescription: 'the

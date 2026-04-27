@@ -38,7 +38,7 @@ and report which performs best on the held-out fold',
 'find all the trials in our institutional database that
 used a stratified Cox model and summarise the
 stratification choices'. Each is a multi-step task with
-defined success criteria — the kind of work an agent
+defined success criteria, the kind of work an agent
 can complete autonomously in the time it would take a
 human to start.
 
@@ -61,8 +61,8 @@ Three judgements are not delegable.
 **(Judgement 1.) The decision about what to delegate.** An
 agent can run an analysis, draft a report, file a
 ticket, send an email. The question is whether the work
-should be delegated. Some work — pre-trial decisions,
-DMC reports, regulatory submissions — should not be
+should be delegated. Some work, pre-trial decisions,
+DMC reports, regulatory submissions, should not be
 agent-completed regardless of capability, because the
 human attestation is part of the artefact's value. The
 biostatistician decides what the agent does and what
@@ -74,7 +74,7 @@ Mollick [@mollick_2026_management_superpower] frames effective AI
 collaboration as importing management fundamentals:
 clear product requirement documents, iterative feedback,
 fast evaluation. The biostatistician writes the
-deliverable specification — what the output is, what the
+deliverable specification, what the output is, what the
 acceptance criteria are, what the verification points
 are. An under-specified delegation is the leading cause
 of agent runs that produce plausible-looking but wrong
@@ -200,16 +200,16 @@ available and uses it.
 The protocol has emerged as the de-facto standard for
 agent–system integration in 2025–2026. Its strengths:
 
-- **Decoupled** — the same MCP server works with any
+- **Decoupled**, the same MCP server works with any
   MCP-compatible client (Claude desktop, Claude Code,
   custom applications).
-- **Discoverable** — the server exposes its tools and
+- **Discoverable**, the server exposes its tools and
   schemas; the model knows what is available without
   hardcoding.
-- **Permissioned** — the protocol supports per-tool
+- **Permissioned**, the protocol supports per-tool
   permission grants, so users approve tool use rather
   than giving blanket access.
-- **Auditable** — tool calls produce logs that can be
+- **Auditable**, tool calls produce logs that can be
   reviewed.
 
 For biostatistical work, three classes of MCP server
@@ -229,8 +229,8 @@ server should expose a read-only credential, the schema
 the agent sees should be appropriately scoped, and the
 queries should be logged.
 
-**Knowledge servers.** Provide access to corpora — PubMed,
-internal protocol libraries, institutional SOPs — via
+**Knowledge servers.** Provide access to corpora, PubMed,
+internal protocol libraries, institutional SOPs, via
 search, retrieval, or RAG-style interfaces. The
 biomedical RAG of @sec-rag-biomedical can be wrapped as
 an MCP server, making it available to any compatible

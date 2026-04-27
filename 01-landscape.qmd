@@ -8,8 +8,8 @@ By the end of this chapter you should be able to:
   generative AI (chat, reasoning, agentic, multimodal)
   and select the right class for a given biostatistical
   task.
-- Articulate the *jagged frontier* — the unevenness and
-  opacity of AI capability — and its implications for
+- Articulate the *jagged frontier*, the unevenness and
+  opacity of AI capability, and its implications for
   verification in biostatistical work.
 - Adopt the *cybernetic teammate* framing: human-AI
   collaboration as delegation with verification, not
@@ -44,9 +44,9 @@ companion `docs/mollick-digest.md` and the weekly
 pundit-scan pipeline are the audit trail that keeps the
 chapter examples current.
 
-The orientation matters because the alternative —
+The orientation matters because the alternative , 
 treating generative AI as a single 'thing' that one
-either uses or does not — produces both over- and
+either uses or does not, produces both over- and
 under-confident analyses. The biostatistician who treats
 every prompt as 'asking the AI' misses the substantial
 difference between asking a chat model for a code
@@ -83,7 +83,7 @@ tooling produces a clean answer to the wrong one.
 **(Judgement 2.) Verification proportionate to stakes.** A
 chat model's code output can be verified by running it.
 A reasoning model's conclusion about whether a
-non-inferiority margin is appropriate cannot — verifying
+non-inferiority margin is appropriate cannot, verifying
 it requires statistical judgement about the clinical
 context. Agents that take multi-step action produce
 artefacts whose intermediate steps may be partially
@@ -103,7 +103,7 @@ the textbook. Some pre-trial decisions are better made
 by talking to the principal investigator. Some
 quality-control checks should be done by hand, slowly,
 to catch what no AI is yet reliably noticing. The
-discipline includes saying no — and saying so explicitly
+discipline includes saying no, and saying so explicitly
 in the analysis report so reviewers can understand which
 parts of the work were AI-assisted and which were not.
 
@@ -225,7 +225,7 @@ detect than distribution shift in tabular data.
 
 **Question.** A collaborator asks you to use AI to
 'analyse this trial dataset and produce a report'. Which
-capability class is the right starting point — and what
+capability class is the right starting point, and what
 should your follow-up question be?
 
 ::: {.content-visible when-format='html'}
@@ -369,9 +369,9 @@ maintain judgement over the work.
 world where compute is abundant and execution is cheap,
 the binding constraint shifts to knowing what to ask and
 recognising when the answer is wrong. The
-biostatistician's domain expertise — clinical-trial
+biostatistician's domain expertise, clinical-trial
 methodology, statistical inference, the regulatory
-context — is what makes good delegation possible. The AI
+context, is what makes good delegation possible. The AI
 can produce code; only the biostatistician knows whether
 the code is solving the right problem.
 
@@ -471,7 +471,7 @@ monitoring committee.
 
 The work decomposes into roughly twelve sub-tasks. For
 each, the question is which capability class is the
-right tool — and where verification points need to land.
+right tool, and where verification points need to land.
 
 **1. Drafting the statistical analysis plan.** Reasoning
 model: the SAP needs to integrate the trial protocol,
@@ -535,7 +535,7 @@ and is responsible for accuracy.
 
 **11. Drafting the results section.** Chat model with the
 table and figure outputs as input. Verify by reading
-against the underlying numbers — the model will
+against the underlying numbers, the model will
 sometimes paraphrase a number incorrectly.
 
 **12. Cross-checking the report against the SAP.**
@@ -550,7 +550,7 @@ overhead of agentic execution is higher than the time
 savings, and the regulatory expectation is that
 intermediate results are inspected. Agents may be
 appropriate for the literature search step that informs
-the SAP — that is the topic of @sec-deep-research — but
+the SAP, that is the topic of @sec-deep-research, but
 not for the analysis itself.
 
 The total cost of the AI-assisted portion of this work
@@ -558,7 +558,7 @@ is roughly $20–$50 in API charges across the analysis;
 the biostatistician's time saved is several days. The
 total verification overhead is roughly 30% of what the
 AI-assisted portion would have cost without
-verification — non-negligible but small relative to the
+verification, non-negligible but small relative to the
 time savings.
 
 ## Collaborating with an LLM on the generative AI landscape
@@ -572,7 +572,7 @@ task?'** Provide the task description, the stakes, and
 the time budget.
 
 *What to watch for.* The LLM will often default to
-recommending its own class — a chat model recommends
+recommending its own class, a chat model recommends
 chat-model use, a reasoning model recommends reasoning-
 model use. The recommendation may not reflect the
 genuinely right choice. The LLM also tends to under-
@@ -619,7 +619,7 @@ specifically.
 
 *Verification.* The verification regime is a contract
 with yourself. If you cannot afford the verification the
-LLM proposes, you cannot afford the work as proposed —
+LLM proposes, you cannot afford the work as proposed , 
 either reduce the AI-assisted scope or accept the
 elevated risk explicitly.
 
@@ -628,7 +628,7 @@ collaborator** for thinking about its own use. It is not
 a substitute for the biostatistician's judgement about
 which work is appropriate to delegate. Treat its
 recommendations the way you would treat recommendations
-from a fluent intern — useful starting points, never
+from a fluent intern, useful starting points, never
 final answers.
 
 ## Principle in use

@@ -23,8 +23,8 @@ By the end of this chapter you should be able to:
 
 Synthetic data is a tool of last resort that has become a
 tool of first resort. The traditional path to working
-with patient-level data — IRB review, data-use agreement,
-honest broker, secure environment — is slow, expensive,
+with patient-level data, IRB review, data-use agreement,
+honest broker, secure environment, is slow, expensive,
 and badly matched to the iterative cadence of modern
 analysis. Synthetic data offers an alternative: generate
 a dataset that preserves the statistical structure of
@@ -97,8 +97,8 @@ re-identification incidents and IRB violations.
 
 ## Tabular synthesis: CTGAN, Synthcity, and friends
 
-Tabular biomedical data — patient demographics,
-laboratory values, vital signs, medication histories —
+Tabular biomedical data, patient demographics,
+laboratory values, vital signs, medication histories , 
 is the most common synthesis target. Several methods
 have matured into deployable tools.
 
@@ -189,7 +189,7 @@ in isolation is incomplete.
 ## Check your understanding: utility without privacy
 
 **Question.** A synthetic dataset has utility metrics
-identical to the real data — every statistical property
+identical to the real data, every statistical property
 matches to within sampling noise. The privacy metrics
 show that a membership-inference attack achieves 95%
 accuracy. Is the synthetic dataset useful? Is it safe to
@@ -205,7 +205,7 @@ membership-inference accuracy means an adversary with
 access to the synthetic data and a candidate record can
 determine whether the candidate was in the training set
 with 95% accuracy. For most patients this is a privacy
-violation — knowing someone was in a clinical trial
+violation, knowing someone was in a clinical trial
 reveals their diagnosis. The dataset is essentially a
 high-fidelity copy of the real data with cosmetic
 changes; the structural fidelity that produces the
@@ -255,7 +255,7 @@ regardless of what an adversary knows. An adversary
 with detailed knowledge of every other patient in the
 study still cannot infer information about the target
 patient beyond the $\epsilon$ bound. This robustness is
-distinctive — most other privacy frameworks assume
+distinctive, most other privacy frameworks assume
 specific adversary models.
 
 For synthetic data generation, DP enters through the
@@ -298,7 +298,7 @@ synthetic = gen.generate(count=len(real_data))
 
 The epsilon is reported in the methods section. The
 delta is set to roughly 1/n where n is the dataset size
-— the standard convention.
+,  the standard convention.
 
 ## Re-identification audits
 
@@ -382,7 +382,7 @@ above 3 digits, etc.) and assert no actual knowledge of
 re-identification. The dataset is then 'de-identified'
 under HIPAA and not protected health information (PHI).
 Synthetic data does not by default qualify for Safe
-Harbor — the question is whether the synthesis was
+Harbor, the question is whether the synthesis was
 trained on PHI, not whether the synthetic data contains
 identifiers in the listed categories.
 
@@ -449,7 +449,7 @@ estimate matches the published trial within 0.05 hazard
 ratio units is preserved on the synthetic data.
 
 Step 5: audit privacy. Run a membership-inference attack
-using the audit code shown above. AUC = 0.51 — the
+using the audit code shown above. AUC = 0.51, the
 attack fails, as expected with $\epsilon = 1$. Run an
 attribute-inference attack on cardiovascular outcomes
 given baseline characteristics. The synthetic-data-
@@ -520,7 +520,7 @@ audit results, and use case.
 
 *What to watch for.* The LLM will produce a competent-
 looking report. The biostatistician must verify every
-claim — the LLM may confuse $\epsilon$ values, mis-
+claim, the LLM may confuse $\epsilon$ values, mis-
 state the audit results, or over-state the privacy
 guarantees. The report is the basis for the privacy
 claim in the publication; it must be exactly right.

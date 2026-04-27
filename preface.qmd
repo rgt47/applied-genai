@@ -44,7 +44,7 @@ biostatistics, public-health, and adjacent programmes (the
 survey is documented in `docs/syllabi-survey.md`) and
 cross-checking the result against a 24-month digest of
 Ethan Mollick's *One Useful Thing* Substack
-(`docs/mollick-digest.md`) — a touchstone for contemporary
+(`docs/mollick-digest.md`), a touchstone for contemporary
 applied genAI thinking. The result is a curriculum that
 reflects mainstream 2026 practice while staying anchored to
 biostatistical use cases.
@@ -75,7 +75,7 @@ Three concepts thread through every chapter and earn the
 
 **The jagged frontier.** Generative AI capability is
 uneven: superhuman in some dimensions, subhuman in
-adjacent ones. The frontier is also opaque — capability
+adjacent ones. The frontier is also opaque, capability
 and verification difficulty grow together. The
 biostatistician's contribution is to identify which jagged
 edges still require human judgement and which do not, and
@@ -92,8 +92,8 @@ from Chapter 1 forward.
 **Verification as a first-class concern.** Every chapter
 treats verification not as a final step but as a design
 property. The section template in every chapter front-loads
-*The statistician's contribution* — the judgements no AI
-can make on the reader's behalf — and ends with
+*The statistician's contribution*, the judgements no AI
+can make on the reader's behalf, and ends with
 *Collaborating with an LLM*, where specific prompts are
 paired with what to watch for and how to verify. The
 dialectic structures the chapter rather than decorating it.

@@ -4,9 +4,9 @@ This is the online version of **Applied Generative AI for
 Public Health and Biostatistics** by Ronald 'Ryy' G. Thomas,
 a graduate textbook in biostatistics.
 
-The book covers the practical use of generative AI — large
+The book covers the practical use of generative AI, large
 language models, reasoning models, agents, and multimodal
-systems — in public-health and biostatistical research and
+systems, in public-health and biostatistical research and
 practice. It is designed for students who already know the
 biostatistical methods and are now adding AI assistance to
 their workflow with appropriate discipline and verification.
@@ -14,14 +14,14 @@ their workflow with appropriate discipline and verification.
 The book sits alongside three companion volumes in the
 series:
 
-- [*Statistical Computing in the Age of AI*](https://scai.rgtlab.org)
-  — the introductory graduate computing volume.
-- [*Advanced Statistical Computing in the Age of AI*](https://scai-advanced.rgtlab.org)
-  — the advanced computing volume covering numerical
+- [*Statistical Computing in the Age of AI*](https://scai.rgtlab.org),
+  theintroductory graduate computing volume.
+- [*Advanced Statistical Computing in the Age of AI*](https://scai-advanced.rgtlab.org),
+  theadvanced computing volume covering numerical
   stability, optimisation, Monte Carlo, and high-dimensional
   methods.
-- [*Biostatistics Practicum*](https://practicum.rgtlab.org)
-  — the workflow companion covering Git, Docker, renv,
+- [*Biostatistics Practicum*](https://practicum.rgtlab.org),
+  theworkflow companion covering Git, Docker, renv,
   Quarto, CDISC, and SAS.
 
 This fourth volume treats generative AI as the orthogonal

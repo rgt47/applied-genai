@@ -23,9 +23,9 @@ By the end of this chapter you should be able to:
 The regulatory landscape for AI in health is moving
 faster than any textbook chapter can keep up with. The
 specifics in this chapter are accurate as of early 2026
-and will date. The conceptual structure — what kinds of
+and will date. The conceptual structure, what kinds of
 AI uses fall under what regulatory regimes, what
-documentation is expected — is more stable and is the
+documentation is expected, is more stable and is the
 emphasis of the chapter.
 
 The biostatistician's role in the regulatory side of AI
@@ -54,8 +54,8 @@ review board has what it needs.
 Three judgements are not delegable.
 
 **(Judgement 1.) Identifying when a tool is a medical
-device.** A model that produces a clinical decision —
-'this patient is high risk for sepsis' — that informs
+device.** A model that produces a clinical decision , 
+'this patient is high risk for sepsis', that informs
 clinician action is potentially regulated by the FDA as
 SaMD. A model used for research-only analysis is
 typically not. The line is consequential: SaMD
@@ -144,9 +144,9 @@ For a biostatistician supporting a SaMD development:
 
 The published guidance on AI/ML in SaMD has been
 evolving since 2019 and the specifics will continue
-to change. The conceptual framework — risk-based
+to change. The conceptual framework, risk-based
 regulation, life-cycle approach, transparency
-expectations — is stable.
+expectations, is stable.
 
 ::: {.callout-note icon=false collapse=true}
 ## Check your understanding: SaMD or not?
@@ -450,8 +450,8 @@ affairs. Do not treat it as definitive.
 use.'** Provide the protocol summary.
 
 *What to watch for.* The LLM produces standard
-language. Verify the specifics — provider names, BAA
-configurations, validation approaches — match the
+language. Verify the specifics, provider names, BAA
+configurations, validation approaches, match the
 actual project.
 
 *Verification.* The IRB language is reviewed by the

@@ -65,7 +65,7 @@ Three judgements are not delegable.
 **(Judgement 1.) The evaluation task suite is part of the
 analysis.** A team adopting an LLM for routine
 biostatistical work needs an evaluation suite that
-reflects the work — boilerplate code generation,
+reflects the work, boilerplate code generation,
 analytical planning, methods drafting, RoB assessment,
 whatever the team does. The suite is not a one-time
 benchmark; it is an asset built up over time, refined
@@ -110,7 +110,7 @@ the model's worldview, judgement, and personality.
 'How would you approach a sensitivity analysis for
 this trial?' 'What would you do if you couldn't get
 the cohort to converge?' The point is not the
-specific answer but the texture of the response —
+specific answer but the texture of the response , 
 does the model reason like a careful biostatistician,
 or does it produce confident-sounding non-answers?
 
@@ -164,7 +164,7 @@ roughly informative but is dominated by the organisation-
 specific gap. The 4-point spread (0.82 vs 0.78) is
 meaningful given the suite was designed to reflect the
 team's actual work. Caveat: confirm the sample is
-large enough that the difference is not noise — for
+large enough that the difference is not noise, for
 suites with 10–20 tasks, a 4-point difference is
 usually within sampling noise; for suites with 50+
 tasks, it is more stable. If the suite is small,
@@ -179,7 +179,7 @@ extend it before deciding.
 
 Manual scoring of evaluation outputs scales poorly.
 For a 20-task evaluation suite run against five
-models, that is 100 outputs to grade — feasible.
+models, that is 100 outputs to grade, feasible.
 For a continuous evaluation that runs nightly on a
 larger suite and tracks degradation over time,
 manual grading becomes impossible. The pattern that
@@ -387,7 +387,7 @@ different model family as judge; the rubric is the
 team-specified rubric for each task. The judge is
 calibrated against the senior biostatistician's
 ratings on 20 sample outputs (tasks rated by both
-model and human). Kappa is 0.71 — acceptable.
+model and human). Kappa is 0.71, acceptable.
 
 **Step 4: run the suite against candidate models.**
 The team evaluates four candidate models. Total
@@ -426,7 +426,7 @@ of biostatistical task.'** Provide the task description.
 
 *What to watch for.* The LLM produces a competent
 rubric. It tends to over-weight clarity and under-weight
-correctness — readable wrong code scores higher than it
+correctness, readable wrong code scores higher than it
 should. Push back on weights.
 
 *Verification.* Test the rubric on a few sample outputs

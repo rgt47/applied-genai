@@ -21,10 +21,10 @@ By the end of this chapter you should be able to:
 
 The arrival of robust multimodal capability changes what
 can be analysed in clinical research. Datasets that
-previously required manual abstraction — chest X-rays,
+previously required manual abstraction, chest X-rays,
 pathology slides, clinical-photograph series, free-text
 notes, scanned forms, ultrasound video, voice
-recordings — are now amenable to AI-assisted extraction
+recordings, are now amenable to AI-assisted extraction
 at scale. The question for the biostatistician is no
 longer 'can we use this kind of data' but 'how do we
 validate the AI-assisted extraction so the downstream
@@ -60,9 +60,9 @@ plausible-looking but biased extractions. Different
 scanners, acquisition protocols, patient populations,
 and even time-of-day produce subtle shifts that
 undermine model performance. The biostatistician
-designs the validation to detect distribution shift —
+designs the validation to detect distribution shift , 
 typically by reserving a substantial site-specific
-holdout — and treats inter-site variability as a first-
+holdout, and treats inter-site variability as a first-
 order concern.
 
 **(Judgement 2.) AI-extracted variables are not
@@ -80,7 +80,7 @@ reference on a sample.
 **(Judgement 3.) Reporting standards are part of the
 analysis.** CONSORT-AI [@liu_2020_consort_ai] and TRIPOD-
 LLM [@gallifant_2025_tripod_llm] specify what must be
-reported when AI is involved in a clinical study —
+reported when AI is involved in a clinical study , 
 training data composition, validation strategy,
 performance subgroups, deployment context. The
 biostatistician follows these standards from the start
@@ -227,8 +227,8 @@ arrival of AI scribes changes two things:
 **Note quality is more variable than before.** A scribe-
 generated note approved by a busy clinician may include
 errors the clinician did not catch. For research that
-uses clinical notes as input — chart abstraction,
-phenotype identification, NLP pipelines — the data is
+uses clinical notes as input, chart abstraction,
+phenotype identification, NLP pipelines, the data is
 noisier than pre-scribe-era notes, often in
 characteristic ways: medications listed but not
 prescribed, problems hallucinated from passing mention,
@@ -274,18 +274,18 @@ clinician workload, note quality, and patient outcomes.
 findings: documentation time falls substantially,
 clinician satisfaction rises, note quality is comparable
 or slightly better on objective measures. The harder
-questions — does the scribe miss things the clinician
+questions, does the scribe miss things the clinician
 would have caught, does it propagate errors, does it
-affect patient safety — are still being studied.
+affect patient safety, are still being studied.
 
 ## OCR and structured extraction from clinical documents
 
 Clinical research routinely encounters PDFs with
 structured tables, scanned forms, and other documents
 where the data is human-readable but not machine-
-readable. Multimodal LLMs are very good at this task —
+readable. Multimodal LLMs are very good at this task , 
 substantially better than dedicated OCR libraries on
-typical clinical documents — and have become the
+typical clinical documents, and have become the
 default tool for extraction at moderate scale.
 
 A working pattern:
@@ -349,7 +349,7 @@ A nuance: **multimodal extraction from PDFs with native
 text** sometimes underperforms text-only extraction
 from the same PDF. If the PDF has selectable text, use
 PyPDF or pdfplumber to extract text, then ask the model
-to parse the text — faster, cheaper, and often more
+to parse the text, faster, cheaper, and often more
 accurate than image-based extraction. Reserve image-
 based extraction for scanned forms, handwritten notes,
 and documents where layout matters more than text.
@@ -384,7 +384,7 @@ validation subset.
 **Step 3: build and validate the extraction pipeline.**
 The validation subset shows the multimodal LLM has a
 weighted Cohen's kappa of 0.71 against the
-radiologist — moderate-substantial agreement. The
+radiologist, moderate-substantial agreement. The
 agreement is weaker for severe fibrosis (kappa 0.61 for
 score 3-4) than for mild (kappa 0.78 for score 0-1).
 The team documents the validation and decides:

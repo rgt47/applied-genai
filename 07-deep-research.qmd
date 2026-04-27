@@ -36,8 +36,8 @@ it's actively engaging with it at a level that actually
 approaches human scholarly work'. The empirical evidence
 matches the framing. A graduate-level research question
 that would have taken a senior biostatistician a day of
-literature work — pull and read 60 papers, organise the
-themes, draft a synthesis — can be done by Deep Research
+literature work, pull and read 60 papers, organise the
+themes, draft a synthesis, can be done by Deep Research
 in 15 minutes with output that requires verification but
 is broadly defensible.
 
@@ -578,5 +578,5 @@ Three habits define defensible work in this area:
 - The Cochrane handbook's chapter on systematic-
   review methodology (current edition) is the
   reference for what formal systematic reviews
-  require — useful for understanding what deep
+  require, useful for understanding what deep
   research does and does not substitute for.

@@ -13,8 +13,8 @@ established in the companion volumes
 *Statistical Computing in the Age of AI* and
 *Biostatistics Practicum*.
 
-Visual design — the two-zone Springer-style cover, the
-SCSS theme, the navigation toggle — is shared across all
+Visual design, the two-zone Springer-style cover, the
+SCSS theme, the navigation toggle, is shared across all
 three books in the series, with palette differentiation
 per volume.
 

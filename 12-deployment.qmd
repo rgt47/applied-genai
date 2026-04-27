@@ -4,8 +4,8 @@
 
 By the end of this chapter you should be able to:
 
-- Recognise that interface design — not raw model
-  capability — is now the binding constraint on real-world
+- Recognise that interface design, not raw model
+  capability, is now the binding constraint on real-world
   AI value, and design deployments accordingly.
 - Apply a shadow-mode rollout pattern: run the AI in
   parallel with the existing workflow, log outputs, and
@@ -22,8 +22,8 @@ By the end of this chapter you should be able to:
 
 The deployment chapter closes the book by integrating
 the threads from earlier chapters into the operational
-question: how does a biostatistics team — or a clinical
-institution, or a research consortium — actually run AI
+question: how does a biostatistics team, or a clinical
+institution, or a research consortium, actually run AI
 in production over time? The answer is more about
 interface design, change management, and ongoing
 verification than about model selection. The
@@ -39,8 +39,8 @@ Mollick's 2026 framing is direct
 They want an agent that works on their actual files,
 with their actual tools, accessible the way they talk
 to people'. The binding constraint on real-world AI
-value is no longer model capability — frontier models
-in 2026 are extraordinarily capable — but the
+value is no longer model capability, frontier models
+in 2026 are extraordinarily capable, but the
 interfaces, harnesses, and integrations that put the
 capability in front of users in a usable form.
 
@@ -64,7 +64,7 @@ The temptation to treat deployment as a one-time event
 that the underlying technology drifts, the team's
 needs evolve, and the failure modes accumulate
 without active maintenance. The biostatistician
-treats deployment as ongoing operational work — like
+treats deployment as ongoing operational work, like
 maintaining a clinical-trial database, not like
 publishing a paper.
 
@@ -124,8 +124,8 @@ specific-protocol-development tool. AI assistance
 accessed in those environments is used; AI
 assistance requiring a context switch is used less.
 The right deployments embed AI in the existing
-environments — RStudio plugins, SAS macros that call
-APIs, EHR-integrated AI scribes — rather than
+environments, RStudio plugins, SAS macros that call
+APIs, EHR-integrated AI scribes, rather than
 requiring a separate window.
 
 **The handoff between AI and human is fast.** AI
@@ -139,7 +139,7 @@ friction ones get bypassed.
 
 **The interface respects the user's mental model.** A
 biostatistician thinks in terms of cohorts, models,
-analyses, and reports — not in terms of prompts,
+analyses, and reports, not in terms of prompts,
 tokens, and contexts. Interfaces that present AI
 assistance in cohort-and-model language ('extract a
 risk-of-bias assessment from this paper into the
@@ -215,7 +215,7 @@ The pipeline:
    manual triage decision, the manual code, the
    manual abstract screening, etc.).
 2. Set up the AI to produce the same output on the
-   same inputs in parallel — but the AI's output
+   same inputs in parallel, but the AI's output
    does not affect any decision.
 3. Log both outputs alongside the input and any
    ground-truth signal that becomes available later.
@@ -274,8 +274,8 @@ Three operational concerns.
 
 **Drift detection.** Run the team's evaluation suite
 (per @sec-evaluation) periodically against the
-deployed model. If the score drops materially —
-say, by more than the suite's noise level — investigate
+deployed model. If the score drops materially , 
+say, by more than the suite's noise level, investigate
 whether the underlying model has changed. The
 provider's release notes should be checked; if the
 model has changed and the new behaviour is not what
@@ -304,7 +304,7 @@ A concrete example: a biostatistics team's RoB
 assessment workflow uses an LLM with a published
 evaluation showing kappa 0.78 against expert
 reviewers. Six weeks after deployment, the weekly
-evaluation drops to kappa 0.69 — a 9-point drop. The
+evaluation drops to kappa 0.69, a 9-point drop. The
 team:
 1. Reviews the model provider's release notes;
    confirms a new model version was released two
@@ -370,7 +370,7 @@ The five not-to cases:
    research subjects, decisions about authorship.
 4. **Communication that should reflect personal
    relationship.** A condolence note, a
-   recommendation letter, a reference letter — the
+   recommendation letter, a reference letter, the
    human authorship is part of the value.
 5. **High-stakes situations where errors are
    catastrophic and the AI's failure mode is

@@ -35,8 +35,8 @@ the model was not trained on (or was trained on
 incompletely): institutional protocol libraries,
 regulatory submissions, recent literature, internal
 SOPs, the team's prior trial reports. The RAG output is
-defensible in a way that pure model output is not — the
-citations exist and can be checked — and is stable
+defensible in a way that pure model output is not, the
+citations exist and can be checked, and is stable
 against the training cutoff: a RAG over current PubMed
 will reflect last week's papers, while the underlying
 model's training data may be a year stale.
@@ -46,7 +46,7 @@ chunking, embedding, search strategy. **Generation**:
 prompting the model to cite, refuse when retrieval is
 empty, and avoid mixing retrieved facts with parametric
 knowledge. **Evaluation**: how to know whether the
-pipeline is working — separately for the retrieval step
+pipeline is working, separately for the retrieval step
 and for the end-to-end answer.
 
 ## The statistician's contribution {#sec-rag-biomedical-human}
@@ -322,7 +322,7 @@ the pipeline on the query set and compute:
 Recall@10 below 0.8 is a sign the retrieval needs
 work. Recall@10 above 0.95 with poor MRR (say below
 0.5) suggests retrieval is good but ranking needs work
-— the right answer is in the top 10 but not at the top.
+,  the right answer is in the top 10 but not at the top.
 
 **Answer evaluation.** Several frameworks have emerged
 for evaluating RAG output, of which RAGAS
@@ -343,7 +343,7 @@ metrics matter:
   information needed? Requires labelled ground truth.
 
 For a biomedical pipeline, faithfulness is the most
-important metric — unfaithful answers are unsupported
+important metric, unfaithful answers are unsupported
 claims dressed up as cited claims, which is worse than
 no answer.
 
@@ -445,14 +445,14 @@ it's standard methodology).
 The first-pass results: Recall@10 = 0.71, faithfulness
 = 0.84, context precision = 0.41. The recall is below
 target; investigation reveals that the chunking by
-header section is too coarse — multi-page sections
+header section is too coarse, multi-page sections
 produce single chunks too large to embed well. Re-chunking
 with a 1,500-token cap on chunk size (preserving header
 context but splitting long sections) raises Recall@10 to
 0.91 with no impact on the other metrics.
 
 The second-pass results highlight a different issue:
-faithfulness is high but context precision is low —
+faithfulness is high but context precision is low , 
 the model is being given more context than it needs and
 mostly ignoring the irrelevant parts. Adding a re-ranker
 (a cross-encoder model that re-scores the top-50 to
@@ -497,7 +497,7 @@ the answer not supported by the chunks.
 
 *What to watch for.* LLMs can be reasonable
 faithfulness judges when given clear instructions and
-explicit chunks. They miss subtler unfaithfulness — a
+explicit chunks. They miss subtler unfaithfulness, a
 correct chunk supporting a slightly different claim
 than what the answer states. The LLM-as-judge approach
 catches gross unfaithfulness; the biostatistician
@@ -543,7 +543,7 @@ Three habits define defensible work in this area:
 2. **Refuse on empty retrieval.** The pipeline should
    say 'I don't know' when retrieval is empty rather
    than fall back on parametric knowledge. Empty
-   retrieval is a feature, not a bug — it is the
+   retrieval is a feature, not a bug, it is the
    pipeline's mechanism for telling the user the
    corpus does not contain the answer.
 
@@ -556,7 +556,7 @@ Three habits define defensible work in this area:
 ## Exercises
 
 1. Build a small RAG pipeline (under 100 lines) over a
-   corpus of your choice — 10–30 PDFs work as a starting
+   corpus of your choice, 10–30 PDFs work as a starting
    point. Measure Recall@10 on 20 hand-built queries.
    Iterate on chunking until Recall@10 > 0.85.
 
