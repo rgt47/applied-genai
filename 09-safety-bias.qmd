@@ -41,7 +41,7 @@ red-teaming discipline. **Documentation**: model cards,
 data sheets, incident reports.
 
 The framing inherits Mollick's *Personality and
-Persuasion* [@mollick_2025_persuasion] observation that
+Persuasion* [@mollick_2025_personality_persuasion] observation that
 RLHF tuning amplifies undesirable traits at scale. The
 load-bearing safety risk for a public-health textbook
 is not jailbreak prompts (well-understood) but the
@@ -57,7 +57,7 @@ Three judgements are not delegable.
 A model's aggregate performance can be excellent while
 its performance on a clinically meaningful subgroup is
 unacceptable. Obermeyer et al.
-[@obermeyer_2019_dissecting] documented this in a
+[@obermeyer_2019_racial_bias] documented this in a
 healthcare risk-prediction context: a model with strong
 overall performance under-predicted needs for Black
 patients because it used cost as a proxy for need, and
@@ -120,7 +120,7 @@ The model is faithful to the data; the data is unfair.
 **Cost-as-proxy bias.** A model trained to predict
 health-care costs as a proxy for need will inherit the
 inequities in cost distribution. The
-[@obermeyer_2019_dissecting] case study is canonical:
+[@obermeyer_2019_racial_bias] case study is canonical:
 the model's confounding of cost and need produced
 systematic under-prediction for Black patients. The
 biostatistician audits the proxy choices in any
@@ -224,7 +224,7 @@ documented analysis.
 A 2024 study showed that AI given personal data
 persuades roughly 80% more effectively than human
 debaters when the persuasion is tailored to individual
-beliefs [@mollick_2025_persuasion summarises]. The
+beliefs [@mollick_2025_personality_persuasion summarises]. The
 mechanism: the AI tailors arguments to what the
 specific person already believes, using exactly the
 evidence and framings that person finds compelling.
@@ -296,7 +296,7 @@ producing inappropriate medical advice (recommend
 unsafe doses, ignore drug-interaction warnings,
 provide explicit instructions for self-harm) is a
 liability. Standard jailbreak techniques (Greshake et
-al. [@greshake_2023_promptinjection]; Liu et al. on
+al. [@greshake_2023_prompt_injection]; Liu et al. on
 adversarial prompts) work to varying degrees on
 deployed models; the right defence is multi-layered
 (model-side training, application-side filtering,
@@ -574,7 +574,7 @@ Three habits define defensible work in this area:
 - @gebru_2021_datasheets, *Datasheets for
   Datasets*. The reference for the data-sheet
   artefact.
-- @obermeyer_2019_dissecting, *Dissecting racial
+- @obermeyer_2019_racial_bias, *Dissecting racial
   bias in an algorithm used to manage the health
   of populations*. The canonical case study of
   cost-as-proxy bias in a deployed clinical AI.
@@ -582,14 +582,14 @@ Three habits define defensible work in this area:
   reporting guideline for studies using language
   models*. The reporting standard for LLM-based
   prediction models in clinical research.
-- @bender_2021_stochastic, *On the Dangers of
+- @bender_2021_stochastic_parrots, *On the Dangers of
   Stochastic Parrots*. Adjacent: the foundational
   argument about LLMs' built-in biases.
-- @greshake_2023_promptinjection, *Not what you've
+- @greshake_2023_prompt_injection, *Not what you've
   signed up for: Compromising Real-World LLM-
   Integrated Applications with Indirect Prompt
   Injection*. The reference for prompt-injection
   attacks.
-- @mollick_2025_persuasion, *Personality and
+- @mollick_2025_personality_persuasion, *Personality and
   Persuasion*. The contemporary treatment of AI-
   tailored persuasion at scale.

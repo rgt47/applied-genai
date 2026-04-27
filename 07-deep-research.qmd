@@ -30,7 +30,7 @@ research-tool layer. The capability has changed what is
 possible at the literature-search and evidence-synthesis
 end of biostatistical work.
 
-Mollick [@mollick_2025_endsearch] frames the shift: 'for
+Mollick [@mollick_2025_deep_research] frames the shift: 'for
 the first time, an AI isn't just summarizing research,
 it's actively engaging with it at a level that actually
 approaches human scholarly work'. The empirical evidence
@@ -54,7 +54,7 @@ formally evaluated and where the verification regime is
 well-defined.
 
 The framing inherits Mollick's *Four Singularities for
-Research* [@mollick_2024_foursingularities]: the four
+Research* [@mollick_2024_four_singularities]: the four
 ways AI is reshaping academic research, of which the
 methods-singularity (autonomous experiments and
 analysis) is closest to this chapter's topic.
@@ -569,10 +569,10 @@ Three habits define defensible work in this area:
   to using machine learning tools in research
   synthesis*. The pre-LLM reference for systematic-
   review automation, useful context.
-- @mollick_2025_endsearch, *The End of Search, The
+- @mollick_2025_deep_research, *The End of Search, The
   Beginning of Research*. The flagship contemporary
   treatment of deep research.
-- @mollick_2024_foursingularities, *Four Singularities
+- @mollick_2024_four_singularities, *Four Singularities
   for Research*. Mollick's framing of how AI is
   reshaping academic work.
 - The Cochrane handbook's chapter on systematic-

@@ -117,7 +117,7 @@ surveillance, adverse-event reporting. Pre-market timeline
 is months to years.
 
 **Predetermined Change Control Plans** (PCCPs)
-[@fda_2024_pccp] are an FDA mechanism specifically for
+[@fda_2024_pccp_final] are an FDA mechanism specifically for
 AI/ML SaMD. Under a PCCP, the manufacturer specifies in
 advance what changes the model can undergo without
 new FDA review (e.g., periodic re-training on updated
@@ -184,7 +184,7 @@ that supports the chosen classification.
 
 ## EU AI Act and high-risk medical classification
 
-The EU AI Act [@eu_2024_aiact] applies to any AI system
+The EU AI Act [@eu_2024_ai_act] applies to any AI system
 placed on the market or used in the EU. It classifies
 AI systems by risk level: prohibited, high-risk, limited-
 risk, minimal-risk. Most medical AI falls into
@@ -523,10 +523,10 @@ Three habits define defensible work in this area:
 
 ## Further reading
 
-- @fda_2024_pccp, *FDA Guidance on Predetermined
+- @fda_2024_pccp_final, *FDA Guidance on Predetermined
   Change Control Plans for AI/ML SaMD*. The
   reference for adaptive AI as a medical device.
-- @eu_2024_aiact, *EU Artificial Intelligence Act*.
+- @eu_2024_ai_act, *EU Artificial Intelligence Act*.
   The regulatory text and accompanying guidance.
 - @gebru_2021_datasheets, *Datasheets for Datasets*.
   Adjacent: data documentation as a regulatory

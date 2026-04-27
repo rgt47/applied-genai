@@ -35,7 +35,7 @@ people use it correctly and that it stays trustworthy as
 the underlying technology shifts.
 
 Mollick's 2026 framing is direct
-[@mollick_2026_dispatch]: 'people don't want a chatbot.
+[@mollick_2026_claude_dispatch]: 'people don't want a chatbot.
 They want an agent that works on their actual files,
 with their actual tools, accessible the way they talk
 to people'. The binding constraint on real-world AI
@@ -82,7 +82,7 @@ use it'.
 deployed.** Not every task is a candidate for AI
 assistance, even when the capability exists.
 Mollick's *15 Times to Use AI, and 5 Not To*
-[@mollick_2024_15times] articulates the negative
+[@mollick_2024_15_times] articulates the negative
 cases: learning that requires personal struggle,
 high-accuracy work where plausible hallucinations
 slip past readers, decisions requiring human
@@ -103,7 +103,7 @@ in the interface, the harness, and the integration
 into the user's actual work.
 
 Mollick's *Claude Dispatch and the Power of
-Interfaces* [@mollick_2026_dispatch] documents the
+Interfaces* [@mollick_2026_claude_dispatch] documents the
 pattern. Claude Dispatch combines Claude Code's
 agentic backend with mobile messaging so users can
 drive desktop AI agents from a phone. The user's
@@ -330,7 +330,7 @@ suffered a longer disruption.
 ## When to use AI, and when not
 
 Mollick's *15 Times to Use AI, and 5 Not To*
-[@mollick_2024_15times] is a practical decision
+[@mollick_2024_15_times] is a practical decision
 framework. The fifteen positive cases (paraphrased
 for biostatistical context):
 
@@ -584,21 +584,21 @@ Three habits define defensible deployment work:
 
 ## Further reading
 
-- @mollick_2026_dispatch, *Claude Dispatch and the
+- @mollick_2026_claude_dispatch, *Claude Dispatch and the
   Power of Interfaces*. The thesis that interface
   design is the binding constraint on real-world
   AI value.
-- @mollick_2024_15times, *15 Times to Use AI, and
+- @mollick_2024_15_times, *15 Times to Use AI, and
   5 Not To*. The decision framework for whether
   to use AI for a specific task.
-- @mollick_2024_latent, *Latent Expertise: Everyone
+- @mollick_2024_latent_expertise, *Latent Expertise: Everyone
   is in R&D*. The bottom-up adoption pattern that
   underwrites long-term deployment success.
-- @finlayson_2021_datasetshift, *The Clinician and
+- @finlayson_2021_dataset_shift, *The Clinician and
   Dataset Shift in Artificial Intelligence*. The
   reference treatment of clinical-deployment
   drift.
-- @tierney_2024_aiscribe, *Ambient AI Scribes and
+- @tierney_2024_ai_scribe, *Ambient AI Scribes and
   Clinician Documentation*. An applied case study
   of clinical-AI deployment with empirical
   outcomes.

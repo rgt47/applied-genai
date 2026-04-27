@@ -223,7 +223,7 @@ perfect utility and perfect privacy.
 
 ## Differential privacy for biostatistical data
 
-Differential privacy [@dwork_2014_dp] is the principled
+Differential privacy [@dwork_2014_dp_foundations] is the principled
 framework for quantifying the privacy guarantee of a
 data analysis or release. The intuition: an analysis is
 $(\epsilon, \delta)$-differentially private if removing
@@ -373,8 +373,8 @@ techniques is appropriate.
 
 ## HIPAA Safe Harbor and expert determination
 
-For US clinical-data work, the privacy regime is HIPAA
-[@hhs_hipaa]. Two paths to de-identification:
+For US clinical-data work, the privacy regime is HIPAA.
+Two paths to de-identification:
 
 **Safe Harbor.** Remove 18 specified identifiers (names,
 dates more granular than year for ages > 89, ZIP codes
@@ -585,7 +585,7 @@ Three habits define defensible work in this area:
 
 ## Further reading
 
-- @dwork_2014_dp, *The Algorithmic Foundations of
+- @dwork_2014_dp_foundations, *The Algorithmic Foundations of
   Differential Privacy*. The textbook reference for DP.
 - @xu_2019_ctgan, *Modeling Tabular data using
   Conditional GAN*. The CTGAN paper.

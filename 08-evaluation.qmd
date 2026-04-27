@@ -34,7 +34,7 @@ the actual work users care about.
 
 The framing that has emerged for serious applied use is
 **organisation-specific evaluation**. Mollick
-[@mollick_2025_jobinterview] articulates the analogy:
+[@mollick_2025_job_interview] articulates the analogy:
 'you shouldn't pick the AI that will advise thousands of
 decisions for your organization based on whether it
 knows that the mean cranial capacity of Homo erectus
@@ -96,7 +96,7 @@ culture in a context where it does not transfer.
 
 ## The job-interview metaphor
 
-Mollick's framing [@mollick_2025_jobinterview] is
+Mollick's framing [@mollick_2025_job_interview] is
 operational. To evaluate an AI for use in your team's
 work, design the equivalent of a job interview: a small
 number of representative tasks, expert-designed,
@@ -186,7 +186,7 @@ manual grading becomes impossible. The pattern that
 has emerged is **LLM-as-judge**: a separate model
 grades each output against the rubric.
 
-The technique [@zheng_2023_llmjudge] works
+The technique [@zheng_2023_llm_judge] works
 surprisingly well when configured properly:
 
 **Pairwise comparison** (which output is better, A or
@@ -298,7 +298,7 @@ deployment performance. Three failure modes:
   metric but worse on adjacent tasks the benchmark
   does not measure.
 
-Med-PaLM [@singhal_2023_medpalm; @singhal_2025_medpalm2]
+Med-PaLM [@singhal_2023_med_palm; @singhal_2025_medpalm2]
 achieves expert-level performance on MedQA. The
 practical implication is narrower than the headline:
 Med-PaLM-class models are good at USMLE-style
@@ -514,7 +514,7 @@ Three habits define defensible work in this area:
 
 ## Further reading
 
-- @zheng_2023_llmjudge, *Judging LLM-as-a-Judge with
+- @zheng_2023_llm_judge, *Judging LLM-as-a-Judge with
   MT-Bench and Chatbot Arena*. The reference paper
   for the LLM-as-judge methodology.
 - @jin_2021_medqa, *What Disease does this Patient
@@ -522,10 +522,10 @@ Three habits define defensible work in this area:
   Dataset from Medical Exams*. The MedQA reference.
 - @hendrycks_2021_mmlu, *Measuring Massive Multitask
   Language Understanding*. The MMLU reference.
-- @singhal_2023_medpalm, *Large Language Models
+- @singhal_2023_med_palm, *Large Language Models
   Encode Clinical Knowledge*. The Med-PaLM reference,
   including discussion of biomedical-benchmark
   performance.
-- @mollick_2025_jobinterview, *Giving your AI a Job
+- @mollick_2025_job_interview, *Giving your AI a Job
   Interview*. The framing for organisation-specific
   evaluation.

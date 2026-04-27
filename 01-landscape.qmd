@@ -117,7 +117,7 @@ adjudication rather than execution.
 ## Capability classes: chat, reasoning, agentic, multimodal
 
 The taxonomy that has emerged across applied-AI
-syllabi [@kuhn2024tidymodels; @mollick_2025_opinionated]
+syllabi [@kuhn_2022_tidymodels; @mollick_2025_opinionated_guide]
 treats current generative AI as four overlapping
 capability classes rather than a single product. Each
 class has a characteristic strength, a characteristic
@@ -153,7 +153,7 @@ DeepSeek R1. They take longer (tens of seconds to a
 minute or more), cost more (an order of magnitude or
 more per query), and substantially outperform chat models
 on multi-step reasoning, mathematical problems, and
-complex code [@openai_2024_o1; @deepseek_2025_r1].
+complex code [@openai_2024_o1_system_card; @deepseek_2025_r1].
 
 The trade is opacity. The thinking trace is partial or
 hidden, the model's confidence in its answer is high
@@ -175,7 +175,7 @@ and operates in a loop, choosing actions and observing
 their results until the goal is met or the budget is
 exhausted [@yao_2023_react; @anthropic_2024_mcp]. Claude
 with computer use, GPT-5's autonomous mode, the Model
-Context Protocol stack [@mcp_2025_spec].
+Context Protocol stack [@mcp_2025_specification].
 
 Agents are powerful and dangerous. They can complete
 tasks that no single chat or reasoning prompt can: 'go
@@ -255,7 +255,7 @@ elementary arithmetic. The same model that solves a
 novel coding problem cannot reliably count letters in a
 word. The same model that generates a publication-quality
 methods section invents citations to papers that do not
-exist. Mollick [@mollick_2025_jagged] names this the
+exist. Mollick [@mollick_2025_jagged_agi] names this the
 *jagged frontier*: capability rises in some directions
 and remains subhuman in adjacent ones, with no consistent
 predictor of which is which from the user's perspective.
@@ -322,7 +322,7 @@ frontier failures:
 ## The cybernetic teammate
 
 The third concept is a stance, not a technology. Mollick
-[@mollick_2025_cyberteammate] reports a randomised
+[@mollick_2025_cybernetic_teammate] reports a randomised
 controlled trial of 776 professionals at Procter &
 Gamble, randomised to alone-versus-team and AI-versus-no-
 AI conditions on realistic product-development workshops.
@@ -346,7 +346,7 @@ The shift in framing has practical implications for the
 biostatistician.
 
 **The binding skill is delegation, not prompting.**
-Mollick [@mollick_2026_management] argues the underlying
+Mollick [@mollick_2026_management_superpower] argues the underlying
 skill is precise specification of deliverables, fast
 evaluation of output, and judicious choice of what to
 delegate. These are management fundamentals: clear
@@ -369,7 +369,7 @@ can produce code; only the biostatistician knows whether
 the code is solving the right problem.
 
 **Adoption emerges at the edges.** Mollick
-[@mollick_2024_latent] documents that the most useful AI
+[@mollick_2024_latent_expertise] documents that the most useful AI
 applications come from individual practitioners
 discovering workflows in their own work, not from
 centralised IT prescription. For a biostatistics group,
@@ -685,20 +685,20 @@ Three habits define defensible work in this area:
 
 ## Further reading
 
-- @mollick_2025_opinionated, *An Opinionated Guide to
+- @mollick_2025_opinionated_guide, *An Opinionated Guide to
   Using AI Right Now*. The clearest contemporary
   capability-tier taxonomy, written for a general
   audience but precise enough for technical readers.
-- @mollick_2025_jagged, *The Shape of AI: Jaggedness,
+- @mollick_2025_jagged_agi, *The Shape of AI: Jaggedness,
   Bottlenecks and Salients*. The reference treatment of
   the jagged-frontier concept.
-- @mollick_2025_cyberteammate, *The Cybernetic Teammate*.
+- @mollick_2025_cybernetic_teammate, *The Cybernetic Teammate*.
   The randomised-controlled-trial evidence underwriting
   the teammate framing.
-- @bubeck_2023_sparks, *Sparks of Artificial General
+- @bubeck_2023_sparks_agi, *Sparks of Artificial General
   Intelligence: Early experiments with GPT-4*. The
   capability-mapping document that established the
   modern jagged-frontier vocabulary.
-- @thirunavukarasu_2023_lmm, *Large language models in
+- @thirunavukarasu_2023_llms_medicine, *Large language models in
   medicine*. The applied-medical context for the
   capability classes treated here.

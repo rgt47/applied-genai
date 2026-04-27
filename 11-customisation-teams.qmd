@@ -35,7 +35,7 @@ cases that are worth identifying explicitly.
 
 The adoption side of the chapter is equally important.
 The empirical evidence — Mollick's
-*Cybernetic Teammate* RCT [@mollick_2025_cyberteammate]
+*Cybernetic Teammate* RCT [@mollick_2025_cybernetic_teammate]
 showing AI-enabled individuals matching the performance
 of unaugmented two-person teams — points to a specific
 adoption pattern that works: latent-expertise discovery
@@ -81,7 +81,7 @@ habits that survive the next model release.
 
 **(Judgement 3.) Centralised prescription does not
 work.** The Mollick RCT and the *Latent Expertise*
-[@mollick_2024_latent] argument both point in the
+[@mollick_2024_latent_expertise] argument both point in the
 same direction: useful AI applications are
 discovered by individual practitioners in their own
 work, not prescribed by IT. The biostatistician's
@@ -283,7 +283,7 @@ but well-supported by libraries like Hugging Face
 ## Adoption in biostatistics teams
 
 Mollick's *Cybernetic Teammate* RCT
-[@mollick_2025_cyberteammate] studied 776 professionals
+[@mollick_2025_cybernetic_teammate] studied 776 professionals
 at Procter & Gamble in a 4-arm trial: alone or in
 two-person teams, with or without AI access, on
 realistic product-development tasks. Findings:
@@ -324,7 +324,7 @@ individual-level adoption.
 ## Latent expertise: organisational R&D patterns
 
 Mollick's *Latent Expertise* observation
-[@mollick_2024_latent] is that the most useful AI
+[@mollick_2024_latent_expertise] is that the most useful AI
 applications are discovered by individual
 practitioners in their own work, not prescribed by
 IT or product teams. The pattern that produces value
@@ -563,8 +563,8 @@ Three habits define defensible work in this area:
   open-weights biomedical language model that is
   the natural starting point for biomedical
   on-prem deployment.
-- @mollick_2025_cyberteammate, *The Cybernetic
+- @mollick_2025_cybernetic_teammate, *The Cybernetic
   Teammate*. The RCT evidence underwriting the
   augmented-individual framing.
-- @mollick_2024_latent, *Latent Expertise: Everyone
+- @mollick_2024_latent_expertise, *Latent Expertise: Everyone
   is in R&D*. The argument for bottom-up adoption.

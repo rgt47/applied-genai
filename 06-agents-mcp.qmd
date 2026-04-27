@@ -70,7 +70,7 @@ remains in human hands; the choice is a professional
 judgement, not a technology one.
 
 **(Judgement 2.) The specification of the deliverable.**
-Mollick [@mollick_2026_management] frames effective AI
+Mollick [@mollick_2026_management_superpower] frames effective AI
 collaboration as importing management fundamentals:
 clear product requirement documents, iterative feedback,
 fast evaluation. The biostatistician writes the
@@ -106,7 +106,7 @@ hours, or days, taking actions that affect data and
 systems along the way.
 
 The skills that matter shift accordingly. Mollick
-[@mollick_2026_management; @mollick_2025_realagents]
+[@mollick_2026_management_superpower; @mollick_2025_real_agents]
 articulates the analogy precisely: effective delegation
 to an agent is the same skill as effective delegation
 to a junior colleague, with the same fundamentals.
@@ -190,7 +190,7 @@ and the team.
 ## The Model Context Protocol
 
 The Model Context Protocol (MCP) [@anthropic_2024_mcp;
-@mcp_2025_spec] is an open specification for connecting
+@mcp_2025_specification] is an open specification for connecting
 LLMs to external systems. An MCP server exposes a set
 of tools (functions the model can call) and resources
 (data the model can read) over a standardised protocol.
@@ -544,11 +544,11 @@ Three habits define defensible work in this area:
   the precursor to MCP-style tool use.
 - @anthropic_2024_mcp, *Introducing the Model Context
   Protocol*. The first-party announcement of MCP.
-- @mcp_2025_spec, the MCP specification document.
-- @mollick_2026_management, *Management as AI
+- @mcp_2025_specification, the MCP specification document.
+- @mollick_2026_management_superpower, *Management as AI
   Superpower*. The reference for the manager-mindset
   framing.
-- @mollick_2025_realagents, *Real AI Agents and Real
+- @mollick_2025_real_agents, *Real AI Agents and Real
   Work*. Applied evidence on agent capabilities for
   knowledge work.
 - @fleming_2024_medalign, *MedAlign: a clinician-

@@ -103,7 +103,7 @@ silent error.
 
 Reasoning models — OpenAI's o-series, Claude with
 extended thinking, Gemini 2.5 Pro, DeepSeek R1
-[@openai_2024_o1; @deepseek_2025_r1; @anthropic_2025_extended] —
+[@openai_2024_o1_system_card; @deepseek_2025_r1; @anthropic_2025_extended_thinking] —
 add a thinking phase between input and output. The model
 generates intermediate tokens that are not shown to the
 user (or are shown in summarised form), then collapses
@@ -125,7 +125,7 @@ chat models produce shallower answers.
 Three changes matter for biostatistical work.
 
 **Less prompt engineering required.** Mollick
-[@mollick_2024_goodenough] argues that 'good enough
+[@mollick_2024_good_enough_prompting] argues that 'good enough
 prompting' is the right standard for modern systems.
 Elaborate few-shot examples, complex chain-of-thought
 templates, and prompt-engineering tricks that were
@@ -656,18 +656,18 @@ Three habits define defensible work in this area:
 - @mollick_2025_wizards, *On Working with Wizards*. The
   reference treatment of competence-and-opacity rising
   together.
-- @mollick_2024_goodenough, *Getting started with AI:
+- @mollick_2024_good_enough_prompting, *Getting started with AI:
   Good enough prompting*. The argument against
   elaborate prompt engineering for modern systems.
-- @mollick_2024_thinkinglike, *Thinking Like an AI*. A
+- @mollick_2024_thinking_like_ai, *Thinking Like an AI*. A
   practical mental model for token prediction, training
   data, and context windows.
-- @openai_2024_o1, *OpenAI o1 System Card*. The first-
+- @openai_2024_o1_system_card, *OpenAI o1 System Card*. The first-
   party document on the reasoning paradigm.
-- @anthropic_2025_extended, *Claude with extended
+- @anthropic_2025_extended_thinking, *Claude with extended
   thinking*. First-party documentation of Anthropic's
   reasoning-model approach.
-- @wei_2022_cot, *Chain-of-thought prompting elicits
+- @wei_2022_chain_of_thought, *Chain-of-thought prompting elicits
   reasoning in large language models*. The technique-
   defining paper, useful for historical context even
   though much of it is now subsumed by reasoning models.
