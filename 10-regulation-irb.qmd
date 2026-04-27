@@ -148,7 +148,7 @@ to change. The conceptual framework — risk-based
 regulation, life-cycle approach, transparency
 expectations — is stable.
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon=false collapse=true}
 ## Check your understanding: SaMD or not?
 
 **Question.** A team builds a model that scores clinical
@@ -180,7 +180,7 @@ that supports the chosen classification.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-::::
+:::
 
 ## EU AI Act and high-risk medical classification
 

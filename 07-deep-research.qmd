@@ -168,7 +168,7 @@ PMC, and papers in non-English literatures are
 under-represented. The biostatistician notices the gap
 and supplements.
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon=false collapse=true}
 ## Check your understanding: deep research vs systematic review
 
 **Question.** A clinical team needs literature evidence
@@ -202,7 +202,7 @@ is usually adequate and the trade-off is reasonable.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-::::
+:::
 
 ## Living reviews: LLM screening with human adjudication
 

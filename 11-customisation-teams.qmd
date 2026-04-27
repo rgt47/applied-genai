@@ -173,7 +173,7 @@ address that. A blanket fine-tune of a frontier model
 because 'we want our own model' is rarely the right
 answer.
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon=false collapse=true}
 ## Check your understanding: when to fine-tune
 
 **Question.** A biostatistics team has a frontier API
@@ -205,7 +205,7 @@ cost.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-::::
+:::
 
 ## PEFT, LoRA, and distillation at a working level
 

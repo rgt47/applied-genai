@@ -173,9 +173,15 @@ read and write files, execute code, query databases,
 call APIs. The model is given a goal and a set of tools
 and operates in a loop, choosing actions and observing
 their results until the goal is met or the budget is
-exhausted [@yao_2023_react; @anthropic_2024_mcp]. Claude
-with computer use, GPT-5's autonomous mode, the Model
-Context Protocol stack [@mcp_2025_specification].
+exhausted [@yao_2023_react; @anthropic_2024_mcp].
+Examples include frontier chat models with computer-use
+or autonomous-mode capabilities and the Model Context
+Protocol stack [@mcp_2025_specification].[^model-names]
+
+[^model-names]: Specific model names current as of
+2026-04 are listed in the conventions appendix; the
+capabilities described here will outlast specific model
+versions.
 
 Agents are powerful and dangerous. They can complete
 tasks that no single chat or reasoning prompt can: 'go
@@ -198,8 +204,9 @@ images (clinical photographs, chest X-rays,
 histopathology), audio (clinical scribes, voice
 interfaces), video (procedural videos, ultrasound), and
 structured documents (PDFs with tables, EHR exports).
-GPT-5o, Claude 3.7 Sonnet with vision, Gemini 3 Pro
-multimodal, plus specialised biomedical models like
+Multimodal frontier models from major providers handle
+image, audio, and document inputs as a built-in
+capability, alongside specialised biomedical models like
 MedSAM [@ma_2024_medsam], RETFound [@zhou_2023_retfound],
 and BiomedCLIP [@zhang_2025_biomedclip].
 
@@ -213,7 +220,7 @@ distribution shift in imaging (different scanners,
 patient populations, acquisition protocols) is harder to
 detect than distribution shift in tabular data.
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon=false collapse=true}
 ## Check your understanding: choosing the class
 
 **Question.** A collaborator asks you to use AI to
@@ -243,7 +250,7 @@ ask routes to the class; the ask must come first.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-::::
+:::
 
 ## The jagged frontier
 
@@ -419,7 +426,7 @@ relevant parts rather than dump the whole document.
 Reasoning models with extended thinking partially
 compensate but do not eliminate the issue.
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon=false collapse=true}
 ## Check your understanding: cost per correct answer
 
 **Question.** Two models are available for a biostat-
@@ -449,7 +456,7 @@ per-correct-output, not cost-per-query.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-::::
+:::
 
 ## Worked example: choosing tools for a trial-data analysis
 

@@ -155,7 +155,7 @@ biostatistical work where uncertainty quantification is
 load-bearing, this is a structural limitation: do not
 trust expressed confidence as a signal.
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon=false collapse=true}
 ## Check your understanding: when reasoning helps
 
 **Question.** A biostatistician asks a chat model to
@@ -192,7 +192,7 @@ than once on the same problem, escalate.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-::::
+:::
 
 ## Constructing context for biomedical work
 
@@ -347,7 +347,7 @@ report that does not disclose AI assistance, or that
 implies verification was performed when it was not, is
 the kind of work that produces retraction notices.
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon=false collapse=true}
 ## Check your understanding: provisional vs verified
 
 **Question.** A biostatistician uses a reasoning model
@@ -384,7 +384,7 @@ is defensible.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-::::
+:::
 
 ## When reasoning models help and when they do not
 

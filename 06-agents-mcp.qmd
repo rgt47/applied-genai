@@ -153,7 +153,7 @@ The decision rule, simplified:
 | Single-turn output, surface verification | chat model |
 | Open-ended judgement, unrecoverable consequences | the biostatistician |
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon=false collapse=true}
 ## Check your understanding: when not to delegate
 
 **Question.** Two work items are on the agenda: (a)
@@ -185,7 +185,7 @@ and the team.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-::::
+:::
 
 ## The Model Context Protocol
 

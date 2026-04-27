@@ -93,9 +93,9 @@ and by journals.
 Three classes of multimodal model handle biomedical
 imaging differently.
 
-**General-purpose multimodal LLMs** (GPT-5o, Claude 3.7
-Sonnet with vision, Gemini 3 Pro multimodal) are
-trained on broad image-text pairs from the web. They
+**General-purpose multimodal LLMs** (multimodal frontier
+models from major providers) are trained on broad
+image-text pairs from the web. They
 handle natural images, diagrams, screenshots, and
 moderate-quality medical images reasonably. They
 perform poorly on specialised modalities (histopathology
@@ -178,7 +178,7 @@ with manual segmentation by a radiologist? The answer
 is task-, site-, and modality-dependent and must be
 established empirically on a representative subset.
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon=false collapse=true}
 ## Check your understanding: model selection by modality
 
 **Question.** A research team wants to extract liver
@@ -208,7 +208,7 @@ volume-Pearson-correlation against the manual reference.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-::::
+:::
 
 ## Clinical AI scribes: documentation and attestation
 

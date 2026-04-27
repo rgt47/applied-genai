@@ -158,7 +158,7 @@ For a biostatistics team's deployment:
   application unless the workflow specifically
   benefits from it.
 
-:::: {.callout-note icon=false collapse=true}
+::: {.callout-note icon=false collapse=true}
 ## Check your understanding: interface and adoption
 
 **Question.** A biostatistics team has access to a
@@ -196,7 +196,7 @@ these and produces resentment without productivity.
 ::: {.content-visible when-format='html'}
 </details>
 :::
-::::
+:::
 
 ## Shadow-mode rollout
 
