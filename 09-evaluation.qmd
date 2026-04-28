@@ -58,6 +58,24 @@ work of evaluation is ongoing, contextual, and
 analytic (in the sense that it involves study
 design and inference under uncertainty).
 
+A pointed illustration of the gap. In a 2026
+randomised study of 1,298 UK adults
+[@bean_2026_llm_self_assessment], participants who
+used an LLM (GPT-4o, Llama 3, or Command R+) to
+self-assess common medical conditions performed
+*worse than or no better than* participants who used
+their normal home resources, even though the same
+models scored well on standard medical-knowledge
+benchmarks. In one instance two users described
+nearly identical symptoms of subarachnoid haemorrhage
+and received opposite advice: one was told to lie
+down in a dark room; the other was told to seek
+emergency care. The benchmarks did not predict this
+failure. The deployment did. The chapter's standing
+question, *what evaluation regime would have caught
+that*, is the question the rest of the chapter
+develops.
+
 ## The analyst's contribution {#sec-evaluation-human}
 
 Three judgements are not delegable.
@@ -303,6 +321,132 @@ A useful disposition: **read public benchmarks for
 filtering, not for selection**. They tell you which
 models are in the ballpark for your domain; the
 selection is by your evaluation suite.
+
+## Benchmark saturation
+
+A benchmark stops being a useful signal when the
+frontier models have crowded against its ceiling.
+SWE-Bench Verified, a software-engineering benchmark
+that was load-bearing for coding-model comparison
+through 2024 and most of 2025, illustrates the arc
+clearly. Successive frontier model releases
+(Claude Opus 4.5, Opus 4.6, Opus 4.7) registered
+near-identical scores on the benchmark while
+practitioners reported clear differences in everyday
+use [@raschka_2026_open_weight_spring]. OpenAI's own
+2026 retrospective [@openai_2026_swe_bench_retro],
+*Why SWE-bench Verified no longer measures frontier
+coding capabilities*, documented that a substantial
+share of remaining unsolved tasks are unsolvable for
+reasons that have nothing to do with model
+capability (broken tests, ambiguous specifications,
+missing dependencies). A benchmark that started as a
+useful filter became, late in its life cycle, a
+benchmark whose top of leaderboard does not order
+the models on the capability the benchmark was meant
+to measure.
+
+The pattern generalises:
+
+- **Benchmarks are time-limited assets.** They have a
+  useful filtering range, then they saturate. The
+  saturation point is when frontier scores cluster
+  within sampling noise. Past that point, the
+  benchmark provides comparison-equality signal but
+  not comparison-ranking signal.
+- **The right response to saturation is retirement,
+  not interpretation.** Reading nuance into a
+  saturated benchmark to distinguish frontier models
+  is a category error. The benchmark has done its
+  job; the discrimination must move to a harder
+  benchmark or to a deployment-grade evaluation
+  suite.
+- **Medical benchmarks are not exempt.** MedQA
+  performance has approached or crossed the
+  contamination-and-saturation threshold for several
+  frontier models. A 2026 leaderboard score of 92%
+  vs 91% on MedQA is not a meaningful capability
+  signal even when both numbers are computed
+  faithfully.
+
+The implication for the analyst is operational:
+maintain a list of which public benchmarks you trust
+for filtering, and update it. A benchmark on which
+all the candidate models score within two points of
+each other has stopped being useful for that
+selection.
+
+## From benchmarks to evaluation environments
+
+The deeper limitation of static benchmarks is that
+they evaluate isolated decisions. A clinician's work
+is not a sequence of isolated puzzles. It is a
+stream of decisions made under evolving constraints,
+with finite resources, where each choice reshapes
+the available options for the next choice. A
+benchmark's scoring of *did the model produce the
+right answer to this question* tells the analyst
+little about *will the model behave usefully across
+a 12-hour shift in a busy emergency department*.
+
+The 2026 *Clinical Environment Simulator* (CES)
+framework of Luo and colleagues
+[@luo_2026_clinical_simulator] is a working
+articulation of the alternative. Borrowing from
+aviation, the authors note: 'Just as aviation
+replaced written examinations with comprehensive
+flight simulators to better capture the complexity
+of real flying, clinical AI evaluation should
+similarly move toward simulated hospital
+environments that reflect the true demands of
+medical practice.' The CES framework couples a
+*hospital engine* (real-time bed availability,
+staff workload, equipment status) with a *patient
+engine* (disease progression that responds to AI
+interventions). The two engines create feedback
+loops where every clinical decision reshapes future
+options.
+
+Three capabilities surface under this paradigm that
+no static benchmark measures:
+
+- **Temporal reasoning under evolving constraints.**
+  Diagnostic delays directly cause patient
+  deterioration; a model that produces a correct
+  diagnosis 30 minutes too late is not equivalent to
+  one that produces it on time.
+- **Resource-aware decision-making.** Aggressive
+  workups for one patient may exhaust capacity
+  needed by others. A useful clinical AI must reason
+  about its own demand on shared resources.
+- **Operational resilience.** Performance under
+  simultaneous emergencies and system failures is a
+  separate axis from average-case accuracy.
+
+Two design implications follow.
+
+First, the analyst's evaluation suite should
+include at least some tasks that are *temporally
+extended*: not 'answer this question' but 'manage
+this case across multiple decision points where each
+choice affects the next state'. For research
+analytics, the analogue is end-to-end tasks (analyse
+this dataset from data dictionary to final report,
+with intermediate decision points) rather than
+single-step tasks (write the regression code).
+
+Second, the analyst should expect the benchmark
+landscape to shift in this direction. Medical AI
+evaluation in 2026 is mid-transition; the
+publication of CES, of similar simulator-based
+proposals across radiology, oncology, and emergency
+medicine, and of the Bean and colleagues
+[@bean_2026_llm_self_assessment] result that
+benchmarks-and-simulations failed to predict
+real-world failures, all point to a paradigm shift.
+Teams that build their evaluation infrastructure
+only for static benchmarks will find that
+infrastructure increasingly inadequate.
 
 ## Continuous evaluation
 

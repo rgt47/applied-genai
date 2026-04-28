@@ -363,6 +363,26 @@ and the scale of training data (most of the high-
 quality text on the open internet) that the major
 labs by then had access to.
 
+A point worth pinning down is that the 2017
+transformer is the *architectural milestone*, not the
+endpoint of architecture research. Post-2017 work on
+attention has been substantial. Multi-head attention
+gave way to grouped-query attention (Llama 3, Qwen3),
+multi-head latent attention (DeepSeek V2 onwards),
+sliding-window attention (Gemma 3), DeepSeek sparse
+attention (V3.2 onwards), and gated and hybrid stacks
+that mix transformer-like attention with state-space
+models in the Mamba family (Qwen3-Next, Kimi K2.5,
+GLM-5) [@raschka_2026_attention_variants]. Frontier
+2026 open-weight models routinely replace most full-
+attention layers with cheaper linear-time variants.
+Yet the user-facing experience is largely the same.
+The architecture matters, but the analyst should be
+careful not to over-attribute capability gains to it:
+'Modeling performance is likely not attributed to the
+architecture design itself but rather the dataset
+quality and training recipes' [@raschka_2026_open_weight_spring].
+
 ## From transformer to large language model
 
 The path from a 2017 architecture to the chat models
