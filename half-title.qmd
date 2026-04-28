@@ -1,10 +1,10 @@
-# Applied Generative AI for Clinical and Public Health Researchers {.unnumbered}
+# Applied Generative AI for Health Sciences Research {.unnumbered}
 
 ::: {.content-visible when-format='pdf'}
 \thispagestyle{empty}
 \vspace*{4cm}
 \begin{center}
-{\Huge\bfseries Applied Generative AI for Clinical and Public Health Researchers\par}
+{\Huge\bfseries Applied Generative AI for Health Sciences Research\par}
 \vspace{1cm}
 {\Large\itshape A graduate textbook for clinical and public-health research\par}
 \end{center}

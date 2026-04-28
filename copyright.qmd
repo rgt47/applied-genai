@@ -1,6 +1,6 @@
 # Copyright {.unnumbered}
 
-*Advanced Statistical Computing in the Age of AI* by
+*Applied Generative AI for Health Sciences Research* by
 Ronald 'Ryy' G. Thomas is licensed under a
 [Creative Commons Attribution-NonCommercial-NoDerivatives
 4.0 International
@@ -13,6 +13,14 @@ i.e. the public domain.
 
 To cite this book, please use:
 
-> Thomas, R. G. (2026). *Advanced Statistical Computing in the
-> Age of AI*. Available at
-> <https://scai-advanced.rgtlab.org>.
+> Thomas, R. G. (2026). *Applied Generative AI for Health
+> Sciences Research*. Available at
+> <https://applied-genai.rgtlab.org>.
+
+::: {.content-visible when-format='pdf'}
+```{=latex}
+\clearpage
+\tableofcontents
+\clearpage
+```
+:::

@@ -1,9 +1,9 @@
-# Welcome {.unnumbered}
+::: {.content-visible when-format='html'}
+# Welcome {.unnumbered .unlisted}
 
 This is the online version of **Applied Generative AI for
-Clinical and Public Health Researchers** by The rgtlab
-Curriculum Project, a graduate textbook for clinical and
-public-health research.
+Health Sciences Research** by The rgtlab Curriculum Project,
+a graduate textbook for clinical and public-health research.
 
 The book covers the practical use of generative AI, large
 language models, reasoning models, agents, and multimodal
@@ -49,3 +49,5 @@ The code samples in this book are licensed under
 [Creative Commons CC0 1.0 Universal (CC0
 1.0)](https://creativecommons.org/publicdomain/zero/1.0/),
 i.e. public domain.
+
+:::

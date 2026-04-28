@@ -3,7 +3,7 @@ project:
   output-dir: _book
 
 book:
-  title: 'Applied Generative AI for Clinical and Public Health Researchers'
+  title: 'Applied Generative AI for Health Sciences Research'
   subtitle: 'A graduate textbook for clinical and public-health research'
   author: 'The rgtlab Curriculum Project'
   date: today
@@ -93,6 +93,7 @@ format:
   pdf:
     documentclass: scrbook
     classoption: [11pt]
+    toc: false
     code-annotations: below
     highlight-style: arrow
     geometry:
