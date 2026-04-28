@@ -158,7 +158,7 @@ def build():
               series_fnt, WHITE)
 
     author_fnt = font('avenir-medium', 64)
-    authors = ['Ronald "Ryy" G. Thomas']
+    authors = ['rgtlab Curriculum Project']
     y = 240
     for line in authors:
         draw_text(draw, (60, y), line, author_fnt, WHITE)
@@ -168,8 +168,8 @@ def build():
     title_fnt   = font('avenir-black', 100)
     title_lines = ['Applied',
                    'Generative AI',
-                   'for Public Health',
-                   'and Biostatistics']
+                   'for Health',
+                   'Sciences Research']
     y = SPLIT_Y + 80
     for line in title_lines:
         draw_text(draw, (60, y), line, title_fnt, WHITE)
@@ -177,8 +177,7 @@ def build():
 
     sub_fnt = font('avenir-medium', 46)
     y += 20
-    for line in ['A graduate textbook',
-                 'in biostatistics']:
+    for line in ['A graduate textbook']:
         draw_text(draw, (62, y), line, sub_fnt, CREAM)
         y += 60
 
