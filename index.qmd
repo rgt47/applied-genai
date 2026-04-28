@@ -1,9 +1,9 @@
 # Welcome {.unnumbered}
 
 This is the online version of **Applied Generative AI for
-Clinical and Public Health Researchers** by Ronald 'Ryy'
-G. Thomas, a graduate textbook for clinical and public-
-health research.
+Clinical and Public Health Researchers** by The rgtlab
+Curriculum Project, a graduate textbook for clinical and
+public-health research.
 
 The book covers the practical use of generative AI, large
 language models, reasoning models, agents, and multimodal
