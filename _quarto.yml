@@ -25,9 +25,9 @@ book:
     collapse-level: 1
 
   chapters:
+    - index.qmd
     - half-title.qmd
     - copyright.qmd
-    - index.qmd
     - preface.qmd
     - conventions.qmd
     - 00-intro.qmd
@@ -107,6 +107,17 @@ format:
       text: |
         \usepackage{fontspec}
         \setmonofont{DejaVu Sans Mono}[Scale=0.9]
+    include-before-body:
+      text: |
+        \begin{titlepage}
+        \thispagestyle{empty}
+        \newgeometry{margin=0pt}
+        \noindent\makebox[\paperwidth]{%
+          \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{images/cover.png}%
+        }
+        \restoregeometry
+        \end{titlepage}
+        \cleardoublepage
 
 bibliography: references.bib
 csl: https://www.zotero.org/styles/apa

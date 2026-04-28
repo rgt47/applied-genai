@@ -1,18 +1,3 @@
-::: {.content-visible when-format='html'}
 # Applied Generative AI for Health Sciences Research {.unnumbered .unlisted}
 
 *A graduate textbook.*
-:::
-
-::: {.content-visible when-format='pdf'}
-```{=latex}
-\thispagestyle{empty}
-\vspace*{4cm}
-\begin{center}
-{\Huge\bfseries Applied Generative AI for Health Sciences Research\par}
-\vspace{1cm}
-{\Large\itshape A graduate textbook\par}
-\end{center}
-\newpage
-```
-:::

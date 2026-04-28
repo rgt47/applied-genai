@@ -400,7 +400,7 @@ documentation) than in the raw model quality.
 
 | Axis | Closed-weight (API) | Open-weight (on-prem or VPC) |
 |---|---|---|
-| Privacy / PHI / data residency | Data routed through provider; HIPAA BAA may or may not be in place | Analyst controls the inference infrastructure |
+| Privacy / PHI / data residency | Data routed through provider; HIPAA BAA may or may not be in place | Researcher controls the inference infrastructure |
 | Reproducibility / version pinning | Provider can silently update; published version label is not a guarantee of bit-stable behaviour | Frozen weights give bit-stable inference; reproducible across years |
 | Cost structure | Per-token, scales linearly with usage; no upfront infra | Upfront GPU + ops cost; near-zero marginal token cost |
 | Capability ceiling | Generally at or near the frontier on benchmarks | Within a few points of frontier on most benchmarks; ahead in some niches (Chinese-language, certain coding tasks) |

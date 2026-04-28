@@ -1,4 +1,3 @@
-::: {.content-visible when-format='html'}
 # Welcome {.unnumbered .unlisted}
 
 This is the online version of **Applied Generative AI for
@@ -19,13 +18,13 @@ The book sits alongside three companion volumes in the
 series:
 
 - [*Statistical Computing in the Age of AI*](https://scai.rgtlab.org),
-  theintroductory graduate computing volume.
+  the introductory graduate computing volume.
 - [*Advanced Statistical Computing in the Age of AI*](https://scai-advanced.rgtlab.org),
-  theadvanced computing volume covering numerical
+  the advanced computing volume covering numerical
   stability, optimisation, Monte Carlo, and high-dimensional
   methods.
 - [*Biostatistics Practicum*](https://practicum.rgtlab.org),
-  theworkflow companion covering Git, Docker, renv,
+  the workflow companion covering Git, Docker, renv,
   Quarto, CDISC, and SAS.
 
 This fourth volume treats generative AI as the orthogonal
@@ -49,5 +48,3 @@ The code samples in this book are licensed under
 [Creative Commons CC0 1.0 Universal (CC0
 1.0)](https://creativecommons.org/publicdomain/zero/1.0/),
 i.e. public domain.
-
-:::

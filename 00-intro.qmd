@@ -52,12 +52,13 @@ introductory and advanced sister volumes:
 - **No practice test.** The introductory volume closes
   with a self-administered practice test; this volume
   treats the exercises as the equivalent assessment.
-- **Analyst-centred framing.** The sister volumes
+- **Researcher-centred framing.** The sister volumes
   address the biostatistician explicitly. This volume,
-  whose audience extends to clinical researchers and
-  public-health investigators, refers to *the researcher*:
-  whoever is running the analysis and signing the
-  report. Where a chapter contains a worked example with
+  whose audience extends across health-sciences research
+  (clinicians, biostatisticians, epidemiologists,
+  pharmacists, public-health researchers), refers to
+  *the researcher*: whoever is running the analysis and
+  signing the report. Where a chapter contains a worked example with
   an explicit role, the role is named (clinical fellow,
   pharmacoepidemiologist, biostatistician); the
   surrounding prose stays role-neutral.
