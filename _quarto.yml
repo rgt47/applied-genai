@@ -3,7 +3,7 @@ project:
   output-dir: _book
 
 book:
-  title: 'Applied Generative AI for Public Health and Biostatistics'
+  title: 'Applied Generative AI for Clinical and Public Health Researchers'
   subtitle: 'A graduate textbook for clinical and public-health research'
   author: 'Ronald "Ryy" G. Thomas'
   date: today

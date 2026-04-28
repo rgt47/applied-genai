@@ -1,10 +1,10 @@
-# Applied Generative AI for Public Health and Biostatistics {.unnumbered}
+# Applied Generative AI for Clinical and Public Health Researchers {.unnumbered}
 
 ::: {.content-visible when-format='pdf'}
 \thispagestyle{empty}
 \vspace*{4cm}
 \begin{center}
-{\Huge\bfseries Applied Generative AI for Public Health and Biostatistics\par}
+{\Huge\bfseries Applied Generative AI for Clinical and Public Health Researchers\par}
 \vspace{1cm}
 {\Large\itshape A graduate textbook for clinical and public-health research\par}
 \end{center}
