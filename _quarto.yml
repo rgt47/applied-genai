@@ -4,7 +4,7 @@ project:
 
 book:
   title: 'Applied Generative AI for Public Health and Biostatistics'
-  subtitle: 'A graduate textbook in biostatistics'
+  subtitle: 'A graduate textbook for clinical and public-health research'
   author: 'Ronald "Ryy" G. Thomas'
   date: today
   date-format: 'YYYY-MM-DD'
@@ -34,30 +34,31 @@ book:
 
     - part: 'Foundations for the Applied User'
       chapters:
-        - 01-landscape.qmd
-        - 02-reasoning-context.qmd
+        - 01-genesis.qmd
+        - 02-landscape.qmd
+        - 03-reasoning-context.qmd
 
     - part: 'Working with Biomedical Knowledge and Data'
       chapters:
-        - 03-rag-biomedical.qmd
-        - 04-synthetic-data-privacy.qmd
-        - 05-multimodal-medical.qmd
+        - 04-rag-biomedical.qmd
+        - 05-synthetic-data-privacy.qmd
+        - 06-multimodal-medical.qmd
 
     - part: 'Agentic Workflows and Tool Use'
       chapters:
-        - 06-agents-mcp.qmd
-        - 07-deep-research.qmd
+        - 07-agents-mcp.qmd
+        - 08-deep-research.qmd
 
     - part: 'Evaluation, Safety, and Governance'
       chapters:
-        - 08-evaluation.qmd
-        - 09-safety-bias.qmd
-        - 10-regulation-irb.qmd
+        - 09-evaluation.qmd
+        - 10-safety-bias.qmd
+        - 11-regulation-irb.qmd
 
     - part: 'Customisation, Deployment, and Practice'
       chapters:
-        - 11-customisation-teams.qmd
-        - 12-deployment.qmd
+        - 12-customisation-teams.qmd
+        - 13-deployment.qmd
 
     - references.qmd
 

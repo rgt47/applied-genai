@@ -17,7 +17,7 @@ structure:
 2. **Orientation.** Two to four paragraphs of prose framing:
    what the chapter is, why it matters, how it relates to
    adjacent chapters.
-3. **The statistician's contribution.** A front-loaded
+3. **The analyst's contribution.** A front-loaded
    section articulating the judgements at the centre of
    the chapter that no large language model can make on
    the reader's behalf. Three to five paragraphs, each
@@ -42,7 +42,7 @@ structure:
 
 ## Adjustments specific to this book
 
-Two adjustments distinguish this volume from the
+Three adjustments distinguish this volume from the
 introductory and advanced sister volumes:
 
 - **No prerequisites quiz.** The introductory volume
@@ -52,11 +52,20 @@ introductory and advanced sister volumes:
 - **No practice test.** The introductory volume closes
   with a self-administered practice test; this volume
   treats the exercises as the equivalent assessment.
+- **Analyst-centred framing.** The sister volumes
+  address the biostatistician explicitly. This volume,
+  whose audience extends to clinical researchers and
+  public-health investigators, refers to *the analyst*:
+  whoever is running the analysis and signing the
+  report. Where a chapter contains a worked example with
+  an explicit role, the role is named (clinical fellow,
+  pharmacoepidemiologist, biostatistician); the
+  surrounding prose stays role-neutral.
 
 ## Cross-references
 
 References to chapters in this volume use `@sec-` labels:
-for example, `@sec-agents-mcp` resolves to Chapter 6.
+for example, `@sec-agents-mcp` resolves to Chapter 7.
 References to chapters in the sister volumes use full
 URLs, since the volumes deploy as separate Quarto sites:
 SCAI lives at <https://scai.rgtlab.org>, the advanced

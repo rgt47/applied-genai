@@ -1,0 +1,681 @@
+# A Brief History of Generative AI: How We Got Here {#sec-genesis}
+
+## Learning objectives
+
+By the end of this chapter you should be able to:
+
+- Trace the principal intellectual lineages that produced
+  contemporary generative AI: symbolic computation,
+  statistical learning, and connectionist models.
+- Name the half-dozen technical milestones, from the
+  perceptron to the transformer, that gate today's large
+  language models.
+- Articulate why generative AI is not magic: the
+  underlying machinery is pattern-matching learned from
+  data, not reasoning in the human sense.
+- Identify which contemporary capabilities are
+  consequences of *scale* and which reflect a genuine
+  algorithmic advance.
+
+## Orientation
+
+The capabilities that students and clinicians encounter
+under the banner of *generative AI* in 2026 sit on top of
+roughly seventy years of work in computing, statistics,
+and the cognitive sciences. None of the underlying ideas
+appeared in 2022 with ChatGPT. The transformer
+architecture was published in 2017. Backpropagation,
+which makes today's networks trainable, was popularised in
+1986. The first artificial neuron model was published in
+1943. The recursion-and-symbolic-expression style of
+programming that anchored early artificial-intelligence
+research was published in 1958.
+
+This chapter sketches the path from those origins to the
+systems the rest of the book uses. The aim is not
+historical completeness; the aim is *demystification*. A
+clinical or public-health researcher who understands that
+a large language model is a very large, very carefully
+trained statistical pattern-matcher will read its output
+differently from one who treats it as an oracle. The
+former will look for the kinds of failures statistical
+pattern-matchers exhibit (correlation without causation,
+extrapolation outside the training distribution,
+confident interpolation between half-remembered examples)
+and will design verification accordingly. The latter will
+trust the fluency and be surprised by the failures.
+
+The chapter is also a useful reference frame for the
+rest of the book. Subsequent chapters treat generative AI
+as a tool to be selected, prompted, and verified. Naming
+the parts of the tool, what is novel, what is borrowed,
+what is scaled up rather than fundamentally new, makes
+the selection and verification decisions sharper.
+
+## The analyst's contribution {#sec-genesis-human}
+
+History is not a substitute for technique, but it
+disciplines technique. Three judgements that thread
+through the chapter and the rest of the book have
+historical anchors worth naming.
+
+**(Judgement 1.) Distinguishing scale from novelty.** Many
+of the capabilities that appear most striking in 2026
+language models, fluent prose, in-context arithmetic, the
+ability to draft a regression specification, are
+emergent consequences of scale rather than new
+algorithmic ideas. The next-token prediction that
+underlies GPT-style models is technically continuous with
+n-gram language modelling from the 1980s. What changed
+is the size of the model, the size of the training
+corpus, and the architecture's ability to exploit both.
+The analyst's contribution is to see through the gloss
+and recognise that scale alone does not solve problems
+the underlying statistical machinery cannot solve.
+
+**(Judgement 2.) Recognising the inductive-bias choices
+behind every model.** Each milestone in this chapter
+embodies a choice about *what kinds of structure* the
+model is permitted to learn easily. CART makes axis-
+aligned splits; convolutional networks impose
+translational equivariance; transformers impose a
+permutation-invariant treatment of tokens combined with
+learnable attention weights. The biases shape what the
+model finds. A clinical or public-health researcher who
+deploys a model without thinking about its inductive
+biases is implicitly trusting a choice someone else made.
+
+**(Judgement 3.) Reading the literature in its arc, not
+its surface.** A 2024 paper that claims a new technique
+is often a refinement of an idea from the 1990s. A 2026
+benchmark that appears to demonstrate near-human
+performance often rests on training-set leakage that
+echoes a critique made of perceptron evaluation in 1969.
+Reading new claims with the historical arc in mind makes
+the discount factor on hype calibrated rather than
+sceptical or credulous.
+
+## From symbols to functions: the Lisp era
+
+The phrase *artificial intelligence* enters the
+literature at the 1956 Dartmouth workshop organised by
+McCarthy, Minsky, Rochester, and Shannon. The optimism of
+the period (researchers expected human-level AI within a
+generation) shaped both the theoretical agenda and the
+programming languages built to pursue it.
+
+McCarthy's *Lisp* [@mccarthy_1960_recursive] is the
+foundational artefact of this era. Lisp is a functional
+language in which programs and data share a single
+representation, the symbolic expression or *s-expression*.
+A function in Lisp is a list; a list of lists is a tree;
+a tree of trees is a program transformation. The
+language was designed for an era in which artificial
+intelligence was understood as *symbolic manipulation*:
+reasoning about the world by transforming logical
+expressions, much as a mathematician transforms an
+equation.
+
+The symbolic paradigm produced real successes (theorem
+provers, expert systems, planning programs) and a
+generation of researchers comfortable with treating
+*intelligence* and *symbol manipulation* as
+substitutable. It also produced two structural
+limitations that the rest of this chapter is, in part, a
+response to. First, encoding any but the simplest world
+into logical expressions turned out to be brutally
+labour-intensive; the *knowledge engineering bottleneck*
+of the 1980s expert-system era was the practical face of
+this. Second, real-world data are noisy and ambiguous in
+ways logical inference handles poorly. The symbolic
+tradition was not wrong; it was incomplete.
+
+For contemporary practice the relevant inheritance from
+this era is conceptual. The notion that a program is
+something one *writes* (procedural code that computes a
+result step by step) versus something one *trains*
+(parameters fitted to data) splits along a line whose
+modern form is the symbolic-versus-statistical divide.
+Contemporary generative AI is overwhelmingly on the
+statistical side, but the symbolic tradition lives on in
+tool-use, agent planning, and the structured-output
+techniques of @sec-agents-mcp.
+
+## Pattern recognition by fitting: CART and the rise of nonparametric methods
+
+In parallel with the symbolic-AI tradition, statisticians
+were developing methods that learned patterns directly
+from data without requiring a parametric model
+specified in advance. The line of work that this chapter
+treats as exemplary is the *Classification and
+Regression Trees* (CART) framework of Breiman, Friedman,
+Olshen, and Stone [@breiman_1984_cart].
+
+CART builds a piecewise-constant prediction surface by
+recursively partitioning the predictor space. At each
+step the algorithm picks the variable and split point
+that most reduces a loss (Gini impurity for
+classification, residual sum of squares for regression),
+applies the split, and recurses on each side. The result
+is a tree whose leaves are constant predictions and
+whose interior nodes are simple yes-or-no decisions on a
+single covariate.
+
+The technique mattered intellectually for two reasons.
+First, it offered a method for *automatic feature
+discovery*: the splits produced by CART encoded
+interactions and nonlinearities that a parametric
+analyst would have had to anticipate and code by hand.
+Second, the CART formalism made plain that prediction
+performance and interpretability were on a tradeoff
+curve: deep trees fit better but were less
+interpretable; shallow trees were more legible but
+weaker predictors. The same tradeoff structures every
+subsequent debate in the field, from random-forest
+versus single-tree to deep network versus logistic
+regression.
+
+CART itself was extended into *random forests*
+[@breiman_2001_random_forests] and *gradient-boosted trees*
+[@friedman_2001_gradient_boost], which became, and remain, the
+default applied-statistical-learning toolkit for
+tabular data. For the clinical or public-health analyst
+the relevant modern descendant is `xgboost` and its
+relatives, still the dominant choice for risk-score
+modelling and electronic-health-record outcome
+prediction.
+
+## The neural network arc: perceptron, winter, deep learning
+
+The parallel and eventually dominant tradition is
+*connectionism*, the study of networks of simple computing
+units inspired loosely by neurons. The arc has three
+phases: an early optimism that produced the first
+trainable networks; a long dormant period (the *AI
+winter*) when theoretical limits and computational costs
+killed funding; and a 2010s revival that produced
+the deep learning boom from which modern generative AI
+is descended.
+
+**The early period.** McCulloch and Pitts
+[@mcculloch_1943_logical] proposed a mathematical model of
+the neuron in which inputs are weighted, summed, and
+passed through a threshold. The construction is striking
+because it shows that any logical function can be
+represented as a network of such neurons; the model is
+*Turing-complete* in the relevant sense.
+
+Rosenblatt's *perceptron* [@rosenblatt_1958_perceptron]
+gave the first trainable network: starting from random
+weights, the perceptron updates its weights based on
+classification errors and converges, on linearly
+separable data, to a correct classifier. Rosenblatt was
+optimistic about the implications. Minsky and Papert's
+*Perceptrons* [@minsky_1969_perceptrons] was the technical
+critique that ended the early-optimism phase: they
+demonstrated that single-layer perceptrons could not
+solve problems requiring nonlinear decision boundaries
+(famously, the XOR problem). Multi-layer perceptrons
+could in principle, but no one knew how to train them.
+
+**The first winter.** The community that took the
+critique seriously turned to symbolic AI; the community
+that did not was small enough to be marginal. Funding
+dried up. The unsolved problem was *credit assignment*
+in deep networks: when a deep network makes an error,
+which weights deserve which share of the blame?
+
+**The backpropagation revival.** The credit-assignment
+problem was solved (or rather, a sufficiently practical
+solution was found) in the 1980s. Rumelhart, Hinton, and
+Williams [@rumelhart_1986_backprop] popularised
+*backpropagation*: a careful application of the chain
+rule of calculus that propagates the error gradient
+backwards through the network and apportions blame
+across all weights. The technique had been independently
+discovered several times before, but this paper was the
+one that the field absorbed.
+
+Backpropagation made multi-layer networks trainable in
+principle. Two practical obstacles delayed its impact by
+roughly twenty years. First, *vanishing gradients*: in
+deep networks with the activations of the era, the
+gradient signal tended to attenuate exponentially as it
+propagated backwards, leaving early-layer weights
+effectively untrained. Second, *compute and data*: the
+networks that worked were small, and training them on
+1990s hardware was painfully slow.
+
+**The deep-learning boom.** The 2010s saw both obstacles
+fall. New activation functions (notably the rectified
+linear unit, ReLU) attenuated the vanishing-gradient
+problem. New normalisation techniques and architectural
+choices stabilised training. Most consequentially, GPUs
+made the matrix multiplications that dominate neural-
+network training tractable at scales that had previously
+been infeasible. The *AlexNet* result of Krizhevsky,
+Sutskever, and Hinton [@krizhevsky_2012_imagenet] on the
+ImageNet image-classification benchmark is the moment
+the field marks as the start of the modern era. Deep
+convolutional networks, trained on a million images
+across a thousand categories, halved the error rate of
+the previous best methods. The result was so decisive
+that the entire computer-vision community pivoted within
+two years.
+
+The deep-learning era introduced an architectural
+vocabulary that subsequent generative AI inherits:
+*convolutional* layers for translational structure;
+*recurrent* layers for sequence structure; *embeddings*
+that map discrete inputs (words, tokens) to dense
+real-valued vectors. The 2015 LeCun, Bengio, and Hinton
+*Nature* review [@lecun_2015_deep] summarises the
+state of play at the inflection point.
+
+## Statistical learning theory: the kernel detour
+
+Between the 1969 perceptron critique and the 2012
+ImageNet result, the dominant style of machine learning
+was not connectionist but *statistical-learning*. The
+work of Vapnik and colleagues on support vector machines
+[@cortes_1995_svm] and the broader *kernel methods*
+literature defined the field. Support vector machines
+solved the nonlinear-decision-boundary problem that
+killed perceptrons by mapping data into a high-
+dimensional space where the boundary became linear,
+without ever explicitly computing the high-dimensional
+representation, the *kernel trick*.
+
+For the clinical and public-health analyst the
+practical inheritance from this era is the *Elements of
+Statistical Learning* [@hastie_2009_elements] textbook
+synthesis: a unified statistical view of supervised
+learning that treats trees, kernels, ensembles, and
+splines as alternative answers to a common question.
+The same book is the bridge to the modern era; its
+authors are the principal exponents of the statistical-
+learning view that contemporary generative AI is best
+read against.
+
+The kernel era also clarified an idea that recurs in
+modern neural-network practice: a network's capacity to
+generalise is governed by the interaction of model
+complexity, training-set size, and the implicit or
+explicit regularisation applied during training. The
+classical *bias-variance* decomposition is the
+theoretical home of this idea; modern neural networks
+appear to violate the classical decomposition in
+suggestive ways (the *double descent* phenomenon
+[@belkin_2019_double_descent]) but the underlying statistical
+intuition remains load-bearing.
+
+## The transformer breakthrough
+
+The architectural step that separates 2017-and-later
+generative AI from what came before is the *transformer*,
+introduced by Vaswani and colleagues at Google in
+*Attention is All You Need* [@vaswani_2017_attention]. The
+paper's contribution is to show that, for sequence
+processing, a class of layers called *attention* can
+replace the recurrent and convolutional structures that
+had previously dominated. The full title is the
+contribution: prior work used attention as a supplement
+to recurrence; the paper argued that attention alone,
+applied at every layer and across all positions, was
+sufficient and in fact preferable.
+
+Three properties of the transformer matter for the
+contemporary picture.
+
+**Parallelism.** Recurrent networks process a sequence
+position by position; attention processes all positions
+in parallel. The implication is that transformer
+training scales to corpora and model sizes that
+recurrent training cannot reach in any reasonable
+budget. This single property explains a great deal of
+why scaling worked.
+
+**Scaling behaviour.** The transformer's parameter count
+and training-data appetite scale together, and the
+relationship between them and model performance turns
+out to follow approximately predictable *scaling laws*
+[@kaplan_2020_scaling; @hoffmann_2022_chinchilla]. Performance
+on broad capability benchmarks improved smoothly as
+parameters, data, and compute were jointly scaled. This
+predictability was the basis for the multi-billion-
+dollar bets that produced GPT-3, GPT-4, and their
+descendants.
+
+**Emergence.** Specific capabilities (in-context
+learning, multi-step reasoning, code generation) appear
+relatively suddenly at certain scales rather than
+improving smoothly. The phenomenon is contested, some
+of the apparent emergence is artefact of how
+capabilities are evaluated [@schaeffer_2023_emergent], but
+it is part of the lived experience of building models in
+this era and shapes the field's expectations.
+
+The transformer was not novel as an idea; attention had
+been studied for some years. What was novel was the
+combination of attention-as-the-only-mechanism with the
+hardware (GPUs and later specialised tensor processors)
+and the scale of training data (most of the high-
+quality text on the open internet) that the major
+labs by then had access to.
+
+## From transformer to large language model
+
+The path from a 2017 architecture to the chat models
+the rest of this book uses runs through three additional
+ideas, each of which is conceptually accessible.
+
+**Pre-training.** Rather than training a model end-to-
+end on a specific task (sentiment classification,
+question answering), the modern recipe is to pre-train
+the model on a large corpus with a generic objective,
+typically *next-token prediction*, and then adapt it.
+Devlin and colleagues' BERT [@devlin_2019_bert] and Radford
+and colleagues' GPT-1 and GPT-2 [@radford_2018_gpt1;
+@radford_2019_gpt2] established the recipe. The
+pre-training step does most of the work; the adaptation
+step is comparatively cheap.
+
+**Scale.** GPT-3 [@brown_2020_gpt3] demonstrated that
+scaling the same recipe by an order of magnitude in
+parameters and data produced qualitatively new
+capabilities. *In-context learning*, the ability to
+solve a task by showing the model a few examples in the
+prompt rather than retraining it, was the most striking
+of these. The contemporary applied user encounters this
+as *prompting*: the prompt is, in effect, a brief
+adaptation step that costs nothing to run.
+
+**Alignment.** A model trained to predict the next
+token on the open internet will produce text continuous
+with the training distribution, which includes much that
+is unhelpful, untruthful, or unsafe. The post-training
+steps that turn a raw pre-trained model into a useful
+assistant, *supervised fine-tuning* and *reinforcement
+learning from human feedback* [@ouyang_2022_instructgpt], are
+the alignment recipe. The InstructGPT and ChatGPT
+releases of late 2022 are the public manifestation. The
+*foundation model* framing of Bommasani and colleagues
+[@bommasani_2021_foundation] names the resulting class of
+artefacts.
+
+The contemporary chat model the reader interacts with
+is, mechanically, a transformer; trained at scale on
+internet text with next-token prediction; then aligned
+on demonstrations and feedback to behave as an
+assistant. Reasoning models add a step in which the
+model is trained to produce extended chains of thought
+before responding; agentic models add infrastructure for
+tool use and multi-step action; multimodal models share
+weights across text, image, audio, and structured-
+document tokens. The capabilities of @sec-landscape are
+specialisations and combinations of this base recipe.
+
+## What this means for your work: not magic
+
+The historical arc above licences three claims that the
+rest of this book treats as background.
+
+**Generative AI is statistical pattern matching.** The
+underlying mechanism is conditional probability over
+tokens, learned from data. It is not reasoning in the
+human sense; it is not access to a knowledge base; it
+is not consultation with experts. The fluency that
+appears reasoning-like is the consequence of training
+data that contains reasoning-like text. This claim is
+strong, but it is also the established technical
+consensus in the field; the contested question is
+whether that statistical pattern matching, at scale, is
+sufficient for the tasks the field claims it solves.
+
+**Verification is non-optional.** Statistical
+pattern-matchers fail in characteristic ways:
+extrapolation outside the training distribution,
+confident hallucination of plausible-but-false facts,
+sensitivity to surface features of the prompt that have
+no semantic content. Each of these failure modes has a
+direct historical antecedent; they are not surprises.
+Every chapter of this book treats verification as a
+design property because the failure modes are
+predictable and the stakes in clinical and public-
+health work are real.
+
+**Capability gains are mostly scale.** Many of the
+between-version capability jumps that the field has
+seen since 2020 are scale gains rather than algorithmic
+gains. This matters for the analyst because it implies
+that capabilities a model lacks today may appear in
+the next-version model with no architectural change.
+The flip side is that capabilities a model demonstrates
+on a benchmark may not generalise to the analyst's
+specific task; benchmark gains are not user-task gains.
+The discipline is to evaluate on the analyst's task
+rather than on the field's benchmarks.
+
+The genealogy presented here, symbolic computation,
+statistical learning, connectionism, transformers, large
+language models, is one compression of a much longer
+history. The reader who wants the full version should
+consult Russell and Norvig [@russell_2021_aima] or
+the more historically focused Mitchell account
+[@mitchell_2019_thinking_humans]. The reader who wants the
+mathematical interior should work through Goodfellow,
+Bengio, and Courville [@goodfellow_2016_deep] alongside
+Bishop [@bishop_2024_deep]. The reader who wants to do
+applied work, the reader of this book, can take from
+this chapter the framing that follows: a powerful
+statistical pattern-matcher trained on a great deal of
+data is a useful collaborator and an unreliable oracle.
+The rest of the book is about treating it as the
+former.
+
+## Worked example: tracing one prediction
+
+A useful exercise for building intuition is to trace,
+informally, what happens when a transformer-based chat
+model receives the prompt:
+
+> *In a randomised controlled trial, the primary outcome
+> was reduction in HbA1c at 12 weeks. What baseline
+> covariates would you adjust for?*
+
+The model does not consult a database of trial-design
+principles. It does not call a function to look up
+HbA1c. The mechanical sequence is roughly as follows.
+
+1. **Tokenisation.** The prompt is split into tokens,
+   integer indices into a vocabulary of around 50,000
+   tokens depending on the model. *HbA1c* may become one
+   token or three.
+2. **Embedding.** Each token is mapped to a learned
+   vector, typically around 4,000 dimensions for a
+   contemporary model. The embedding is the model's
+   internal representation of the token's meaning, in
+   so far as that meaning was learned from training
+   data.
+3. **Attention layers.** A stack of transformer layers
+   (roughly 100 in a frontier model) each applies a
+   *self-attention* operation that lets every token's
+   representation be updated based on every other
+   token in the prompt. The layers progressively build
+   richer context-dependent representations of each
+   token.
+4. **Output projection.** The final-layer representation
+   of the *last* token is projected back to the
+   vocabulary, producing a probability distribution
+   over the next token.
+5. **Sampling.** A token is sampled from that
+   distribution (or chosen as the most probable). The
+   token is appended to the prompt and the loop repeats.
+
+The output sentence the analyst sees, *baseline HbA1c,
+age, sex, BMI, treatment-arm assignment, ...*, is the
+result of 1,000 or so iterations of this loop. Each
+token is selected based on the conditional probability
+the model has learned over its training data. The
+selection looks like reasoning because the training data
+contains a great deal of reasoning-like text about trial
+design.
+
+The worked example is informal; the details are
+elaborated in Bishop [@bishop_2024_deep] and the
+transformer-implementation walkthrough by Karpathy
+[@karpathy_2023_nanogpt]. The point of the example is to
+make concrete the claim above: the model is doing
+arithmetic over learned weights, not consulting an
+internal expert. The fluency of the output is real; the
+underlying mechanism is computation, not cognition.
+
+## Collaborating with an LLM on AI history
+
+The history is also a useful test case for using
+generative AI to *learn about* generative AI. Three
+prompt patterns work; each has a characteristic failure
+mode worth watching for.
+
+**Pattern 1. Decompose-and-trace.** Ask the model:
+*Sketch the conceptual chain from McCarthy's Lisp through
+to the transformer, naming three or four nodes on the
+chain and the key contribution of each.* The model is
+likely to produce a fluent answer that broadly matches
+the chapter above. **Watch for:** invented citations and
+plausible-but-incorrect dates. **Verify:** spot-check
+two or three claims against the cited primary sources or
+a survey textbook before incorporating any specific
+date or attribution into your own work.
+
+**Pattern 2. Counterfactual-history.** Ask the model:
+*Suppose Minsky and Papert's Perceptrons critique had
+not been published in 1969. How might the development
+of neural networks have proceeded differently?* The
+model will produce a fluent and plausible answer.
+**Watch for:** confident over-attribution of historical
+contingency to single events; the model's training data
+contains many such counterfactual histories and they
+read smoothly. **Verify:** use the answer as a way of
+generating *hypotheses* to investigate, not as
+historical fact.
+
+**Pattern 3. Locate-yourself.** Ask the model: *Given
+my background in X, where on this conceptual chain
+should I focus my reading?* The model is reasonably
+useful here because the question is calibration rather
+than fact: matching reading recommendations to a stated
+background is a task it does well. **Watch for:**
+recommendations of texts the model invents wholesale (a
+common failure mode for less-recent or less-popular
+references). **Verify:** check that the recommended
+texts exist before purchasing them.
+
+## Principle in use
+
+Three habits define defensible engagement with the
+genealogy and the contemporary practice it underpins.
+
+**Read backward.** When a contemporary technique appears
+new, ask which earlier idea it specialises or scales.
+The mapping is rarely empty and the discount factor on
+hype is calibrated by knowing the prior art.
+
+**Mark what is empirical.** Many claims about
+generative AI capability are claims about specific
+models on specific benchmarks. Mark them as such. The
+*scaling laws* are empirical; the *transformer
+architecture* is fixed; *capability X emerges at scale
+Y* is a measurement. None of these is a theorem.
+
+**Stay close to primary sources.** The chapter cited
+foundational papers throughout. Each is worth opening
+once, even briefly. The arc of the field is more
+intelligible from a half-dozen primary papers than from
+any number of secondary explainers.
+
+## Exercises
+
+1. **Draw the chain.** Construct a one-page timeline
+   diagram with at least six nodes connecting
+   McCarthy 1958 to the current frontier. For each
+   node, note in one sentence what the contribution
+   was. Submit the diagram and a half-page reflection on
+   which contributions strike you as algorithmic
+   advances and which as scale-driven.
+
+2. **Trace a prediction.** For a contemporary chat
+   model of your choice, write a short essay (300-500
+   words) tracing what happens to the prompt *Write a
+   one-paragraph summary of the CONSORT 2010 reporting
+   guidelines* through the mechanical pipeline of
+   tokenisation, embedding, attention, and sampling. The
+   essay does not need to be technically deep; it needs
+   to convince a sceptical clinical colleague that the
+   model is doing computation rather than thinking.
+
+3. **The Minsky-Papert critique today.** Identify a
+   capability gap in current large language models. Map
+   it onto the structure of a Minsky-Papert-style
+   critique: what is the gap, what would resolving it
+   require, and is the resolution a matter of scale or
+   of new ideas? Two paragraphs.
+
+4. **Inductive bias inventory.** For a clinical
+   application of your choice (e.g., predicting 30-day
+   readmission, classifying chest X-rays for
+   pneumothorax, summarising a cohort of clinical
+   notes), list the inductive biases of three candidate
+   models: a generalised linear model, a gradient-
+   boosted tree ensemble, and a transformer-based deep
+   network. Which biases are appropriate for the task?
+   Which are not?
+
+5. **Read one primary source.** Pick one of the
+   foundational papers cited in this chapter
+   ([@mcculloch_1943_logical], [@rosenblatt_1958_perceptron],
+   [@rumelhart_1986_backprop], [@breiman_1984_cart],
+   [@krizhevsky_2012_imagenet], [@vaswani_2017_attention])
+   and read it. Write a one-page summary that a
+   colleague who has read this chapter but not the
+   primary source could use. The point of the exercise
+   is to learn the discipline of reading the primary
+   source rather than the explainer.
+
+## Further reading
+
+**Canonical surveys.**
+
+- @russell_2021_aima, *Artificial Intelligence: A
+  Modern Approach* (4th ed.). The standard textbook;
+  encyclopaedic and authoritative.
+- @goodfellow_2016_deep, *Deep Learning*. The 2010s deep-
+  learning canon; freely available online.
+- @bishop_2024_deep, *Deep Learning: Foundations and
+  Concepts*. A more recent and pedagogically careful
+  treatment.
+
+**Historical and reflective.**
+
+- @mitchell_2019_thinking_humans, *Artificial Intelligence: A
+  Guide for Thinking Humans*. A historian-of-ideas
+  treatment; highly readable.
+- @lecun_2015_deep, the *Nature* review. Concise and
+  authoritative; written by three of the principal
+  exponents of the deep-learning revival.
+
+**The transformer canon.**
+
+- @vaswani_2017_attention, *Attention is All You Need*.
+  The transformer paper. Read once even if the
+  mathematical detail is heavy.
+- @karpathy_2023_nanogpt, the *nanoGPT* tutorial. A working
+  implementation of a small GPT in roughly 300 lines.
+  The right place to look if the architecture feels
+  abstract.
+
+**Statistical-learning bridge.**
+
+- @hastie_2009_elements, *Elements of Statistical
+  Learning*. The bridge text between classical
+  statistics and modern machine learning.

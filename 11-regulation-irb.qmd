@@ -28,11 +28,11 @@ AI uses fall under what regulatory regimes, what
 documentation is expected, is more stable and is the
 emphasis of the chapter.
 
-The biostatistician's role in the regulatory side of AI
+The analyst's role in the regulatory side of AI
 work is often underestimated. The role is not to be the
 regulatory expert (that is the regulatory affairs team's
 job) but to ensure the analysis is conducted in a way
-that supports the regulatory work. A biostatistician who
+that supports the regulatory work. An analyst who
 designs an AI-assisted study without considering the
 SaMD classification, the IRB language, or the HIPAA
 flow may produce defensible analytical work that cannot
@@ -49,7 +49,7 @@ configurations, on-prem alternatives. **IRB language
 for AI-assisted protocols**: what to write so the
 review board has what it needs.
 
-## The statistician's contribution {#sec-regulation-irb-human}
+## The analyst's contribution {#sec-regulation-irb-human}
 
 Three judgements are not delegable.
 
@@ -60,7 +60,7 @@ clinician action is potentially regulated by the FDA as
 SaMD. A model used for research-only analysis is
 typically not. The line is consequential: SaMD
 classification triggers substantial regulatory burden;
-research-only does not. The biostatistician identifies
+research-only does not. The analyst identifies
 where on the line a project sits and ensures the
 appropriate framing is documented.
 
@@ -69,7 +69,7 @@ data may flow through multiple parties in an AI-
 assisted analysis: the institution, an API provider,
 possibly a hosted RAG corpus, possibly a logging
 service. Each hop needs to be HIPAA-compliant or the
-analysis cannot proceed with PHI. The biostatistician
+analysis cannot proceed with PHI. The analyst
 maps the data flow, confirms the BAAs are in place, and
 documents the configuration.
 
@@ -78,7 +78,7 @@ review.** IRB protocols for AI-assisted research need
 to address questions the IRB will ask: what AI is
 being used, what data flows where, what verification
 is performed, what subject-level risks attach to the
-AI use. The biostatistician drafts this language so
+AI use. The analyst drafts this language so
 the IRB's review is informed and the protocol is
 approvable.
 
@@ -127,7 +127,7 @@ trades flexibility (faster updates) for upfront work
 (specifying the change envelope and the verification
 in advance).
 
-For a biostatistician supporting a SaMD development:
+For an analyst supporting a SaMD development:
 
 - Understand whether the project is targeting SaMD
   classification or is research-only.
@@ -168,7 +168,7 @@ becomes more borderline; if the score is used to
 suggest specific clinical findings to add ('your note
 suggests this patient may have undocumented diabetes'),
 it crosses into clinical-decision-support territory and
-is more likely to be regulated. The biostatistician's
+is more likely to be regulated. The analyst's
 contribution is to clarify the use case with the
 product team and document the intended-use language
 that supports the chosen classification.
@@ -203,7 +203,7 @@ High-risk AI obligations include:
 - Accuracy, robustness, cybersecurity.
 - Conformity assessment.
 
-For a biostatistician on a clinical-AI project with EU
+For an analyst on a clinical-AI project with EU
 exposure (deployment in EU or research collaboration
 with EU institutions), these translate into:
 
@@ -274,7 +274,7 @@ Does the analysis require PHI?
         └── Justify the cost, deploy, maintain
 ```
 
-For most biostatistical research, de-identification or
+For most applied research, de-identification or
 BAA+API is sufficient. On-prem is reserved for
 specific contexts (high-volume clinical operations,
 specific contractual constraints).
@@ -384,7 +384,7 @@ following purposes:
    (Anthropic Claude with extended thinking) assists
    in drafting analysis plans. All plans are
    reviewed and finalised by the senior
-   biostatistician.
+   analyst.
 
 4. Methods drafting: AI-generated text is reviewed
    and edited by the investigator before publication.

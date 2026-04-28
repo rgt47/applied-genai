@@ -28,14 +28,14 @@ OpenAI Deep Research, Anthropic's research mode, Google's
 research-with-agents, plus Elicit and Scite at the
 research-tool layer. The capability has changed what is
 possible at the literature-search and evidence-synthesis
-end of biostatistical work.
+end of applied analytic work.
 
 Mollick [@mollick_2025_deep_research] frames the shift: 'for
 the first time, an AI isn't just summarizing research,
 it's actively engaging with it at a level that actually
 approaches human scholarly work'. The empirical evidence
 matches the framing. A graduate-level research question
-that would have taken a senior biostatistician a day of
+that would have taken a senior analyst a day of
 literature work, pull and read 60 papers, organise the
 themes, draft a synthesis, can be done by Deep Research
 in 15 minutes with output that requires verification but
@@ -59,18 +59,18 @@ ways AI is reshaping academic research, of which the
 methods-singularity (autonomous experiments and
 analysis) is closest to this chapter's topic.
 
-## The statistician's contribution {#sec-deep-research-human}
+## The analyst's contribution {#sec-deep-research-human}
 
 Three judgements are not delegable.
 
 **(Judgement 1.) Deep research is a draft, not a
 finished product.** The output of a deep-research run
 is a structured document with citations and synthesis.
-The biostatistician verifies the citations exist, the
+The analyst verifies the citations exist, the
 claims attributed to them are accurate, and the
 synthesis does not over- or under-state the evidence.
 A deep-research output that is uploaded to a
-collaborator without verification is the biostatistical
+collaborator without verification is the analytic
 equivalent of submitting a draft your intern wrote
 without reading it.
 
@@ -80,18 +80,18 @@ require comprehensive search of multiple databases,
 explicit search strings, and deduplication. Deep
 research is good at scoping searches and broad-mapping;
 it is not a substitute for the formal search step.
-The biostatistician decides which kind of search the
+The analyst decides which kind of search the
 work requires and uses deep research where appropriate.
 A clinical guideline informed by a deep-research-only
 search is not the same artefact as one informed by a
 PRISMA-aligned systematic review.
 
 **(Judgement 3.) The interpretation of evidence remains
-the biostatistician's.** Deep research can produce a
+the analyst's.** Deep research can produce a
 synthesis paragraph with citations. The conclusion 'the
 evidence supports treatment X for indication Y' is a
 clinical judgement informed by the evidence, not a
-literal output of the synthesis tool. The biostatistician
+literal output of the synthesis tool. The analyst
 weighs the evidence, considers the limitations, and
 forms the conclusion, with the deep-research output as
 input rather than output.
@@ -123,7 +123,7 @@ bibliography. The latency is 5–30 minutes; the cost is
 typically $1–$5 per run; the citation count is
 typically 30–100 sources per report.
 
-For biostatisticians, three classes of task are well-
+For clinical and public-health researchers, three classes of task are well-
 suited.
 
 **Background scoping.** 'What's known about X in
@@ -157,7 +157,7 @@ but not replace.
 **Meta-analyses.** Deep research can identify candidate
 studies and extract reported statistics, but the
 quantitative pooling, heterogeneity assessment, and
-sensitivity analysis remain biostatistical work. Deep
+sensitivity analysis remain applied analytic work. Deep
 research's tabular extraction is helpful as a draft
 input.
 
@@ -165,7 +165,7 @@ input.
 on web indexing. Very recent papers (last few weeks),
 papers in subscription-only journals not indexed in
 PMC, and papers in non-English literatures are
-under-represented. The biostatistician notices the gap
+under-represented. The analyst notices the gap
 and supplements.
 
 ::: {.callout-note icon=false collapse=true}
@@ -182,7 +182,7 @@ a formal systematic review?
 tool. A systematic review takes 3–9 months including
 title/abstract screening, full-text review, data
 extraction, risk-of-bias assessment, and synthesis.
-Deep research, with the biostatistician's verification,
+Deep research, with the analyst's verification,
 produces a competent evidence summary in 1–3 days.
 The trade-off: the deep research is not PRISMA-
 compliant; if the resulting protocol is later
@@ -234,7 +234,7 @@ The pipeline:
    PRISMA-AI.
 
 The agent of @sec-agents-mcp can be set up to run this
-pipeline weekly. The biostatistician's time per update
+pipeline weekly. The analyst's time per update
 is on the order of 1–2 hours; the time per LLM-assisted
 extraction is 30 seconds rather than 30 minutes manual.
 The trade is the verification overhead; for a 5-paper-
@@ -399,7 +399,7 @@ sources for each claim.
 ~$3.20 in API charges. Output: a 14-page report with
 a 32-row trial table and a synthesis paragraph.
 
-**Step 3: verify.** The biostatistician verifies:
+**Step 3: verify.** The analyst verifies:
 - The 32 trials cited exist (check PMID).
 - For 6 randomly-selected trials, the extracted
   primary endpoint matches the published trial.
@@ -416,7 +416,7 @@ removed. The synthesis paragraph is accurate.
 **Step 4: supplement.** The deep-research output missed
 two recent trials the team knows about (one at ASCO
 2025, not yet indexed; one in a Japanese journal). The
-biostatistician adds them manually to the table.
+analyst adds them manually to the table.
 
 **Step 5: use in protocol.** The scoping review
 informs the team's choice of primary endpoint
@@ -433,7 +433,7 @@ all citations and 20% verification of extracted
 fields'. The detailed methodology lives in an
 internal document for institutional review.
 
-Total time: ~10 hours of biostatistician time
+Total time: ~10 hours of analyst time
 (verification + supplementation + protocol writing),
 versus an estimated 4–6 weeks for a traditional
 scoping review. The trade-off is the
@@ -494,8 +494,8 @@ recent re-evaluation of the methodology.
 
 The meta-pattern: **deep research is a force
 multiplier for the literature-engagement phase of
-biostatistical work, not a replacement for the
-biostatistician's judgement about the evidence.** Use
+applied analytic work, not a replacement for the
+analyst's judgement about the evidence.** Use
 it where the speed-up is substantial, the verification
 is tractable, and the use case can absorb a deep-
 research-shaped artefact rather than a formal

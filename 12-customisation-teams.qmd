@@ -11,7 +11,7 @@ By the end of this chapter you should be able to:
 - Reason about institutional-data fine-tuning under HIPAA,
   including BAA constraints, audit requirements, and the
   reproducibility implications of model versioning.
-- Design adoption patterns for biostatistics teams that
+- Design adoption patterns for research-analytics teams that
   reflect the *cybernetic teammate* evidence: AI-augmented
   individuals matching team-without-AI baselines, and the
   organisational R&D pattern for surfacing useful
@@ -27,7 +27,7 @@ The decision to customise, fine-tune a model on
 institutional data, distill a smaller model from a
 larger one, deploy an open-weights model on-prem, is
 expensive in setup and maintenance. The default for most
-biostatistical teams should be context engineering: use
+research-analytics teams should be context engineering: use
 a frontier API, supply institutional context per query
 through RAG and prompt scaffolding, and let the model do
 the work. Customisation pays off in a narrow set of
@@ -51,11 +51,11 @@ warranted, when on-prem becomes necessary. **PEFT and
 LoRA at a working level**: enough to make sound choices
 without going into the training mechanics that belong
 in a different book. **Adoption patterns for
-biostatistics teams**: how to organise the team's
+research-analytics teams**: how to organise the team's
 discovery and use of AI assistance so the team's
 collective knowledge grows over time.
 
-## The statistician's contribution {#sec-customisation-teams-human}
+## The analyst's contribution {#sec-customisation-teams-human}
 
 Three judgements are not delegable.
 
@@ -67,7 +67,7 @@ that fine-tuning is expensive (in API cost, in
 infrastructure, in maintenance) and obsoletes when the
 underlying model is updated (which is often). Most
 of the time, the right answer is context engineering
-with a frontier API. The biostatistician evaluates the
+with a frontier API. The analyst evaluates the
 trade rather than defaulting to one or the other.
 
 **(Judgement 2.) Adoption is the longest-lived
@@ -75,7 +75,7 @@ artefact.** Specific models change every few months;
 specific tools change every year. The team's
 disposition toward AI-assisted work, the habits of
 specification, verification, and disclosure, outlast
-all of them. The biostatistician shapes the team's
+all of them. The analyst shapes the team's
 adoption pattern with the long view in mind: build
 habits that survive the next model release.
 
@@ -84,7 +84,7 @@ work.** The Mollick RCT and the *Latent Expertise*
 [@mollick_2024_latent_expertise] argument both point in the
 same direction: useful AI applications are
 discovered by individual practitioners in their own
-work, not prescribed by IT. The biostatistician's
+work, not prescribed by IT. The analyst's
 role is to encourage individual experimentation,
 share what works, and treat the discovery process as
 part of the work. Trying to mandate specific tools
@@ -176,7 +176,7 @@ answer.
 ::: {.callout-note icon=false collapse=true}
 ## Check your understanding: when to fine-tune
 
-**Question.** A biostatistics team has a frontier API
+**Question.** A research-analytics team has a frontier API
 that produces acceptable results on most tasks but
 fails on a specific kind of task: generating SAS code
 in the institution's house style (specific macros,
@@ -202,7 +202,7 @@ cost.
 
 ## PEFT, LoRA, and distillation at a working level
 
-Three concepts at the level a biostatistician needs to
+Three concepts at the level an analyst needs to
 make sound choices.
 
 **LoRA: low-rank adaptation.** Instead of fine-tuning all
@@ -260,7 +260,7 @@ The student is faster and cheaper at inference but
 lacks the teacher's capability outside the trained
 distribution.
 
-For biostatistical work, distillation makes sense when:
+For applied analytic work, distillation makes sense when:
 - A specific repetitive task dominates inference cost
   (e.g., abstract screening for a living systematic
   review).
@@ -273,7 +273,7 @@ The distillation workflow is more involved than LoRA
 but well-supported by libraries like Hugging Face
 `transformers`.
 
-## Adoption in biostatistics teams
+## Adoption in research-analytics teams
 
 Mollick's *Cybernetic Teammate* RCT
 [@mollick_2025_cybernetic_teammate] studied 776 professionals
@@ -291,17 +291,17 @@ realistic product-development tasks. Findings:
   reported higher positive emotion and lower
   anxiety.
 
-The implications for a biostatistics team:
+The implications for a research-analytics team:
 
-**Individual capability rises.** A biostatistician
+**Individual capability rises.** An analyst
 working with AI assistance can produce work that
-previously required the biostatistician plus a junior
+previously required the analyst plus a junior
 analyst. The team's effective capacity increases by
 some multiplier, the empirical estimates vary but are
 substantial.
 
 **Cross-discipline collaboration improves.** A
-biostatistician collaborating with a clinician using
+analyst collaborating with a clinician using
 AI on both sides can communicate more efficiently;
 the AI assists in translation across vocabularies.
 Cross-discipline projects that previously had high
@@ -335,18 +335,18 @@ is:
 This is recognisably a research-and-development
 pattern, applied to AI workflow. It works because it
 respects the diversity of work in the team, each
-biostatistician's tasks are slightly different, and
+analyst's tasks are slightly different, and
 allows local optimisation.
 
 The anti-pattern is centralised prescription: 'the
-biostatistics team will use Tool X for Task Y, and
+research-analytics team will use Tool X for Task Y, and
 will use Prompt Z for Sub-task W'. This produces
 compliance theatre (people use the prescribed tool
 when watched, and their own tools the rest of the
 time) and misses the workflow innovations that come
 from people who actually do the work.
 
-The biostatistician (or team lead) supporting good
+The analyst (or team lead) supporting good
 adoption:
 - Encourages individual experimentation with AI
   tools.
@@ -362,7 +362,7 @@ adoption:
   patterns emerge.
 
 A specific working pattern for a 6–10 person
-biostatistics group:
+research-analytics group:
 - A shared `prompts/` directory in the team's
   internal repo, with per-task prompt templates.
 - A `runbooks/` directory with specific workflows
@@ -374,9 +374,9 @@ biostatistics group:
 - A monthly update to the team's evaluation suite
   based on lessons learned.
 
-## Worked example: a biostatistics team's first 6 months
+## Worked example: a research-analytics team's first 6 months
 
-A biostatistics group of 7 people adopts AI
+A research-analytics group of 7 people adopts AI
 assistance starting Q1 2026. The trajectory:
 
 **Month 1: individual experimentation.** Each team
@@ -461,7 +461,7 @@ suite; if it scores below the team's threshold,
 investigate why. Often the failure is improvable
 without fine-tuning.
 
-**Prompt 2: 'Help our team adopt AI for biostatistical
+**Prompt 2: 'Help our team adopt AI for analytic
 work.'** Provide the team's structure and current
 processes.
 

@@ -1,28 +1,35 @@
 # Preface {.unnumbered}
 
 This volume is the fourth in a graduate sequence on
-biostatistical computing. The first three volumes cover
-the methods and infrastructure of biostatistical practice:
-introductory and advanced statistical computing, plus a
-practicum on the workflow tools that surround them. This
-fourth volume covers the orthogonal axis that has reshaped
-biostatistical practice between 2023 and 2026: the use of
+quantitative methods for clinical and public-health
+research. The first three volumes cover the methods and
+infrastructure of research practice: introductory
+and advanced statistical computing, plus a practicum on
+the workflow tools that surround them. This fourth volume
+covers the orthogonal axis that has reshaped applied
+analytic work between 2023 and 2026: the use of
 generative AI as a working collaborator.
 
-The book assumes familiarity with biostatistical methods at
-the level of a first-year graduate sequence and fluency in
-R at the level of *R for Data Science*. It does not assume
-prior experience with large language models, agents, or
+The intended audience is the graduate student or working
+researcher in biostatistics, clinical research, or public
+health who runs the analyses and signs the reports.
+Throughout the book, *the analyst* refers to whoever sits
+in that seat regardless of disciplinary label. The book
+assumes familiarity with statistical methods at the level
+of a first-year graduate sequence and fluency in R at the
+level of *R for Data Science*. It does not assume prior
+experience with large language models, agents, or
 multimodal AI; those are introduced from the ground up,
-oriented to the biostatistical use cases the audience
-will encounter.
+oriented to the research use cases the audience will
+encounter.
 
 ## What this book covers
 
-The 12-chapter structure is organised in five parts:
+The 13-chapter structure is organised in five parts:
 
-1. **Foundations for the applied user**: the generative
-   AI landscape and capability classes; reasoning models,
+1. **Foundations for the applied user**: a brief
+   genealogy of generative AI; the contemporary
+   landscape and capability classes; reasoning models,
    context, and the verification problem.
 2. **Working with biomedical knowledge and data**:
    retrieval-augmented generation over biomedical corpora;
@@ -36,7 +43,7 @@ The 12-chapter structure is organised in five parts:
    regulation, privacy, and the IRB.
 5. **Customisation, deployment, and practice**:
    fine-tuning, distillation, and AI-augmented teams;
-   deploying AI in biostatistical practice.
+   deploying AI in clinical and public-health practice.
 
 The chapter list was constructed by surveying current
 graduate-level applied-AI curricula across major US
@@ -47,7 +54,7 @@ Ethan Mollick's *One Useful Thing* Substack
 (`docs/mollick-digest.md`), a touchstone for contemporary
 applied genAI thinking. The result is a curriculum that
 reflects mainstream 2026 practice while staying anchored to
-biostatistical use cases.
+clinical and public-health research use cases.
 
 ## What this book does not cover
 
@@ -76,10 +83,10 @@ Three concepts thread through every chapter and earn the
 **The jagged frontier.** Generative AI capability is
 uneven: superhuman in some dimensions, subhuman in
 adjacent ones. The frontier is also opaque, capability
-and verification difficulty grow together. The
-biostatistician's contribution is to identify which jagged
-edges still require human judgement and which do not, and
-to design verification proportionate to the stakes.
+and verification difficulty grow together. The analyst's
+contribution is to identify which jagged edges still
+require human judgement and which do not, and to design
+verification proportionate to the stakes.
 
 **The cybernetic teammate.** Modern AI assistance is more
 fruitfully framed as collaboration with a teammate than as
@@ -92,7 +99,7 @@ from Chapter 1 forward.
 **Verification as a first-class concern.** Every chapter
 treats verification not as a final step but as a design
 property. The section template in every chapter front-loads
-*The statistician's contribution*, the judgements no AI
+*The analyst's contribution*, the judgements no AI
 can make on the reader's behalf, and ends with
 *Collaborating with an LLM*, where specific prompts are
 paired with what to watch for and how to verify. The
@@ -101,15 +108,15 @@ dialectic structures the chapter rather than decorating it.
 ## How to read this book
 
 Each content chapter follows the same structure: Learning
-objectives, Orientation, The statistician's contribution,
+objectives, Orientation, The analyst's contribution,
 content sections (with collapsible Check-your-understanding
 callouts at natural pauses), Worked example,
 Collaborating with an LLM, Principle in use, Exercises,
 Further reading.
 
 Chapters can be read in order or out of order. Topics with
-a chain of dependencies (e.g., Chapter 6 builds on
-Chapter 2; Chapter 12 builds on Chapter 11) are noted in
+a chain of dependencies (e.g., Chapter 7 builds on
+Chapter 3; Chapter 13 builds on Chapter 12) are noted in
 the relevant Orientation sections.
 
 ## Acknowledgements

@@ -15,7 +15,7 @@ By the end of this chapter you should be able to:
   the distinction between benchmark and deployment
   performance.
 - Design rubrics for code-generation correctness on
-  biostatistical tasks (model selection, EDA, results
+  research tasks (model selection, EDA, results
   interpretation).
 
 ## Orientation
@@ -45,7 +45,7 @@ against the work the model will actually do.
 
 The chapter develops three threads. **The job-interview
 metaphor**: how to design organisation-specific
-evaluation suites for biostatistical work. **LLM-as-
+evaluation suites for applied analytic work. **LLM-as-
 judge with calibration**: how to scale evaluation when
 human review of every output is not feasible.
 **Biomedical benchmarks**: their uses, abuses, and the
@@ -55,27 +55,27 @@ The thread that runs through all three: a single number
 on a public benchmark tells you almost nothing about
 whether a model will work for your specific task. The
 work of evaluation is ongoing, contextual, and
-biostatistical (in the sense that it involves study
+analytic (in the sense that it involves study
 design and inference under uncertainty).
 
-## The statistician's contribution {#sec-evaluation-human}
+## The analyst's contribution {#sec-evaluation-human}
 
 Three judgements are not delegable.
 
 **(Judgement 1.) The evaluation task suite is part of the
 analysis.** A team adopting an LLM for routine
-biostatistical work needs an evaluation suite that
+applied analytic work needs an evaluation suite that
 reflects the work, boilerplate code generation,
 analytical planning, methods drafting, RoB assessment,
 whatever the team does. The suite is not a one-time
 benchmark; it is an asset built up over time, refined
-as failure modes are observed. The biostatistician
+as failure modes are observed. The analyst
 designs the suite and maintains it.
 
 **(Judgement 2.) LLM-as-judge requires LLM-as-judge
 calibration.** Using one model to evaluate another
 scales evaluation but introduces a new uncertainty:
-the judge model has biases too. The biostatistician
+the judge model has biases too. The analyst
 calibrates the judge against human expert ratings on a
 sample, documents the agreement, and maintains the
 calibration as either model changes.
@@ -84,7 +84,7 @@ calibration as either model changes.
 acceptance threshold.** A model that scores 0.85 on the
 team's task suite may be acceptable for exploratory
 work but not for clinical-grade analyses. The
-biostatistician sets the acceptance threshold by use
+analyst sets the acceptance threshold by use
 case and articulates what the threshold means in
 practice (e.g., '85% accuracy on routine code
 generation, with 100% manual review for clinical-grade
@@ -111,12 +111,12 @@ the model's worldview, judgement, and personality.
 this trial?' 'What would you do if you couldn't get
 the cohort to converge?' The point is not the
 specific answer but the texture of the response:
-does the model reason like a careful biostatistician,
+does the model reason like a careful analyst,
 or does it produce confident-sounding non-answers?
 
 **Real-world task benchmarking.** A small set (5–20)
 of expert-designed tasks that reflect the team's
-actual work. Examples for a biostatistics team:
+actual work. Examples for a research-analytics team:
 - Generate the SAS code for a stratified Cox model
   given a data dictionary and pre-specified strata.
 - Draft a methods section for a published study (the
@@ -135,7 +135,7 @@ is observable. 'You see X in the data. Is this likely
 a measurement issue, a real signal, or a confounder?'
 The point is not to grade right vs wrong but to
 observe whether the model's reasoning matches what a
-senior biostatistician would do.
+senior analyst would do.
 
 A practical pattern: maintain a Google sheet or
 similar with one row per task. Columns: task
@@ -206,13 +206,13 @@ A working LLM-as-judge prompt:
 
 ```
 You are evaluating an AI-generated response to a
-biostatistical question. The question, the
+research question. The question, the
 reference answer, and the AI response are below.
 
 Question: [question]
 
 Reference answer (gold standard from senior
-biostatistician): [gold answer]
+analyst): [gold answer]
 
 AI response: [AI output]
 
@@ -327,7 +327,7 @@ components:
 5. **Spot-check workflow** that surfaces a sample
    of outputs for human review periodically.
 
-For a biostatistics team, the harness might be a
+For a research-analytics team, the harness might be a
 weekly cron that runs the team's 30-task suite
 against the team's primary model, posts the scores
 to a dashboard, and alerts if a domain (statistical
@@ -343,7 +343,7 @@ have not are stuck with anecdotes.
 
 ## Worked example: building an evaluation suite
 
-A biostatistics team wants to standardise on an LLM
+A research-analytics team wants to standardise on an LLM
 for routine code-generation, analytical drafting,
 and RoB assessment. The team's options are several
 frontier models; the question is which to adopt and
@@ -368,7 +368,7 @@ for or want to use it for:
 
 **Step 2: build the task suite.** For each kind of
 work, the team creates 2–4 representative tasks.
-Total: 22 tasks. For each, a senior biostatistician
+Total: 22 tasks. For each, a senior analyst
 writes:
 - The task input (the data dictionary, the analysis
   plan, etc.).
@@ -378,7 +378,7 @@ writes:
 **Step 3: build the LLM-as-judge.** The team uses a
 different model family as judge; the rubric is the
 team-specified rubric for each task. The judge is
-calibrated against the senior biostatistician's
+calibrated against the senior analyst's
 ratings on 20 sample outputs (tasks rated by both
 model and human). Kappa is 0.71, acceptable.
 
@@ -415,7 +415,7 @@ Three prompt patterns illustrate working with LLMs on
 evaluation tasks.
 
 **Prompt 1: 'Write a rubric for evaluating this kind
-of biostatistical task.'** Provide the task description.
+of research task.'** Provide the task description.
 
 *What to watch for.* The LLM produces a competent
 rubric. It tends to over-weight clarity and under-weight
@@ -428,11 +428,11 @@ it is calibrated; if not, refine.
 
 **Prompt 2: 'Audit my evaluation suite for blind spots.'**
 Provide the task list and ask the LLM to identify
-common biostatistical work that is not represented.
+common applied analytic work that is not represented.
 
 *What to watch for.* The LLM is reasonably good at
 identifying gaps but tends to suggest generic ones.
-Ask follow-up: 'what specific biostatistical task
+Ask follow-up: 'what specific research task
 might my team encounter that this suite would
 underweight?'
 

@@ -1,4 +1,4 @@
-# The Generative AI Landscape for Biostatisticians {#sec-landscape}
+# The Generative AI Landscape for Analysts {#sec-landscape}
 
 ## Learning objectives
 
@@ -6,21 +6,21 @@ By the end of this chapter you should be able to:
 
 - Distinguish the four current capability classes of
   generative AI (chat, reasoning, agentic, multimodal)
-  and select the right class for a given biostatistical
+  and select the right class for a given analytic
   task.
 - Articulate the *jagged frontier*, the unevenness and
   opacity of AI capability, and its implications for
-  verification in biostatistical work.
+  verification in applied analytic work.
 - Adopt the *cybernetic teammate* framing: human-AI
   collaboration as delegation with verification, not
   command-and-execute.
 - Reason about cost, latency, and context-window
   tradeoffs in selecting models for routine versus
-  high-stakes biostatistical work.
+  high-stakes applied analytic work.
 
 ## Orientation
 
-A biostatistician in 2026 has access to four classes of
+An analyst in 2026 has access to four classes of
 generative AI capability that did not exist as a coherent
 toolkit five years earlier: chat models that converse
 fluently, reasoning models that work through problems
@@ -29,7 +29,7 @@ take multi-step autonomous action, and multimodal models
 that read images, audio, and structured documents
 alongside text. Each class is genuinely useful and
 genuinely limited; none is a general substitute for
-biostatistical judgement; and the field changes faster
+analyst judgement; and the field changes faster
 than any textbook chapter can keep pace with.
 
 This chapter establishes the framing the rest of the
@@ -47,7 +47,7 @@ chapter examples current.
 The orientation matters because the alternative:
 treating generative AI as a single 'thing' that one
 either uses or does not, produces both over- and
-under-confident analyses. The biostatistician who treats
+under-confident analyses. The analyst who treats
 every prompt as 'asking the AI' misses the substantial
 difference between asking a chat model for a code
 snippet, asking a reasoning model to plan a trial
@@ -55,14 +55,14 @@ analysis, and asking an agent to run that analysis end
 to end. The discipline starts with naming what kind of
 collaboration is in play.
 
-## The statistician's contribution {#sec-landscape-human}
+## The analyst's contribution {#sec-landscape-human}
 
 Before the practical taxonomy, name the judgements that
 are not delegable. Generative AI in 2026 is sufficiently
 capable that the temptation to outsource analytical
 decisions to it has become real and is, in specific
 ways, dangerous. Three judgements remain the
-biostatistician's responsibility regardless of how
+analyst's responsibility regardless of how
 capable the tooling becomes.
 
 **(Judgement 1.) Selection of the question.** A model can
@@ -76,7 +76,7 @@ treatment X associated with reduced 30-day mortality
 controlling for severity?, where severity is a
 post-treatment confounder). Distinguishing the two is
 domain judgement, not a prompt-engineering problem. The
-biostatistician's first contribution is to insist on the
+analyst's first contribution is to insist on the
 right question being asked and to push back when the AI
 tooling produces a clean answer to the wrong one.
 
@@ -88,7 +88,7 @@ it requires statistical judgement about the clinical
 context. Agents that take multi-step action produce
 artefacts whose intermediate steps may be partially
 correct, partially fabricated, and partially the product
-of opaque internal reasoning. The biostatistician
+of opaque internal reasoning. The analyst
 designs the verification regime to match the stakes:
 heavier verification for clinical-grade analyses, lighter
 verification for exploratory work, and honest
@@ -98,7 +98,7 @@ budget available.
 **(Judgement 3.) The decision about delegation itself.**
 Generative AI is now capable enough that the right
 choice is sometimes 'do not use it'. Some
-biostatistical questions are better answered by reading
+research questions are better answered by reading
 the textbook. Some pre-trial decisions are better made
 by talking to the principal investigator. Some
 quality-control checks should be done by hand, slowly,
@@ -111,7 +111,7 @@ These judgements are what distinguish an analysis that
 survives review from one that does not. They do not
 diminish as AI capability grows; if anything, the more
 capable the tooling, the more load they bear, because
-the biostatistician's role increasingly becomes one of
+the analyst's role increasingly becomes one of
 adjudication rather than execution.
 
 ## Capability classes: chat, reasoning, agentic, multimodal
@@ -134,7 +134,7 @@ producing standard code. They are weak on novel
 multi-step reasoning and on tasks where the wrong-but-
 plausible answer is hard to detect.
 
-For biostatisticians, chat models are the right tool for:
+For clinical and public-health researchers, chat models are the right tool for:
 boilerplate code generation (write me a `dplyr` pipeline
 that filters and summarises this data), prose drafting
 (turn this bullet list into a methods paragraph), and
@@ -210,7 +210,7 @@ capability, alongside specialised biomedical models like
 MedSAM [@ma_2024_medsam], RETFound [@zhou_2023_retfound],
 and BiomedCLIP [@zhang_2025_biomedclip].
 
-For biostatisticians, multimodal models are the entry
+For clinical and public-health researchers, multimodal models are the entry
 point for clinical-imaging research, OCR and table
 extraction from clinical documents, and the AI scribe
 applications discussed in @sec-multimodal-medical. They
@@ -261,7 +261,7 @@ and remains subhuman in adjacent ones, with no consistent
 predictor of which is which from the user's perspective.
 
 The pattern matters because it breaks two intuitive
-heuristics that biostatisticians (and everyone else)
+heuristics that analysts (and everyone else)
 naturally apply. The first is the **transferability
 heuristic**: 'if it can do X, it can probably do Y where
 Y is similar to X'. The transferability heuristic fails
@@ -282,14 +282,14 @@ between expressed confidence and actual accuracy remains
 poor across all current systems, despite improvements at
 the model-card-benchmark level.
 
-The implication for biostatistical work is direct:
+The implication for applied analytic work is direct:
 **verification cannot be skipped, and verification cost
 must be budgeted from the start of any AI-assisted
 analysis.** The jagged frontier is not a temporary
 problem that the next model release will fix. It is a
 structural property of the way these systems are trained
 and evaluated. New models close some jagged gaps and
-open others. The biostatistician's protection is not to
+open others. The analyst's protection is not to
 guess which gaps are open today but to design every
 AI-assisted workflow with verification points at the
 boundaries where gaps tend to land.
@@ -343,7 +343,7 @@ asks for more information. The interaction is more like
 working with a junior colleague than running a script.
 
 The shift in framing has practical implications for the
-biostatistician.
+analyst.
 
 **The binding skill is delegation, not prompting.**
 Mollick [@mollick_2026_management_superpower] argues the underlying
@@ -352,9 +352,9 @@ evaluation of output, and judicious choice of what to
 delegate. These are management fundamentals: clear
 product requirement documents, iterative feedback,
 recognising when to assign and when to retain. The
-biostatistician who sees AI as a tool will write
+analyst who sees AI as a tool will write
 under-specified prompts and accept under-evaluated
-output. The biostatistician who sees AI as a teammate
+output. The analyst who sees AI as a teammate
 will specify deliverables, set up rapid evaluation, and
 maintain judgement over the work.
 
@@ -362,17 +362,17 @@ maintain judgement over the work.
 world where compute is abundant and execution is cheap,
 the binding constraint shifts to knowing what to ask and
 recognising when the answer is wrong. The
-biostatistician's domain expertise, clinical-trial
+analyst's domain expertise, clinical-trial
 methodology, statistical inference, the regulatory
 context, is what makes good delegation possible. The AI
-can produce code; only the biostatistician knows whether
+can produce code; only the analyst knows whether
 the code is solving the right problem.
 
 **Adoption emerges at the edges.** Mollick
 [@mollick_2024_latent_expertise] documents that the most useful AI
 applications come from individual practitioners
 discovering workflows in their own work, not from
-centralised IT prescription. For a biostatistics group,
+centralised IT prescription. For a research-analytics group,
 this means encouraging individual experimentation,
 sharing what works, and treating the discovery of useful
 patterns as part of the work rather than overhead. The
@@ -412,7 +412,7 @@ input produces high-quality output. Empirical findings
 suggest most current models attend strongly to the
 beginning and end of long contexts and weakly to the
 middle, an effect colloquially called 'lost in the
-middle'. For biostatistical work where every detail
+middle'. For applied analytic work where every detail
 matters (a trial protocol, a regulatory submission), the
 right move is usually to summarise input down to the
 relevant parts rather than dump the whole document.
@@ -422,13 +422,13 @@ compensate but do not eliminate the issue.
 ::: {.callout-note icon=false collapse=true}
 ## Check your understanding: cost per correct answer
 
-**Question.** Two models are available for a biostat-
+**Question.** Two models are available for an analytics
 team's daily code-writing tasks. Model A costs $0.05 per
 query and produces correct code 70% of the time. Model B
 costs $0.50 per query and produces correct code 95% of
 the time. Each correct answer is worth one unit of work;
 each wrong answer requires a re-run plus the
-biostatistician's time to diagnose, valued at $5. Which
+analyst's time to diagnose, valued at $5. Which
 is cheaper per unit of correct work?
 
 **Answer.** Model A: $0.05 + 0.30 × $5 = $1.55 per query, but
@@ -451,7 +451,7 @@ is a multi-centre randomised study of a novel diabetes
 medication; the primary endpoint is HbA1c change at 26
 weeks; secondary endpoints include weight loss, adverse
 events, and patient-reported outcomes. The dataset is
-3,400 patients across 18 centres. The biostatistician
+3,400 patients across 18 centres. The analyst
 is the lead analyst; the report is for the data
 monitoring committee.
 
@@ -463,7 +463,7 @@ right tool, and where verification points need to land.
 model: the SAP needs to integrate the trial protocol,
 the regulatory context, and the sponsor's pre-specified
 hypotheses. Chat-model output would be plausible-looking
-but miss subtleties. The biostatistician verifies by
+but miss subtleties. The analyst verifies by
 reading the protocol, the prior SAPs in the same
 indication, and any FDA Type C meeting minutes that
 inform the design.
@@ -476,13 +476,13 @@ running the code it produces against the actual data.
 
 **3. Computing baseline characteristics tables.** Chat
 model: standard `tableone`-style output, easy to verify.
-The model produces R or Python code; the biostatistician
+The model produces R or Python code; the analyst
 runs it and inspects the output for sensibility.
 
 **4. Implementing the primary efficacy analysis.**
 Reasoning model: the primary analysis is a mixed model
 for repeated measures with interaction terms; the
-biostatistician needs the model to think through the
+analyst needs the model to think through the
 fixed-effects specification, the random-effects
 structure, and the missing-data assumption. Verify by
 hand-computing the result on a small subset and
@@ -498,7 +498,7 @@ critically.
 **6. Subgroup analyses with multiplicity correction.**
 Reasoning model: subgroup analyses are easy to get wrong
 in published reports. The model can plan the
-multiplicity correction; the biostatistician decides
+multiplicity correction; the analyst decides
 whether subgroups are pre-specified versus exploratory
 and ensures the report makes the distinction.
 
@@ -516,7 +516,7 @@ ggplot2 code, easy to verify.
 **10. Drafting the methods section of the report.** Chat
 or reasoning model. Chat model produces an acceptable
 draft; reasoning model produces a draft that integrates
-nuance from the SAP. The biostatistician reads, edits,
+nuance from the SAP. The analyst reads, edits,
 and is responsible for accuracy.
 
 **11. Drafting the results section.** Chat model with the
@@ -527,7 +527,7 @@ sometimes paraphrase a number incorrectly.
 **12. Cross-checking the report against the SAP.**
 Reasoning model with both documents in context. The
 model can flag where the report deviates from the SAP;
-the biostatistician adjudicates whether the deviations
+the analyst adjudicates whether the deviations
 are intentional and disclosed.
 
 The agentic class does not appear in the workflow. For a
@@ -541,7 +541,7 @@ not for the analysis itself.
 
 The total cost of the AI-assisted portion of this work
 is roughly $20–$50 in API charges across the analysis;
-the biostatistician's time saved is several days. The
+the analyst's time saved is several days. The
 total verification overhead is roughly 30% of what the
 AI-assisted portion would have cost without
 verification, non-negligible but small relative to the
@@ -611,7 +611,7 @@ elevated risk explicitly.
 
 The meta-pattern: the LLM is a useful **first-pass
 collaborator** for thinking about its own use. It is not
-a substitute for the biostatistician's judgement about
+a substitute for the analyst's judgement about
 which work is appropriate to delegate. Treat its
 recommendations the way you would treat recommendations
 from a fluent intern, useful starting points, never
@@ -670,7 +670,7 @@ Three habits define defensible work in this area:
    manual extraction. Identify the failure modes and
    estimate the error rate.
 
-5. For a biostatistical project of your choice, draft a
+5. For a research project of your choice, draft a
    one-paragraph 'AI assistance disclosure' that would
    accompany the methods section. The disclosure should
    list classes used, verification regime, and any

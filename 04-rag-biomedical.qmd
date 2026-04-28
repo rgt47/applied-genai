@@ -29,7 +29,7 @@ model can produce a grounded answer that cites the
 retrieved sources rather than relying on its training
 distribution alone.
 
-For biostatisticians, RAG is the right architecture
+For clinical and public-health researchers, RAG is the right architecture
 when the answer needs to draw on a specific corpus that
 the model was not trained on (or was trained on
 incompletely): institutional protocol libraries,
@@ -49,7 +49,7 @@ knowledge. **Evaluation**: how to know whether the
 pipeline is working, separately for the retrieval step
 and for the end-to-end answer.
 
-## The statistician's contribution {#sec-rag-biomedical-human}
+## The analyst's contribution {#sec-rag-biomedical-human}
 
 Three judgements are not delegable.
 
@@ -58,7 +58,7 @@ A RAG pipeline is only as defensible as the corpus it
 retrieves from. A pipeline pointed at all of arXiv plus
 all of PubMed will produce different answers from one
 pointed at the team's institutional protocol library
-alone. The biostatistician decides what corpus to
+alone. The analyst decides what corpus to
 include, what to exclude, and what to disclose. A
 literature-search RAG that silently excludes papers from
 journals not in PMC is a methodological artefact, not a
@@ -70,7 +70,7 @@ two ways: it retrieves the wrong documents (and the
 model produces a confident answer based on irrelevant
 material), or it retrieves nothing and the model falls
 back on parametric knowledge (and produces an answer
-that looks grounded but is not). The biostatistician
+that looks grounded but is not). The analyst
 designs the pipeline to fail loudly: a 'no relevant
 documents found' response that the model is instructed
 to honour, rather than a graceful degradation that hides
@@ -81,7 +81,7 @@ evaluation is not a one-time benchmark; it is an
 ongoing discipline. A pipeline that worked yesterday on
 sample queries may fail today on production queries
 because the corpus drifted, the embedding model was
-swapped, or the chunking changed. The biostatistician
+swapped, or the chunking changed. The analyst
 sets up evaluation queries that are run periodically
 and treats degradation as a maintenance problem, not a
 catastrophe.
@@ -253,7 +253,7 @@ The output looks like: 'The primary outcome was a
 composite of cardiovascular death, non-fatal MI, and
 non-fatal stroke [chunk_15]. The composite occurred in
 3.8% of the oral semaglutide arm and 4.8% of the
-placebo arm [chunk_12]'. The biostatistician can verify
+placebo arm [chunk_12]'. The analyst can verify
 each citation by going to chunk_15 and chunk_12 in the
 retrieved set.
 
@@ -274,7 +274,7 @@ PMID, title, authors, year. For guidelines: the
 guideline name, section, version. For institutional
 documents: the document name and version. The
 attribution makes citations traceable and provides the
-biostatistician with the path to verify each cited
+analyst with the path to verify each cited
 claim.
 
 A failure mode worth naming: **citation hallucination
@@ -350,7 +350,7 @@ alerts on degradation.
 
 ## Worked example: a RAG over institutional protocols
 
-A biostatistics group at a research hospital maintains
+A research-analytics group at a research hospital maintains
 an internal library of trial protocols, statistical
 analysis plans, and methodological SOPs across about 200
 documents and 4,000 chunks. The team wants a RAG that
@@ -430,7 +430,7 @@ QUESTION: {query}
 ```
 
 The evaluation set is 80 queries hand-labelled by the
-biostatistics team: 40 'historical' queries (we know
+research-analytics team: 40 'historical' queries (we know
 the answer because we wrote the document) and 40
 'methodological' queries (we know the answer because
 it's standard methodology).
@@ -454,7 +454,7 @@ and improves answer relevance further. The cost is about
 500ms of additional latency per query, accepted.
 
 The deployed pipeline answers questions in 3–5 seconds,
-serves the whole biostatistics group, and is updated
+serves the whole research-analytics group, and is updated
 when new protocols are added (a nightly re-embed
 pipeline). The team verifies a sample of answers each
 week against the source documents; the failure rate is
@@ -493,11 +493,11 @@ faithfulness judges when given clear instructions and
 explicit chunks. They miss subtler unfaithfulness, a
 correct chunk supporting a slightly different claim
 than what the answer states. The LLM-as-judge approach
-catches gross unfaithfulness; the biostatistician
+catches gross unfaithfulness; the analyst
 catches the rest.
 
 *Verification.* For high-stakes queries, the
-biostatistician audits manually. For routine queries,
+analyst audits manually. For routine queries,
 LLM-as-judge with random sampling for human verification
 is adequate.
 
