@@ -51,7 +51,7 @@ applied analytic work is that the binding skill is no
 longer 'how to phrase the prompt' but 'how to verify the
 output of a system whose reasoning you cannot inspect'.
 
-## The analyst's contribution {#sec-reasoning-context-human}
+## The researcher's contribution {#sec-reasoning-context-human}
 
 Three judgements are not delegable in this chapter's
 domain.
@@ -63,7 +63,7 @@ opaque in characteristic ways. For routine tasks
 (boilerplate code, lookups, prose drafting) it is
 overkill; for novel multi-step problems (analytical
 planning, debugging hard bugs) it is the right tool. The
-analyst decides when the additional cost and
+researcher decides when the additional cost and
 opacity are warranted. A team that defaults to reasoning
 mode for everything will spend more and verify less than
 a team that uses reasoning selectively.
@@ -75,7 +75,7 @@ often appear as obvious surface errors (wrong syntax,
 contradiction with the prompt). A reasoning model's
 mistakes often appear as subtly wrong conclusions that
 read fluently and require domain expertise to catch. The
-analyst designs verification regimes that match
+researcher designs verification regimes that match
 the failure mode: independent computation for analytical
 results, source-checking for citations, cross-model
 comparison for novel claims. The verification regime is
@@ -86,7 +86,7 @@ work cannot be verified end-to-end at the budget
 available. A 50-page literature review cannot be
 exhaustively fact-checked; a complex sensitivity analysis
 cannot be re-implemented from scratch. The
-analyst makes an explicit decision about how
+researcher makes an explicit decision about how
 much trust to extend provisionally and documents what
 was verified in detail and what was sampled. The
 contract is with the reader of the analysis as much as
@@ -158,12 +158,12 @@ trust expressed confidence as a signal.
 ::: {.callout-note icon=false collapse=true}
 ## Check your understanding: when reasoning helps
 
-**Question.** An analyst asks a chat model to
+**Question.** A researcher asks a chat model to
 write a function that computes a Cox model with stratified
 baselines and time-varying covariates. The chat model
 produces code that looks reasonable but fails on the
 team's actual dataset with an obscure error. The
-analyst suspects the chat model handled the
+researcher suspects the chat model handled the
 time-varying part incorrectly. Should the next step be
 (a) re-prompt the chat model with the error message, or
 (b) escalate to a reasoning model with the original
@@ -228,7 +228,7 @@ evidence quotes]
 ```
 
 The structured form makes verification easier, the
-analyst can check that the model attended to the
+researcher can check that the model attended to the
 right inputs by examining whether the output references
 them, and reduces hallucination by giving the model
 explicit material to ground in.
@@ -293,7 +293,7 @@ generalise across biomedical applications.
 **Independent computation as ground truth.** Where the
 output is something computable, a regression coefficient,
 a sample size, a probability, verify by independent
-computation. The analyst hand-computes the result
+computation. The researcher hand-computes the result
 on a small example, runs a second implementation in a
 different language, or uses a known-good library. The
 goal is a separate path to the same answer; if the paths
@@ -343,10 +343,10 @@ the kind of work that produces retraction notices.
 ::: {.callout-note icon=false collapse=true}
 ## Check your understanding: provisional vs verified
 
-**Question.** An analyst uses a reasoning model
+**Question.** A researcher uses a reasoning model
 to draft a 30-page background section for a grant
 application. The section cites 60 papers. Verifying each
-citation takes about 2 minutes. The analyst has
+citation takes about 2 minutes. The researcher has
 3 hours of grant-writing time remaining. Should they (a)
 verify a random sample of 20 citations, (b) verify all
 citations, (c) skip verification and disclose the AI
@@ -357,7 +357,7 @@ infeasible: 60 × 2 = 120 minutes leaves no time for
 anything else. (c) is irresponsible: citation
 hallucination in grant applications is a serious
 problem and 'I disclosed it' does not absolve the
-analyst of responsibility for the claims. (a)
+researcher of responsibility for the claims. (a)
 is provisional trust applied honestly: verify a random
 sample (which catches systematic citation hallucination
 patterns) and disclose in the methods that 'a random
@@ -413,7 +413,7 @@ anticoagulant against warfarin in atrial fibrillation,
 with 12% missing data on the primary endpoint at the
 5-year follow-up. The trial pre-specified a tipping-point
 sensitivity analysis but did not specify the parameter
-range. The analyst needs to choose the parameter
+range. The researcher needs to choose the parameter
 range, justify it, and implement the analysis.
 
 The chat-model attempt fails as follows. The chat model
@@ -426,7 +426,7 @@ plausibility, and does not address whether the tipping
 point at 0.45 is informative.
 
 The reasoning-model attempt is structured differently.
-The analyst provides:
+The researcher provides:
 - The trial protocol (relevant sections only)
 - The pre-specified analysis plan
 - A summary of the missing-data pattern (12% missing,
@@ -488,8 +488,8 @@ accepted by EMA in the regulatory submission.
 ```
 
 The reasoning model's output is not the answer; it is a
-proposal that the analyst evaluates. The
-analyst verifies:
+proposal that the researcher evaluates. The
+researcher verifies:
 - The parameter interpretation against the original MAR
   formulation in the SAP.
 - The bound rationale against the EU trial document
@@ -498,18 +498,18 @@ analyst verifies:
   conclusion against the actual computation.
 
 The verification takes about 30 minutes. The
-analyst adopts the proposed parameter range with
+researcher adopts the proposed parameter range with
 two adjustments (the upper bound is tightened to 1.3 to
 align more closely with the subgroup analysis, and the
 lower bound is widened to 0.6 to be conservative). The
 final analysis is robust within the adjusted range. The
 written interpretation, drafted by the model and edited
-by the analyst, is included in the final report
+by the researcher, is included in the final report
 with disclosure that the model assisted with parameter-
 range selection.
 
 The total cost of the reasoning-model assistance: about
-$0.50 in API charges. The analyst's time saved:
+$0.50 in API charges. The researcher's time saved:
 half a day of literature review and parameter-justification
 drafting. The verification overhead: 30 minutes, well
 within budget.
@@ -576,7 +576,7 @@ colleagues with extensive book knowledge but limited
 domain experience.** They will produce careful work and
 can be self-critical when asked. They will not catch
 domain errors that domain expertise reveals. The
-analyst's role is to bring the domain expertise
+researcher's role is to bring the domain expertise
 the model lacks, not to bring the careful work the
 model already does.
 

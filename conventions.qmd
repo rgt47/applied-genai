@@ -75,7 +75,7 @@ Every content chapter follows the same template:
 1. **Learning objectives.** What you will be able to do
    after reading.
 2. **Orientation.** A short prose framing.
-3. **The analyst's contribution.** What no tool can
+3. **The researcher's contribution.** What no tool can
    automate. The judgements at the centre of the chapter.
 4. **Content sections** with **Check-your-understanding**
    callouts at natural pauses.

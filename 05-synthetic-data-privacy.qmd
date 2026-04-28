@@ -41,7 +41,7 @@ and supports false conclusions. A generator with
 inadequate privacy guarantees produces a dataset that
 appears synthetic but leaks individual patients
 through membership-inference and attribute-inference
-attacks. The analyst's task is to choose the
+attacks. The researcher's task is to choose the
 right generator for the use case, audit the output for
 both utility and privacy, and document the tradeoffs
 honestly.
@@ -54,7 +54,7 @@ enough' means and how to achieve it. **Auditing** to
 verify that a generated dataset is private enough for
 release and useful enough to draw conclusions from.
 
-## The analyst's contribution {#sec-synthetic-data-human}
+## The researcher's contribution {#sec-synthetic-data-human}
 
 Three judgements are not delegable.
 
@@ -65,7 +65,7 @@ development is a different problem from synthetic data
 for cross-institutional collaboration. The first needs
 plausible structure; the second needs preservation of
 specific statistical properties; the third needs formal
-privacy guarantees. The analyst chooses the
+privacy guarantees. The researcher chooses the
 generator and the privacy regime to match the use case
 rather than defaulting to whatever tool is most familiar.
 
@@ -74,7 +74,7 @@ choices.** Differential privacy with small epsilon
 provides strong privacy and weak utility; large epsilon
 provides weak privacy and strong utility; no formal
 privacy provides best utility and unknown privacy
-exposure. The analyst picks the operating point
+exposure. The researcher picks the operating point
 deliberately, documents the choice, and justifies it to
 reviewers and IRB. 'We used synthetic data' is not a
 disclosure; the operating point and the audit results
@@ -87,7 +87,7 @@ process that governs the original. This is wrong. The
 generation process uses the original data as input, so
 the use of synthetic data in research is governed by the
 data-use agreement and IRB protocol that govern the
-original data. The analyst confirms IRB approval
+original data. The researcher confirms IRB approval
 covers synthetic-data generation and documents the
 provenance accordingly.
 
@@ -122,7 +122,7 @@ metrics.
 maintained Python library for tabular synthesis as of
 late 2025. It includes CTGAN, TVAE, ARF (adversarial
 random forests), and several differentially-private
-methods (PATE-GAN, DP-GAN). For an analyst
+methods (PATE-GAN, DP-GAN). For a researcher
 starting fresh, Synthcity is the recommended starting
 point.
 
@@ -384,13 +384,13 @@ that the risk of re-identification is 'very small'. The
 expert's determination is documented and accompanies the
 data. For synthetic data, the expert determination is
 typically the appropriate path: a statistician (often
-the analyst on the project) certifies that the
+the researcher on the project) certifies that the
 synthesis method, the privacy budget, and the audit
 results together produce a dataset where re-
 identification risk is acceptably low.
 
 The expert-determination path requires written
-documentation. The analyst produces a report
+documentation. The researcher produces a report
 that includes:
 - The synthesis method and parameters.
 - The DP budget (epsilon, delta) if applicable.
@@ -452,7 +452,7 @@ data; the baseline (predicting from marginal) achieves
 modest; the team documents it and proceeds.
 
 Step 6: write the expert-determination report. The
-analyst documents the method, the DP parameters,
+researcher documents the method, the DP parameters,
 the audit results, and concludes that the re-
 identification risk is very small in the context of the
 publication's purpose. The IRB reviews and approves the
@@ -512,7 +512,7 @@ this synthetic dataset.'** Provide the method, parameters,
 audit results, and use case.
 
 *What to watch for.* The LLM will produce a competent-
-looking report. The analyst must verify every
+looking report. The researcher must verify every
 claim, the LLM may confuse $\epsilon$ values, mis-
 state the audit results, or over-state the privacy
 guarantees. The report is the basis for the privacy
@@ -521,11 +521,11 @@ claim in the publication; it must be exactly right.
 *Verification.* Read the report against the actual
 audit numbers. Confirm the privacy claim is supported
 by the audit. Confirm the expert qualifications and
-conclusion match what the analyst will sign.
+conclusion match what the researcher will sign.
 
 The meta-pattern: **LLMs accelerate the
 mechanics of synthetic-data work but cannot verify the
-privacy claim.** The analyst owns the
+privacy claim.** The researcher owns the
 determination, the documentation, and the responsibility
 for the release.
 
@@ -547,7 +547,7 @@ Three habits define defensible work in this area:
 
 3. **Match the privacy regime to the use case.** Public
    release demands stronger privacy than internal use.
-   The analyst chooses the operating point
+   The researcher chooses the operating point
    deliberately and re-evaluates if the use case
    changes (e.g., from internal use to public release).
 

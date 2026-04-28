@@ -49,7 +49,7 @@ quieter risk of AI persuaders deployed in health
 contexts where humans cannot reliably detect or resist
 tailored persuasion.
 
-## The analyst's contribution {#sec-safety-bias-human}
+## The researcher's contribution {#sec-safety-bias-human}
 
 Three judgements are not delegable.
 
@@ -62,7 +62,7 @@ healthcare risk-prediction context: a model with strong
 overall performance under-predicted needs for Black
 patients because it used cost as a proxy for need, and
 Black patients were systematically under-served (lower
-cost) for the same need level. The analyst
+cost) for the same need level. The researcher
 audits subgroup performance as part of model evaluation
 and treats subgroup gaps as fairness signals worth
 acting on.
@@ -71,7 +71,7 @@ acting on.
 research-ethics question.** AI-tailored persuasion is
 strikingly effective and works on counter-arguments
 about vaccination, trial enrolment, or clinical
-decision-making. The analyst (and the IRB) must
+decision-making. The researcher (and the IRB) must
 consider whether AI-mediated communication in a study
 constitutes informed-consent material, whether the
 subjects are aware of AI involvement, and whether the
@@ -84,7 +84,7 @@ based on the prospect's individual profile'.
 the work.** When a model produces a wrong output that
 affects a patient, a missed finding in a triage
 output, an incorrect drug-interaction warning, a biased
-recommendation, the analyst's responsibility
+recommendation, the researcher's responsibility
 is to document the incident, surface it for review, and
 ensure the failure mode is fixed (or the use is
 discontinued). Treating individual incidents as one-off
@@ -123,7 +123,7 @@ inequities in cost distribution. The
 [@obermeyer_2019_racial_bias] case study is canonical:
 the model's confounding of cost and need produced
 systematic under-prediction for Black patients. The
-analyst audits the proxy choices in any
+researcher audits the proxy choices in any
 risk-prediction model.
 
 **Specialty representation.** Training corpora
@@ -173,7 +173,7 @@ Subgroup gaps that exceed 5 percentage points on a
 clinically relevant metric are flags. Whether they are
 acceptable depends on the use case and on whether they
 reflect genuine biological differences or model
-deficiencies. The analyst investigates,
+deficiencies. The researcher investigates,
 documents, and either accepts the gap with explicit
 justification or remediates.
 
@@ -205,7 +205,7 @@ ignored. Whether to deploy depends on:
 The decision is not 'deploy or not'; the decision is
 'deploy with what mitigation, with what monitoring,
 and with what disclosure to the patients affected'.
-The analyst documents the gap and the
+The researcher documents the gap and the
 mitigation, and the institution's clinical leadership
 makes the deployment decision informed by the
 documented analysis.
@@ -391,7 +391,7 @@ predictions are used in clinical research; the SPIRIT-
 AI [@cruzrivera_2020_spirit_ai] and CONSORT-AI
 [@liu_2020_consort_ai] extensions cover the
 protocol and trial-report stages. The
-analyst knows these and follows them.
+researcher knows these and follows them.
 
 ## Worked example: auditing a triage model
 
@@ -401,7 +401,7 @@ predicts which ED patients need ICU admission within
 hospital wants to deploy it for ED clinician
 decision support.
 
-**Step 1: subgroup audit.** The analyst
+**Step 1: subgroup audit.** The researcher
 computes AUC by race, sex, age, insurance, and
 language of medical-record documentation:
 
@@ -492,7 +492,7 @@ deployment.'** Provide the model details, audit
 results, and intended use.
 
 *What to watch for.* The LLM produces a competent
-model card. The analyst verifies every
+model card. The researcher verifies every
 specific claim, numbers, dates, intended-use
 language, because the model card is a documented
 basis for clinical governance.

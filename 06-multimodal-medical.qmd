@@ -25,7 +25,7 @@ previously required manual abstraction, chest X-rays,
 pathology slides, clinical-photograph series, free-text
 notes, scanned forms, ultrasound video, voice
 recordings, are now amenable to AI-assisted extraction
-at scale. The question for the analyst is no
+at scale. The question for the researcher is no
 longer 'can we use this kind of data' but 'how do we
 validate the AI-assisted extraction so the downstream
 analysis is defensible'.
@@ -37,7 +37,7 @@ documentation from voice recordings of patient
 encounters, and **OCR and table extraction** for
 clinical PDFs. Each has emerged into routine practice
 in the past two to three years, and each has a
-characteristic failure mode the analyst must
+characteristic failure mode the researcher must
 control for.
 
 The unifying theme is that multimodal output, like
@@ -46,10 +46,10 @@ proportionate to stakes. A radiology report drafted by a
 multimodal model and signed by a radiologist is different
 from a research-only annotation; an OCR'd clinical form
 audited by a research coordinator is different from one
-fed unchecked into a regression. The analyst
+fed unchecked into a regression. The researcher
 designs the validation to match the use.
 
-## The analyst's contribution {#sec-multimodal-medical-human}
+## The researcher's contribution {#sec-multimodal-medical-human}
 
 Three judgements are not delegable.
 
@@ -59,7 +59,7 @@ underperform on Brigham radiographs in ways that produce
 plausible-looking but biased extractions. Different
 scanners, acquisition protocols, patient populations,
 and even time-of-day produce subtle shifts that
-undermine model performance. The analyst
+undermine model performance. The researcher
 designs the validation to detect distribution shift:
 typically by reserving a substantial site-specific
 holdout, and treats inter-site variability as a first-
@@ -73,7 +73,7 @@ not the same as one populated by trained clinical
 abstractors, even if the marginal distributions match.
 The error patterns differ, the systematic biases differ,
 and downstream analyses can be biased in
-characteristic ways. The analyst documents the
+characteristic ways. The researcher documents the
 extraction method and validates against a manual
 reference on a sample.
 
@@ -83,7 +83,7 @@ LLM [@gallifant_2025_tripod_llm] specify what must be
 reported when AI is involved in a clinical study:
 training data composition, validation strategy,
 performance subgroups, deployment context. The
-analyst follows these standards from the start
+researcher follows these standards from the start
 of the study, not retrofitted at submission. Studies
 that ignore them are increasingly returned by reviewers
 and by journals.
@@ -238,7 +238,7 @@ note as documented; the AI-assisted nature of the
 documentation is usually disclosed in IRB protocols
 because it affects what the data represents.
 
-The analyst's role:
+The researcher's role:
 
 **Validate phenotype extraction in the AI-scribe era.**
 A phenotyping pipeline trained on pre-2024 notes may
@@ -256,7 +256,7 @@ explicit reviewer expectation.
 groups (non-English-speaking, atypical presentations,
 quiet voices) are systematically under-represented in
 AI-scribe training and may be under-served by the
-output. The analyst evaluates whether the cohort
+output. The researcher evaluates whether the cohort
 includes such groups and whether systematic bias in
 note quality could affect the analysis.
 

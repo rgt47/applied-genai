@@ -76,7 +76,7 @@ question, *what evaluation regime would have caught
 that*, is the question the rest of the chapter
 develops.
 
-## The analyst's contribution {#sec-evaluation-human}
+## The researcher's contribution {#sec-evaluation-human}
 
 Three judgements are not delegable.
 
@@ -87,13 +87,13 @@ reflects the work, boilerplate code generation,
 analytical planning, methods drafting, RoB assessment,
 whatever the team does. The suite is not a one-time
 benchmark; it is an asset built up over time, refined
-as failure modes are observed. The analyst
+as failure modes are observed. The researcher
 designs the suite and maintains it.
 
 **(Judgement 2.) LLM-as-judge requires LLM-as-judge
 calibration.** Using one model to evaluate another
 scales evaluation but introduces a new uncertainty:
-the judge model has biases too. The analyst
+the judge model has biases too. The researcher
 calibrates the judge against human expert ratings on a
 sample, documents the agreement, and maintains the
 calibration as either model changes.
@@ -102,7 +102,7 @@ calibration as either model changes.
 acceptance threshold.** A model that scores 0.85 on the
 team's task suite may be acceptable for exploratory
 work but not for clinical-grade analyses. The
-analyst sets the acceptance threshold by use
+researcher sets the acceptance threshold by use
 case and articulates what the threshold means in
 practice (e.g., '85% accuracy on routine code
 generation, with 100% manual review for clinical-grade
@@ -129,7 +129,7 @@ the model's worldview, judgement, and personality.
 this trial?' 'What would you do if you couldn't get
 the cohort to converge?' The point is not the
 specific answer but the texture of the response:
-does the model reason like a careful analyst,
+does the model reason like a careful researcher,
 or does it produce confident-sounding non-answers?
 
 **Real-world task benchmarking.** A small set (5–20)
@@ -153,7 +153,7 @@ is observable. 'You see X in the data. Is this likely
 a measurement issue, a real signal, or a confounder?'
 The point is not to grade right vs wrong but to
 observe whether the model's reasoning matches what a
-senior analyst would do.
+senior researcher would do.
 
 A practical pattern: maintain a Google sheet or
 similar with one row per task. Columns: task
@@ -230,7 +230,7 @@ reference answer, and the AI response are below.
 Question: [question]
 
 Reference answer (gold standard from senior
-analyst): [gold answer]
+researcher): [gold answer]
 
 AI response: [AI output]
 
@@ -369,7 +369,7 @@ The pattern generalises:
   signal even when both numbers are computed
   faithfully.
 
-The implication for the analyst is operational:
+The implication for the researcher is operational:
 maintain a list of which public benchmarks you trust
 for filtering, and update it. A benchmark on which
 all the candidate models score within two points of
@@ -385,7 +385,7 @@ stream of decisions made under evolving constraints,
 with finite resources, where each choice reshapes
 the available options for the next choice. A
 benchmark's scoring of *did the model produce the
-right answer to this question* tells the analyst
+right answer to this question* tells the researcher
 little about *will the model behave usefully across
 a 12-hour shift in a busy emergency department*.
 
@@ -425,7 +425,7 @@ no static benchmark measures:
 
 Two design implications follow.
 
-First, the analyst's evaluation suite should
+First, the researcher's evaluation suite should
 include at least some tasks that are *temporally
 extended*: not 'answer this question' but 'manage
 this case across multiple decision points where each
@@ -435,7 +435,7 @@ this dataset from data dictionary to final report,
 with intermediate decision points) rather than
 single-step tasks (write the regression code).
 
-Second, the analyst should expect the benchmark
+Second, the researcher should expect the benchmark
 landscape to shift in this direction. Medical AI
 evaluation in 2026 is mid-transition; the
 publication of CES, of similar simulator-based
@@ -512,7 +512,7 @@ for or want to use it for:
 
 **Step 2: build the task suite.** For each kind of
 work, the team creates 2–4 representative tasks.
-Total: 22 tasks. For each, a senior analyst
+Total: 22 tasks. For each, a senior researcher
 writes:
 - The task input (the data dictionary, the analysis
   plan, etc.).
@@ -522,7 +522,7 @@ writes:
 **Step 3: build the LLM-as-judge.** The team uses a
 different model family as judge; the rubric is the
 team-specified rubric for each task. The judge is
-calibrated against the senior analyst's
+calibrated against the senior researcher's
 ratings on 20 sample outputs (tasks rated by both
 model and human). Kappa is 0.71, acceptable.
 

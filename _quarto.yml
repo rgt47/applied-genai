@@ -4,7 +4,7 @@ project:
 
 book:
   title: 'Applied Generative AI for Health Sciences Research'
-  subtitle: 'A graduate textbook for clinical and public-health research'
+  subtitle: 'A graduate textbook'
   author: 'The rgtlab Curriculum Project'
   date: today
   date-format: 'YYYY-MM-DD'
@@ -32,7 +32,7 @@ book:
     - conventions.qmd
     - 00-intro.qmd
 
-    - part: 'Foundations for the Applied User'
+    - part: 'Foundations'
       chapters:
         - 01-genesis.qmd
         - 02-landscape.qmd

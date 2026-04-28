@@ -54,7 +54,7 @@ the book; the technology stabilised in 2024–2025 and
 is moving fast. Pointers to current source documentation
 are essential.
 
-## The analyst's contribution {#sec-agents-mcp-human}
+## The researcher's contribution {#sec-agents-mcp-human}
 
 Three judgements are not delegable.
 
@@ -65,7 +65,7 @@ should be delegated. Some work, pre-trial decisions,
 DMC reports, regulatory submissions, should not be
 agent-completed regardless of capability, because the
 human attestation is part of the artefact's value. The
-analyst decides what the agent does and what
+researcher decides what the agent does and what
 remains in human hands; the choice is a professional
 judgement, not a technology one.
 
@@ -73,7 +73,7 @@ judgement, not a technology one.
 Mollick [@mollick_2026_management_superpower] frames effective AI
 collaboration as importing management fundamentals:
 clear product requirement documents, iterative feedback,
-fast evaluation. The analyst writes the
+fast evaluation. The researcher writes the
 deliverable specification, what the output is, what the
 acceptance criteria are, what the verification points
 are. An under-specified delegation is the leading cause
@@ -85,14 +85,14 @@ has a different failure mode than chat or reasoning-
 model output. Errors compound across steps; intermediate
 results may never be inspected; the final output may
 look polished while resting on broken intermediate
-work. The analyst designs verification points at
+work. The researcher designs verification points at
 the boundaries that matter: data ingest, model
 specification, key calculation, final output. Skipping
 these because the agent reported success is the
 characteristic failure mode of the era.
 
 These judgements are what distinguish agent use that
-saves the analyst's time from agent use that
+saves the researcher's time from agent use that
 produces work that has to be redone, distrusted, or
 retracted.
 
@@ -134,14 +134,14 @@ determine what verification looks like and prevent the
 **Iterative feedback, not one-shot.** Agents are best
 used in iterative loops: kick off, evaluate, refine the
 specification, kick off again. The first iteration's
-output is rarely the final output. The analyst
+output is rarely the final output. The researcher
 who expects one-shot success is using the tool wrong.
 
 **Choose what to delegate.** Some work is well-shaped
 for agents (well-specified, verifiable end-to-end,
 contained in scope); some is not (open-ended, requires
 ongoing judgement, has high blast radius). The
-analyst's first decision is whether to delegate
+researcher's first decision is whether to delegate
 at all.
 
 The decision rule, simplified:
@@ -151,7 +151,7 @@ The decision rule, simplified:
 | Defined deliverable, verifiable output, contained scope | agent |
 | Multi-step reasoning, single deliverable, no autonomous action needed | reasoning model |
 | Single-turn output, surface verification | chat model |
-| Open-ended judgement, unrecoverable consequences | the analyst |
+| Open-ended judgement, unrecoverable consequences | the researcher |
 
 ::: {.callout-note icon=false collapse=true}
 ## Check your understanding: when not to delegate
@@ -175,7 +175,7 @@ the deliverable is a decision with substantial blast
 radius; verification is by professional judgement, not
 a calculation. An agent could produce a plausible
 analysis to inform the decision (and probably should),
-but the decision itself stays with the analyst
+but the decision itself stays with the researcher
 and the team.
 
 :::
@@ -229,7 +229,7 @@ biomedical RAG of @sec-rag-biomedical can be wrapped as
 an MCP server, making it available to any compatible
 agent.
 
-A working pattern: the analyst sets up an MCP
+A working pattern: the researcher sets up an MCP
 server for the team's R environment, an MCP server for
 the institutional clinical database (read-only), and an
 MCP server for the team's protocol library. The agent
@@ -316,7 +316,7 @@ stop. Three patterns:
   twice without progress. Some agent frameworks detect
   this; many do not.
 
-The analyst sets the budget and the goal. A
+The researcher sets the budget and the goal. A
 budget too small terminates the agent before completion;
 a budget too large runs up cost on a stuck agent. Start
 small, observe, expand.
@@ -441,7 +441,7 @@ audit. It is less good at identifying steps that
 should not have been allowed in the first place (the
 agent should not have had access to that database;
 the agent should have paused before that operation).
-The analyst brings the policy judgement.
+The researcher brings the policy judgement.
 
 *Verification.* Run the verification the LLM
 recommends. If issues are found, decide whether they
@@ -459,7 +459,7 @@ rate-limited).
 skeleton. It often omits production concerns:
 authentication, audit logging, error handling, resource
 limits. The skeleton works in development but is not
-production-ready. The analyst (or IT support)
+production-ready. The researcher (or IT support)
 hardens it before deployment.
 
 *Verification.* Test the server against malicious
@@ -470,7 +470,7 @@ all calls. Verify the credentials are scoped read-only.
 The meta-pattern: **agents amplify both your
 productivity and your blast radius.** A well-specified
 agent run with a tight verification regime is among
-the highest-leverage moves the analyst can
+the highest-leverage moves the researcher can
 make. An under-specified agent run with weak
 verification is among the lowest. The difference is
 the discipline of specification and verification, not
@@ -483,7 +483,7 @@ Three habits define defensible work in this area:
 1. **Specify before delegating.** A written deliverable
    specification with acceptance criteria precedes
    every agent run. The specification is the contract
-   between the analyst and the agent; without
+   between the researcher and the agent; without
    it, the work cannot be evaluated.
 
 2. **Verify at the boundaries.** Verification is at the

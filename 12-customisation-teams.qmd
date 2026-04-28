@@ -55,7 +55,7 @@ research-analytics teams**: how to organise the team's
 discovery and use of AI assistance so the team's
 collective knowledge grows over time.
 
-## The analyst's contribution {#sec-customisation-teams-human}
+## The researcher's contribution {#sec-customisation-teams-human}
 
 Three judgements are not delegable.
 
@@ -67,7 +67,7 @@ that fine-tuning is expensive (in API cost, in
 infrastructure, in maintenance) and obsoletes when the
 underlying model is updated (which is often). Most
 of the time, the right answer is context engineering
-with a frontier API. The analyst evaluates the
+with a frontier API. The researcher evaluates the
 trade rather than defaulting to one or the other.
 
 **(Judgement 2.) Adoption is the longest-lived
@@ -75,7 +75,7 @@ artefact.** Specific models change every few months;
 specific tools change every year. The team's
 disposition toward AI-assisted work, the habits of
 specification, verification, and disclosure, outlast
-all of them. The analyst shapes the team's
+all of them. The researcher shapes the team's
 adoption pattern with the long view in mind: build
 habits that survive the next model release.
 
@@ -84,7 +84,7 @@ work.** The Mollick RCT and the *Latent Expertise*
 [@mollick_2024_latent_expertise] argument both point in the
 same direction: useful AI applications are
 discovered by individual practitioners in their own
-work, not prescribed by IT. The analyst's
+work, not prescribed by IT. The researcher's
 role is to encourage individual experimentation,
 share what works, and treat the discovery process as
 part of the work. Trying to mandate specific tools
@@ -202,7 +202,7 @@ cost.
 
 ## PEFT, LoRA, and distillation at a working level
 
-Three concepts at the level an analyst needs to
+Three concepts at the level a researcher needs to
 make sound choices.
 
 **LoRA: low-rank adaptation.** Instead of fine-tuning all
@@ -293,15 +293,15 @@ realistic product-development tasks. Findings:
 
 The implications for a research-analytics team:
 
-**Individual capability rises.** An analyst
+**Individual capability rises.** A researcher
 working with AI assistance can produce work that
-previously required the analyst plus a junior
-analyst. The team's effective capacity increases by
+previously required the researcher plus a junior
+researcher. The team's effective capacity increases by
 some multiplier, the empirical estimates vary but are
 substantial.
 
 **Cross-discipline collaboration improves.** A
-analyst collaborating with a clinician using
+researcher collaborating with a clinician using
 AI on both sides can communicate more efficiently;
 the AI assists in translation across vocabularies.
 Cross-discipline projects that previously had high
@@ -335,7 +335,7 @@ is:
 This is recognisably a research-and-development
 pattern, applied to AI workflow. It works because it
 respects the diversity of work in the team, each
-analyst's tasks are slightly different, and
+researcher's tasks are slightly different, and
 allows local optimisation.
 
 The anti-pattern is centralised prescription: 'the
@@ -346,7 +346,7 @@ when watched, and their own tools the rest of the
 time) and misses the workflow innovations that come
 from people who actually do the work.
 
-The analyst (or team lead) supporting good
+The researcher (or team lead) supporting good
 adoption:
 - Encourages individual experimentation with AI
   tools.
@@ -410,7 +410,7 @@ integrated into the team's standard workflows.
 Methods-drafting templates link to the methods-
 drafting prompts. The team's analytical SOPs include
 verification steps that explicitly cover AI-generated
-artefacts. Onboarding for a new junior analyst
+artefacts. Onboarding for a new junior researcher
 includes the conventions.
 
 **Month 6: customisation question.** The team
@@ -427,7 +427,7 @@ approach works.
 **6-month retrospective.** The team's effective
 capacity has increased materially (rough estimate:
 30–40% more analytical output for the same headcount).
-Junior analysts are productive on tasks that
+Junior researchers are productive on tasks that
 previously required senior involvement. The team's
 analytical reports are more thoroughly prepared
 because the AI-assisted drafting frees time for

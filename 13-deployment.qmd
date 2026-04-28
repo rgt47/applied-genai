@@ -27,7 +27,7 @@ institution, or a research consortium, actually run AI
 in production over time? The answer is more about
 interface design, change management, and ongoing
 verification than about model selection. The
-analyst who has chosen the right capability
+researcher who has chosen the right capability
 class (Ch 2), set up appropriate context (Ch 3),
 designed the RAG pipeline (Ch 4), and audited for bias
 (Ch 10) still has to deploy the system in a way that
@@ -54,7 +54,7 @@ external models change. **When to use AI, and when
 not**: the practical decision framework that closes
 the book.
 
-## The analyst's contribution {#sec-deployment-human}
+## The researcher's contribution {#sec-deployment-human}
 
 Three judgements are not delegable.
 
@@ -63,7 +63,7 @@ The temptation to treat deployment as a one-time event
 ('we built the AI tool and rolled it out') misses
 that the underlying technology drifts, the team's
 needs evolve, and the failure modes accumulate
-without active maintenance. The analyst
+without active maintenance. The researcher
 treats deployment as ongoing operational work, like
 maintaining a clinical-trial database, not like
 publishing a paper.
@@ -73,7 +73,7 @@ technology decision.** Whether to deploy AI for a
 specific workflow depends on whether deployment
 improves the work, fits the team's capacity to
 verify, and is appropriate to the regulatory and
-ethical context. The analyst asks the
+ethical context. The researcher asks the
 deployment-decision question explicitly rather than
 defaulting to 'we have the capability, we should
 use it'.
@@ -86,7 +86,7 @@ Mollick's *15 Times to Use AI, and 5 Not To*
 cases: learning that requires personal struggle,
 high-accuracy work where plausible hallucinations
 slip past readers, decisions requiring human
-ethical judgement. The analyst decides what
+ethical judgement. The researcher decides what
 to leave untouched.
 
 These judgements are what distinguish deployment
@@ -118,7 +118,7 @@ in the interface as much as in the model. Three
 patterns matter for research-analytics teams.
 
 **The model lives where the work lives.** A
-analyst's day-to-day work happens in RStudio,
+researcher's day-to-day work happens in RStudio,
 a SAS terminal, a Quarto editor, an EHR view, or a
 specific-protocol-development tool. AI assistance
 accessed in those environments is used; AI
@@ -138,7 +138,7 @@ is that low-friction interfaces get used; high-
 friction ones get bypassed.
 
 **The interface respects the user's mental model.** A
-analyst thinks in terms of cohorts, models,
+researcher thinks in terms of cohorts, models,
 analyses, and reports, not in terms of prompts,
 tokens, and contexts. Interfaces that present AI
 assistance in cohort-and-model language ('extract a

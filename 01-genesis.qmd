@@ -52,7 +52,7 @@ the parts of the tool, what is novel, what is borrowed,
 what is scaled up rather than fundamentally new, makes
 the selection and verification decisions sharper.
 
-## The analyst's contribution {#sec-genesis-human}
+## The researcher's contribution {#sec-genesis-human}
 
 History is not a substitute for technique, but it
 disciplines technique. Three judgements that thread
@@ -69,7 +69,7 @@ underlies GPT-style models is technically continuous with
 n-gram language modelling from the 1980s. What changed
 is the size of the model, the size of the training
 corpus, and the architecture's ability to exploit both.
-The analyst's contribution is to see through the gloss
+The researcher's contribution is to see through the gloss
 and recognise that scale alone does not solve problems
 the underlying statistical machinery cannot solve.
 
@@ -165,7 +165,7 @@ The technique mattered intellectually for two reasons.
 First, it offered a method for *automatic feature
 discovery*: the splits produced by CART encoded
 interactions and nonlinearities that a parametric
-analyst would have had to anticipate and code by hand.
+researcher would have had to anticipate and code by hand.
 Second, the CART formalism made plain that prediction
 performance and interpretability were on a tradeoff
 curve: deep trees fit better but were less
@@ -179,7 +179,7 @@ CART itself was extended into *random forests*
 [@breiman_2001_random_forests] and *gradient-boosted trees*
 [@friedman_2001_gradient_boost], which became, and remain, the
 default applied-statistical-learning toolkit for
-tabular data. For the clinical or public-health analyst
+tabular data. For the clinical or public-health researcher
 the relevant modern descendant is `xgboost` and its
 relatives, still the dominant choice for risk-score
 modelling and electronic-health-record outcome
@@ -286,7 +286,7 @@ dimensional space where the boundary became linear,
 without ever explicitly computing the high-dimensional
 representation, the *kernel trick*.
 
-For the clinical and public-health analyst the
+For the clinical and public-health researcher the
 practical inheritance from this era is the *Elements of
 Statistical Learning* [@hastie_2009_elements] textbook
 synthesis: a unified statistical view of supervised
@@ -377,7 +377,7 @@ GLM-5) [@raschka_2026_attention_variants]. Frontier
 2026 open-weight models routinely replace most full-
 attention layers with cheaper linear-time variants.
 Yet the user-facing experience is largely the same.
-The architecture matters, but the analyst should be
+The architecture matters, but the researcher should be
 careful not to over-attribute capability gains to it:
 'Modeling performance is likely not attributed to the
 architecture design itself but rather the dataset
@@ -467,13 +467,13 @@ health work are real.
 **Capability gains are mostly scale.** Many of the
 between-version capability jumps that the field has
 seen since 2020 are scale gains rather than algorithmic
-gains. This matters for the analyst because it implies
+gains. This matters for the researcher because it implies
 that capabilities a model lacks today may appear in
 the next-version model with no architectural change.
 The flip side is that capabilities a model demonstrates
-on a benchmark may not generalise to the analyst's
+on a benchmark may not generalise to the researcher's
 specific task; benchmark gains are not user-task gains.
-The discipline is to evaluate on the analyst's task
+The discipline is to evaluate on the researcher's task
 rather than on the field's benchmarks.
 
 The genealogy presented here, symbolic computation,
@@ -532,7 +532,7 @@ HbA1c. The mechanical sequence is roughly as follows.
    distribution (or chosen as the most probable). The
    token is appended to the prompt and the loop repeats.
 
-The output sentence the analyst sees, *baseline HbA1c,
+The output sentence the researcher sees, *baseline HbA1c,
 age, sex, BMI, treatment-arm assignment, ...*, is the
 result of 1,000 or so iterations of this loop. Each
 token is selected based on the conditional probability

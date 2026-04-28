@@ -1,4 +1,4 @@
-# The Generative AI Landscape for Analysts {#sec-landscape}
+# The Generative AI Landscape for Researchers {#sec-landscape}
 
 ## Learning objectives
 
@@ -20,7 +20,7 @@ By the end of this chapter you should be able to:
 
 ## Orientation
 
-An analyst in 2026 has access to four classes of
+A researcher in 2026 has access to four classes of
 generative AI capability that did not exist as a coherent
 toolkit five years earlier: chat models that converse
 fluently, reasoning models that work through problems
@@ -29,7 +29,7 @@ take multi-step autonomous action, and multimodal models
 that read images, audio, and structured documents
 alongside text. Each class is genuinely useful and
 genuinely limited; none is a general substitute for
-analyst judgement; and the field changes faster
+researcher judgement; and the field changes faster
 than any textbook chapter can keep pace with.
 
 This chapter establishes the framing the rest of the
@@ -47,7 +47,7 @@ chapter examples current.
 The orientation matters because the alternative:
 treating generative AI as a single 'thing' that one
 either uses or does not, produces both over- and
-under-confident analyses. The analyst who treats
+under-confident analyses. The researcher who treats
 every prompt as 'asking the AI' misses the substantial
 difference between asking a chat model for a code
 snippet, asking a reasoning model to plan a trial
@@ -55,14 +55,14 @@ analysis, and asking an agent to run that analysis end
 to end. The discipline starts with naming what kind of
 collaboration is in play.
 
-## The analyst's contribution {#sec-landscape-human}
+## The researcher's contribution {#sec-landscape-human}
 
 Before the practical taxonomy, name the judgements that
 are not delegable. Generative AI in 2026 is sufficiently
 capable that the temptation to outsource analytical
 decisions to it has become real and is, in specific
 ways, dangerous. Three judgements remain the
-analyst's responsibility regardless of how
+researcher's responsibility regardless of how
 capable the tooling becomes.
 
 **(Judgement 1.) Selection of the question.** A model can
@@ -76,7 +76,7 @@ treatment X associated with reduced 30-day mortality
 controlling for severity?, where severity is a
 post-treatment confounder). Distinguishing the two is
 domain judgement, not a prompt-engineering problem. The
-analyst's first contribution is to insist on the
+researcher's first contribution is to insist on the
 right question being asked and to push back when the AI
 tooling produces a clean answer to the wrong one.
 
@@ -88,7 +88,7 @@ it requires statistical judgement about the clinical
 context. Agents that take multi-step action produce
 artefacts whose intermediate steps may be partially
 correct, partially fabricated, and partially the product
-of opaque internal reasoning. The analyst
+of opaque internal reasoning. The researcher
 designs the verification regime to match the stakes:
 heavier verification for clinical-grade analyses, lighter
 verification for exploratory work, and honest
@@ -111,7 +111,7 @@ These judgements are what distinguish an analysis that
 survives review from one that does not. They do not
 diminish as AI capability grows; if anything, the more
 capable the tooling, the more load they bear, because
-the analyst's role increasingly becomes one of
+the researcher's role increasingly becomes one of
 adjudication rather than execution.
 
 ## Capability classes: chat, reasoning, agentic, multimodal
@@ -245,6 +245,214 @@ ask routes to the class; the ask must come first.
 
 :::
 
+## Model versus harness: where capability differentiation lives
+
+The four-class taxonomy above is correct but
+incomplete. Treating each frontier release as a new
+*model* obscures a structural fact about the 2026
+landscape: across providers, the underlying frontier
+models have converged in raw capability. The
+practical differentiation between everyday user
+experiences sits not in the model but in the
+*harness* around it [@raschka_2026_coding_agent].
+
+A clean four-level decomposition makes this concrete:
+
+- **Model.** The raw next-token engine.
+- **Reasoning model.** A model trained or prompted
+  to spend additional inference-time compute on
+  intermediate reasoning before producing the final
+  output.
+- **Agent.** A control loop around a model that
+  decides what to inspect next, which tools to call,
+  how to update its state, and when to stop.
+- **Harness.** The software scaffold around the agent
+  that manages context, tool definitions, prompt
+  caching, memory, and control flow.
+
+The two right-hand levels (agent + harness) are
+where most of the apparent capability difference
+between, say, Claude Code and a frontier chat model
+in a browser actually lives. Raschka frames the
+implication directly: 'A lot of apparent "model
+quality" is really context quality'
+[@raschka_2026_coding_agent].
+
+For the researcher, three operational consequences
+follow.
+
+**Read capability claims at the right level of the
+stack.** A claim about *Claude Code outperforms
+GPT-5 Codex* often translates into a claim about the
+harness stack rather than the underlying model.
+Substituting the model in the harness can be a
+larger change than substituting one harness for
+another. The published comparison tables on
+provider websites usually do not isolate this.
+
+**The cost is real and rising.** Agentic harnesses
+consume tokens at three to four orders of magnitude
+beyond a single chat-model query. Benedict Evans
+characterises 2026 as a structural compute shortage:
+'agentic models, and especially agentic coding, have
+increased demand for raw capacity by orders of
+magnitude and the company can't keep up'
+[@evans_2026_ai_eats_world]. Provider price
+increases, surge pricing, capacity rationing, and
+shifts away from flat-rate plans are the visible
+manifestations. A researcher budgeting for agentic
+work should expect token consumption to be the
+dominant cost line, not seat-based licensing.
+
+**Open-weight and proprietary capability are
+converging on average; the differentiator is
+ecosystem.** As of early 2026, frontier open-weight
+models (DeepSeek V3.2, GLM-5, Kimi K2.5,
+Qwen3.5) are within striking distance of the
+proprietary frontier on standard benchmarks
+[@raschka_2026_open_weight_spring]. The remaining
+gap is more about the surrounding tooling
+(reliable APIs, code-execution sandboxes, tool
+catalogues, fine-tuning options, regulatory
+compliance attestations) than about raw model
+quality. For health-sciences research deployments,
+the practical decision is increasingly between
+*ecosystems* (Anthropic stack, OpenAI stack, Google
+stack, on-premises open-weight stack) rather than
+between models.
+
+## Closed-weight vs open-weight models
+
+A second axis of choice, often confused with the
+model-vs-harness distinction, is the access regime
+of the underlying model. The researcher working in 2026
+has, broadly, two regimes available, with a third in
+the background.
+
+### Terminology
+
+**Closed-weight** models keep the trained
+parameters proprietary. Access is through an API or
+a hosted product. The user cannot download the
+weights, run the model locally, or fine-tune it
+outside the provider's sanctioned tooling. As of
+early 2026, the leading closed-weight model
+families are GPT-5.x (OpenAI), Claude Opus 4.x and
+Sonnet 4.x (Anthropic), Gemini 2.5 / 3 (Google),
+and Grok (xAI).
+
+**Open-weight** models publish the trained
+parameters under a license that lets the user
+download, run, fine-tune, and (often) redistribute
+them. Notable open-weight families include Llama 4
+(Meta), DeepSeek V3.x and R1 (DeepSeek), Mistral's
+open releases, Qwen3.x (Alibaba), GLM-5 (Z.ai),
+Kimi K2.x (Moonshot), and Gemma 3 (Google). The
+provider may still control training-data
+disclosure; the licenses vary in how much they
+restrict commercial reuse.
+
+**Fully open-source** models, the third and rarer
+regime, publish weights *plus* training code,
+training data, training logs, and the recipes
+needed to reproduce the model from scratch.
+Examples: OLMo (Allen AI), Pythia (EleutherAI),
+parts of the BLOOM project. Most of what the
+press calls "open-source AI" is actually
+open-weight; the genuinely-open-source frontier is
+narrower and lags the capability frontier by some
+margin.
+
+The shorthand *commercial vs open-source* is the
+wrong primary framing in 2026. Most open-weight
+models are produced commercially (Meta, DeepSeek,
+Alibaba, Mistral, Z.ai, Moonshot are all companies
+with revenue strategies that involve their open
+releases). Open-weight licenses can be quite
+restrictive: Llama's license has acceptable-use
+clauses and a 700-million-MAU threshold above which
+a separate license is required; some "open"
+releases (Cohere's Tiny Aya, certain Qwen variants)
+are non-commercial only. Closed-weight providers
+offer free consumer tiers. The axis that actually
+matters to the researcher is whether the weights are
+downloadable, not whether the model is "commercial."
+
+### Capability gap, narrowing
+
+The 2024 capability gap between closed-weight
+frontier and open-weight frontier was real. The
+2026 gap is, on standard benchmarks, much smaller.
+Raschka's [@raschka_2026_open_weight_spring]
+February 2026 round-up of ten open-weight releases
+(Trinity, Kimi K2.5, Step 3.5, Qwen3-Coder-Next,
+GLM-5, MiniMax M2.5, Nanbeige, Qwen3.5, Ling 2.5,
+Tiny Aya) finds the leading open-weight models
+within a few percentage points of the closed-weight
+frontier on the major benchmarks (SWE-Bench
+Verified, GPQA, MMLU, MedQA). The remaining gap
+sits more in the *ecosystem* (reliable APIs,
+code-execution sandboxes, tool catalogues,
+fine-tuning attestations, regulatory compliance
+documentation) than in the raw model quality.
+
+### Tradeoffs
+
+| Axis | Closed-weight (API) | Open-weight (on-prem or VPC) |
+|---|---|---|
+| Privacy / PHI / data residency | Data routed through provider; HIPAA BAA may or may not be in place | Analyst controls the inference infrastructure |
+| Reproducibility / version pinning | Provider can silently update; published version label is not a guarantee of bit-stable behaviour | Frozen weights give bit-stable inference; reproducible across years |
+| Cost structure | Per-token, scales linearly with usage; no upfront infra | Upfront GPU + ops cost; near-zero marginal token cost |
+| Capability ceiling | Generally at or near the frontier on benchmarks | Within a few points of frontier on most benchmarks; ahead in some niches (Chinese-language, certain coding tasks) |
+| Ecosystem maturity | Mature SDKs, tool catalogues, dashboards, IDE plugins | Maturing rapidly but uneven across stacks |
+| Fine-tuning | Limited; mostly in provider-controlled tooling | Full freedom; LoRA, QLoRA, full SFT all available |
+| Auditability | Opaque; provider behaviour can change without notice | Inspectable; weights, generation, and logs all on the institution's hardware |
+
+### A decision framework
+
+Three regimes capture most of the choice space.
+
+**Default to closed-weight** when the work is
+low-stakes, the data is non-sensitive, the volume
+is moderate, and convenience matters. Drafting
+methods text from a published paper, debugging an
+R script, exploring an analytical idea, generating
+boilerplate code from a data dictionary: the
+per-token cost is small, the verification burden is
+manageable, and the closed-weight ecosystem makes
+the work fast.
+
+**Default to open-weight on-prem (or VPC)** when
+PHI is in scope and a vendor BAA does not adequately
+discharge institutional risk, when regulatory
+submission requires reproducibility years after
+inference, or when token volume crosses the cost
+break-even point against on-prem GPU infrastructure
+(typically tens of millions of tokens per month, but
+the calculation is institution-specific). Section
+@sec-regulation-irb develops the privacy and
+regulatory considerations; section
+@sec-customisation-teams develops the deployment
+mechanics.
+
+**Run a hybrid** when the team's work spans both
+regimes, which is increasingly the common case.
+Use closed-weight models for exploration,
+prototyping, and non-PHI drafting. Use open-weight
+models for production inference on PHI, for
+regulatory-grade reproducibility, or for any
+deployment where the researcher needs to *guarantee*
+that the model will respond identically next year
+to how it responds today.
+
+The frame to avoid: treating "the leading model" as
+a fixed referent. The leading model on the
+researcher's task as of early 2026 may not be the
+leading model six months later. Build the
+evaluation suite (Ch 9) so that the choice between
+regimes can be revisited cheaply when a new model
+is released.
+
 ## The jagged frontier
 
 A canonical observation about modern AI capability is
@@ -261,7 +469,7 @@ and remains subhuman in adjacent ones, with no consistent
 predictor of which is which from the user's perspective.
 
 The pattern matters because it breaks two intuitive
-heuristics that analysts (and everyone else)
+heuristics that researchers (and everyone else)
 naturally apply. The first is the **transferability
 heuristic**: 'if it can do X, it can probably do Y where
 Y is similar to X'. The transferability heuristic fails
@@ -289,7 +497,7 @@ analysis.** The jagged frontier is not a temporary
 problem that the next model release will fix. It is a
 structural property of the way these systems are trained
 and evaluated. New models close some jagged gaps and
-open others. The analyst's protection is not to
+open others. The researcher's protection is not to
 guess which gaps are open today but to design every
 AI-assisted workflow with verification points at the
 boundaries where gaps tend to land.
@@ -343,7 +551,7 @@ asks for more information. The interaction is more like
 working with a junior colleague than running a script.
 
 The shift in framing has practical implications for the
-analyst.
+researcher.
 
 **The binding skill is delegation, not prompting.**
 Mollick [@mollick_2026_management_superpower] argues the underlying
@@ -352,9 +560,9 @@ evaluation of output, and judicious choice of what to
 delegate. These are management fundamentals: clear
 product requirement documents, iterative feedback,
 recognising when to assign and when to retain. The
-analyst who sees AI as a tool will write
+researcher who sees AI as a tool will write
 under-specified prompts and accept under-evaluated
-output. The analyst who sees AI as a teammate
+output. The researcher who sees AI as a teammate
 will specify deliverables, set up rapid evaluation, and
 maintain judgement over the work.
 
@@ -362,10 +570,10 @@ maintain judgement over the work.
 world where compute is abundant and execution is cheap,
 the binding constraint shifts to knowing what to ask and
 recognising when the answer is wrong. The
-analyst's domain expertise, clinical-trial
+researcher's domain expertise, clinical-trial
 methodology, statistical inference, the regulatory
 context, is what makes good delegation possible. The AI
-can produce code; only the analyst knows whether
+can produce code; only the researcher knows whether
 the code is solving the right problem.
 
 **Adoption emerges at the edges.** Mollick
@@ -428,7 +636,7 @@ query and produces correct code 70% of the time. Model B
 costs $0.50 per query and produces correct code 95% of
 the time. Each correct answer is worth one unit of work;
 each wrong answer requires a re-run plus the
-analyst's time to diagnose, valued at $5. Which
+researcher's time to diagnose, valued at $5. Which
 is cheaper per unit of correct work?
 
 **Answer.** Model A: $0.05 + 0.30 × $5 = $1.55 per query, but
@@ -451,8 +659,8 @@ is a multi-centre randomised study of a novel diabetes
 medication; the primary endpoint is HbA1c change at 26
 weeks; secondary endpoints include weight loss, adverse
 events, and patient-reported outcomes. The dataset is
-3,400 patients across 18 centres. The analyst
-is the lead analyst; the report is for the data
+3,400 patients across 18 centres. The researcher
+is the lead researcher; the report is for the data
 monitoring committee.
 
 The work decomposes into roughly twelve sub-tasks. For
@@ -463,7 +671,7 @@ right tool, and where verification points need to land.
 model: the SAP needs to integrate the trial protocol,
 the regulatory context, and the sponsor's pre-specified
 hypotheses. Chat-model output would be plausible-looking
-but miss subtleties. The analyst verifies by
+but miss subtleties. The researcher verifies by
 reading the protocol, the prior SAPs in the same
 indication, and any FDA Type C meeting minutes that
 inform the design.
@@ -476,13 +684,13 @@ running the code it produces against the actual data.
 
 **3. Computing baseline characteristics tables.** Chat
 model: standard `tableone`-style output, easy to verify.
-The model produces R or Python code; the analyst
+The model produces R or Python code; the researcher
 runs it and inspects the output for sensibility.
 
 **4. Implementing the primary efficacy analysis.**
 Reasoning model: the primary analysis is a mixed model
 for repeated measures with interaction terms; the
-analyst needs the model to think through the
+researcher needs the model to think through the
 fixed-effects specification, the random-effects
 structure, and the missing-data assumption. Verify by
 hand-computing the result on a small subset and
@@ -498,7 +706,7 @@ critically.
 **6. Subgroup analyses with multiplicity correction.**
 Reasoning model: subgroup analyses are easy to get wrong
 in published reports. The model can plan the
-multiplicity correction; the analyst decides
+multiplicity correction; the researcher decides
 whether subgroups are pre-specified versus exploratory
 and ensures the report makes the distinction.
 
@@ -516,7 +724,7 @@ ggplot2 code, easy to verify.
 **10. Drafting the methods section of the report.** Chat
 or reasoning model. Chat model produces an acceptable
 draft; reasoning model produces a draft that integrates
-nuance from the SAP. The analyst reads, edits,
+nuance from the SAP. The researcher reads, edits,
 and is responsible for accuracy.
 
 **11. Drafting the results section.** Chat model with the
@@ -527,7 +735,7 @@ sometimes paraphrase a number incorrectly.
 **12. Cross-checking the report against the SAP.**
 Reasoning model with both documents in context. The
 model can flag where the report deviates from the SAP;
-the analyst adjudicates whether the deviations
+the researcher adjudicates whether the deviations
 are intentional and disclosed.
 
 The agentic class does not appear in the workflow. For a
@@ -541,7 +749,7 @@ not for the analysis itself.
 
 The total cost of the AI-assisted portion of this work
 is roughly $20–$50 in API charges across the analysis;
-the analyst's time saved is several days. The
+the researcher's time saved is several days. The
 total verification overhead is roughly 30% of what the
 AI-assisted portion would have cost without
 verification, non-negligible but small relative to the
@@ -611,7 +819,7 @@ elevated risk explicitly.
 
 The meta-pattern: the LLM is a useful **first-pass
 collaborator** for thinking about its own use. It is not
-a substitute for the analyst's judgement about
+a substitute for the researcher's judgement about
 which work is appropriate to delegate. Treat its
 recommendations the way you would treat recommendations
 from a fluent intern, useful starting points, never

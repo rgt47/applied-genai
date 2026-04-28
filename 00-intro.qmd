@@ -17,7 +17,7 @@ structure:
 2. **Orientation.** Two to four paragraphs of prose framing:
    what the chapter is, why it matters, how it relates to
    adjacent chapters.
-3. **The analyst's contribution.** A front-loaded
+3. **The researcher's contribution.** A front-loaded
    section articulating the judgements at the centre of
    the chapter that no large language model can make on
    the reader's behalf. Three to five paragraphs, each
@@ -55,7 +55,7 @@ introductory and advanced sister volumes:
 - **Analyst-centred framing.** The sister volumes
   address the biostatistician explicitly. This volume,
   whose audience extends to clinical researchers and
-  public-health investigators, refers to *the analyst*:
+  public-health investigators, refers to *the researcher*:
   whoever is running the analysis and signing the
   report. Where a chapter contains a worked example with
   an explicit role, the role is named (clinical fellow,

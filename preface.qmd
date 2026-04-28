@@ -13,7 +13,7 @@ generative AI as a working collaborator.
 The intended audience is the graduate student or working
 researcher in biostatistics, clinical research, or public
 health who runs the analyses and signs the reports.
-Throughout the book, *the analyst* refers to whoever sits
+Throughout the book, *the researcher* refers to whoever sits
 in that seat regardless of disciplinary label. The book
 assumes familiarity with statistical methods at the level
 of a first-year graduate sequence and fluency in R at the
@@ -27,7 +27,7 @@ encounter.
 
 The 13-chapter structure is organised in five parts:
 
-1. **Foundations for the applied user**: a brief
+1. **Foundations**: a brief
    genealogy of generative AI; the contemporary
    landscape and capability classes; reasoning models,
    context, and the verification problem.
@@ -83,7 +83,7 @@ Three concepts thread through every chapter and earn the
 **The jagged frontier.** Generative AI capability is
 uneven: superhuman in some dimensions, subhuman in
 adjacent ones. The frontier is also opaque, capability
-and verification difficulty grow together. The analyst's
+and verification difficulty grow together. The researcher's
 contribution is to identify which jagged edges still
 require human judgement and which do not, and to design
 verification proportionate to the stakes.
@@ -99,7 +99,7 @@ from Chapter 1 forward.
 **Verification as a first-class concern.** Every chapter
 treats verification not as a final step but as a design
 property. The section template in every chapter front-loads
-*The analyst's contribution*, the judgements no AI
+*The researcher's contribution*, the judgements no AI
 can make on the reader's behalf, and ends with
 *Collaborating with an LLM*, where specific prompts are
 paired with what to watch for and how to verify. The
@@ -108,7 +108,7 @@ dialectic structures the chapter rather than decorating it.
 ## How to read this book
 
 Each content chapter follows the same structure: Learning
-objectives, Orientation, The analyst's contribution,
+objectives, Orientation, The researcher's contribution,
 content sections (with collapsible Check-your-understanding
 callouts at natural pauses), Worked example,
 Collaborating with an LLM, Principle in use, Exercises,

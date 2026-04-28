@@ -28,11 +28,11 @@ AI uses fall under what regulatory regimes, what
 documentation is expected, is more stable and is the
 emphasis of the chapter.
 
-The analyst's role in the regulatory side of AI
+The researcher's role in the regulatory side of AI
 work is often underestimated. The role is not to be the
 regulatory expert (that is the regulatory affairs team's
 job) but to ensure the analysis is conducted in a way
-that supports the regulatory work. An analyst who
+that supports the regulatory work. A researcher who
 designs an AI-assisted study without considering the
 SaMD classification, the IRB language, or the HIPAA
 flow may produce defensible analytical work that cannot
@@ -49,7 +49,7 @@ configurations, on-prem alternatives. **IRB language
 for AI-assisted protocols**: what to write so the
 review board has what it needs.
 
-## The analyst's contribution {#sec-regulation-irb-human}
+## The researcher's contribution {#sec-regulation-irb-human}
 
 Three judgements are not delegable.
 
@@ -60,7 +60,7 @@ clinician action is potentially regulated by the FDA as
 SaMD. A model used for research-only analysis is
 typically not. The line is consequential: SaMD
 classification triggers substantial regulatory burden;
-research-only does not. The analyst identifies
+research-only does not. The researcher identifies
 where on the line a project sits and ensures the
 appropriate framing is documented.
 
@@ -69,7 +69,7 @@ data may flow through multiple parties in an AI-
 assisted analysis: the institution, an API provider,
 possibly a hosted RAG corpus, possibly a logging
 service. Each hop needs to be HIPAA-compliant or the
-analysis cannot proceed with PHI. The analyst
+analysis cannot proceed with PHI. The researcher
 maps the data flow, confirms the BAAs are in place, and
 documents the configuration.
 
@@ -78,7 +78,7 @@ review.** IRB protocols for AI-assisted research need
 to address questions the IRB will ask: what AI is
 being used, what data flows where, what verification
 is performed, what subject-level risks attach to the
-AI use. The analyst drafts this language so
+AI use. The researcher drafts this language so
 the IRB's review is informed and the protocol is
 approvable.
 
@@ -127,7 +127,7 @@ trades flexibility (faster updates) for upfront work
 (specifying the change envelope and the verification
 in advance).
 
-For an analyst supporting a SaMD development:
+For a researcher supporting a SaMD development:
 
 - Understand whether the project is targeting SaMD
   classification or is research-only.
@@ -168,7 +168,7 @@ becomes more borderline; if the score is used to
 suggest specific clinical findings to add ('your note
 suggests this patient may have undocumented diabetes'),
 it crosses into clinical-decision-support territory and
-is more likely to be regulated. The analyst's
+is more likely to be regulated. The researcher's
 contribution is to clarify the use case with the
 product team and document the intended-use language
 that supports the chosen classification.
@@ -203,7 +203,7 @@ High-risk AI obligations include:
 - Accuracy, robustness, cybersecurity.
 - Conformity assessment.
 
-For an analyst on a clinical-AI project with EU
+For a researcher on a clinical-AI project with EU
 exposure (deployment in EU or research collaboration
 with EU institutions), these translate into:
 
@@ -384,7 +384,7 @@ following purposes:
    (Anthropic Claude with extended thinking) assists
    in drafting analysis plans. All plans are
    reviewed and finalised by the senior
-   analyst.
+   researcher.
 
 4. Methods drafting: AI-generated text is reviewed
    and edited by the investigator before publication.
