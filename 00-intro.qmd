@@ -1,27 +1,27 @@
 # How to use this book {.unnumbered}
 
-This short orientation chapter explains the chapter
-template, the cross-references, and the conventions used
-throughout the book. It is the same template inherited from
-the sister volumes, with two adjustments specific to this
-book.
+We begin with a short orientation chapter, in which we set
+out the chapter template, the cross-references, and the
+conventions used throughout the book. It is, in general, the
+same template inherited from the sister volumes, with two
+adjustments specific to this book.
 
 ## Chapter template
 
-Every content chapter follows the same nine-section
+Every content chapter shall follow the same nine-section
 structure:
 
 1. **Learning objectives.** A bulleted list of capabilities
-   the reader should have after working through the
+   the reader should have once they have worked through the
    chapter.
 2. **Orientation.** Two to four paragraphs of prose framing:
-   what the chapter is, why it matters, how it relates to
-   adjacent chapters.
+   what the chapter is, why it matters, and how it relates
+   to adjacent chapters.
 3. **The researcher's contribution.** A front-loaded
    section articulating the judgements at the centre of
    the chapter that no large language model can make on
    the reader's behalf. Three to five paragraphs, each
-   leading with a bold-tag judgement followed by
+   leading with a bold-tag judgement and followed by
    elaboration.
 4. **Content sections.** The chapter's substantive
    material, broken into sections with descriptive
@@ -47,35 +47,38 @@ introductory and advanced sister volumes:
 
 - **No prerequisites quiz.** The introductory volume
   opens each chapter with a pre-flight quiz to surface
-  missing prerequisites; this volume assumes the
-  prerequisite material is in place and skips the quiz.
+  missing prerequisites; this volume, on the other hand,
+  assumes the prerequisite material is in place and so
+  skips the quiz.
 - **No practice test.** The introductory volume closes
-  with a self-administered practice test; this volume
-  treats the exercises as the equivalent assessment.
+  with a self-administered practice test; this volume,
+  by contrast, treats the exercises as the equivalent
+  assessment.
 - **Researcher-centred framing.** The sister volumes
   address the biostatistician explicitly. This volume,
   whose audience extends across health-sciences research
   (clinicians, biostatisticians, epidemiologists,
-  pharmacists, public-health researchers), refers to
-  *the researcher*: whoever is running the analysis and
-  signing the report. Where a chapter contains a worked example with
-  an explicit role, the role is named (clinical fellow,
-  pharmacoepidemiologist, biostatistician); the
-  surrounding prose stays role-neutral.
+  pharmacists, public-health researchers), refers instead
+  to *the researcher*: that is, whoever is running the
+  analysis and signing the report. Where a chapter
+  contains a worked example with an explicit role, we name
+  the role (clinical fellow, pharmacoepidemiologist,
+  biostatistician); the surrounding prose, however, stays
+  role-neutral.
 
 ## Cross-references
 
 References to chapters in this volume use `@sec-` labels:
 for example, `@sec-agents-mcp` resolves to Chapter 7.
-References to chapters in the sister volumes use full
-URLs, since the volumes deploy as separate Quarto sites:
-SCAI lives at <https://scai.rgtlab.org>, the advanced
-volume at <https://scai-advanced.rgtlab.org>, and the
-practicum at <https://practicum.rgtlab.org>.
+References to chapters in the sister volumes, on the other
+hand, use full URLs, since the volumes deploy as separate
+Quarto sites: SCAI lives at <https://scai.rgtlab.org>, the
+advanced volume at <https://scai-advanced.rgtlab.org>, and
+the practicum at <https://practicum.rgtlab.org>.
 
 ## Conventions
 
-Visual cues used throughout the book are described on the
+We describe the visual cues used throughout the book on the
 [Conventions](conventions.qmd) page. Code blocks default
 to R; Python and shell snippets are labelled. LLM prompts
 are shown in fenced blocks with the prompt text and, where
@@ -93,5 +96,5 @@ The book repository at
 - `references.bib`, the working bibliography.
 
 Both companion documents are intended as audit-trail
-artefacts; they explain why the book is shaped the way it
-is and will be updated as the field evolves.
+artefacts; that is, they explain why the book is shaped the
+way it is, and we shall update them as the field evolves.
