@@ -46,6 +46,45 @@ right generator for the use case, audit the output for
 both utility and privacy, and document the tradeoffs
 honestly.
 
+The problem is not confined to clinical trials. Consider
+a state health department that holds a line-listed
+notifiable-disease surveillance dataset, one row per
+reported case, with age, sex, county, race and ethnicity,
+onset date, and outcome. External epidemiologists would
+like to develop analyses against it, but the department
+cannot release identifiable records, and traditional
+small-cell suppression (blanking any county-by-age cell
+with fewer than, say, five cases) destroys exactly the
+sparse strata that outbreak analysis depends on. But is
+there a middle path between suppression and disclosure? A
+synthetic surveillance file, generated to preserve the
+joint distribution of person, place, and time while
+carrying a documented privacy guarantee, is one candidate,
+and it is the running public-health example we shall
+return to in the worked example below.
+
+@fig-synth-pipeline gives the shape of the whole process
+before we take it apart stage by stage; the point to carry
+forward is that differential privacy enters at a single
+place, when the generator is fit, and that release is
+gated on both a utility check and a privacy audit rather
+than on either alone.
+
+```{mermaid}
+%%| label: fig-synth-pipeline
+%%| fig-cap: "The synthetic-data pipeline, from identifiable source records to documented release. Differential privacy, when used, enters at one point only: the noisy training of the generator (DP-SGD). Everything downstream is post-processing and inherits the guarantee. Release is gated on two independent checks, a utility check and a privacy audit; failing either sends the analyst back to retrain with a different method or a looser or tighter epsilon."
+flowchart TB
+  A[("Real records<br/>identifiable, in<br/>secure enclave")] --> B["Fit generative model<br/>MICE, CTGAN, MedGAN,<br/>Synthcity"]
+  B --> C["Synthetic data"]
+  C --> U["Utility check<br/>marginals, correlations,<br/>downstream analysis"]
+  C --> P["Privacy audit<br/>membership + attribute<br/>inference"]
+  U --> D{"Both<br/>pass?"}
+  P --> D
+  D -- no --> B
+  D -- yes --> R["Release<br/>+ expert-determination<br/>report"]
+  DP["Differential privacy<br/>DP-SGD noise, budget &epsilon;"] -.enters here.-> B
+```
+
 The chapter develops three threads. **Generation
 methods** for tabular biomedical data, clinical
 narratives, and structured records. **Differential
@@ -142,6 +181,27 @@ hard to scale, expensive per record, and offers no
 formal privacy guarantee. Useful for tutorial-scale
 synthesis (a few hundred records); not useful for
 methods development at trial scale.
+
+Before reaching for any one of these, it helps to see
+them side by side. @tbl-methods lays out the main tabular
+generators against the questions that actually decide the
+choice: what data shape each handles, whether it carries a
+formal privacy guarantee, and the caveat that most often
+bites. The decision rule is in the last column; read it
+first, because the right method is usually fixed by the
+data shape and the release setting before any utility
+metric is computed.
+
+: Generation methods for tabular and record data, compared on the axes that drive method selection. A formal privacy guarantee means a provable differential-privacy bound; methods without one may still be private in practice, but the claim then rests on the audit rather than on a theorem. {#tbl-methods}
+
+| Method | Data types handled | Privacy guarantee | Typical use | Caveat / decision rule |
+|---|---|---|---|---|
+| MICE [@vanbuuren_2011_mice] | Mixed numeric-categorical, moderate width | None (formal) | Imputation-style synthesis, small to moderate tables | Reuse when full synthesis is overkill; no formal privacy, audit required |
+| CTGAN / TVAE [@xu_2019_ctgan] | Mixed numeric-categorical, class imbalance | None (formal) | General tabular synthesis, methods development | Strong utility, no DP bound; pick when data is mixed and release is gated by audit |
+| MedGAN [@choi_2017_medgan] | High-dimensional sparse binary (ICD, procedure, med codes) | None (formal) | Claims and coded-record synthesis | Use when the data is sparse-binary; general methods underperform this shape |
+| Synthcity [@qian_2023_synthcity] | Mixed tabular, plus wrappers for the above | Optional (bundles DP-GAN, PATE-GAN) | Recommended starting point for a new project | One library, many plugins; the DP variants are where a formal bound lives |
+| DP-synthesizers (DP-CTGAN, PATE-GAN) | Mixed numeric-categorical | Formal $(\epsilon, \delta)$-DP | External / public release under a stated budget | Pick when release is public or unvetted; utility falls as $\epsilon$ tightens |
+| LLM-based synthesis | Mixed, schema-driven | None (formal) | Tutorial-scale synthesis, a few hundred records | Plausible but unscalable and unbounded; not for trial-scale work |
 
 A practical workflow for tabular synthesis:
 
@@ -278,6 +338,57 @@ methods paper that will appear in a Quarto book is
 under stronger privacy pressure than a synthetic dataset
 shared with a long-term collaborator under a DUA.
 
+The tension is easiest to see as a single curve.
+@fig-privacy-utility traces downstream utility against the
+epsilon budget, alongside the re-identification risk that
+an audit would recover. The lesson to take is that the two
+curves move together: there is no epsilon that is both far
+to the left (private) and high on the utility line, so the
+operating point is a choice about which loss to accept
+rather than a value to be optimised away. The shaded band
+marks the moderate range where most cross-institutional
+work lands.
+
+```{r}
+#| label: fig-privacy-utility
+#| fig-cap: "Illustrative privacy-utility trade-off for a differentially-private tabular generator. As the epsilon budget widens (moving right, weaker privacy), downstream-model accuracy rises toward the no-DP ceiling, but so does the re-identification risk an audit would recover (membership-inference AUC). The two curves rise together, which is the whole difficulty: tightening privacy costs utility, and buying utility costs privacy. Numbers are illustrative, not measured."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 4.0
+library(ggplot2)
+library(tibble)
+eps <- c(0.1, 0.25, 0.5, 1, 2, 5, 10, 25, 50, 100)
+pu <- tibble::tibble(
+  epsilon = rep(eps, 2),
+  Measure = rep(c("Downstream accuracy",
+                  "Re-identification risk (MI AUC)"),
+                each = length(eps)),
+  value = c(0.50 + 0.44 * eps / (eps + 1.5),
+            0.50 + 0.45 * eps / (eps + 9))
+)
+ggplot(pu, aes(epsilon, value, colour = Measure,
+               group = Measure)) +
+  annotate("rect", xmin = 1, xmax = 10, ymin = 0.45,
+           ymax = 1, alpha = 0.08, fill = "#1b6ca8") +
+  annotate("text", x = 3.1, y = 0.47,
+           label = "moderate range", size = 3,
+           colour = "grey40") +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.4) +
+  scale_x_log10(breaks = c(0.1, 1, 10, 100)) +
+  scale_y_continuous(limits = c(0.45, 1),
+                     labels = scales::percent) +
+  scale_colour_manual(values = c(
+    "Downstream accuracy" = "#1b6ca8",
+    "Re-identification risk (MI AUC)" = "#b23a48")) +
+  labs(x = expression("Privacy budget " * epsilon *
+                      " (log scale, wider = weaker privacy)"),
+       y = "Score", colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank())
+```
+
 A working pattern:
 
 ```python
@@ -405,66 +516,80 @@ basis for the privacy claim. IRBs and journal reviewers
 will increasingly ask for it; preparing it after the
 fact is harder than as you go.
 
-## Worked example: synthesising a trial-emulation cohort
+## Worked example: releasing a synthetic surveillance file
 
-A cardiology team wants to publish a methods paper on
-trial-emulation in observational data. The real cohort
-is 12,000 patients from the institutional EHR with
-detailed cardiovascular risk factors and outcomes. The
-team cannot share the real cohort externally; they want
-synthetic data that supports replication of the methods
-paper's analyses.
+We return to the state health department from the
+orientation. The department maintains a notifiable-disease
+surveillance system and wants external epidemiologists to
+develop analyses (age-standardised incidence, spatial
+clustering, disparities by race and ethnicity) without
+touching identifiable case records. The real file is
+40,000 line-listed cases over five years with age, sex,
+county, race and ethnicity, onset date, and outcome. The
+alternative the department has used until now, small-cell
+suppression, blanks every sparse county-by-age cell and so
+hides precisely the rare strata that outbreak and
+disparities work depends on. Synthetic data is the
+proposed replacement.
 
-Step 1: characterise the use case. The synthetic data
-will be released with a methods paper; external readers
-will use it to reproduce the analyses. The privacy
-regime is therefore strong: external researchers cannot
-be vetted, and the data will live in perpetuity. Target
-$\epsilon = 1$ as the privacy budget. The utility
-requirement is that the methods paper's analyses
-produce qualitatively similar results on synthetic and
-real data.
+Step 1: characterise the use case. The synthetic file will
+be posted publicly for unvetted external analysts and will
+persist indefinitely. The privacy regime is therefore
+strong. Target $\epsilon = 1$ as the privacy budget. The
+utility requirement is that county-level incidence rates
+and the direction and rough magnitude of racial and ethnic
+disparities are preserved.
 
 Step 2: choose the method. The data is mixed numeric-
-categorical with 30 variables. Synthcity's DP-CTGAN with
-$\epsilon = 1, \delta = 10^{-5}$ is the chosen method.
+categorical, roughly a dozen variables, with sparse
+county-by-age-by-outcome strata. Following @tbl-methods, a
+DP-synthesiser is indicated because release is public;
+Synthcity's DP-CTGAN with $\epsilon = 1, \delta = 10^{-5}$
+is the chosen method.
 
-Step 3: generate. About 4 hours of training on a single
-GPU, producing a synthetic dataset of 12,000 patients
-with the same variable structure.
+Step 3: generate. A few hours of training, producing a
+synthetic file of 40,000 cases with the same variable
+structure and, unlike the suppressed file, populated small
+cells.
 
-Step 4: audit utility. Run the methods paper's primary
-analyses on the synthetic data and compare. The hazard
-ratios in the trial-emulation analysis are within 8% of
-the real data results; the confidence intervals overlap
-substantially. The conclusion that the trial-emulation
-estimate matches the published trial within 0.05 hazard
-ratio units is preserved on the synthetic data.
+Step 4: audit utility. Recompute the analyses external
+users are expected to run. County-level incidence rates on
+the synthetic file are within roughly 10% of the real
+rates for well-populated counties, wider in the sparsest
+counties; the ranking of counties by rate is largely
+preserved. The disparity estimates keep their direction and
+approximate magnitude. On the plus side, the sparse strata
+that suppression destroyed are usable; on the minus side,
+the rate estimates in those strata carry visibly more
+noise, and the release documentation says so.
 
-Step 5: audit privacy. Run a membership-inference attack
-using the audit code shown above. AUC = 0.51, the
-attack fails, as expected with $\epsilon = 1$. Run an
-attribute-inference attack on cardiovascular outcomes
-given baseline characteristics. The synthetic-data-
-trained classifier achieves AUC 0.62 on held-out real
-data; the baseline (predicting from marginal) achieves
-0.51. The 11-point improvement is concerning but
-modest; the team documents it and proceeds.
+Step 5: audit privacy. Run the membership-inference attack
+using the audit code shown above. AUC = 0.52, the attack
+fails, as expected with $\epsilon = 1$. Run an
+attribute-inference attack predicting outcome from age,
+sex, county, and race and ethnicity. The synthetic-data-
+trained classifier achieves AUC 0.61 on held-out real
+cases; the marginal baseline achieves 0.51. The 10-point
+improvement is modest but real; the department documents
+it and proceeds.
 
 Step 6: write the expert-determination report. The
-researcher documents the method, the DP parameters,
-the audit results, and concludes that the re-
-identification risk is very small in the context of the
-publication's purpose. The IRB reviews and approves the
-release.
+department statistician documents the method, the DP
+parameters, and the audit results, and concludes that the
+re-identification risk is very small given the public
+purpose. Note that this file, being trained on PHI, does
+not qualify for Safe Harbor merely because it lists no
+names; expert determination is the operative path.
 
-Step 7: release with documentation. The synthetic
-dataset is published alongside the paper with a README
-that includes the synthesis method, the privacy budget,
-the utility comparison, the audit results, and the
-expert determination. External readers can reproduce
-the analyses with full transparency about the synthetic
-nature of the data.
+Step 7: release with documentation. The synthetic file is
+posted with a README recording the synthesis method, the
+privacy budget, the utility comparison (including the
+degraded small-cell precision), the audit results, and the
+expert determination. External epidemiologists can develop
+and publish analyses with full transparency about the
+synthetic nature of the data, and the department has
+avoided both disclosure and the analytic dead end of
+blanket small-cell suppression.
 
 ## Collaborating with an LLM on synthetic data generation
 

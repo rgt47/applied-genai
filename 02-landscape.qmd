@@ -122,6 +122,29 @@ treats current generative AI as four overlapping
 capability classes rather than a single product. Each
 class has a characteristic strength, a characteristic
 failure mode, and a characteristic cost profile.
+@fig-capability-classes lays the taxonomy out before we
+take the classes one at a time; the detail to notice is
+that every branch terminates in the same node,
+verification, whose weight the researcher sets and no
+class discharges on its own.
+
+```{mermaid}
+%%| label: fig-capability-classes
+%%| fig-cap: "The four capability classes and the research work each is suited to. The classes overlap in practice (a reasoning model can chat; an agent wraps a reasoning model), but each has a characteristic strength and a characteristic failure mode. Every branch ends at verification because no class removes the researcher's obligation to check the output; the classes differ only in how that checking is done."
+flowchart TB
+  R["Generative AI<br/>capability classes"] --> C["Chat<br/>fast, cheap,<br/>fluent"]
+  R --> RE["Reasoning<br/>extended internal<br/>computation"]
+  R --> AG["Agentic<br/>multi-step<br/>tool use"]
+  R --> MM["Multimodal<br/>images, audio,<br/>documents"]
+  C --> C1["Boilerplate code,<br/>drafting, lookups,<br/>survey coding"]
+  RE --> RE1["Analysis planning,<br/>debugging,<br/>design review"]
+  AG --> AG1["Literature screening,<br/>long-running<br/>extraction"]
+  MM --> MM1["Imaging, OCR,<br/>tables from<br/>scanned reports"]
+  C1 --> V["Verification proportionate to stakes<br/>(the researcher's contribution)"]
+  RE1 --> V
+  AG1 --> V
+  MM1 --> V
+```
 
 **Chat models** are the most familiar form. Token-by-token
 text generation conditioned on a system prompt and a
@@ -208,7 +231,11 @@ Multimodal frontier models from major providers handle
 image, audio, and document inputs as a built-in
 capability, alongside specialised biomedical models like
 MedSAM [@ma_2024_medsam], RETFound [@zhou_2023_retfound],
-and BiomedCLIP [@zhang_2025_biomedclip].
+and BiomedCLIP [@zhang_2025_biomedclip]. The direction of
+travel is toward *generalist* medical AI, a single model
+spanning modalities and tasks [@moor_2023_gmai], of which
+Med-Gemini is an early frontier-scale demonstration
+[@saab_2024_med_gemini].
 
 For clinical and public-health researchers, multimodal models are the entry
 point for clinical-imaging research, OCR and table
@@ -219,6 +246,51 @@ other model, with the additional concern that
 distribution shift in imaging (different scanners,
 patient populations, acquisition protocols) is harder to
 detect than distribution shift in tabular data.
+
+### Capability classes in population-health work
+
+The examples above lean clinical. The taxonomy earns its
+keep just as directly in population-health work, where
+the unit of analysis is a community rather than a
+patient and the recurring tasks are surveillance,
+evidence synthesis, and communication rather than
+individual diagnosis. To illustrate, consider a state
+health department during a winter respiratory-virus
+season. The syndromic-surveillance feed delivers
+free-text chief complaints that need coding into
+syndrome categories; a chat model applies the codebook
+at a volume no analyst team could match, and the
+epidemiologist double-codes a subsample to measure
+agreement. The weekly evidence scan for the state
+immunisation advisory group is a screening task over
+hundreds of abstracts; an agent screens against
+pre-specified inclusion criteria, and a second reviewer
+audits a random sample. Planning the outbreak
+investigation itself, choosing the study design,
+anticipating confounding, is reasoning-model territory,
+with the epidemiologist's judgement as the check. And
+the case-report forms faxed in by rural clinics arrive
+as scanned PDFs; a multimodal model extracts the fields,
+and a sample is traced back to the source pages.
+
+@tbl-ph-class-tasks maps the classes to these and other
+recurring public-health research tasks. We suggest
+reading the verification column first, because that is
+where the analyst's time actually goes; the class
+assignment is usually obvious once the task is named,
+but the verification design is the part that
+distinguishes a defensible workflow from a hopeful one.
+
+: Capability classes mapped to recurring public-health research tasks. The class column names the right starting tool; the verification column names the check that makes the output defensible. Where two classes appear, the task genuinely spans both. {#tbl-ph-class-tasks}
+
+| Public-health task | Class | Model contribution | Researcher verification |
+|---|---|---|---|
+| Surveillance signal triage | Chat | Codes free-text chief complaints into syndrome categories | Double-code a subsample; monitor agreement over time |
+| Systematic review for evidence-based policy | Agentic | Screens abstracts against inclusion criteria; extracts study characteristics | Dual-screen a random sample; audit extracted fields |
+| Open-ended survey coding | Chat | Applies a codebook to community-health-assessment responses at scale | Double-code a subsample; reconcile disagreements |
+| Outbreak investigation planning | Reasoning | Works through design, confounding, and sensitivity analyses | Check against epidemiological judgement and prior investigations |
+| Health communication | Chat | Drafts plain-language and translated materials for target audiences | Community review; readability checks; accuracy against current guidance |
+| Environmental-exposure document review | Multimodal + agentic | Extracts monitoring values from heterogeneous scanned reports | Trace a sample of extracted values to source pages |
 
 ::: {.callout-note icon=false collapse=true}
 ## Check your understanding: choosing the class
@@ -336,16 +408,37 @@ parameters proprietary. Access is through an API or
 a hosted product. The user cannot download the
 weights, run the model locally, or fine-tune it
 outside the provider's sanctioned tooling. As of
-early 2026, the leading closed-weight model
-families are GPT-5.x (OpenAI), Claude Opus 4.x and
-Sonnet 4.x (Anthropic), Gemini 2.5 / 3 (Google),
-and Grok (xAI).
+mid-2026, the frontier closed-weight families are
+Claude (Anthropic), whose Fable 5 release of June
+2026 introduced a tier above the established Opus
+class (Claude Opus 4.8 remains the top Opus-tier
+model, and a variant, Mythos 5, is released only to
+approved organisations); GPT-5.6 (OpenAI), previewed
+in late June 2026 in three tiers, Sol (flagship
+reasoning and long-horizon agentic work), Terra
+(balanced, roughly half the cost), and Luna (fastest
+and cheapest), initially gated to roughly twenty
+partner organisations at US-government request with
+general availability expected within weeks of this
+writing; Gemini 3.5 (Google), launched May 2026,
+with Flash generally available, Pro following
+shortly after, and Omni handling multimodal video
+generation; and Grok (xAI). The names will date
+quickly, as every list in this paragraph
+demonstrates. What is durable is the *tier
+structure* now standard within each family: a
+flagship reasoning tier, a balanced mid-tier, and a
+fast cheap tier, priced roughly an order of
+magnitude apart end to end.
 
 **Open-weight** models publish the trained
 parameters under a license that lets the user
 download, run, fine-tune, and (often) redistribute
 them. Notable open-weight families include Llama 4
-(Meta), DeepSeek V3.x and R1 (DeepSeek), Mistral's
+(Meta), a lineage whose 2023 ancestor Llama 2
+established that open-weight release could coexist
+with a commercial strategy [@touvron_2023_llama2],
+DeepSeek V3.x and R1 (DeepSeek), Mistral's
 open releases, Qwen3.x (Alibaba), GLM-5 (Z.ai),
 Kimi K2.x (Moonshot), and Gemma 3 (Google). The
 provider may still control training-data
@@ -358,7 +451,7 @@ training data, training logs, and the recipes
 needed to reproduce the model from scratch.
 Examples: OLMo (Allen AI), Pythia (EleutherAI),
 parts of the BLOOM project. Most of what the
-press calls "open-source AI" is actually
+press calls 'open-source AI' is actually
 open-weight; the genuinely-open-source frontier is
 narrower and lags the capability frontier by some
 margin.
@@ -371,12 +464,12 @@ with revenue strategies that involve their open
 releases). Open-weight licenses can be quite
 restrictive: Llama's license has acceptable-use
 clauses and a 700-million-MAU threshold above which
-a separate license is required; some "open"
+a separate license is required; some 'open'
 releases (Cohere's Tiny Aya, certain Qwen variants)
 are non-commercial only. Closed-weight providers
 offer free consumer tiers. The axis that actually
 matters to the researcher is whether the weights are
-downloadable, not whether the model is "commercial."
+downloadable, not whether the model is 'commercial'.
 
 ### Capability gap, narrowing
 
@@ -398,15 +491,23 @@ documentation) than in the raw model quality.
 
 ### Tradeoffs
 
-| Axis | Closed-weight (API) | Open-weight (on-prem or VPC) |
+@tbl-weight-regimes condenses the tradeoffs. We note
+that for health-sciences work the first two rows,
+privacy and reproducibility, carry most of the decision
+weight; the remaining rows are conveniences that rarely
+override them.
+
+: Tradeoffs between closed-weight API access and open-weight local deployment. The privacy and reproducibility rows dominate the choice for health-sciences work; the remaining rows matter at the margin. {#tbl-weight-regimes}
+
+| Axis | Closed-weight (API) | Open-weight (local or VPC) |
 |---|---|---|
-| Privacy / PHI / data residency | Data routed through provider; HIPAA BAA may or may not be in place | Researcher controls the inference infrastructure |
-| Reproducibility / version pinning | Provider can silently update; published version label is not a guarantee of bit-stable behaviour | Frozen weights give bit-stable inference; reproducible across years |
-| Cost structure | Per-token, scales linearly with usage; no upfront infra | Upfront GPU + ops cost; near-zero marginal token cost |
-| Capability ceiling | Generally at or near the frontier on benchmarks | Within a few points of frontier on most benchmarks; ahead in some niches (Chinese-language, certain coding tasks) |
-| Ecosystem maturity | Mature SDKs, tool catalogues, dashboards, IDE plugins | Maturing rapidly but uneven across stacks |
-| Fine-tuning | Limited; mostly in provider-controlled tooling | Full freedom; LoRA, QLoRA, full SFT all available |
-| Auditability | Opaque; provider behaviour can change without notice | Inspectable; weights, generation, and logs all on the institution's hardware |
+| Privacy and PHI | Data transits the provider; BAA coverage varies | Inference stays on institutional hardware |
+| Reproducibility | Silent provider updates; version labels not bit-stable | Frozen weights; bit-stable across years |
+| Cost structure | Per-token, linear in usage; no upfront infrastructure | Upfront GPU and operations; near-zero marginal cost |
+| Capability ceiling | At or near the frontier | Within a few points; ahead in some niches |
+| Ecosystem maturity | Mature SDKs, tooling, dashboards | Maturing rapidly but uneven |
+| Fine-tuning | Provider-controlled tooling only | Full freedom (LoRA, QLoRA, full SFT) |
+| Auditability | Opaque; behaviour can change without notice | Weights, generation, and logs all inspectable |
 
 ### A decision framework
 
@@ -467,6 +568,11 @@ exist. Mollick [@mollick_2025_jagged_agi] names this the
 *jagged frontier*: capability rises in some directions
 and remains subhuman in adjacent ones, with no consistent
 predictor of which is which from the user's perspective.
+The pattern was visible in the earliest formal
+capability reports for GPT-4 [@openai_2023_gpt4;
+@bubeck_2023_sparks_agi] and has not receded as models
+have scaled; the jagged edges move, but the jaggedness
+remains.
 
 The pattern matters because it breaks two intuitive
 heuristics that researchers (and everyone else)
@@ -485,10 +591,11 @@ the answer is more likely to be right'. Generative AI
 systems produce all answers with confidence, including
 wrong answers. Hallucinated citations are not flagged.
 Wrong arithmetic is not flagged. Confidently incorrect
-analytical interpretations are not flagged. Calibration
-between expressed confidence and actual accuracy remains
-poor across all current systems, despite improvements at
-the model-card-benchmark level.
+analytical interpretations are not flagged.
+Unfortunately, calibration between expressed confidence
+and actual accuracy remains poor across all current
+systems, despite improvements at the
+model-card-benchmark level.
 
 The implication for applied analytic work is direct:
 **verification cannot be skipped, and verification cost
@@ -594,6 +701,10 @@ costs and how long each takes. The constraints are not
 fixed (cost has fallen substantially across all classes
 in 2024–2026 and continues to fall), but the relative
 ranking is stable enough to inform routine decisions.
+@tbl-class-costs summarises the profiles; the orders of
+magnitude, not the specific figures, are what to retain.
+
+: Latency, cost, and context-window profiles of the four capability classes. Figures are order-of-magnitude and illustrative as of mid-2026; the relative ranking is more durable than the absolute values. {#tbl-class-costs}
 
 | Class | Latency | Cost / query | Context window | Best for |
 |-------|---------|---------------|----------------|----------|
@@ -601,6 +712,63 @@ ranking is stable enough to inform routine decisions.
 | Reasoning | tens of seconds to minutes | tens of cents | 100k–1M | planning, debugging, hard problems |
 | Agentic | minutes to hours | dollars to tens of dollars | 100k–1M with compaction | multi-step autonomous work |
 | Multimodal | seconds to minutes | cents to tens of cents | 100k–1M | imaging, OCR, voice |
+
+But how does capability actually scale with price? The
+tier structure now standard across providers gives the
+question concrete anchors. OpenAI's GPT-5.6 preview
+prices its three tiers at roughly $30, $15, and $6 per
+million output tokens (Sol, Terra, and Luna
+respectively), a pattern echoed, with different numbers,
+across the other frontier families; open-weight models
+served on institutional hardware sit further down the
+price axis again. @fig-cost-capability plots an
+illustrative composite-benchmark score against price per
+million output tokens for representative tiers. The
+shape to notice is the diminishing return at the top:
+the step from the fast tier to the balanced tier buys
+most of the capability gain, while the step from
+balanced to flagship costs as much again for a few
+further points. That does not make the flagship tier a
+poor purchase; for the hard problems it is the only
+tier that succeeds at all. It does mean the default
+routing for routine work should be a cheaper tier, with
+escalation reserved for tasks that earn it.
+
+```{r}
+#| label: fig-cost-capability
+#| fig-cap: "Illustrative capability-versus-cost positions of representative model tiers as of mid-2026. Capability is a notional composite benchmark score; prices are list prices per million output tokens where published (the GPT-5.6 tiers) and rough estimates elsewhere, so the figure is illustrative, not a procurement guide. The pattern, capability rising steeply then flattening as price grows tenfold, is the durable lesson; the specific positions will date."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 4.0
+library(ggplot2)
+library(tibble)
+tiers <- tibble::tribble(
+  ~tier,                      ~regime,          ~cost, ~capability,
+  "Fast tier (e.g. Luna)",    "Closed-weight",    6,    72,
+  "Balanced tier (e.g. Terra)","Closed-weight",  15,    84,
+  "Flagship tier (e.g. Sol)", "Closed-weight",   30,    90,
+  "Small open-weight",        "Open-weight",     0.5,   55,
+  "Mid open-weight",          "Open-weight",     2,     70,
+  "Frontier open-weight",     "Open-weight",     5,     81
+)
+ggplot(tiers, aes(cost, capability, colour = regime)) +
+  geom_point(size = 3) +
+  geom_text(aes(label = tier), size = 3, vjust = -1.1,
+            show.legend = FALSE) +
+  scale_x_log10(breaks = c(0.5, 2, 6, 15, 30),
+                labels = c("$0.50", "$2", "$6", "$15", "$30"),
+                limits = c(0.3, 60)) +
+  scale_y_continuous(limits = c(45, 100)) +
+  scale_colour_manual(values = c(
+    "Closed-weight" = "#1b6ca8",
+    "Open-weight" = "#4a7c59")) +
+  labs(x = "Price per million output tokens (log scale)",
+       y = "Illustrative composite benchmark score",
+       colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank())
+```
 
 Two practical decision rules.
 

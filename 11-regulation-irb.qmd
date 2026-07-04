@@ -49,6 +49,80 @@ configurations, on-prem alternatives. **IRB language
 for AI-assisted protocols**: what to write so the
 review board has what it needs.
 
+## The frameworks at a glance
+
+Before we work through the individual regimes, it helps to
+see them side by side, because a common source of confusion
+is treating them as interchangeable when they differ in what
+they govern, in whether they carry the force of law, and in
+where they apply. @tbl-framework-comparison lays out the five
+frameworks a health researcher is most likely to encounter.
+The reader may treat the final column as a working rule: for
+most population-health research the binding regimes (FDA
+SaMD, EU AI Act) do not apply, and the useful material is in
+the voluntary frameworks that supply documentation structure.
+
+| Framework | What it governs | Binding vs guidance | Geographic scope | Relevance to a public-health researcher |
+|:---|:---|:---|:---|:---|
+| FDA SaMD / PCCP [@fda_2024_pccp_final] | Software that is a medical device (diagnosis, treatment, triage) | Binding (federal law) | US market | Applies only when a tool informs clinical action; most population research is out of scope, but a surveillance signal that triggers care can edge in |
+| EU AI Act [@eu_2024_ai_act] | AI systems by risk tier; most medical AI is 'high-risk' | Binding (EU regulation) | EU market or use | Triggers with EU deployment or EU subjects; its data-governance and bias-audit duties bear on equity work |
+| WHO LMM guidance [@who_2024_lmm_guidance] | Ethics and governance of large multimodal models in health | Guidance (non-binding) | Global / advisory | Frames population-level and lower-resource-setting equity concerns; useful for global-health and surveillance framing |
+| NIST AI RMF [@nist_2023_ai_rmf] | A risk-management process (govern, map, measure, manage) | Voluntary framework | US-origin, used internationally | A practical scaffold for documenting risk in a protocol regardless of sector |
+| CHAI | Voluntary assurance standards and reporting (model cards, assurance labs) | Voluntary consensus | US-based consortium | Emerging institutional reporting norms you may be asked to follow |
+
+: The five frameworks a health researcher is most likely to meet, and what each is for. The binding regimes (FDA, EU AI Act) govern products; the voluntary frameworks (WHO, NIST, CHAI) supply governance structure and are where most population-health work finds its obligations. {#tbl-framework-comparison}
+
+These frameworks did not arrive together. @fig-governance-timeline
+traces the milestones since 2019, and the reader should take
+from it that the binding instruments (in red) are recent and
+still phasing in, whereas the guidance and voluntary
+frameworks (blue and gold) arrived first and remain the
+practical reference for research that is not a regulated
+product.
+
+```{r}
+#| label: fig-governance-timeline
+#| fig-cap: "Selected AI-governance milestones for health, 2019 to 2026 (dates approximate, for orientation). Binding instruments (red) are recent and, in the EU case, still phasing in; the guidance and voluntary frameworks (blue, gold) arrived earlier and remain the working reference for research that is not a regulated medical device."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3.8
+library(ggplot2)
+library(tibble)
+gov <- tibble::tribble(
+  ~date,   ~label,                              ~kind,
+  2019.3,  "FDA AI/ML SaMD\ndiscussion paper",  "Guidance",
+  2023.0,  "NIST AI RMF 1.0",                   "Voluntary",
+  2023.9,  "CHAI consortium\nformed",           "Voluntary",
+  2024.1,  "WHO LMM\nguidance",                 "Guidance",
+  2024.6,  "EU AI Act\nadopted",                "Binding",
+  2024.95, "FDA PCCP\nfinal guidance",          "Guidance",
+  2026.0,  "EU AI Act high-risk\nrules phase in", "Binding"
+)
+gov$y <- rep(c(1, -1), length.out = nrow(gov))
+gov$kind <- factor(gov$kind,
+  levels = c("Binding", "Guidance", "Voluntary"))
+ggplot(gov, aes(date, 0)) +
+  geom_hline(yintercept = 0, colour = "grey70") +
+  geom_segment(aes(xend = date, y = 0, yend = y * 0.28,
+                   colour = kind), linewidth = 0.5) +
+  geom_point(aes(colour = kind), size = 3) +
+  geom_text(aes(y = y * 0.46, label = label, colour = kind),
+            size = 2.8, lineheight = 0.9, show.legend = FALSE) +
+  scale_colour_manual(values = c(
+    "Binding" = "#b23a48",
+    "Guidance" = "#1b6ca8",
+    "Voluntary" = "#a06a1f")) +
+  scale_x_continuous(breaks = 2019:2026,
+                     limits = c(2018.7, 2026.7)) +
+  scale_y_continuous(limits = c(-0.75, 0.75)) +
+  labs(x = NULL, y = NULL, colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank(),
+        axis.text.y = element_blank())
+```
+
 ## The researcher's contribution {#sec-regulation-irb-human}
 
 Three judgements are not delegable.
@@ -85,6 +159,33 @@ approvable.
 These judgements are what distinguish AI-assisted work
 that proceeds from work that is held up at IRB or
 regulatory review.
+
+The three judgements can be arranged as a short decision
+path, which is worth internalising because it determines
+which regime attaches before any project work begins.
+@fig-regulatory-decision walks the reader from the first
+question, is this research or is it clinical care, through
+to the frameworks that apply at each terminal. We note that
+most population-health research lands on the left branch,
+where the IRB and HIPAA govern and the binding device
+regimes do not.
+
+```{mermaid}
+%%| label: fig-regulatory-decision
+%%| fig-cap: "A decision path for placing an AI activity under the right regime. The first split is research versus clinical care or product deployment; a tool that informs a clinical decision follows the right branch toward FDA SaMD and the EU AI Act, while research data flows follow the left branch toward the IRB and HIPAA. The voluntary frameworks (NIST, WHO, CHAI) supply governance structure on either side."
+flowchart TD
+  A["Is the activity research,<br/>or clinical care / product deployment?"]
+  A -->|Research| B["Does it involve<br/>human-subjects data?"]
+  A -->|Clinical care<br/>or product| C["Does the tool inform<br/>a clinical decision?"]
+  B -->|Yes| D["IRB review<br/>+ HIPAA data-flow map"]
+  B -->|"No, or public / aggregate data"| E["Likely IRB-exempt;<br/>still map the data flow"]
+  C -->|"Yes: diagnosis,<br/>treatment, triage"| F["Likely FDA SaMD<br/>+ EU AI Act high-risk"]
+  C -->|"No: admin,<br/>retrieval, education"| G["Outside SaMD;<br/>governance guidance applies"]
+  D --> H["Frameworks in play:<br/>HIPAA, NIST AI RMF,<br/>WHO LMM, CHAI"]
+  E --> H
+  G --> H
+  F --> I["Pre-market pathway<br/>+ PCCP for adaptive AI"]
+```
 
 ## FDA SaMD and predetermined change control plans
 
@@ -278,6 +379,70 @@ For most applied research, de-identification or
 BAA+API is sufficient. On-prem is reserved for
 specific contexts (high-volume clinical operations,
 specific contractual constraints).
+
+## Population data, de-identification, and the surveillance exemption
+
+Much of public-health research works with population data
+rather than individual clinical decisions, and the governance
+questions shift accordingly. We note three points that are
+specific to this setting and are easy to get wrong.
+
+First, **de-identification is harder for free text than the
+Safe Harbor list suggests.** HIPAA Safe Harbor enumerates
+eighteen identifiers to remove, and for structured registry
+fields their removal is mechanical. Clinical free text is
+another matter: a chief-complaint note or a discharge summary
+carries quasi-identifiers (an unusual occupation, a rare
+diagnosis, a named facility) that Safe Harbor does not
+enumerate and that a capable language model can surface or
+recombine. Unfortunately, running such text through an LLM
+does not de-identify it; if anything the model's fluency with
+context raises the re-identification risk. Where the text
+itself must be processed, expert determination, rather than
+Safe Harbor, is generally the defensible route.
+
+Second, **the public-health surveillance exemption governs
+collection and use, not the vendor hop.** The HIPAA Privacy
+Rule permits a covered entity to disclose PHI to a public
+health authority for surveillance without individual
+authorisation (the public-health-activities provision), and
+the Common Rule treats public-health surveillance as an
+activity that is not research, so the IRB requirement may not
+attach at all. But how far does that exemption reach? It
+authorises the surveillance itself; it says nothing about
+sending the data through a third-party API. That hop still
+needs a BAA, a zero-retention configuration, or prior
+de-identification. In sum, the exemption removes the IRB
+question, not the data-flow question.
+
+Third, **IRB and ethics review for LLM studies on population
+data attends to group-level harm, not only individual
+re-identification.** When a model classifies or summarises
+data on small subgroups (a rare condition in a specific
+county, an immigrant community, an occupational cohort), the
+output can enable stigmatising or discriminatory inference
+about the group even when no individual is identified. The
+WHO guidance on large multimodal models [@who_2024_lmm_guidance]
+makes this population-level and equity framing explicit, and
+it is the framing a public-health IRB will expect.
+
+To illustrate, consider a syndromic-surveillance team that
+wants to use an LLM to code free-text emergency-department
+chief complaints into syndrome categories (influenza-like
+illness, gastrointestinal, heat-related) for a weekly
+outbreak-monitoring dashboard. The surveillance activity is
+covered by the public-health exemption, so the IRB question
+is light. The frameworks that do the work here are the ones on
+the left branch of @fig-regulatory-decision: HIPAA governs
+whether the free text can leave the perimeter, and the
+governance frameworks structure the documentation. The team
+de-identifies by expert determination before transmission,
+uses a BAA-covered zero-retention endpoint, validates the
+coding against a manual sample, and, following the NIST AI
+RMF's measure-and-manage steps [@nist_2023_ai_rmf], records
+the classifier's error rate by syndrome and by facility so
+that a systematic miss in one community is caught rather than
+propagated into the dashboard.
 
 ## IRB language for AI-assisted protocols
 
@@ -521,6 +686,11 @@ Three habits define defensible work in this area:
   reference for adaptive AI as a medical device.
 - @eu_2024_ai_act, *EU Artificial Intelligence Act*.
   The regulatory text and accompanying guidance.
+- @who_2024_lmm_guidance, *WHO Guidance on Ethics and
+  Governance of Large Multi-Modal Models in Health*. The
+  reference for population-level and equity framing.
+- @nist_2023_ai_rmf, *NIST AI Risk Management Framework*.
+  A voluntary, sector-neutral scaffold for documenting risk.
 - @gebru_2021_datasheets, *Datasheets for Datasets*.
   Adjacent: data documentation as a regulatory
   expectation.

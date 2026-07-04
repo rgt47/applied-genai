@@ -41,6 +41,46 @@ against the training cutoff: a RAG over current PubMed
 will reflect last week's papers, while the underlying
 model's training data may be a year stale.
 
+The staleness argument is at its sharpest in public
+health. Consider an epidemiologist tracking a novel
+respiratory outbreak in the first weeks after it is
+recognised. The relevant case definitions, transmission
+estimates, and interim guidance are being revised almost
+daily, and none of it existed when the model was trained.
+A model asked directly will answer confidently from a
+world that predates the outbreak. A RAG pointed at the
+current CDC *Morbidity and Mortality Weekly Report*
+series, WHO Disease Outbreak News, and the preprint
+literature will answer from this week. The difference is
+not a matter of polish; it is the difference between
+guidance that is current and guidance that is quietly
+obsolete. But how do we build such a pipeline so that it
+retrieves the right material, and refuses gracefully when
+it cannot? That question organises the chapter.
+
+@fig-rag-pipeline gives the shape of the whole system
+before we take it apart stage by stage.
+
+```{mermaid}
+%%| label: fig-rag-pipeline
+%%| fig-cap: "The stages of a biomedical RAG pipeline. Index-time work (chunk, embed, store) is done once and refreshed as the corpus grows; query-time work (retrieve, re-rank, generate, verify) runs on every question. The verification step, often omitted, is what makes the output defensible."
+flowchart TB
+  subgraph idx [Index time: done once, refreshed as corpus grows]
+    direction LR
+    A["Source corpus<br/>PubMed, MMWR, WHO<br/>guidance, protocols, SOPs"] --> B["Chunk<br/>by document structure"]
+    B --> C["Embed<br/>dense vectors"]
+    C --> D[("Vector index<br/>+ BM25 index")]
+  end
+  subgraph qry [Query time: runs on every question]
+    direction LR
+    Q["Researcher<br/>query"] --> E["Hybrid retrieve<br/>dense + BM25, RRF"]
+    E --> F["Re-rank<br/>cross-encoder"]
+    F --> G["Generate<br/>cite chunk IDs,<br/>refuse if empty"]
+    G --> H["Verify citations<br/>against retrieved set"]
+  end
+  D -.-> E
+```
+
 The chapter develops three concerns. **Retrieval**:
 chunking, embedding, search strategy. **Generation**:
 prompting the model to cite, refuse when retrieval is
@@ -167,6 +207,19 @@ retrievers without requiring score calibration. Hybrid
 retrieval is the default recommendation for biomedical
 RAG; the additional engineering is small and the
 retrieval quality is consistently better.
+
+@tbl-retrieval-comparison summarises the three strategies
+side by side. The reader designing a first pipeline may
+treat the final column as a decision rule: start hybrid
+unless there is a specific reason not to.
+
+| Strategy | Matches on | Strong when the query | Weak when the query | Cost |
+|:---|:---|:---|:---|:---|
+| Sparse (BM25) | Exact token overlap | Shares rare terms (drug, gene, ICD codes) | Uses a synonym ('high blood pressure' vs 'hypertension') | Very low |
+| Dense | Semantic similarity | Is phrased unlike the source | Turns on a rare term diluted in the average | Moderate |
+| Hybrid (RRF) | Both, fused by rank | Is either of the above, or a mix | Rarely; failure modes are complementary | Moderate |
+
+: Sparse, dense, and hybrid retrieval for biomedical text. Hybrid retrieval is the default because the weaknesses of sparse and dense retrieval are largely complementary: where one degrades, the other tends to hold. {#tbl-retrieval-comparison}
 
 ```python
 def rrf_merge(rankings, k=60):
@@ -452,6 +505,58 @@ mostly ignoring the irrelevant parts. Adding a re-ranker
 produce the top-10) raises context precision to 0.78
 and improves answer relevance further. The cost is about
 500ms of additional latency per query, accepted.
+
+@fig-rag-iterations traces the three metrics across the
+two tuning steps. The pattern it shows is the ordinary
+shape of RAG development, and worth internalising: the
+two interventions each moved one metric decisively while
+leaving the others essentially untouched. Re-chunking
+fixed retrieval recall; re-ranking fixed context
+precision; neither did the other's job. This is why the
+two evaluation layers are kept separate. Had we tracked
+only an end-to-end answer score, we would have seen it
+improve twice and learned nothing about which lever did
+the work.
+
+```{r}
+#| label: fig-rag-iterations
+#| fig-cap: "Evaluation metrics across two tuning iterations of the institutional-protocol RAG. Re-chunking (step 1) lifts retrieval recall; adding a re-ranker (step 2) lifts context precision. Each intervention moves the metric it targets and leaves the others roughly fixed, which is why retrieval quality and answer quality are evaluated as separate layers."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3.6
+library(ggplot2)
+library(tibble)
+rag <- tibble::tribble(
+  ~step,              ~Metric,             ~value,
+  "Baseline",         "Recall@10",          0.71,
+  "+ Re-chunk",       "Recall@10",          0.91,
+  "+ Re-ranker",      "Recall@10",          0.91,
+  "Baseline",         "Faithfulness",       0.84,
+  "+ Re-chunk",       "Faithfulness",       0.84,
+  "+ Re-ranker",      "Faithfulness",       0.86,
+  "Baseline",         "Context precision",  0.41,
+  "+ Re-chunk",       "Context precision",  0.41,
+  "+ Re-ranker",      "Context precision",  0.78
+)
+rag$step <- factor(rag$step,
+  levels = c("Baseline", "+ Re-chunk", "+ Re-ranker"))
+ggplot(rag, aes(step, value, colour = Metric, group = Metric)) +
+  geom_hline(yintercept = 0.8, linetype = "dashed",
+             colour = "grey60") +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.6) +
+  annotate("text", x = 0.6, y = 0.82, label = "target 0.80",
+           hjust = 0, size = 3, colour = "grey40") +
+  scale_y_continuous(limits = c(0.3, 1), labels = scales::percent) +
+  scale_colour_manual(values = c(
+    "Recall@10" = "#1b6ca8",
+    "Faithfulness" = "#a06a1f",
+    "Context precision" = "#4a7c59")) +
+  labs(x = NULL, y = "Score", colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank())
+```
 
 The deployed pipeline answers questions in 3–5 seconds,
 serves the whole research-analytics group, and is updated

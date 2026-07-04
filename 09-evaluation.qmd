@@ -76,6 +76,49 @@ question, *what evaluation regime would have caught
 that*, is the question the rest of the chapter
 develops.
 
+Before turning to those threads, it helps to have a
+map of the evaluation methods available and of what
+each is good for. @fig-eval-taxonomy arranges the
+main families as a progression: a public benchmark
+score filters the field, a task-based suite selects
+within it, human and subgroup review confirm that the
+choice holds across the populations the system will
+serve, and adversarial stress testing probes what
+remains. The single lesson to carry from the figure
+is that these families are cumulative rather than
+interchangeable; a strong score at the left-hand end
+does not substitute for the work at the right-hand
+end, and fitness for a deployment is a judgement made
+at that right-hand end rather than read off the left.
+
+```{mermaid}
+%%| label: fig-eval-taxonomy
+%%| fig-cap: "From a benchmark score to fitness for a specific deployment. The four evaluation families are cumulative, not interchangeable. A static benchmark (high internal validity on the test itself, weak external validity to any given deployment) filters the field; a task-based suite selects within it; human and subgroup review test whether the choice holds across populations; adversarial stress testing probes the remainder. The named benchmarks are illustrative, included for concreteness."
+flowchart LR
+  A["Static benchmark<br/>(MedQA, MMLU-Med)"] -->|"filters:<br/>in the ballpark?"| B["Task-based suite<br/>(organisation-specific)"]
+  B -->|"selects:<br/>good at our work?"| C["Human and subgroup<br/>review"]
+  C -->|"confirms:<br/>valid across<br/>populations?"| D["Red-team and<br/>stress test"]
+  D -->|"stresses:<br/>safe under load?"| E["Fitness for a<br/>specific deployment"]
+```
+
+@tbl-eval-map restates the same territory as a working
+reference. For each question a researcher might
+actually ask, it names the method that answers it, the
+metric that quantifies it, and the pitfall that most
+often invalidates the answer; we shall return to
+several of its rows in detail.
+
+| Evaluation question | Appropriate method | Metric | Common pitfall |
+|---|---|---|---|
+| Is the model in the ballpark for this domain? | Static public benchmark (MedQA, MMLU-Med) | Accuracy against published leaderboard | Contamination and saturation inflate the score |
+| Is it good at our team's actual work? | Task-based, organisation-specific suite | Rubric-weighted score against a gold reference | Suite too small; a few tasks dominate the total |
+| Does the automated score track expert judgement? | LLM-as-judge, calibrated to humans | Cohen's kappa (categorical) or ICC (continuous) | Position bias, self-preference, uncalibrated judge |
+| Does it fabricate confident falsehoods? | Hallucination stress test (MedHALT) | Abstention rate and false-answer rate | Fluency mistaken for correctness |
+| Does it work across all populations served? | Subgroup, equity-oriented evaluation | Per-subgroup accuracy and the gap to the aggregate | Aggregate score masks a failing subgroup |
+| Is it safe under adversarial or overloaded conditions? | Red-team and stress testing | Failure rate under attack and under load | Testing the average case only |
+
+: Evaluation questions mapped to method, metric, and the pitfall that most often invalidates the answer. {#tbl-eval-map}
+
 ## The researcher's contribution {#sec-evaluation-human}
 
 Three judgements are not delegable.
@@ -287,6 +330,23 @@ ballpark?' for medical tasks. A model scoring 30%
 on MedQA is unlikely to be useful for medical work;
 a model scoring 90% is plausible.
 
+Beyond knowledge recall, targeted instruments probe
+specific failure modes. MedHALT
+[@umapathi_2023_medhalt] measures medical
+hallucination directly, testing whether a model
+abstains on unanswerable or false-premise medical
+questions rather than confabulating a fluent answer;
+it is the kind of instrument that speaks to the
+'does it fabricate confident falsehoods' row of
+@tbl-eval-map, which raw accuracy on MedQA does not.
+Systematic capability studies, such as Nori and
+colleagues' evaluation of GPT-4 on medical challenge
+problems [@nori_2023_gpt4_medical], established the
+headline that frontier models reach near expert-level
+scores on USMLE-style questions; that very result is
+what makes the contamination caveat below
+load-bearing.
+
 **Abuse pattern.** Treating benchmark performance as
 deployment performance. Three failure modes:
 
@@ -345,6 +405,71 @@ useful filter became, late in its life cycle, a
 benchmark whose top of leaderboard does not order
 the models on the capability the benchmark was meant
 to measure.
+
+The shape of saturation is worth seeing directly.
+@fig-benchmark-saturation traces illustrative MedQA
+and MMLU-Med scores across successive frontier
+releases: early models climb steeply, then the
+frontier crowds against a ceiling near the
+human-expert line, and the last several releases
+separate by amounts smaller than the sampling noise
+of the test. The point to take from it is that once
+the curve flattens against the ceiling, a one-point
+or two-point difference between the top models is not
+a capability signal, and the benchmark should be
+retired from the selection decision rather than read
+more finely.
+
+```{r}
+#| label: fig-benchmark-saturation
+#| fig-cap: "Illustrative benchmark saturation. Successive frontier models crowd against a ceiling on MedQA-style and MMLU-Med-style medical-knowledge benchmarks; the dashed line marks approximate human-expert performance and the shaded band the region where scores cluster within sampling noise of one another. Once the frontier enters that band, differences between the top models stop ordering them on capability. Values are illustrative, not measured."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 4
+library(ggplot2)
+library(tibble)
+sat <- tibble::tribble(
+  ~gen, ~Benchmark,   ~score,
+  1,    "MedQA",      0.50,
+  2,    "MedQA",      0.62,
+  3,    "MedQA",      0.73,
+  4,    "MedQA",      0.82,
+  5,    "MedQA",      0.88,
+  6,    "MedQA",      0.905,
+  7,    "MedQA",      0.915,
+  8,    "MedQA",      0.920,
+  1,    "MMLU-Med",   0.55,
+  2,    "MMLU-Med",   0.67,
+  3,    "MMLU-Med",   0.77,
+  4,    "MMLU-Med",   0.84,
+  5,    "MMLU-Med",   0.89,
+  6,    "MMLU-Med",   0.905,
+  7,    "MMLU-Med",   0.912,
+  8,    "MMLU-Med",   0.918
+)
+ggplot(sat, aes(gen, score, colour = Benchmark)) +
+  annotate("rect", xmin = -Inf, xmax = Inf,
+           ymin = 0.90, ymax = 0.95,
+           fill = "grey85", alpha = 0.5) +
+  geom_hline(yintercept = 0.87, linetype = "dashed",
+             colour = "grey50") +
+  annotate("text", x = 1, y = 0.885, label = "human expert",
+           hjust = 0, size = 3, colour = "grey40") +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.4) +
+  scale_x_continuous(breaks = 1:8,
+    labels = c("2021", "2022", "2023", "2024", "2025",
+               "early\n2026", "mid\n2026", "late\n2026")) +
+  scale_y_continuous(limits = c(0.45, 0.97),
+                     labels = scales::percent) +
+  scale_colour_manual(values = c(
+    "MedQA" = "#1b6ca8",
+    "MMLU-Med" = "#a06a1f")) +
+  labs(x = NULL, y = "Benchmark accuracy", colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank())
+```
 
 The pattern generalises:
 
@@ -447,6 +572,104 @@ real-world failures, all point to a paradigm shift.
 Teams that build their evaluation infrastructure
 only for static benchmarks will find that
 infrastructure increasingly inadequate.
+
+## Public-health worked example: subgroup evaluation
+
+To illustrate, consider a public-health chatbot
+deployed by a county health department to answer
+residents' questions about vaccination eligibility,
+screening schedules, and symptom triage during a
+respiratory-virus season. The system scored well on a
+static medical-knowledge benchmark and drew
+favourable early reviews of its tone; a study of an
+earlier public-facing medical chatbot found that
+clinicians rated its responses as more empathetic
+than physician responses to the same questions
+[@ayers_2023_chatbot_empathy], and the department's
+pilot users reported similarly. On the aggregate task
+suite the chatbot answered 89% of questions
+acceptably. By the job-interview standard of the
+earlier sections, it looked ready.
+
+Unfortunately, an aggregate accuracy of 89% can
+conceal a subgroup that the system fails. A
+population-facing system serves a heterogeneous
+population, and the relevant question for public
+health is not only 'how good is it on average' but
+'for whom does it fail'. A system that is accurate
+for the majority and inaccurate for a linguistic
+minority, an older cohort, or a low-health-literacy
+subgroup does not distribute its benefit equitably,
+and an aggregate score is precisely the statistic
+that hides this.
+
+We therefore stratify the evaluation.
+@fig-subgroup-eval shows the same chatbot's
+acceptable-answer rate broken out by subgroup. The
+lesson to take from it is that the aggregate (the
+dashed line) is a population-weighted average
+dominated by the largest, best-served groups, whereas
+the Spanish-language and low-health-literacy subgroups
+fall below the acceptance threshold even though the
+overall number clears it. A department that read only
+the aggregate would deploy a system that underserves
+precisely the residents public-health programmes are
+most obligated to reach.
+
+```{r}
+#| label: fig-subgroup-eval
+#| fig-cap: "Illustrative subgroup evaluation of a public-health chatbot. Acceptable-answer rate is shown per subgroup; the dashed line is the 89% aggregate and the dotted line the 85% acceptance threshold. The Spanish-language and low-health-literacy subgroups fall below threshold even though the aggregate clears it, the pattern that subgroup evaluation exists to expose. Values are illustrative, not measured."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3.8
+library(ggplot2)
+library(tibble)
+sub <- tibble::tribble(
+  ~subgroup,                    ~rate,
+  "English, higher literacy",   0.93,
+  "English, older adults",      0.86,
+  "Rural / limited broadband",  0.83,
+  "Spanish language",           0.72,
+  "Low health literacy",        0.70
+)
+sub$pass <- ifelse(sub$rate >= 0.85,
+  "At or above threshold", "Below threshold")
+sub$subgroup <- factor(sub$subgroup,
+  levels = sub$subgroup[order(sub$rate)])
+ggplot(sub, aes(subgroup, rate, fill = pass)) +
+  geom_col(width = 0.68) +
+  geom_hline(yintercept = 0.89, linetype = "dashed",
+             colour = "grey40") +
+  geom_hline(yintercept = 0.85, linetype = "dotted",
+             colour = "#b23a48") +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, 1),
+                     labels = scales::percent) +
+  scale_fill_manual(values = c(
+    "At or above threshold" = "#4a7c59",
+    "Below threshold" = "#b23a48")) +
+  labs(x = NULL, y = "Acceptable-answer rate", fill = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank())
+```
+
+The same logic applies to a surveillance
+text-classifier, a model that scans
+emergency-department chief-complaint text or
+social-media posts to flag possible outbreak signals.
+Aggregate sensitivity is not enough: a classifier
+that detects influenza-like illness well in
+English-language records but poorly in
+Spanish-language or abbreviation-heavy records will
+systematically under-count cases in some communities,
+biasing the surveillance signal itself. Subgroup
+evaluation, the per-group sensitivity and
+false-negative rate reported alongside the gap to the
+overall figure, is the safeguard. In sum, for any
+population-facing system the evaluation is incomplete
+until it has been disaggregated across the groups the
+system will serve.
 
 ## Continuous evaluation
 
@@ -666,3 +889,15 @@ Three habits define defensible work in this area:
 - @mollick_2025_job_interview, *Giving your AI a Job
   Interview*. The framing for organisation-specific
   evaluation.
+- @umapathi_2023_medhalt, *Med-HALT: Medical Domain
+  Hallucination Test for Large Language Models*. A
+  hallucination-specific benchmark rewarding abstention
+  over confabulation.
+- @nori_2023_gpt4_medical, *Capabilities of GPT-4 on
+  Medical Challenge Problems*. A systematic capability
+  study on USMLE-style questions.
+- @ayers_2023_chatbot_empathy, *Comparing Physician
+  and Artificial Intelligence Chatbot Responses to
+  Patient Questions*. Evidence that favourable ratings
+  on tone do not by themselves establish deployment
+  fitness.

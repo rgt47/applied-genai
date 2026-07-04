@@ -1,10 +1,92 @@
 # How to use this book {.unnumbered}
 
+Before the orientation, a word on why this book exists and
+why its subject belongs inside your training rather than at
+its edge. If you are a first-year medical or public-health
+student holding this book, the working life you are
+preparing for will not resemble the one your instructors
+trained in. Within the span of a single graduate programme,
+generative AI has moved from a curiosity to a fixture of the
+clinic and the health department. Models now conduct
+diagnostic dialogue that clinicians rate favourably against
+their own [@tu_2025_amie], and the field has begun, in
+earnest, to build generalist medical systems that read
+images, notes, and signals within one model
+[@moor_2023_gmai]. The preface makes the fuller case; here
+we state only its conclusion. The professionals who will do
+the best work with these systems are not those who trust
+them most, nor those who refuse them, but those who have
+learned to direct them and to verify what comes back. That
+is a learnable skill, and it is the subject of this book.
+
+We would enter one caution against waiting. It is tempting
+to treat a fast-moving technology as something to take up
+later, once it has settled. It will not settle on any
+schedule that rewards waiting: across the period in which
+this book was written, the capability frontier advanced by
+roughly a model generation every few months. The reader who
+learns the method now, while the tools are still imperfect
+and their failures are still instructive, will be better
+prepared than the reader who waits for a stability that is
+not coming.
+
 We begin with a short orientation chapter, in which we set
 out the chapter template, the cross-references, and the
 conventions used throughout the book. It is, in general, the
 same template inherited from the sister volumes, with two
 adjustments specific to this book.
+
+## Map of the book
+
+We begin with the shape of the whole book. @fig-book-map
+lays out the five parts and their fourteen chapters,
+together with the two reading dependencies the preface
+notes: Chapter 8 builds on Chapter 3, and Chapter 14 builds
+on Chapter 13. A reader who wants a path through the book,
+rather than a straight march front to back, can read it off
+the figure directly, since most chapters can be entered on
+their own and only the two dashed arrows impose an order.
+
+```{mermaid}
+%%| label: fig-book-map
+%%| fig-cap: "A map of the book: five parts and fourteen chapters. Solid arrows follow the default reading order within and across parts; the two dashed arrows mark the dependencies noted in the preface, where Chapter 8 builds on Chapter 3 and Chapter 14 on Chapter 13. Most other chapters may be entered directly."
+flowchart TB
+  subgraph P1 ["Part I. Foundations"]
+    direction LR
+    C1["Ch 1<br/>Genesis of<br/>generative AI"] --> C2["Ch 2<br/>Landscape and<br/>capability classes"] --> C3["Ch 3<br/>Reasoning, context,<br/>verification"] --> C3B["Ch 4<br/>Programming<br/>with AI"]
+  end
+  subgraph P2 ["Part II. Biomedical knowledge and data"]
+    direction LR
+    C4["Ch 5<br/>RAG over<br/>biomedical corpora"] --> C5["Ch 6<br/>Synthetic data<br/>and privacy"] --> C6["Ch 7<br/>Multimodal<br/>medical AI"]
+  end
+  subgraph P3 ["Part III. Agentic workflows and tool use"]
+    direction LR
+    C7["Ch 8<br/>Agents, tools,<br/>and MCP"] --> C8["Ch 9<br/>Deep research and<br/>evidence synthesis"]
+  end
+  subgraph P4 ["Part IV. Evaluation, safety, and governance"]
+    direction LR
+    C9["Ch 10<br/>Evaluation beyond<br/>the benchmark"] --> C10["Ch 11<br/>Safety, bias,<br/>red-teaming"] --> C11["Ch 12<br/>Regulation, privacy,<br/>the IRB"]
+  end
+  subgraph P5 ["Part V. Customisation, deployment, and practice"]
+    direction LR
+    C12["Ch 13<br/>Fine-tuning and<br/>AI-augmented teams"] --> C13["Ch 14<br/>Deployment in<br/>practice"]
+  end
+  P1 --> P2 --> P3 --> P4 --> P5
+  C7 -.->|"builds on"| C3
+  C13 -.->|"builds on"| C12
+```
+
+A word on emphasis. The book serves the full range of
+health-sciences researchers, and its worked examples are
+drawn from across that range (clinical, pharmacological,
+laboratory). The centre of gravity, however, sits with
+public health and population-scale work: disease
+surveillance, epidemiology, health equity and disparities,
+and evidence for policy. A reader in a School of Public
+Health should, in general, find the running examples
+pitched at the settings in which they already work; a
+reader elsewhere in the health sciences will, we hope, find
+the transfer a short one.
 
 ## Chapter template
 
@@ -40,6 +122,24 @@ structure:
 9. **Further reading.** Canonical, modern applied, and
    package-documentation pointers.
 
+@tbl-template distils the same nine sections into a
+one-line statement of what each is for, as a quick
+reference to return to while navigating any chapter.
+
+| Section | What it is for |
+|---|---|
+| Learning objectives | The capabilities to acquire; use them to self-assess afterwards |
+| Orientation | Why the topic matters and how it joins the chapters around it |
+| The researcher's contribution | The judgements no model can make on the reader's behalf |
+| Content sections | The substantive method, with *Check your understanding* pauses |
+| Worked example | The chapter's tools exercised end to end on one problem |
+| Collaborating with an LLM | Prompt patterns paired with what to watch for and how to verify |
+| Principle in use | The habits that make work in the area defensible |
+| Exercises | Graded practice, which this volume treats as its assessment |
+| Further reading | Where to go next, from canonical to current |
+
+: A quick-reference legend for the nine-section chapter template. {#tbl-template}
+
 ## Adjustments specific to this book
 
 Three adjustments distinguish this volume from the
@@ -69,7 +169,7 @@ introductory and advanced sister volumes:
 ## Cross-references
 
 References to chapters in this volume use `@sec-` labels:
-for example, `@sec-agents-mcp` resolves to Chapter 7.
+for example, `@sec-agents-mcp` resolves to Chapter 8.
 References to chapters in the sister volumes, on the other
 hand, use full URLs, since the volumes deploy as separate
 Quarto sites: SCAI lives at <https://scai.rgtlab.org>, the

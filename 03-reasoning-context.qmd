@@ -51,6 +51,20 @@ applied analytic work is that the binding skill is no
 longer 'how to phrase the prompt' but 'how to verify the
 output of a system whose reasoning you cannot inspect'.
 
+The stakes of that verification skill are clearest when
+the output feeds a population-level decision. Consider a
+health department that asks a reasoning model to draft a
+rapid risk assessment for an emerging outbreak, or a
+policy brief weighing a screening programme against its
+harms. The model returns a fluent, confidently argued
+document. If a single figure in it is silently wrong, the
+effective reproduction number computed against a stale
+vaccination-coverage estimate, say, the error does not
+announce itself; it propagates into a recommendation and
+from there into practice. But how does one verify a
+document whose reasoning one cannot inspect? That question
+organises the chapter.
+
 ## The researcher's contribution {#sec-reasoning-context-human}
 
 Three judgements are not delegable in this chapter's
@@ -101,8 +115,9 @@ silent error.
 
 ## What reasoning models change
 
-Reasoning models, OpenAI's o-series, Claude with
-extended thinking, Gemini 2.5 Pro, DeepSeek R1
+Reasoning models, the lineage that runs from OpenAI's
+o-series through the GPT-5.6 'Sol' tier, Claude with
+extended thinking, Google's Gemini 3.5, and DeepSeek R1
 [@openai_2024_o1_system_card; @deepseek_2025_r1; @anthropic_2025_extended_thinking]:
 add a thinking phase between input and output. The model
 generates intermediate tokens that are not shown to the
@@ -113,6 +128,32 @@ problems and less on easier ones, with the reward
 signal coming from final-answer correctness on
 benchmarks.
 
+@fig-reasoning-flow contrasts the two shapes. We note
+that the reasoning model's competence gain is bought with
+tokens the user never sees, which is precisely what makes
+the output harder to inspect: the visible artefact is a
+confident answer, and the working that produced it has
+been collapsed away.
+
+```{mermaid}
+%%| label: fig-reasoning-flow
+%%| fig-cap: "The two model shapes compared. A chat model maps prompt to answer in a single visible pass, so its mistakes tend to be surface errors an inspector can see. A reasoning model inserts a hidden thinking phase (draft, self-check, revise, converge) whose tokens are not shown to the user; the answer that emerges is more capable but the working that produced it is not available for per-step inspection."
+flowchart LR
+  subgraph reason ["Reasoning model"]
+    direction LR
+    RI["Prompt<br/>+ context"] --> T1
+    subgraph think ["Hidden thinking phase (not shown to user)"]
+      direction LR
+      T1["Draft<br/>steps"] --> T2["Self-check,<br/>revise"] --> T3["Converge on<br/>best guess"]
+    end
+    T3 --> RA["Answer:<br/>fluent, opaque"]
+  end
+  subgraph chat ["Chat model"]
+    direction LR
+    CI["Prompt<br/>+ context"] --> CA["Answer:<br/>surface-checkable"]
+  end
+```
+
 The empirical effect is substantial. On novel
 mathematical problems, reasoning models solve problems
 that chat models cannot. On code generation for non-
@@ -121,6 +162,55 @@ models produce plausible-looking but broken code. On
 multi-step analytical questions, they integrate
 constraints and produce defensible recommendations where
 chat models produce shallower answers.
+
+That gain, however, does not come at a constant rate. The
+thinking phase buys accuracy, but with diminishing
+returns, and the shape of the return depends on the task.
+@fig-ttc-scaling illustrates the pattern that the
+test-time-compute literature reports: on an easy task the
+accuracy curve flattens quickly, so extra thinking is
+mostly wasted latency and cost, whereas on a hard task the
+curve keeps climbing well past the point where the easy
+task has plateaued. The practical reading is that the
+reasoning-model premium is worth paying in the region
+where the hard-task curve is still rising, and is largely
+wasted where the easy-task curve has gone flat.
+
+```{r}
+#| label: fig-ttc-scaling
+#| fig-cap: "Illustrative test-time-compute scaling. Accuracy rises with the number of thinking tokens the model is allowed to spend, but with diminishing returns, and the return depends on task difficulty: the easy task plateaus early (extra thinking is wasted cost), while the hard task keeps improving over a wider range. Values are illustrative, not measured; the qualitative shape follows the published test-time-compute pattern."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3.8
+library(ggplot2)
+library(tibble)
+toks <- c(64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384)
+ttc <- tibble::tibble(
+  tokens = rep(toks, 2),
+  task = rep(c("Hard task (novel, multi-step)",
+               "Easy task (routine lookup)"),
+             each = length(toks)),
+  accuracy = c(
+    0.28, 0.36, 0.45, 0.55, 0.64, 0.71, 0.76, 0.79, 0.80,
+    0.82, 0.86, 0.89, 0.90, 0.905, 0.907, 0.908, 0.908, 0.908
+  )
+)
+ggplot(ttc, aes(tokens, accuracy, colour = task)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.2) +
+  scale_x_continuous(trans = "log2",
+                     breaks = c(64, 256, 1024, 4096, 16384)) +
+  scale_y_continuous(limits = c(0.2, 1),
+                     labels = scales::percent) +
+  scale_colour_manual(values = c(
+    "Hard task (novel, multi-step)" = "#1b6ca8",
+    "Easy task (routine lookup)" = "#a06a1f")) +
+  labs(x = "Thinking tokens (log scale)", y = "Accuracy",
+       colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank())
+```
 
 Three changes matter for applied analytic work.
 
@@ -319,6 +409,66 @@ of correctness, both models could be wrong in the same
 way, but disagreement is strong evidence that further
 investigation is warranted.
 
+Beyond these three, a set of named inference-time
+techniques operationalise verification when the answer is
+generated rather than looked up. **Self-consistency**
+[@wang_2023_self_consistency] samples several independent
+reasoning paths for the same question and takes the
+majority answer; instability across the samples is itself
+a signal that the model is guessing rather than reasoning
+to a stable conclusion. **Deliberate search over reasoning
+paths**, the tree-of-thoughts pattern
+[@yao_2023_tree_of_thoughts], asks the model to generate
+and evaluate several candidate approaches before
+committing to one, which surfaces the premature-commitment
+failures that a single trace hides. Even the elementary
+'let us think step by step' instruction
+[@kojima_2022_zero_shot_reasoners] remains a way to elicit
+an inspectable trace, though modern reasoning models
+perform this step internally. For factual claims,
+**hallucination detection** and **fact-checking** are
+concrete procedures rather than aspirations: retrieve the
+cited passage and confirm it supports the claim
+(retrieval-grounded fact-checking), flag any statement the
+model renders with high fluency but no citable support,
+and treat every statistic without a traceable source as
+unverified until checked.
+
+To see why this matters at population scale, consider a
+state health department that uses a reasoning model to
+draft a rapid risk assessment during a measles cluster.
+The model is asked whether additional vaccination clinics
+are warranted. It reasons through case counts, computes an
+effective reproduction number, and concludes that the
+cluster is self-limiting: no additional clinics needed.
+The document reads well and contains no surface error. The
+silent flaw is in the denominator: the model estimated the
+susceptible fraction from a county-level coverage figure
+that predates a recent decline in uptake, so its
+reproduction number reads just below one when the correct
+value is above one. Nothing in the fluent prose reveals
+this. Only an independent computation of the reproduction
+number, against the current coverage data, catches it, and
+the difference is the difference between a recommendation
+that closes the outbreak and one that lets it grow.
+Clearly, verification here is not an optional polish step;
+it is the analysis. @tbl-verification-techniques
+consolidates the techniques above with the failure each
+one detects; the reader designing a verification regime
+may treat the final column as a guide to which technique
+to reach for first.
+
+| Technique | What it detects | How to apply | Reach for it when |
+|:---|:---|:---|:---|
+| Independent computation | A wrong numeric result | Re-derive by hand, run a second implementation, or use a known-good library | The output is a coefficient, sample size, probability, or rate |
+| Source-checking (citation verification) | Fabricated or misattributed references | Open the source; confirm it exists and states what is claimed | The output cites a paper, guideline, or regulation |
+| Cross-model comparison | Model-specific errors; genuinely contested claims | Pose the same question to a second model; investigate disagreement | The claim is novel, not computable, and not citable |
+| Self-consistency (sample-and-vote) [@wang_2023_self_consistency] | Unstable reasoning that shifts between samples | Sample several traces, take the majority answer, note the spread | A single-answer analytical question where stability is checkable |
+| Deliberate path search [@yao_2023_tree_of_thoughts] | Premature commitment to one wrong approach | Ask for several candidate approaches; evaluate before committing | Planning and design choices with several defensible routes |
+| Self-critique prompting | Weaknesses the model can name but did not flag | Ask the model to identify the weakest link, then check it | A high-stakes conclusion before you rely on it |
+
+: Concrete verification techniques for reasoning-model output, the failure each one detects, and when to reach for it. The techniques are complementary: a defensible regime usually combines independent computation for the numbers, source-checking for the citations, and one of the inference-time techniques for the claims that are neither. {#tbl-verification-techniques}
+
 A useful concept from Mollick is **provisional trust**
 [@mollick_2025_wizards]: the user accepts the output as a
 working assumption, with the understanding that material
@@ -397,6 +547,45 @@ Use a chat model when **all** of these conditions hold.
   cheap and quick).
 - Latency matters (a real-time interaction, an
   iterative debugging loop).
+
+@fig-reasoning-decision renders these conditions as a
+single decision path. We note that every branch, whichever
+model it selects, ends at the same verification step:
+model choice changes what you verify and how, not whether
+you verify at all.
+
+```{mermaid}
+%%| label: fig-reasoning-decision
+%%| fig-cap: "A decision path for choosing a reasoning model over a standard chat model. The routine, inspectable, latency-critical corner favours a chat model; novelty, multi-step dependence, or a prior substantive failure pushes toward a reasoning model. Every path terminates at the verification step, because the choice of model determines the verification regime rather than removing the need for one."
+flowchart TD
+  S["Task to run"] --> Q1{"Routine, with a<br/>well-known solution?"}
+  Q1 -->|No| R["Use reasoning model"]
+  Q1 -->|Yes| Q2{"Output short enough<br/>to verify by inspection?"}
+  Q2 -->|No| R
+  Q2 -->|Yes| Q3{"Chat model already<br/>failed substantively?"}
+  Q3 -->|Yes| R
+  Q3 -->|No| C["Use chat model"]
+  R --> V["Design the<br/>verification regime"]
+  C --> V
+```
+
+@tbl-reasoning-vs-chat sets the two classes side by side
+on the dimensions that drive the choice. The reader will
+see that the two rows most often overlooked are the last
+two: the failure mode and how it is caught differ between
+the classes, which is why a single verification habit does
+not serve both.
+
+| Attribute | Standard (chat) model | Reasoning model |
+|:---|:---|:---|
+| Latency | About a second; near-interactive | Seconds to minutes, spent in the thinking phase |
+| Cost per query | Low | Several to many times higher (billed thinking tokens) |
+| Best-fit tasks | Routine tasks, drafting, lookups, iterative loops | Novel multi-step problems, planning, hard debugging |
+| Characteristic failure | Surface error: wrong syntax, contradiction with the prompt | Subtly wrong conclusion that reads fluently |
+| How the error is caught | Surface inspection, code execution | Independent computation, source-checking, cross-model |
+| Calibration | Poor | Poor; the extra compute does not fix it |
+
+: Reasoning versus standard chat models on the attributes that govern when each is worth using. The premium buys capability on hard, novel tasks; it does not buy calibrated confidence, and it shifts the failure mode toward errors that surface inspection will not catch. {#tbl-reasoning-vs-chat}
 
 The middle ground, tasks that are not quite routine but
 not strictly novel, is where the choice matters most

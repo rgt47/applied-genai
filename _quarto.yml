@@ -37,6 +37,7 @@ book:
         - 01-genesis.qmd
         - 02-landscape.qmd
         - 03-reasoning-context.qmd
+        - 03b-ai-programming.qmd
 
     - part: 'Working with Biomedical Knowledge and Data'
       chapters:
