@@ -39,7 +39,7 @@ book:
         - 03-reasoning-context.qmd
         - 03b-ai-programming.qmd
 
-    - part: 'Working with Biomedical Knowledge and Data'
+    - part: 'Grounding Models in Biomedical Evidence and Data'
       chapters:
         - 04-rag-biomedical.qmd
         - 05-synthetic-data-privacy.qmd

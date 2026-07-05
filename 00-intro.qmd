@@ -55,7 +55,7 @@ flowchart TB
     direction LR
     C1["Ch 1<br/>Genesis of<br/>generative AI"] --> C2["Ch 2<br/>Landscape and<br/>capability classes"] --> C3["Ch 3<br/>Reasoning, context,<br/>verification"] --> C3B["Ch 4<br/>Programming<br/>with AI"]
   end
-  subgraph P2 ["Part II. Biomedical knowledge and data"]
+  subgraph P2 ["Part II. Grounding models in evidence and data"]
     direction LR
     C4["Ch 5<br/>RAG over<br/>biomedical corpora"] --> C5["Ch 6<br/>Synthetic data<br/>and privacy"] --> C6["Ch 7<br/>Multimodal<br/>medical AI"]
   end

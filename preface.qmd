@@ -118,7 +118,7 @@ The 14-chapter structure is organised in five parts:
    landscape and capability classes; reasoning models,
    context, and the verification problem; and programming
    with AI as a collaborator in R and Python.
-2. **Working with biomedical knowledge and data**:
+2. **Grounding models in biomedical evidence and data**:
    retrieval-augmented generation over biomedical corpora;
    synthetic data with privacy guarantees; multimodal
    medical AI.
