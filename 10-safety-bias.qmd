@@ -1,5 +1,19 @@
 # Safety, Bias, and Red-Teaming in Health Contexts {#sec-safety-bias}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*Big Data processes codify the past. They do not invent
+the future.*
+
+[Cathy O'Neil]{.smallcaps}, *Weapons of Math Destruction*
+(2016)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

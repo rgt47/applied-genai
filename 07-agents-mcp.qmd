@@ -1,5 +1,18 @@
 # Agents, Tool Use, and the Model Context Protocol {#sec-agents-mcp}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*Man is a tool-using animal. Without tools he is nothing,
+with tools he is all.*
+
+[Thomas Carlyle]{.smallcaps}, *Sartor Resartus* (1831)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

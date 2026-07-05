@@ -1,5 +1,19 @@
 # Retrieval-Augmented Generation over Biomedical Corpora {#sec-rag-biomedical}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*Knowledge is of two kinds. We know a subject ourselves,
+or we know where we can find information upon it.*
+
+[Samuel Johnson]{.smallcaps}, in Boswell's *Life of
+Johnson* (1775)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

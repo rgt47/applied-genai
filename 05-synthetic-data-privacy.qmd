@@ -1,5 +1,19 @@
 # Synthetic Data and Privacy-Preserving Generation {#sec-synthetic-data}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*The right to be let alone, the most comprehensive of
+rights, and the right most valued by civilized men.*
+
+[Louis D. Brandeis]{.smallcaps}, *Olmstead v. United
+States*, dissenting (1928)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

@@ -1,5 +1,18 @@
 # Deploying AI in Clinical and Public-Health Practice {#sec-deployment}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*A map is not the territory.*
+
+[Alfred Korzybski]{.smallcaps}, *Science and Sanity*
+(1933)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

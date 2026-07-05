@@ -94,6 +94,7 @@ format:
   pdf:
     documentclass: scrbook
     classoption: [11pt]
+    keep-tex: true
     toc: false
     code-annotations: below
     highlight-style: arrow
@@ -104,21 +105,14 @@ format:
       - bottom=0.9in
       - inner=0.9in
       - outer=0.7in
+    template-partials:
+      - partials/before-body.tex
     include-in-header:
       text: |
         \usepackage{fontspec}
+        \usepackage{graphicx}
         \setmonofont{DejaVu Sans Mono}[Scale=0.9]
-    include-before-body:
-      text: |
-        \begin{titlepage}
-        \thispagestyle{empty}
-        \newgeometry{margin=0pt}
-        \noindent\makebox[\paperwidth]{%
-          \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{images/cover.png}%
-        }
-        \restoregeometry
-        \end{titlepage}
-        \cleardoublepage
+        \newenvironment{bookepigraph}{\par\begin{flushright}\small}{\end{flushright}\par\medskip}
 
 bibliography: references.bib
 csl: https://www.zotero.org/styles/apa

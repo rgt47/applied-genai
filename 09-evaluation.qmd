@@ -1,5 +1,19 @@
 # Evaluation Beyond the Benchmark {#sec-evaluation}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*Not everything that can be counted counts, and not
+everything that counts can be counted.*
+
+[William Bruce Cameron]{.smallcaps}, *Informal Sociology*
+(1963)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

@@ -1,5 +1,19 @@
 # The Generative AI Landscape for Researchers {#sec-landscape}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*I suppose it is tempting, if the only tool you have is a
+hammer, to treat everything as if it were a nail.*
+
+[Abraham Maslow]{.smallcaps}, *The Psychology of Science*
+(1966)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

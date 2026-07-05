@@ -1,5 +1,18 @@
 # Customisation and Adoption: Fine-Tuning, Distillation, and AI-Augmented Teams {#sec-customisation-teams}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*If I have seen further it is by standing on the shoulders
+of Giants.*
+
+[Isaac Newton]{.smallcaps}, letter to Robert Hooke (1675)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

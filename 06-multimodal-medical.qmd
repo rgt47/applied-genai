@@ -1,5 +1,17 @@
 # Multimodal Medical AI for Public Health Tasks {#sec-multimodal-medical}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*The whole art of medicine is in observation.*
+
+[William Osler]{.smallcaps}, teaching motto
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

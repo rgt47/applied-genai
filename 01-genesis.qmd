@@ -1,5 +1,19 @@
 # A Brief History of Generative AI: How We Got Here {#sec-genesis}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*We can only see a short distance ahead, but we can see
+plenty there that needs to be done.*
+
+[Alan M. Turing]{.smallcaps}, *Computing Machinery and
+Intelligence* (1950)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:
@@ -43,31 +57,13 @@ artefact of where the public happened to be looking.
 ```{mermaid}
 %%| label: fig-genesis-timeline
 %%| fig-cap: "Milestones from the artificial neuron to reasoning models, grouped into five eras. The gaps matter as much as the entries; backpropagation waited seventeen years after the perceptron critique, and the transformer waited five years for ChatGPT to make it visible."
-timeline
-    title Seven decades from neuron model to reasoning model
-    section Symbolic and early neural era 1943 to 1969
-        1943 : McCulloch-Pitts artificial neuron
-        1956 : Dartmouth workshop names the field
-        1958 : Rosenblatt perceptron : McCarthy publishes Lisp
-        1969 : Minsky-Papert critique of perceptrons
-    section Winters and statistical learning 1970 to 2011
-        1984 : CART decision trees
-        1986 : Backpropagation popularised
-        1995 : Support vector machines
-    section Deep learning era 2012 to 2016
-        2012 : AlexNet halves the ImageNet error rate
-        2015 : Deep-learning review in Nature
-    section Transformer and scaling era 2017 to 2021
-        2017 : Attention Is All You Need
-        2018 : GPT-1 and BERT establish pre-training
-        2019 : GPT-2
-        2020 : GPT-3 and empirical scaling laws
-    section Reasoning and agentic era 2022 to 2026
-        2022 : InstructGPT and RLHF : ChatGPT : Chain-of-thought prompting
-        2023 : GPT-4 : Llama 2 open weights
-        2024 : o1-style reasoning models
-        2025 : Open-weight reasoning models near the frontier
-        2026 : GPT-5.6 family : Gemini 3.5 : Claude Fable 5
+flowchart TB
+  E1["<b>Symbolic and early neural era</b> (1943 to 1969)<br/>1943 McCulloch-Pitts artificial neuron<br/>1956 Dartmouth workshop names the field<br/>1958 Rosenblatt perceptron; McCarthy's Lisp<br/>1969 Minsky-Papert critique of perceptrons"]
+  E2["<b>Winters and statistical learning</b> (1970 to 2011)<br/>1984 CART decision trees<br/>1986 Backpropagation popularised<br/>1995 Support vector machines"]
+  E3["<b>Deep learning era</b> (2012 to 2016)<br/>2012 AlexNet halves the ImageNet error rate<br/>2015 Deep-learning review in Nature"]
+  E4["<b>Transformer and scaling era</b> (2017 to 2021)<br/>2017 Attention Is All You Need<br/>2018 GPT-1 and BERT establish pre-training<br/>2019 GPT-2; 2020 GPT-3 and scaling laws"]
+  E5["<b>Reasoning and agentic era</b> (2022 to 2026)<br/>2022 InstructGPT, ChatGPT, chain-of-thought<br/>2023 GPT-4 and Llama 2 open weights<br/>2024 o1-style reasoning models<br/>2025 open-weight reasoning near the frontier<br/>2026 GPT-5.6, Gemini 3.5, Claude Fable 5"]
+  E1 --> E2 --> E3 --> E4 --> E5
 ```
 
 This chapter sketches the path from those origins to the

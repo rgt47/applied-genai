@@ -1,5 +1,18 @@
 # Regulation, Privacy, and the IRB {#sec-regulation-irb}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*The voluntary consent of the human subject is absolutely
+essential.*
+
+[The Nuremberg Code]{.smallcaps} (1947)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

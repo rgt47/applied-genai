@@ -1,5 +1,19 @@
 # Reasoning Models, Context, and the Verification Problem {#sec-reasoning-context}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*The first principle is that you must not fool yourself,
+and you are the easiest person to fool.*
+
+[Richard P. Feynman]{.smallcaps}, Caltech commencement
+address (1974)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

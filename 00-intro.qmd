@@ -1,5 +1,18 @@
 # How to use this book {.unnumbered}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*The purpose of computing is insight, not numbers.*
+
+[R. W. Hamming]{.smallcaps}, *Numerical Methods for
+Scientists and Engineers* (1962)
+```{=latex}
+\end{flushright}
+```
+:::
+
 Before the orientation, a word on why this book exists and
 why its subject belongs inside your training rather than at
 its edge. If you are a first-year medical or public-health

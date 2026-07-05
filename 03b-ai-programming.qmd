@@ -1,5 +1,21 @@
 # Programming with AI: Becoming a Better R and Python Programmer {#sec-ai-programming}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*Debugging is twice as hard as writing the code in the
+first place. Therefore, if you write the code as cleverly
+as possible, you are, by definition, not smart enough to
+debug it.*
+
+[Brian W. Kernighan and P. J. Plauger]{.smallcaps}, *The
+Elements of Programming Style* (1978)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:

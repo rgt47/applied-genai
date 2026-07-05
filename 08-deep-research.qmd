@@ -1,5 +1,20 @@
 # Deep Research and Evidence Synthesis Pipelines {#sec-deep-research}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*It is surely a great criticism of our profession that we
+have not organised a critical summary, by specialty or
+subspecialty, adapted periodically, of all relevant
+randomised controlled trials.*
+
+[Archie Cochrane]{.smallcaps} (1979)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:
