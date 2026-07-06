@@ -97,7 +97,7 @@ different tasks, so 'which model' is answered only once
 ```{mermaid}
 %%| label: fig-multimodal-taxonomy
 %%| fig-cap: "A task and architecture taxonomy for multimodal medical AI. Inputs (images, text, physiological signals) pass through modality-specific encoders into a shared multimodal model, which serves several downstream tasks. Model families are placed where they are strongest: RETFound and BiomedCLIP as vision and vision-language encoders, GatorTron as a clinical text encoder, MedSAM for segmentation, and general or medical multimodal LLMs (Med-Gemini, BiomedGPT) for report generation and visual question answering."
-flowchart LR
+flowchart TB
   subgraph inp [Inputs]
     direction TB
     I1["Images<br/>chest X-ray, fundus,<br/>histopathology, skin photo"]

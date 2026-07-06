@@ -96,8 +96,8 @@ finished but merely unmonitored.
 
 ```{mermaid}
 %%| label: fig-deployment-lifecycle
-%%| fig-cap: "The deployment lifecycle as a monitoring loop. Validation and shadow mode gate the initial release, but the load-bearing structure is the cycle on the right: the deployed model is continually evaluated against fresh data, dataset shift is detected as a material drop in performance, and a human decides whether to continue, adjust the prompt or pipeline, retrain, or roll back to a known-good version. A deployment without this loop degrades silently, as Google Flu Trends did."
-flowchart LR
+%%| fig-cap: "The deployment lifecycle as a monitoring loop. Validation and shadow mode gate the initial release, but the load-bearing structure is the monitoring cycle: the deployed model is continually evaluated against fresh data, dataset shift is detected as a material drop in performance, and a human decides whether to continue, adjust the prompt or pipeline, retrain, or roll back to a known-good version. A deployment without this loop degrades silently, as Google Flu Trends did."
+flowchart TB
   A["Build and<br/>validate"] --> B["Shadow mode<br/>(parallel, logged)"]
   B --> C{"Metrics meet<br/>acceptance?"}
   C -->|no| A

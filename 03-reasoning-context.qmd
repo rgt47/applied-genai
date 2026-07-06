@@ -152,18 +152,18 @@ been collapsed away.
 ```{mermaid}
 %%| label: fig-reasoning-flow
 %%| fig-cap: "The two model shapes compared. A chat model maps prompt to answer in a single visible pass, so its mistakes tend to be surface errors an inspector can see. A reasoning model inserts a hidden thinking phase (draft, self-check, revise, converge) whose tokens are not shown to the user; the answer that emerges is more capable but the working that produced it is not available for per-step inspection."
-flowchart LR
+flowchart TB
   subgraph reason ["Reasoning model"]
-    direction LR
+    direction TB
     RI["Prompt<br/>+ context"] --> T1
     subgraph think ["Hidden thinking phase (not shown to user)"]
-      direction LR
+      direction TB
       T1["Draft<br/>steps"] --> T2["Self-check,<br/>revise"] --> T3["Converge on<br/>best guess"]
     end
     T3 --> RA["Answer:<br/>fluent, opaque"]
   end
   subgraph chat ["Chat model"]
-    direction LR
+    direction TB
     CI["Prompt<br/>+ context"] --> CA["Answer:<br/>surface-checkable"]
   end
 ```

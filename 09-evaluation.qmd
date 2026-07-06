@@ -100,15 +100,15 @@ choice holds across the populations the system will
 serve, and adversarial stress testing probes what
 remains. The single lesson to carry from the figure
 is that these families are cumulative rather than
-interchangeable; a strong score at the left-hand end
-does not substitute for the work at the right-hand
-end, and fitness for a deployment is a judgement made
-at that right-hand end rather than read off the left.
+interchangeable; a strong score at the first stage
+does not substitute for the work at the last, and
+fitness for a deployment is a judgement made at that
+final stage rather than read off the first.
 
 ```{mermaid}
 %%| label: fig-eval-taxonomy
 %%| fig-cap: "From a benchmark score to fitness for a specific deployment. The four evaluation families are cumulative, not interchangeable. A static benchmark (high internal validity on the test itself, weak external validity to any given deployment) filters the field; a task-based suite selects within it; human and subgroup review test whether the choice holds across populations; adversarial stress testing probes the remainder. The named benchmarks are illustrative, included for concreteness."
-flowchart LR
+flowchart TB
   A["Static benchmark<br/>(MedQA, MMLU-Med)"] -->|"filters:<br/>in the ballpark?"| B["Task-based suite<br/>(organisation-specific)"]
   B -->|"selects:<br/>good at our work?"| C["Human and subgroup<br/>review"]
   C -->|"confirms:<br/>valid across<br/>populations?"| D["Red-team and<br/>stress test"]
