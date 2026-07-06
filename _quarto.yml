@@ -94,7 +94,6 @@ format:
   pdf:
     documentclass: scrbook
     classoption: [11pt]
-    keep-tex: true
     toc: false
     code-annotations: below
     highlight-style: arrow
@@ -111,6 +110,7 @@ format:
       text: |
         \usepackage{fontspec}
         \usepackage{graphicx}
+        \setkeys{Gin}{width=\linewidth,keepaspectratio}
         \setmonofont{DejaVu Sans Mono}[Scale=0.9]
         \newenvironment{bookepigraph}{\par\begin{flushright}\small}{\end{flushright}\par\medskip}
 
@@ -119,7 +119,7 @@ csl: https://www.zotero.org/styles/apa
 
 execute:
   freeze: auto
-  echo: true
+  echo: false
   warning: false
   message: false
 
