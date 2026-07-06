@@ -110,7 +110,6 @@ format:
       text: |
         \usepackage{fontspec}
         \usepackage{graphicx}
-        \setkeys{Gin}{width=\linewidth,keepaspectratio}
         \setmonofont{DejaVu Sans Mono}[Scale=0.9]
         \newenvironment{bookepigraph}{\par\begin{flushright}\small}{\end{flushright}\par\medskip}
 
