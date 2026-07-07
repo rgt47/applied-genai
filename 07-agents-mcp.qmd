@@ -60,24 +60,19 @@ report and its release; nothing goes out unattested.
 ```{mermaid}
 %%| label: fig-agent-loop
 %%| fig-cap: "The agent loop for a weekly surveillance situation report. The agent acts (a tool call), observes the result, and reasons, repeating until the draft is ready; a human gate then stands between the draft and its release. The loop is the same whatever the tools are, only the tools and the acceptance criteria change from task to task."
-sequenceDiagram
-    autonumber
-    participant R as Researcher
-    participant A as Agent
-    participant S as Surveillance API
-    participant C as Codebook
-    participant H as Epidemiologist
-    R->>A: Assign: draft this week's situation report
-    loop until draft ready or budget spent
-        A->>S: Tool call: fetch case counts (this week)
-        S-->>A: Observation: counts by county
-        A->>C: Tool call: read case definition, lag
-        C-->>A: Observation: ICD codes, reporting lag
-        Note over A: Reason: reconcile counts vs definition
-    end
-    A->>H: Checkpoint: draft plus flagged anomalies
-    H-->>A: Approve or request revision
-    A-->>R: Situation report plus audit trail
+flowchart TB
+  R["Researcher assigns:<br/>draft this week's<br/>situation report"] --> L
+  subgraph L ["Agent loop (until draft ready or budget spent)"]
+    direction TB
+    A1["Act (tool call):<br/>fetch case counts<br/>from surveillance API"] --> O1["Observe:<br/>counts by county"]
+    O1 --> A2["Act (tool call):<br/>read case definition<br/>and reporting lag"]
+    A2 --> O2["Observe:<br/>ICD codes, lag"]
+    O2 --> RE["Reason: reconcile<br/>counts vs definition"]
+    RE -.->|"not yet ready"| A1
+  end
+  L --> H{"Epidemiologist reviews<br/>draft and flagged<br/>anomalies"}
+  H -->|"request revision"| L
+  H -->|"approve"| OUT["Situation report<br/>and audit trail<br/>returned to researcher"]
 ```
 
 For clinical and public-health researchers, the agent paradigm matters because
