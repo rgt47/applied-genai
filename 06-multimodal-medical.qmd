@@ -1,5 +1,17 @@
 # Multimodal Medical AI for Public Health Tasks {#sec-multimodal-medical}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*The whole art of medicine is in observation.*
+
+[William Osler]{.smallcaps}, teaching motto
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:
@@ -16,6 +28,14 @@ By the end of this chapter you should be able to:
 - Reason about CONSORT-AI and TRIPOD-LLM reporting
   standards as they apply to multimodal medical AI
   studies.
+- Situate multimodal models within a population-screening
+  programme (diabetic retinopathy, tuberculosis, skin and
+  cervical screening) and evaluate screening performance
+  for equity across demographic subgroups and sites.
+- Recognise multimodal AI as a tool for digital
+  epidemiology and disease surveillance, and appreciate
+  health misinformation as a multimodal population-health
+  concern.
 
 ## Orientation
 
@@ -48,6 +68,69 @@ from a research-only annotation; an OCR'd clinical form
 audited by a research coordinator is different from one
 fed unchecked into a regression. The researcher
 designs the validation to match the use.
+
+For the public-health reader, the setting where these
+models matter most is not the single clinical encounter
+but the screening programme run across a whole
+population. Diabetic-retinopathy screening from fundus
+photographs, tuberculosis screening from chest X-rays in
+high-burden districts, cervical and skin screening from
+clinical photographs: each is a task where a foundation
+model can extend expert-level triage to settings that
+have few experts, and each is a task where a model that
+performs well on average can still perform poorly for a
+subgroup that the headline figure conceals. But how well
+does 'well on average' serve the people the programme is
+meant to reach? That question, more than raw accuracy,
+organises the population-health parts of this chapter.
+
+The models divide along the modality they read and the
+task they perform. @fig-multimodal-taxonomy gives that
+division before we take the classes apart; the point to
+carry from it is that a single input modality (an image)
+feeds several distinct tasks (classification,
+segmentation, report generation, visual question
+answering), and different model families are strong at
+different tasks, so 'which model' is answered only once
+'which task' is fixed.
+
+```{mermaid}
+%%| label: fig-multimodal-taxonomy
+%%| fig-cap: "A task and architecture taxonomy for multimodal medical AI. Inputs (images, text, physiological signals) pass through modality-specific encoders into a shared multimodal model, which serves several downstream tasks. Model families are placed where they are strongest: RETFound and BiomedCLIP as vision and vision-language encoders, GatorTron as a clinical text encoder, MedSAM for segmentation, and general or medical multimodal LLMs (Med-Gemini, BiomedGPT) for report generation and visual question answering."
+flowchart TB
+  subgraph inp [Inputs]
+    direction TB
+    I1["Images<br/>chest X-ray, fundus,<br/>histopathology, skin photo"]
+    I2["Text<br/>notes, reports,<br/>social-media posts"]
+    I3["Signals<br/>ECG, audio,<br/>ultrasound video"]
+  end
+  subgraph enc [Encoders]
+    direction TB
+    E1["Vision encoder<br/>CLIP / SigLIP,<br/>BiomedCLIP, RETFound"]
+    E2["Text encoder<br/>GatorTron,<br/>clinical LM"]
+    E3["Signal encoder"]
+  end
+  subgraph fus [Shared multimodal model]
+    F["Vision-language model<br/>Med-Gemini, BiomedGPT,<br/>general multimodal LLM"]
+  end
+  subgraph tsk [Tasks]
+    direction TB
+    T1["Classification<br/>screening triage"]
+    T2["Segmentation<br/>MedSAM"]
+    T3["Report<br/>generation"]
+    T4["Visual question<br/>answering"]
+  end
+  I1 --> E1
+  I2 --> E2
+  I3 --> E3
+  E1 --> F
+  E2 --> F
+  E3 --> F
+  F --> T1
+  F --> T2
+  F --> T3
+  F --> T4
+```
 
 ## The researcher's contribution {#sec-multimodal-medical-human}
 
@@ -129,10 +212,24 @@ have become reference points:
 
 - **BiomedCLIP** [@zhang_2025_biomedclip] is a vision-
   language foundation model trained on biomedical
-  image-text pairs from PubMed. Useful for zero-shot
-  classification, image-text retrieval, and as an
-  embedding model for biomedical image retrieval
-  pipelines.
+  image-text pairs from PubMed. It inherits the
+  contrastive image-text training of the general-domain
+  CLIP and SigLIP models, which learn a shared embedding
+  space in which an image and its caption sit close
+  together; BiomedCLIP re-runs that recipe on fifteen
+  million biomedical figure-caption pairs. The practical
+  consequence is zero-shot classification: one can score
+  a fundus photograph against the text prompts
+  'referable diabetic retinopathy' and 'no referable
+  disease' without a labelled training set, which is
+  useful when a screening programme has images but few
+  labels. BiomedCLIP also serves as an embedding model
+  for biomedical image-text retrieval pipelines. A
+  further step is taken by broader medical multimodal
+  models such as **BiomedGPT** [@zhang_2024_biomedgpt]
+  and **Med-Gemini** [@saab_2024_med_gemini], which add
+  report generation and visual question answering on top
+  of the vision-language backbone.
 
 **Specialty-specific clinical models** are smaller,
 deeper-domain models for narrow tasks: a chest-X-ray
@@ -152,6 +249,30 @@ The decision rule:
 | Retinal image analysis | RETFound (fine-tuned) |
 | Cross-modal retrieval (image ↔ text) | BiomedCLIP |
 | Specialty radiology / pathology | Specialty model where available, else BiomedCLIP |
+
+The decision rule above is organised by task. @tbl-modality-task-models
+re-organises the same material around the population-health
+screening programmes this chapter foregrounds, so that a
+reader who starts from a use case (screen a district for
+tuberculosis, extend retinopathy screening to primary
+care) can read across to the modality, task, and
+representative model family. The column to dwell on is
+the last one: the screening use case is what fixes the
+stakes, and therefore the validation regime, for
+everything to its left.
+
+| Input modality | Task | Representative model family | Public-health screening use case |
+|:---|:---|:---|:---|
+| Fundus photograph | Classification / grading | RETFound (fine-tuned); general multimodal LLM for triage | Diabetic-retinopathy screening in primary care |
+| Chest X-ray | Detection / classification | Specialty CXR classifier; BiomedCLIP zero-shot | Tuberculosis screening in high-burden districts |
+| Skin photograph | Classification | General multimodal LLM (triage); specialty dermatology model | Skin-lesion triage in teledermatology |
+| Cervical image / cytology | Classification | Specialty model; BiomedCLIP | Cervical-cancer screening at scale |
+| Any medical image | Segmentation | MedSAM | Lesion and organ measurement for screening follow-up |
+| Image + text | Report generation | Med-Gemini, BiomedGPT | Drafting screening reports where readers are scarce |
+| Image + text | Visual question answering | BiomedGPT; general multimodal LLM | Triage question answering and patient-facing explanation |
+| Clinical or web text | Surveillance / extraction | GatorTron; general LLM | Syndromic surveillance; social-determinant extraction |
+
+: Modality and task mapped to representative foundation-model families and the population-health screening use case that fixes the stakes. Model families are placed where they are strongest; a general multimodal LLM is the pragmatic starting point for triage-grade tasks, with a specialty or domain foundation model substituted where the modality is specialised or the sensitivity target is demanding. {#tbl-modality-task-models}
 
 A workflow for using a foundation model on a research
 task:
@@ -202,6 +323,163 @@ only if MedSAM falls short on Dice coefficient or
 volume-Pearson-correlation against the manual reference.
 
 :::
+
+## Population screening at scale and equity
+
+The most consequential public-health use of these models
+is screening: applying a triage classifier to a whole
+population so that the scarce expert time is spent on the
+cases the model flags. A retinal foundation model can
+grade diabetic retinopathy from fundus photographs
+captured by a technician in a primary-care clinic; a
+chest-X-ray classifier can flag probable tuberculosis in
+a mobile-screening van in a high-burden district; a
+teledermatology triage model can sort skin photographs
+into 'refer' and 'reassure'. In each case the model does
+not replace the specialist but rations access to one,
+which is precisely the constraint that makes screening at
+population scale feasible where it previously was not.
+
+The promise is real, and so is the characteristic
+failure. A screening model is tuned and reported by its
+average performance, a single sensitivity and
+specificity on a held-out set. But a population is not
+homogeneous, and the training data that produced the
+model is rarely a representative sample of the population
+the programme will screen. A retinopathy model trained
+mostly on lighter-skinned patients from tertiary centres
+may grade darker fundus images less reliably; a model
+trained on younger cohorts may miss disease in the
+oldest patients; a model validated at an urban teaching
+hospital may degrade at a rural mobile clinic with older
+cameras and different lighting. The average sensitivity
+can look reassuring while the subgroup sensitivity that
+actually matters, for the people least well served by
+the existing system, sits well below it.
+
+@fig-screening-equity makes the point with illustrative
+numbers. What to take from it is not the specific values,
+which are invented, but the shape: a pooled sensitivity
+that clears a plausible target hides subgroups (the
+darkest skin tones, the oldest age band, the rural
+mobile-clinic site) that fall several points short, and
+these are frequently the subgroups with the fewest
+training examples. A screening programme evaluated only
+on the pooled figure would report success while quietly
+under-serving exactly the populations a public-health
+programme exists to reach.
+
+```{r}
+#| label: fig-screening-equity
+#| fig-cap: "Illustrative: sensitivity of a population diabetic-retinopathy screening model across demographic subgroups, with the pooled sensitivity (dashed) for reference. Subgroups with the fewest training examples, the darkest skin tones, the oldest age band, and the rural mobile-clinic site, fall furthest below the pooled figure. The numbers are illustrative and not from a specific study; the pattern, a disparity gap that a single headline sensitivity conceals, is the point."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 4.2
+library(ggplot2)
+library(tibble)
+eq <- tibble::tribble(
+  ~axis,        ~subgroup,               ~sensitivity,
+  "Skin tone",  "Fitzpatrick I-II",       0.93,
+  "Skin tone",  "Fitzpatrick III-IV",     0.90,
+  "Skin tone",  "Fitzpatrick V-VI",       0.79,
+  "Age band",   "Age 18-39",              0.92,
+  "Age band",   "Age 40-64",              0.90,
+  "Age band",   "Age 65+",                0.82,
+  "Site",       "Urban tertiary",         0.92,
+  "Site",       "Rural mobile clinic",    0.81
+)
+pooled <- 0.90
+eq$subgroup <- factor(eq$subgroup, levels = rev(eq$subgroup))
+ggplot(eq, aes(sensitivity, subgroup, colour = axis)) +
+  geom_vline(xintercept = pooled, linetype = "dashed",
+             colour = "grey55") +
+  geom_segment(aes(x = pooled, xend = sensitivity, yend = subgroup),
+               linewidth = 0.7) +
+  geom_point(size = 3) +
+  annotate("text", x = pooled + 0.002, y = 8.5,
+           label = "pooled 90%", hjust = 0, size = 3,
+           colour = "grey40") +
+  scale_x_continuous(limits = c(0.7, 1), labels = scales::percent) +
+  scale_colour_manual(values = c(
+    "Skin tone" = "#1b6ca8",
+    "Age band"  = "#a06a1f",
+    "Site"      = "#4a7c59")) +
+  labs(x = "Screening sensitivity", y = NULL, colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank())
+```
+
+The remedy is not exotic; it is disaggregated reporting.
+A screening evaluation should report sensitivity and
+specificity by the subgroups that matter for the
+programme (skin tone, age band, sex, site, and any axis
+along which the training data was thin) and should set an
+acceptance criterion on the worst-performing subgroup,
+not the average. This is the multimodal-imaging
+counterpart of the algorithmic-fairness concerns
+[@obermeyer_2019_racial_bias] raised for tabular risk
+scores; the modality differs but the discipline is the
+same. Where a subgroup falls short, the options are
+familiar: collect more training data for that subgroup,
+recalibrate the decision threshold per subgroup, or
+route that subgroup's cases to human review at a higher
+rate. What is not defensible is deploying a
+population-scale screening tool on the strength of a
+pooled figure alone.
+
+## Digital epidemiology and health misinformation
+
+Multimodal models also reach public health from a second
+direction, not screening individuals but observing
+populations. Digital epidemiology, the use of digital
+traces to monitor health at population scale
+[@salathe_2012_digital_epi], predates these models by a
+decade, but multimodal capability widens what counts as a
+usable trace. Free-text clinical notes, historically
+locked away from analysis, can be mined for
+social-determinant signals with clinical language models
+such as GatorTron [@yang_2022_gatortron] and
+purpose-built extractors [@guevara_2024_sdoh], turning
+housing instability, food insecurity, and social
+isolation recorded in prose into structured surveillance
+variables. Images and video extend the reach further:
+satellite and street-level imagery for environmental
+exposures, photographs of vector-breeding sites for
+arbovirus surveillance, and social-media images alongside
+their captions for early signals of an emerging outbreak.
+
+The generalist-medical-AI programme
+[@moor_2023_gmai] frames this as one capability among
+many: a model that reads images, text, and signals
+together can, in principle, support surveillance, triage,
+and documentation with a single backbone. We should treat
+that framing with the standing caution of this book. A
+model good enough to draft a note is not thereby good
+enough to call an outbreak; the surveillance use has its
+own validation burden, its own baseline of false alarms,
+and its own equity problem, because the populations most
+visible in digital traces are not the populations most at
+risk.
+
+There is a darker mirror to surveillance. The same
+multimodal capability that lets us read population signals
+lets others manufacture them. Health misinformation is
+increasingly multimodal: a fabricated 'screening result'
+image, a doctored chart, a synthetic testimonial video,
+or a plausible-looking but invented study figure, any of
+which can circulate faster than the correction. For the
+public-health researcher this is not a peripheral concern
+but a population-health exposure in its own right, and
+one that multimodal models sit on both sides of: they can
+help detect coordinated misinformation (by matching
+recycled images, flagging synthetic artefacts, clustering
+narratives across posts) and they can lower the cost of
+producing it. We shall return to the generation side in
+the chapter on safety and bias; here we note only that a
+surveillance pipeline reading social media for health
+signals must be built on the assumption that some of what
+it reads is manufactured.
 
 ## Clinical AI scribes: documentation and attestation
 
@@ -539,6 +817,20 @@ Three habits define defensible work in this area:
   biomedical foundation model pretrained from fifteen
   million scientific image-text pairs*. The
   BiomedCLIP reference.
+- @moor_2023_gmai, *Foundation models for generalist
+  medical artificial intelligence*. The framing of a
+  single multimodal backbone spanning imaging, text, and
+  signals across tasks.
+- @saab_2024_med_gemini, *Capabilities of Gemini models
+  in medicine*. A medical multimodal model spanning
+  imaging, report generation, and question answering.
+- @salathe_2012_digital_epi, *Digital epidemiology*. The
+  founding statement of using digital traces for
+  population-scale disease surveillance.
+- @obermeyer_2019_racial_bias, *Dissecting racial bias in
+  an algorithm used to manage the health of populations*.
+  The reference case for subgroup performance disparity
+  in a deployed health algorithm.
 - @cruzrivera_2020_spirit_ai, *Guidelines for clinical
   trial protocols for interventions involving
   artificial intelligence: the SPIRIT-AI extension*.

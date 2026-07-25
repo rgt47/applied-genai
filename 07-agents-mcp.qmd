@@ -1,5 +1,18 @@
 # Agents, Tool Use, and the Model Context Protocol {#sec-agents-mcp}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*Man is a tool-using animal. Without tools he is nothing,
+with tools he is all.*
+
+[Thomas Carlyle]{.smallcaps}, *Sartor Resartus* (1831)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:
@@ -29,6 +42,38 @@ shift from chat to agent is a shift in interaction
 modality: instead of asking the model and reading the
 answer, you assign the model a task and review what it
 produced.
+
+To make the loop concrete, consider a task we shall
+return to throughout the chapter: an agent asked to
+draft a weekly disease-surveillance situation report.
+It must pull the current case counts from a surveillance
+API, reconcile them against the reporting codebook (case
+definition, ICD codes, expected reporting lag), and draft
+the narrative, pausing for an epidemiologist to sign off
+before the report is released. @fig-agent-loop traces one
+pass of the loop. The point to take from it is that the
+agent alternates between acting (a tool call) and
+observing (the returned result), reasoning between the
+two, and that a human gate sits between the drafted
+report and its release; nothing goes out unattested.
+
+```{mermaid}
+%%| label: fig-agent-loop
+%%| fig-cap: "The agent loop for a weekly surveillance situation report. The agent acts (a tool call), observes the result, and reasons, repeating until the draft is ready; a human gate then stands between the draft and its release. The loop is the same whatever the tools are, only the tools and the acceptance criteria change from task to task."
+flowchart TB
+  R["Researcher assigns:<br/>draft this week's<br/>situation report"] --> L
+  subgraph L ["Agent loop (until draft ready or budget spent)"]
+    direction TB
+    A1["Act (tool call):<br/>fetch case counts<br/>from surveillance API"] --> O1["Observe:<br/>counts by county"]
+    O1 --> A2["Act (tool call):<br/>read case definition<br/>and reporting lag"]
+    A2 --> O2["Observe:<br/>ICD codes, lag"]
+    O2 --> RE["Reason: reconcile<br/>counts vs definition"]
+    RE -.->|"not yet ready"| A1
+  end
+  L --> H{"Epidemiologist reviews<br/>draft and flagged<br/>anomalies"}
+  H -->|"request revision"| L
+  H -->|"approve"| OUT["Situation report<br/>and audit trail<br/>returned to researcher"]
+```
 
 For clinical and public-health researchers, the agent paradigm matters because
 substantial chunks of applied analytic work are well-shaped
@@ -301,7 +346,49 @@ approval for first-time tool calls per session.
 ## Designing agent loops for research tasks
 
 The agent loop has a small number of design decisions
-with outsized impact on outcomes.
+with outsized impact on outcomes. Before we take them in
+turn, it helps to see why the loop is fragile at all.
+Errors compound: if each step of a chain succeeds with
+probability $p$, a task requiring $n$ sequential steps
+succeeds with probability roughly $p^{n}$, and $p^{n}$
+falls fast even when $p$ is high. @fig-compounding-error
+makes the point quantitatively. The lesson to take from
+it is not that agents are unreliable, but that reliability
+has to be manufactured step by step; a verification gate
+that lifts the effective per-step reliability from 0.95
+to 0.99 is worth far more over a long task than the
+figures for a single step would suggest.
+
+```{r}
+#| label: fig-compounding-error
+#| fig-cap: "Illustrative. Probability that a whole task is correct as a function of the number of sequential tool calls it requires, under two regimes: an unverified loop with per-step reliability 0.95, and a loop with verification gates that lift the effective per-step reliability to 0.99. The curves are $p^{n}$; they are illustrative, not measured. The gap widens with task length, which is why long agent runs need verification at the boundaries rather than a single check at the end."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3.8
+library(ggplot2)
+library(tibble)
+steps <- 1:12
+compound <- tibble::tibble(
+  n = rep(steps, 2),
+  regime = rep(c("No verification (per-step 0.95)",
+                 "Verification gates (per-step 0.99)"),
+               each = length(steps)),
+  success = c(0.95 ^ steps, 0.99 ^ steps)
+)
+ggplot(compound, aes(n, success, colour = regime)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.2) +
+  scale_x_continuous(breaks = steps) +
+  scale_y_continuous(limits = c(0.4, 1), labels = scales::percent) +
+  scale_colour_manual(values = c(
+    "No verification (per-step 0.95)" = "#b23a48",
+    "Verification gates (per-step 0.99)" = "#1b6ca8")) +
+  labs(x = "Number of sequential tool calls",
+       y = "Task correct end-to-end", colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank())
+```
 
 **Termination conditions.** The agent must know when to
 stop. Three patterns:
@@ -345,6 +432,28 @@ input, output, timestamp, and (where applicable) the
 model's reasoning. The audit trail is the basis for
 post-hoc verification, debugging, and any required
 regulatory documentation.
+
+We have now met the MCP primitives that expose
+capability to an agent and the loop-design patterns that
+keep the agent in bounds. Each buys something and each
+invites a characteristic failure. @tbl-agent-primitives
+consolidates them, pairing every primitive or pattern
+with the failure mode it invites and the guardrail that
+contains it; read down the guardrail column and you have,
+in effect, the checklist for a defensible agent
+deployment.
+
+: MCP primitives and agent-loop design patterns, the failure mode each invites, and the guardrail that contains it. The guardrail column, read on its own, is the deployment checklist. {#tbl-agent-primitives}
+
+| Primitive or pattern | What it provides | Failure mode | Guardrail |
+|------|------|------|------|
+| Tool (MCP) | Model invokes a function (run code, query, send) | Over-broad permission; a destructive or irreversible action | Per-tool permission grant; read-only credentials; no destructive verbs |
+| Resource (MCP) | Model reads data the server exposes | Stale, mis-scoped, or context-flooding data | Version and scope resources; expose only what the task needs |
+| Prompt (MCP) | Reusable templated workflow the server offers | Drift from the intended use; silent template changes | Pin and review templates; treat as versioned code |
+| Agent loop | Act, observe, reason, repeat | No progress; the same action taken over and over | Loop detection; require the state to change between steps |
+| Termination | Stop on goal, budget, or detected loop | Premature stop, or runaway cost on a stuck agent | Start with a small budget; observe; expand deliberately |
+| Human-in-the-loop | Pause at a boundary for review | Reviewer rubber-stamps; gate placed where it cannot catch harm | Gate at data ingest, key calculation, and release; make the gate consequential |
+| Audit trail | Log every call, input, output, reasoning | Logs missing, or written but never read | Structured logging; scheduled post-hoc audit of a sample |
 
 ## Worked example: a literature-screening agent
 

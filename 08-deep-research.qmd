@@ -1,5 +1,20 @@
 # Deep Research and Evidence Synthesis Pipelines {#sec-deep-research}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*It is surely a great criticism of our profession that we
+have not organised a critical summary, by specialty or
+subspecialty, adapted periodically, of all relevant
+randomised controlled trials.*
+
+[Archie Cochrane]{.smallcaps} (1979)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:
@@ -58,6 +73,50 @@ Research* [@mollick_2024_four_singularities]: the four
 ways AI is reshaping academic research, of which the
 methods-singularity (autonomous experiments and
 analysis) is closest to this chapter's topic.
+
+The stakes are clearest in public health. A systematic
+review does not merely summarise a literature; it is the
+evidentiary spine of a guideline, and a guideline sets
+what a clinician is told to do and what a health system
+pays for. Consider a rapid review commissioned in the
+first weeks of an outbreak, when a technical advisory
+group must decide whether to recommend a particular
+non-pharmaceutical intervention and has days, not
+months, to weigh the evidence. Automation is attractive
+here precisely because the timeline is compressed; but
+what does it cost to be wrong? An automated screener
+that quietly drops the one trial showing an intervention
+does not work has not saved labour, it has corrupted the
+synthesis that a population-level recommendation rests
+on. We shall return to this asymmetry repeatedly: in a
+review, missing a relevant study is the expensive error,
+and every design choice below is made in its shadow.
+
+Before we take the pipeline apart stage by stage,
+@fig-prisma-pipeline gives its shape and, more
+importantly, marks where a machine is allowed to act and
+where a human must sign off. The point to take from it is
+that the LLM never has the last word: it scores, drafts,
+and flags, but a reviewer confirms each inclusion and
+each extracted field before the record advances.
+
+```{mermaid}
+%%| label: fig-prisma-pipeline
+%%| fig-cap: "The evidence-synthesis pipeline mapped onto its PRISMA stages, from multi-database search through to synthesis and GRADE certainty rating. Blue nodes are stages where an LLM assists (screening, extraction); gold diamonds are the human verification gate that every LLM output must clear before it moves downstream. Search and deduplication remain deterministic tooling; the final synthesis and certainty judgement remain the reviewer's. The recurring gate is the design's answer to the asymmetry that a missed relevant study is the costly error."
+flowchart TB
+  A["Search<br/>PubMed, Cochrane, EMBASE<br/>explicit search strings"] --> B["Deduplicate<br/>records"]
+  B --> C["Title/abstract screen<br/>LLM scores each record<br/>include / exclude / unclear"]
+  C --> G1{"Human<br/>verification gate"}
+  G1 -->|"confirmed includes"| D["Full-text screen<br/>LLM flags eligibility<br/>against criteria"]
+  D --> G2{"Human<br/>verification gate"}
+  G2 --> E["Data extraction<br/>LLM drafts structured<br/>fields, risk of bias"]
+  E --> G3{"Human<br/>verification gate"}
+  G3 --> F["Synthesis + GRADE<br/>reviewer weighs evidence,<br/>rates certainty"]
+  classDef llm fill:#dbe9f2,stroke:#1b6ca8,color:#173;
+  classDef gate fill:#f2e6cf,stroke:#a06a1f,color:#173;
+  class C,D,E llm;
+  class G1,G2,G3 gate;
+```
 
 ## The researcher's contribution {#sec-deep-research-human}
 
@@ -207,6 +266,20 @@ fixed reviews; they are also more labour-intensive.
 LLM assistance changes the labour math in ways that
 make living reviews tractable.
 
+To make this concrete, we shall carry a public-health
+example through the section. Suppose a national advisory
+committee maintains a living review of interventions to
+reduce transmission of a respiratory pathogen, and has
+committed to updating its guidance whenever the evidence
+shifts materially. New trials and observational studies
+arrive weekly; a fixed review would be stale within a
+quarter. The committee's problem is not that the papers
+are hard to read, it is that keeping abreast of them by
+hand exhausts the reviewers before the synthesis is even
+begun. This is exactly the setting where LLM-assisted
+screening earns its place, provided the human gate of
+@fig-prisma-pipeline holds.
+
 The pipeline:
 
 1. **Continuous search.** A scheduled query against
@@ -232,6 +305,26 @@ The pipeline:
 6. **Documentation.** PRISMA-aligned flow diagram is
    updated; the LLM involvement is documented per
    PRISMA-AI.
+
+@tbl-prisma-mapping consolidates the pipeline as a
+mapping from each PRISMA stage to the assistance an LLM
+can offer, the characteristic way that assistance fails,
+and the verification that must catch the failure. The
+column to read most carefully is the failure mode: it is
+what the verification gate exists to intercept, and in
+every row the worst case is the same, a relevant study
+silently excluded or a field silently mis-stated.
+
+| PRISMA stage | LLM assistance | Principal failure mode | Verification gate |
+|:---|:---|:---|:---|
+| Search | Draft and expand search strings; suggest synonyms and MeSH terms | Narrow strings that miss a relevant subliterature; no comprehensive coverage | Information specialist checks strings; searches remain deterministic and reproducible |
+| Deduplicate | Match near-duplicate records across databases | Over-merges distinct studies, or misses duplicates and inflates counts | Deterministic matching on identifiers; human review of ambiguous pairs |
+| Title/abstract screen | Score each record include / exclude / unclear with rationale | False exclude: a relevant study dropped at high confidence | Second reviewer confirms includes; all excludes auditable; kappa tracked |
+| Full-text screen | Flag eligibility against inclusion criteria | Plausible but wrong eligibility call on a borderline design | Human adjudicates every exclusion; disagreements to a third reviewer |
+| Data extraction | Draft structured fields (design, sample size, outcome, effect) | Mis-stated numbers or transposed arms presented fluently | Reviewer verifies each extracted field against source text |
+| Synthesis + GRADE | Draft synthesis paragraphs; summarise across studies | Over- or under-states certainty; smooths over heterogeneity | Reviewer forms the certainty judgement; LLM output is input, not conclusion |
+
+: PRISMA stage mapped to LLM assistance, principal failure mode, and the human verification that must catch it. The recurring worst case, a relevant study excluded or a field mis-stated, is why the gate sits after every LLM-assisted stage rather than once at the end. {#tbl-prisma-mapping}
 
 The agent of @sec-agents-mcp can be set up to run this
 pipeline weekly. The researcher's time per update
@@ -285,6 +378,84 @@ range (0.6–0.8 typically). The MedAlign benchmark and
 related work show modern reasoning models can achieve
 this on well-specified inclusion criteria; achievement
 is not automatic and depends on prompt engineering.
+
+Kappa alone, however, hides the trade-off that matters
+operationally. What a review team actually buys with
+automated screening is a reduction in the number of
+records a human must read, and what it pays is a risk of
+missing relevant studies. These two are not independent:
+the more aggressively the screener auto-excludes, the
+more labour it saves, and the more likely it is to drop
+something relevant. The literature on screening
+automation frames the goal as workload reduction at a
+fixed, high recall (that is, hold sensitivity near one so
+that almost no relevant study is lost, then measure how
+much reading is avoided) [@marshall_2019_review_automation].
+But how high must recall be, and what does insisting on
+it cost? @fig-screening-workload traces the trade-off.
+The lesson to take from it is the shape, not the exact
+numbers: pushing the recall guarantee from ninety-five
+percent toward one hundred percent surrenders most of the
+workload savings, because the last few relevant records
+are buried among many plausible-looking irrelevant ones.
+
+```{r}
+#| label: fig-screening-workload
+#| fig-cap: "Illustrative trade-off between reviewer workload saved and the recall the automated screener is calibrated to hold, for a living review feeding an outbreak-response guideline. Higher recall (fewer missed relevant studies) leaves less to auto-exclude, so workload saved falls; the fall steepens as recall approaches one. The dashed line marks a common operating target of ninety-five percent recall. The vertical band on the right is the region where the costly error, missing a relevant study, is minimised but the labour saved is small. Numbers are illustrative, not from a specific review."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 4.0
+library(ggplot2)
+library(tibble)
+wss <- tibble::tibble(
+  recall = c(0.90, 0.93, 0.95, 0.97, 0.99, 1.00),
+  saved  = c(0.68, 0.60, 0.52, 0.40, 0.22, 0.05)
+)
+op <- subset(wss, recall == 0.95)
+ggplot(wss, aes(recall, saved)) +
+  annotate("rect", xmin = 0.985, xmax = 1.003,
+           ymin = 0, ymax = 0.75, alpha = 0.10,
+           fill = "#b23a48") +
+  annotate("text", x = 0.984, y = 0.70,
+           label = "miss almost nothing,\nsave little",
+           hjust = 1, size = 3, colour = "#b23a48") +
+  geom_vline(xintercept = 0.95, linetype = "dashed",
+             colour = "grey60") +
+  geom_line(linewidth = 1, colour = "#1b6ca8") +
+  geom_point(size = 2.6, colour = "#1b6ca8") +
+  geom_point(data = op, size = 4, shape = 21,
+             colour = "#a06a1f", fill = "white",
+             stroke = 1.2) +
+  annotate("text", x = 0.95, y = 0.60,
+           label = "target: 95% recall",
+           hjust = 0.5, vjust = 0, size = 3,
+           colour = "#a06a1f") +
+  scale_x_continuous(labels = scales::percent,
+                     limits = c(0.895, 1.005)) +
+  scale_y_continuous(labels = scales::percent,
+                     limits = c(0, 0.75)) +
+  labs(x = "Recall the screener is calibrated to hold",
+       y = "Reviewer workload saved") +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank())
+```
+
+We note that the asymmetry runs one way. On the plus
+side, at a ninety-five percent recall target the screener
+still removes roughly half the reading, which for a
+weekly living-review update is the difference between a
+tractable task and an abandoned one. On the minus side,
+the five percent of relevant studies not caught by the
+machine is not a rounding error when the synthesis feeds a
+guideline: it is precisely the trial that might have
+overturned a recommendation. This is why the human gate
+is not optional and why the screener is calibrated for
+recall rather than for overall accuracy. A screener that
+is ninety-nine percent accurate overall but achieves that
+by excluding a whole minority literature is worse than
+useless for a public-health synthesis; it is confidently
+wrong in the direction that matters.
 
 ## Risk-of-bias assessment with verification
 

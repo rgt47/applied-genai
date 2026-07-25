@@ -37,8 +37,9 @@ book:
         - 01-genesis.qmd
         - 02-landscape.qmd
         - 03-reasoning-context.qmd
+        - 03b-ai-programming.qmd
 
-    - part: 'Working with Biomedical Knowledge and Data'
+    - part: 'Grounding Models in Biomedical Evidence and Data'
       chapters:
         - 04-rag-biomedical.qmd
         - 05-synthetic-data-privacy.qmd
@@ -103,28 +104,21 @@ format:
       - bottom=0.9in
       - inner=0.9in
       - outer=0.7in
+    template-partials:
+      - partials/before-body.tex
     include-in-header:
       text: |
         \usepackage{fontspec}
+        \usepackage{graphicx}
         \setmonofont{DejaVu Sans Mono}[Scale=0.9]
-    include-before-body:
-      text: |
-        \begin{titlepage}
-        \thispagestyle{empty}
-        \newgeometry{margin=0pt}
-        \noindent\makebox[\paperwidth]{%
-          \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{images/cover.png}%
-        }
-        \restoregeometry
-        \end{titlepage}
-        \cleardoublepage
+        \newenvironment{bookepigraph}{\par\begin{flushright}\small}{\end{flushright}\par\medskip}
 
 bibliography: references.bib
 csl: https://www.zotero.org/styles/apa
 
 execute:
   freeze: auto
-  echo: true
+  echo: false
   warning: false
   message: false
 

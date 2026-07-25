@@ -1,5 +1,19 @@
 # A Brief History of Generative AI: How We Got Here {#sec-genesis}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*We can only see a short distance ahead, but we can see
+plenty there that needs to be done.*
+
+[Alan M. Turing]{.smallcaps}, *Computing Machinery and
+Intelligence* (1950)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:
@@ -30,6 +44,27 @@ which makes today's networks trainable, was popularised in
 1943. The recursion-and-symbolic-expression style of
 programming that anchored early artificial-intelligence
 research was published in 1958.
+
+@fig-genesis-timeline arranges these milestones, and
+the ones this chapter treats in detail, into five eras.
+We suggest returning to the figure as each section adds
+its node to the chain; the point to take from it now is
+that the interval between a conceptual milestone and
+its practical consequence is measured in decades, not
+years, and that the apparent suddenness of 2022 is an
+artefact of where the public happened to be looking.
+
+```{mermaid}
+%%| label: fig-genesis-timeline
+%%| fig-cap: "Milestones from the artificial neuron to reasoning models, grouped into five eras. The gaps matter as much as the entries; backpropagation waited seventeen years after the perceptron critique, and the transformer waited five years for ChatGPT to make it visible."
+flowchart TB
+  E1["<b>Symbolic and early neural era</b> (1943 to 1969)<br/>1943 McCulloch-Pitts artificial neuron<br/>1956 Dartmouth workshop names the field<br/>1958 Rosenblatt perceptron; McCarthy's Lisp<br/>1969 Minsky-Papert critique of perceptrons"]
+  E2["<b>Winters and statistical learning</b> (1970 to 2011)<br/>1984 CART decision trees<br/>1986 Backpropagation popularised<br/>1995 Support vector machines"]
+  E3["<b>Deep learning era</b> (2012 to 2016)<br/>2012 AlexNet halves the ImageNet error rate<br/>2015 Deep-learning review in Nature"]
+  E4["<b>Transformer and scaling era</b> (2017 to 2021)<br/>2017 Attention Is All You Need<br/>2018 GPT-1 and BERT establish pre-training<br/>2019 GPT-2; 2020 GPT-3 and scaling laws"]
+  E5["<b>Reasoning and agentic era</b> (2022 to 2026)<br/>2022 InstructGPT, ChatGPT, chain-of-thought<br/>2023 GPT-4 and Llama 2 open weights<br/>2024 o1-style reasoning models<br/>2025 open-weight reasoning near the frontier<br/>2026 GPT-5.6, Gemini 3.5, Claude Fable 5"]
+  E1 --> E2 --> E3 --> E4 --> E5
+```
 
 This chapter sketches the path from those origins to the
 systems the rest of the book uses. The aim is not
@@ -410,6 +445,58 @@ of these. The contemporary applied user encounters this
 as *prompting*: the prompt is, in effect, a brief
 adaptation step that costs nothing to run.
 
+The scale claim is easier to feel than to state.
+@fig-genesis-scale plots approximate parameter counts
+for a handful of milestone models on a logarithmic
+axis; each labelled gridline is a factor of a thousand.
+The climb from the perceptron's hundreds of adjustable
+weights to the trillion-parameter frontier spans
+roughly nine orders of magnitude, and most of it
+occurred after 2012. Clearly, no comparable growth
+occurred in the underlying learning principle, which
+remains gradient descent on a prediction loss; what
+grew was the machinery.
+
+```{r}
+#| label: fig-genesis-scale
+#| fig-cap: "Approximate parameter counts of milestone models, 1958 to 2023, on a log10 scale. Values are illustrative and approximate, drawn from published figures where available; the GPT-4-era value (open point) is an unofficial estimate, as the true count is undisclosed. The vertical span is roughly nine orders of magnitude."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 4.2
+library(ggplot2)
+library(tibble)
+
+models <- tibble(
+  model = c('Perceptron', 'NETtalk', 'AlexNet', 'GPT-1',
+            'GPT-2', 'GPT-3', 'GPT-4 era'),
+  year = c(1958, 1987, 2012, 2018, 2019, 2020, 2023),
+  params = c(1e3, 2e4, 6e7, 1.2e8, 1.5e9, 1.75e11, 1e12),
+  disclosed = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
+                FALSE)
+)
+
+ggplot(models, aes(x = year, y = params)) +
+  geom_line(colour = 'grey60', linewidth = 0.4,
+            linetype = 'dashed') +
+  geom_point(aes(shape = disclosed), colour = '#1b6ca8',
+             size = 3, stroke = 1.1) +
+  geom_text(aes(label = model), vjust = -1.1,
+            size = 3.1, colour = 'grey20') +
+  scale_shape_manual(values = c(`TRUE` = 16,
+                                `FALSE` = 1),
+                     guide = 'none') +
+  scale_x_continuous(limits = c(1950, 2032),
+                     breaks = seq(1960, 2020, 20)) +
+  scale_y_log10(breaks = 10^seq(3, 12, by = 3),
+                labels = scales::label_log(),
+                expand = expansion(mult = c(0.08,
+                                            0.18))) +
+  labs(x = 'Year', y = 'Parameters (log scale)') +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = 'top',
+        panel.grid.minor = element_blank())
+```
+
 **Alignment.** A model trained to predict the next
 token on the open internet will produce text continuous
 with the training distribution, which includes much that
@@ -417,11 +504,38 @@ is unhelpful, untruthful, or unsafe. The post-training
 steps that turn a raw pre-trained model into a useful
 assistant, *supervised fine-tuning* and *reinforcement
 learning from human feedback* [@ouyang_2022_instructgpt], are
-the alignment recipe. The InstructGPT and ChatGPT
-releases of late 2022 are the public manifestation. The
-*foundation model* framing of Bommasani and colleagues
-[@bommasani_2021_foundation] names the resulting class of
-artefacts.
+the alignment recipe. Later variants substitute, for
+part of the human labelling, feedback generated by a
+model working from an explicit written set of
+principles [@bai_2022_constitutional_ai]. The
+InstructGPT and ChatGPT releases of late 2022 are the
+public manifestation. The *foundation model* framing of
+Bommasani and colleagues [@bommasani_2021_foundation]
+names the resulting class of artefacts.
+
+**Reasoning and openness.** Two further developments
+complete the arc to 2026. First, *chain-of-thought*
+prompting showed that asking a model to produce
+intermediate steps before its answer improves accuracy
+on multi-step problems, in the few-shot setting
+[@wei_2022_chain_of_thought] and, strikingly, with
+nothing more than the instruction to think step by
+step [@kojima_2022_zero_shot_reasoners]. The o1 family
+of 2024 internalised the idea, training models to
+produce extended reasoning traces before responding
+[@openai_2024_o1_system_card], and open-weight
+reasoning models followed within months
+[@deepseek_2025_r1]. Second, the GPT-4 generation
+[@openai_2023_gpt4] set the closed frontier while
+Llama 2 [@touvron_2023_llama2] and its successors
+established a parallel open-weight lineage. By
+mid-2026 the era is best described as *reasoning and
+agentic*: the frontier releases of the first half of
+the year (OpenAI's GPT-5.6 family, Google's Gemini
+3.5, Anthropic's Claude Fable 5) compete largely on
+reasoning depth and tool use rather than on raw scale,
+and the open and closed lineages are, for many applied
+tasks, difficult to tell apart.
 
 The contemporary chat model the reader interacts with
 is, mechanically, a transformer; trained at scale on
@@ -434,6 +548,71 @@ tool use and multi-step action; multimodal models share
 weights across text, image, audio, and structured-
 document tokens. The capabilities of @sec-landscape are
 specialisations and combinations of this base recipe.
+
+@tbl-genesis-eras consolidates the chapter to this
+point. The final column is the one we ask the reader to
+attend to: every era is defined as much by what its
+systems could not yet do as by what they could, and it
+would be imprudent to assume the current era is an
+exception.
+
+| Era | Dates | Defining idea | Representative system | What it could not yet do |
+|:-----------|:--------|:-----------------|:---------------|:------------------|
+| Early connectionism | 1943-1969 | networks of simple threshold units, trained from errors | Rosenblatt's perceptron | learn nonlinear boundaries; train more than one layer |
+| Symbolic AI | 1956-1980s | intelligence as symbol manipulation over hand-coded rules | Lisp theorem provers; MYCIN | learn from data; tolerate noise and ambiguity |
+| Statistical learning | 1984-2011 | flexible functions fitted to data, with complexity controlled | CART, random forests, SVMs | learn representations from raw text or pixels |
+| Deep learning | 2012-2016 | representations learned end to end on GPU hardware | AlexNet | model long-range sequence structure at scale |
+| Transformer and scaling | 2017-2021 | attention as the only mechanism; predictable gains from joint scaling | GPT-3 | follow instructions; behave as a reliable assistant |
+| Reasoning and agentic | 2022-2026 | post-training on feedback; extended chains of thought; tool use | ChatGPT; o1-style reasoning models; the mid-2026 frontier | verify its own factual claims; the burden of verification stays with the user |
+
+: Six eras of the genealogy. Each era is characterised by its defining idea, a representative system, and the limitation that the next era addressed. {#tbl-genesis-eras}
+
+## The view from public health {#sec-genesis-public-health}
+
+But what does a seventy-year genealogy of
+pattern-matchers have to do with population health? A
+fair amount, it turns out, and the pattern of contact
+between the two fields is itself instructive: each era
+touched public health exactly where its defining idea
+was strong and failed exactly where that idea was
+incomplete.
+
+The symbolic era's flagship medical system was MYCIN, a
+1970s Stanford expert system that recommended
+antimicrobial therapy for bacteraemia and meningitis
+from roughly 600 hand-written rules. In formal
+evaluation its recommendations compared respectably
+with those of infectious-disease faculty, yet it was
+never used on a patient. The knowledge base was costly
+to build and to keep current, and the questions of
+integration and responsibility had no workable answers.
+The knowledge-engineering bottleneck was, in an
+infectious-disease clinic, not an abstraction.
+
+The statistical-learning era, by contrast, entered
+epidemiology quietly and stayed. Classification trees
+and their ensemble descendants became routine tools for
+risk stratification, outcome prediction, and variable
+selection in observational cohorts, largely because
+their inductive biases (axis-aligned splits on a
+modest number of covariates) suit tabular
+epidemiological data well.
+
+The scaling era supplies the cautionary tale. Google
+Flu Trends estimated influenza activity from
+search-query volumes; it tracked CDC surveillance
+closely at launch and then drifted badly, at its worst
+overestimating peak influenza activity by roughly a
+factor of two [@lazer_2014_google_flu]. The failure
+was not computational. It was statistical:
+the data-generating process was non-stationary (search
+behaviour changed, partly because the search interface
+changed), and the model was maintained apart from the
+surveillance system it was meant to serve. We note the
+parallel deliberately, since the pattern-matching
+machinery of this chapter, scaled to language, inherits
+exactly this class of failure, and the verification
+discipline of the later chapters is the response.
 
 ## What this means for your work: not magic
 

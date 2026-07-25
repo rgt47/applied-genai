@@ -1,5 +1,19 @@
 # Safety, Bias, and Red-Teaming in Health Contexts {#sec-safety-bias}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*Big Data processes codify the past. They do not invent
+the future.*
+
+[Cathy O'Neil]{.smallcaps}, *Weapons of Math Destruction*
+(2016)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:
@@ -98,7 +112,33 @@ harmed.
 ## Sources of bias in biomedical LLMs
 
 Biomedical LLMs inherit biases from their training
-data. The patterns, simplified:
+data. Before cataloguing the patterns, we note that the
+harm here is rarely a single wrong answer to a single
+patient; it is a biased pattern applied at population
+scale. One model, trained once, may inform care for
+millions of patients across hundreds of sites, so a bias
+that would be a rounding error in one clinician's
+practice becomes a systematic reallocation of care away
+from an already under-served group. @fig-bias-propagation
+traces that route from historical inequity to
+population-scale harm. The feature to take from it is the
+feedback loop at the bottom, whereby the harm the model
+causes is itself recorded as reduced need and fed back
+into the next round of training.
+
+```{mermaid}
+%%| label: fig-bias-propagation
+%%| fig-cap: "How training-data bias propagates to a population-scale harm. Structural inequities are recorded in the data as ground-truth labels; a model learns them faithfully; deployment at scale turns the learned pattern into routine resource allocation; the under-served group is under-prioritised; and the resulting under-treatment is recorded as lower need, closing a feedback loop that reinforces the original bias."
+flowchart TB
+  A["Structural inequity<br/>unequal access, under-treatment,<br/>biased documentation"] --> B["Training corpus<br/>encodes inequity as<br/>ground-truth labels"]
+  B --> C["Model learns the pattern<br/>faithful to biased data"]
+  C --> D["Deployed at population scale<br/>one model, many sites"]
+  D --> E["Resource allocation<br/>risk scores route care,<br/>staff, and follow-up"]
+  E --> F["Subgroup harm<br/>under-served group<br/>under-prioritised"]
+  F -.->|"under-treatment recorded<br/>as lower need"| A
+```
+
+The patterns, simplified:
 
 **Population representation.** Training corpora
 overrepresent populations from the US and Western
@@ -116,6 +156,14 @@ underdiagnose conditions in groups that were
 historically underdiagnosed (e.g., heart disease in
 women, ADHD in girls, chronic pain in Black patients).
 The model is faithful to the data; the data is unfair.
+A related failure is the reproduction of discredited
+race-based medicine: Omiye et al.
+[@omiye_2023_race_based] found that several widely used
+LLMs, asked routine clinical questions, still returned
+debunked race-based claims (for instance about
+differences in pain threshold or in kidney function),
+because such claims are well represented in the
+historical text the models learned from.
 
 **Cost-as-proxy bias.** A model trained to predict
 health-care costs as a proxy for need will inherit the
@@ -126,6 +174,59 @@ systematic under-prediction for Black patients. The
 researcher audits the proxy choices in any
 risk-prediction model.
 
+The mechanism is worth seeing quantitatively.
+@fig-obermeyer-need shows the pattern the audit
+uncovered: at any given value of the algorithm's risk
+score, Black patients carried more active chronic
+conditions than White patients assigned the same score,
+so patients with equal predicted risk were not equally
+sick. Because the auto-referral threshold sat high on the
+score, the under-prediction concentrated exactly where
+extra care was being allocated. Correcting the target
+from cost to a direct measure of illness would, in the
+original study, have raised the share of Black patients
+referred to extra care from roughly 18% to 47%, a
+reallocation whose scale is only visible because the
+model operated over a whole insured population rather
+than one clinic.
+
+```{r}
+#| label: fig-obermeyer-need
+#| fig-cap: "Illustrative reconstruction of the equal-score-unequal-need pattern reported by Obermeyer et al. (2019). At every percentile of the algorithm's risk score, Black patients carry more active chronic conditions than White patients assigned the same score; the model, trained to predict cost rather than illness, treats the two groups as equally sick. The dashed line marks the auto-referral threshold, above which patients are enrolled in a high-risk care-management programme. Values are illustrative but reproduce the direction and rough magnitude of the published finding."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 4.2
+library(ggplot2)
+library(tibble)
+pct <- seq(50, 100, by = 1)
+n <- length(pct)
+white <- 1.2 + 0.045 * (pct - 50)
+black <- white + 0.4 + 0.02 * (pct - 50)
+df <- tibble::tibble(
+  pct = rep(pct, 2),
+  conditions = c(white, black),
+  group = rep(c('White patients', 'Black patients'),
+              each = n)
+)
+ggplot(df, aes(pct, conditions, colour = group)) +
+  geom_vline(xintercept = 97, linetype = 'dashed',
+             colour = 'grey60') +
+  geom_line(linewidth = 1.1) +
+  annotate('text', x = 95.5, y = 1.6,
+           label = 'auto-referral\nthreshold (97th pct)',
+           hjust = 1, size = 3, colour = 'grey40',
+           lineheight = 0.9) +
+  scale_colour_manual(values = c(
+    'White patients' = '#1b6ca8',
+    'Black patients' = '#a06a1f')) +
+  labs(x = 'Percentile of algorithm risk score',
+       y = 'Mean active chronic conditions',
+       colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = 'top',
+        panel.grid.minor = element_blank())
+```
+
 **Specialty representation.** Training corpora
 overrepresent some specialties (cardiology, oncology)
 and underrepresent others (psychiatry, palliative care,
@@ -134,8 +235,14 @@ across clinical contexts.
 
 **Subgroup audits** are the systematic check. For each
 clinically meaningful subgroup, compute the model's
-performance and compare. Subgroups that should always
-be checked:
+performance and compare. The audit should examine
+intersections, not just marginal groups: the Gender
+Shades study [@buolamwini_2018_gender_shades] found
+commercial face-classification error rates under 1% for
+lighter-skinned men but up to roughly 35% for
+darker-skinned women, a gap that inspection of sex alone
+or skin tone alone would have badly understated.
+Subgroups that should always be checked:
 
 - Race/ethnicity (where ascertainable and ethically
   appropriate).
@@ -212,6 +319,67 @@ documented analysis.
 
 :::
 
+## Fairness metrics and their trade-offs {#sec-fairness-metrics}
+
+A subgroup audit tells us that performance differs across
+groups; it does not tell us what fairness requires. That
+is a separate and more uncomfortable question, because
+there are several formal definitions of algorithmic
+fairness and, when base rates differ across groups, they
+cannot in general be satisfied simultaneously
+[@chen_2021_ethical_ml_health]. We shall therefore need
+to state which definition a deployment targets rather
+than appeal to fairness in the abstract.
+
+@tbl-fairness-metrics sets the common metrics side by
+side. The column to read first is the last one: what each
+metric misses, because every metric is silent about
+something a clinician would care about.
+
+| Fairness metric | What it equalises across groups | What it misses |
+|:---|:---|:---|
+| Demographic parity | Rate of positive predictions | Ignores that base rates may genuinely differ; can force equal flags on unequal need |
+| Equal opportunity | True-positive rate (sensitivity) | Says nothing about false positives or about calibration |
+| Equalised odds | True- and false-positive rates jointly | Cannot co-exist with calibration when base rates differ |
+| Calibration / predictive parity | Meaning of a given score (PPV) | Compatible with large gaps in false-positive rates |
+| Net benefit (decision-curve) | Clinical value at the threshold used | Requires an explicit harm-benefit weighting, which is contestable |
+
+: Common algorithmic-fairness metrics, what each equalises across subgroups, and what each leaves unaddressed. No single metric is sufficient; the impossibility results mean that satisfying one often precludes another, so a deployment must state which criterion it targets and why. {#tbl-fairness-metrics}
+
+The tension is not academic. The ProPublica analysis of
+the COMPAS recidivism score [@angwin_2016_machine_bias]
+turned on exactly this point: the tool was calibrated (a
+given score meant the same recidivism rate regardless of
+race) yet showed unequal false-positive rates across
+race, and the two properties cannot both hold when the
+groups' base rates differ. In a health setting the same
+arithmetic applies to any risk score used to gate access
+to a scarce resource. Choosing a fairness criterion is
+therefore a value judgement about which error the system
+should distribute equally, not a technical detail to be
+optimised away.
+
+Two further ideas keep the discussion honest. On the one
+hand, **net benefit**. Accuracy metrics weight a false
+positive and a false negative equally; a screening
+decision rarely does. Decision-curve analysis and
+net-benefit calculations make the weighting explicit, and
+the researcher who reports net benefit by subgroup,
+rather than AUC alone, exposes whether the model helps
+each group at the operating threshold actually used. A
+model can show equal AUC across groups and still deliver
+positive net benefit to one group and none to another. On
+the other hand, **equity as a distributive goal**.
+Rajkomar et al. [@rajkomar_2018_fairness_equity] argue
+that fairness in clinical machine learning should be
+anchored to the goal of advancing health equity, which
+sometimes means preferring the model that narrows an
+existing outcome gap over the model with the best
+aggregate performance. That is a policy stance, and it
+belongs to the deploying institution; but the researcher
+is the one who must supply the subgroup numbers that make
+the stance actionable.
+
 ## AI-tailored persuasion in public-health contexts
 
 A 2024 study showed that AI given personal data
@@ -279,8 +447,38 @@ requires.
 
 ## Adversarial evaluation: jailbreaks and prompt injection
 
-Two adversarial-attack patterns matter for clinical
-deployment.
+Before deployment we owe the system a structured search
+for the ways it can be made to fail on purpose.
+@fig-threat-model organises the threats a clinical LLM
+deployment faces into five families; the point of the
+taxonomy is that the defences differ by family, so a
+red-team that probes only for jailbreaks leaves four
+doors unlocked. Finlayson et al.
+[@finlayson_2019_adversarial_medical] showed early that
+medical machine-learning systems are susceptible to
+adversarial manipulation of their inputs, and the attack
+surface has only widened as models began reading external
+content and calling tools.
+
+```{mermaid}
+%%| label: fig-threat-model
+%%| fig-cap: "A red-teaming taxonomy for a clinical LLM deployment. Five threat families, each with the defence it calls for. The two families in the middle rows of the chapter, jailbreak and prompt injection, receive detailed treatment below, but bias amplification connects back to the fairness audit and privacy leakage forward to the privacy chapter, which is why the red-team must cover all five rather than the headline two."
+flowchart TB
+  T["Threats to a clinical<br/>LLM deployment"]
+  T --> J["Jailbreak<br/>elicit refused output"]
+  T --> P["Prompt injection<br/>hidden instructions<br/>in read content"]
+  T --> D["Data poisoning<br/>corrupt training or<br/>retrieval corpus"]
+  T --> B["Bias amplification<br/>skewed data becomes<br/>skewed care at scale"]
+  T --> L["Privacy leakage<br/>training data or PHI<br/>surfaced in output"]
+  J --> Jd["Layered refusal:<br/>training + output filter"]
+  P --> Pd["Input sanitisation,<br/>tool authorisation,<br/>human sign-off"]
+  D --> Dd["Corpus provenance,<br/>retrieval allow-lists"]
+  B --> Bd["Subgroup audit,<br/>fairness metrics,<br/>monitoring"]
+  L --> Ld["PHI scrubbing,<br/>output guards,<br/>access control"]
+```
+
+Two of these families deserve detailed treatment because
+they are the ones a clinical team is most likely to meet.
 
 **Jailbreaks** are attempts to get the model to produce
 output it has been trained to refuse. For clinical
@@ -579,6 +777,16 @@ Three habits define defensible work in this area:
 - @bender_2021_stochastic_parrots, *On the Dangers of
   Stochastic Parrots*. Adjacent: the foundational
   argument about LLMs' built-in biases.
+- @omiye_2023_race_based, *Large language models
+  propagate race-based medicine*. Direct evidence that
+  deployed LLMs reproduce discredited race-based
+  clinical claims.
+- @rajkomar_2018_fairness_equity, *Ensuring Fairness in
+  Machine Learning to Advance Health Equity*. Anchors
+  fairness to the distributive goal of health equity.
+- @buolamwini_2018_gender_shades, *Gender Shades*. The
+  reference demonstration of intersectional subgroup
+  performance gaps.
 - @greshake_2023_prompt_injection, *Not what you've
   signed up for: Compromising Real-World LLM-
   Integrated Applications with Indirect Prompt

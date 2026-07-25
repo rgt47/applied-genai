@@ -1,5 +1,18 @@
 # Deploying AI in Clinical and Public-Health Practice {#sec-deployment}
 
+::: {.bookepigraph}
+```{=latex}
+\begin{flushright}\small
+```
+*A map is not the territory.*
+
+[Alfred Korzybski]{.smallcaps}, *Science and Sanity*
+(1933)
+```{=latex}
+\end{flushright}
+```
+:::
+
 ## Learning objectives
 
 By the end of this chapter you should be able to:
@@ -53,6 +66,50 @@ management**: how to keep a deployment working as
 external models change. **When to use AI, and when
 not**: the practical decision framework that closes
 the book.
+
+The stakes are sharpest, and the maintenance burden
+heaviest, in public health. A clinical AI that assists
+one physician at one point of care fails locally; a
+population-scale surveillance or triage model, deployed
+across a health department or a national programme,
+fails at scale and often silently. The anchoring lesson
+of this chapter is Google Flu Trends, a well-publicised
+influenza-nowcasting model that tracked physician visits
+closely for a season and then drifted badly, at one
+point estimating more than double the influenza
+prevalence that the reference surveillance data
+eventually recorded [@lazer_2014_google_flu]. The model
+was not wrong at launch; it decayed. That distinction,
+between a system that is wrong on day one (which
+validation catches) and a system that is right on day
+one and wrong by month six (which only monitoring
+catches), is the organising problem of deployment. We
+begin, then, not with a static picture of a deployed
+model but with a loop.
+
+@fig-deployment-lifecycle sketches that loop. The point
+to take from it is that deployment is not a terminal
+state but a cycle: a monitoring signal continually feeds
+back to a human decision (continue, adjust, retrain, or
+roll back), and a deployment with no such loop is not
+finished but merely unmonitored.
+
+```{mermaid}
+%%| label: fig-deployment-lifecycle
+%%| fig-cap: "The deployment lifecycle as a monitoring loop. Validation and shadow mode gate the initial release, but the load-bearing structure is the monitoring cycle: the deployed model is continually evaluated against fresh data, dataset shift is detected as a material drop in performance, and a human decides whether to continue, adjust the prompt or pipeline, retrain, or roll back to a known-good version. A deployment without this loop degrades silently, as Google Flu Trends did."
+flowchart TB
+  A["Build and<br/>validate"] --> B["Shadow mode<br/>(parallel, logged)"]
+  B --> C{"Metrics meet<br/>acceptance?"}
+  C -->|no| A
+  C -->|yes| D["Deploy to<br/>production"]
+  D --> E["Monitor:<br/>run eval suite<br/>periodically"]
+  E --> F{"Dataset shift?<br/>score drop beyond<br/>noise band"}
+  F -->|no| E
+  F -->|yes| G["Human review:<br/>continue, adjust,<br/>retrain, or roll back"]
+  G -->|adjust or retrain| A
+  G -->|roll back| H[("Pinned<br/>known-good<br/>version")]
+  H --> D
+```
 
 ## The researcher's contribution {#sec-deployment-human}
 
@@ -263,6 +320,70 @@ worked on the model as it existed last quarter may
 behave subtly differently this quarter even if the
 identifier is the same.
 
+The model is not the only thing that moves; the world it
+predicts moves too, and this is the deeper form of
+drift. Finlayson and colleagues term the general problem
+dataset shift: the joint distribution of inputs and
+outputs at deployment time diverges from the
+distribution the model was validated on
+[@finlayson_2021_dataset_shift]. Google Flu Trends is
+the canonical public-health illustration.
+@fig-google-flu reconstructs its trajectory in schematic
+form. The lesson to take from it is not that the model
+was built badly but that a model can track its target
+closely for a season and then, as search behaviour and
+the platform underneath it change, drift steadily and
+substantially above the truth while reporting nothing
+amiss. A model that cannot see its own error is a model
+that requires external monitoring against a ground-truth
+signal, in this case, the reference surveillance data
+the nowcast was meant to anticipate.
+
+```{r}
+#| label: fig-google-flu
+#| fig-cap: "Schematic of the Google Flu Trends failure: a search-based influenza nowcast (gold) tracks the reference surveillance estimate (blue) well for an early season, then drifts persistently above it, at the 2013 peak overestimating by roughly a factor of two. The values are illustrative, drawn to match the pattern reported by @lazer_2014_google_flu rather than the exact series. The dashed band marks a monitoring threshold; sustained excursions beyond it are the signal that should trigger human review, retraining, or rollback."
+#| echo: false
+#| fig-width: 7
+#| fig-height: 4.0
+library(ggplot2)
+library(tibble)
+set.seed(1)
+weeks <- 0:59
+season <- 2 + 3.4 * exp(-((weeks - 12) %% 52 - 0)^2 / 40) +
+  3.0 * exp(-((weeks - 46) %% 60 - 0)^2 / 30)
+actual <- 2 + 3.2 * exp(-((weeks - 10)^2) / 45) +
+  3.4 * exp(-((weeks - 44)^2) / 34) + 0.4
+# drift: model increasingly overestimates in later season
+drift <- pmax(0, (weeks - 22) / 37)
+predicted <- actual * (1 + 1.05 * drift) + 0.3 * drift
+flu <- tibble(
+  week = rep(weeks, 2),
+  series = rep(c("Reference surveillance",
+                 "Search-based nowcast"), each = length(weeks)),
+  value = c(actual, predicted)
+)
+ggplot(flu, aes(week, value, colour = series)) +
+  geom_ribbon(data = tibble(week = weeks, lo = actual * 0.8,
+                            hi = actual * 1.2),
+              aes(week, ymin = lo, ymax = hi),
+              inherit.aes = FALSE, fill = "grey70", alpha = 0.25) +
+  geom_line(linewidth = 1) +
+  annotate("text", x = 1, y = 8.6,
+           label = "monitoring band (+/- 20%)",
+           hjust = 0, size = 3, colour = "grey40") +
+  annotate("text", x = 40, y = 9.4,
+           label = "sustained drift above truth",
+           hjust = 0.5, size = 3, colour = "#a06a1f") +
+  scale_colour_manual(values = c(
+    "Reference surveillance" = "#1b6ca8",
+    "Search-based nowcast" = "#a06a1f")) +
+  labs(x = "Weeks since deployment", y = "Estimated ILI (%)",
+       colour = NULL) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.minor = element_blank())
+```
+
 Three operational concerns.
 
 **Drift detection.** Run the team's evaluation suite
@@ -319,6 +440,122 @@ adjustment. Without the evaluation harness and the
 pinned-version capability, the team would either have
 proceeded with degraded performance (unaware) or
 suffered a longer disruption.
+
+## Cost, compute, carbon, and local deployment
+
+The preceding sections have treated deployment as an
+engineering and monitoring problem. It is also a
+resource problem, and the resource constraints fall
+unevenly. A well-funded academic medical centre paying
+$1,200 per month in API charges (the figure from the
+worked example below) barely notices the cost. A
+district health office in a low-resource setting,
+running a triage or surveillance tool on an intermittent
+connection and a fixed annual budget, faces a different
+calculus entirely. We note that the deployment patterns
+that are unremarkable in the first setting can be
+infeasible in the second, and a book that tilts toward
+public health should say so plainly.
+
+Three costs are worth separating.
+
+**Monetary cost** scales with usage. A hosted frontier
+model bills per token; a high-volume deployment
+(screening every abstract, scoring every encounter) can
+accumulate charges that a pilot never revealed. The
+practical discipline is to estimate per-item cost during
+shadow mode, multiply by realistic production volume,
+and confirm the total against the operational savings
+before promotion, not after the first invoice.
+
+**Compute and carbon.** Large-model inference consumes
+energy, and at population scale the aggregate is not
+negligible. For a public-health agency with
+sustainability commitments, or simply with an interest
+in proportion, the relevant question is whether the task
+warrants a frontier model at all. Many deployment
+workloads (classification, extraction, routine
+summarisation) are handled by a small model at a
+fraction of the energy and cost of the largest available
+one. The trade is named on both sides: on the plus side,
+a smaller or distilled model is cheaper, faster, and
+lighter; on the minus side, it may miss the harder cases,
+which is precisely why the shadow-mode comparison and
+the monitoring loop matter more, not less, when a
+lighter model is chosen.
+
+**Local and open-weight deployment.** For settings where
+data cannot leave the premises (privacy or sovereignty
+constraints), where connectivity is unreliable, or where
+per-call API costs are prohibitive, an open-weight model
+run on local hardware is often the better architecture.
+The trade is real. On the one hand, a local model
+eliminates per-token charges, keeps data in-house, and
+runs without a network; on the other, the institution
+now owns the operational burden that the API provider
+otherwise absorbed, hardware, updates, security patching,
+and the drift monitoring that no vendor will do on its
+behalf. Open-weight deployment does not remove the
+maintenance burden of @fig-deployment-lifecycle; it
+transfers it onto the deploying institution, which in an
+under-resourced setting is the scarcest resource of all.
+
+This is the equity concern stated precisely. The
+capability to run a triage or surveillance model is
+increasingly available to any agency; the capacity to
+monitor, retrain, and roll it back safely over years is
+not, and it is the second capacity, not the first, that
+separates a durable public-health deployment from one
+that quietly decays into a Google-Flu-style failure. A
+tool donated without a maintenance plan is a liability
+with a delayed fuse.
+
+@fig-human-gate makes the safe pattern concrete for a
+constrained setting. The point to take from it is that
+the model does not act; it advances a case to a human
+gate, and the human, not the model, is what stands
+between an automated score and an action taken on a
+person.
+
+```{mermaid}
+%%| label: fig-human-gate
+%%| fig-cap: "A human-in-the-loop workflow for a public-health triage or surveillance model in a resource-constrained setting. The model scores each incoming case, but its output meets a human gate before any action. High-confidence routine cases are batch-reviewed; flagged or low-confidence cases receive individual review; anything the model cannot handle is escalated. No branch lets the model act unmediated, and every branch logs an outcome that feeds the monitoring loop."
+flowchart TB
+  A["Incoming case<br/>(report, encounter,<br/>signal)"] --> B["Model scores<br/>and flags"]
+  B --> C{"Confidence and<br/>risk level"}
+  C -->|"routine,<br/>high confidence"| D["Batch human<br/>review (sample)"]
+  C -->|"flagged or<br/>low confidence"| E["Individual<br/>human review"]
+  C -->|"out of<br/>distribution"| F["Escalate to<br/>senior staff"]
+  D --> G["Action decided<br/>by human"]
+  E --> G
+  F --> G
+  G --> H[("Log outcome<br/>-> monitoring loop")]
+```
+
+## Deployment readiness: a go/no-go checklist
+
+Before promoting any deployment from shadow mode to
+production, the team should be able to answer a small set
+of readiness questions, each with a signal that
+distinguishes a defensible 'go' from a 'not yet'.
+@tbl-deployment-readiness consolidates the questions this
+chapter has raised into a single checklist. It is meant
+to be used literally: a deployment that cannot produce a
+clear 'go' signal on every row is not ready, and the rows
+that fail name the work that remains.
+
+| Dimension | Question to answer | Go signal | No-go signal |
+|:---|:---|:---|:---|
+| Empirical basis | Has the AI been compared against the incumbent workflow on real inputs? | Shadow-mode metrics (kappa, accuracy) meet a pre-set acceptance threshold | Decision rests on demos or the model's reputation |
+| Verification regime | Who checks the output, and how much? | Confidence-tiered review defined and staffed | 'Users will catch errors' with no defined check |
+| Monitoring | Is there a periodic eval against fresh data with a defined noise band? | Eval suite scheduled; alert threshold set | No recurring evaluation after launch |
+| Rollback | Can the team revert within hours of a bad update? | Pinned known-good version and a tested rollback procedure | Rollback undiscussed or untested |
+| Cost and scale | Does per-item cost times production volume stay below the savings? | Cost estimated during shadow mode and confirmed | Cost extrapolated from a pilot only |
+| Maintenance capacity | Who owns drift monitoring and retraining over years? | Named owner and a maintenance budget | Deployed and effectively abandoned |
+| Appropriateness | Does the task belong on the 'use AI' side of the decision? | Task classified against the 15-and-5 framework | Deployed by default because the capability exists |
+| Equity | Does the deployment work for the settings and populations it serves? | Performance checked across relevant subgroups and settings | Validated on one population, deployed to all |
+
+: A deployment-readiness checklist. Each dimension pairs the question the team must answer with the signal that separates a defensible promotion decision from a premature one. The checklist is deliberately conservative: a single no-go row is sufficient reason to remain in shadow mode. {#tbl-deployment-readiness}
 
 ## When to use AI, and when not
 
@@ -591,6 +828,10 @@ Three habits define defensible deployment work:
   Dataset Shift in Artificial Intelligence*. The
   reference treatment of clinical-deployment
   drift.
+- @lazer_2014_google_flu, *The Parable of Google Flu:
+  Traps in Big Data Analysis*. The anchoring
+  public-health cautionary tale of a deployed model
+  that decayed unmonitored.
 - @tierney_2024_ai_scribe, *Ambient AI Scribes and
   Clinician Documentation*. An applied case study
   of clinical-AI deployment with empirical

@@ -102,3 +102,22 @@ body.nav-hide-all {
     padding-right: 1rem;
   }
 }
+
+/*-- Chapter epigraphs --*/
+.bookepigraph {
+  max-width: 30em;
+  margin: 0.2em 0 2.2em auto;
+  text-align: right;
+  font-size: 0.95em;
+  color: #555;
+  line-height: 1.4;
+}
+
+.bookepigraph em {
+  font-style: italic;
+}
+
+.bookepigraph .smallcaps {
+  font-variant: small-caps;
+  color: #333;
+}
