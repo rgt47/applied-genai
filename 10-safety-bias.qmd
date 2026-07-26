@@ -297,6 +297,7 @@ all patients. Is this acceptable?
 **Answer.** The 0.71 AUC for Black patients (a 10-point gap from
 the best-served group) is a flag that should not be
 ignored. Whether to deploy depends on:
+
 - What the model is used for. If it routes patients
   to additional care, the lower performance for Black
   patients means worse routing for that group.
@@ -547,6 +548,7 @@ governance review and for reviewer assessment of
 published work.
 
 A clinical model card includes:
+
 - Intended use (specific clinical context, decision
   it informs).
 - Out-of-scope uses (where the model should not be
@@ -572,6 +574,7 @@ research that meets reviewer expectations.
 deployment. When a model produces a clinically
 significant wrong output, the deploying institution
 documents:
+
 - What the output was.
 - What the patient impact was (or could have been).
 - What the contributing factors were.
@@ -616,6 +619,7 @@ language of medical-record documentation:
 **Step 2: investigation.** The 0.79 for Black patients
 and the 0.74 for Spanish-language documentation are
 flags. Investigation reveals:
+
 - The Black-patient gap correlates with ED triage
   notes that are systematically shorter (a separately
   documented bias in ED documentation patterns); the
@@ -625,6 +629,7 @@ flags. Investigation reveals:
   text features work less well on Spanish notes.
 
 **Step 3: mitigation.** The hospital decides:
+
 - Re-train with the Spanish-language patients
   oversampled to bring AUC for that group above
   0.80.
