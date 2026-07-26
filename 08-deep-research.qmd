@@ -536,6 +536,7 @@ The labour math: 30 minutes/study manual × 50 studies
 A research team is preparing a Phase III trial in a
 specific cancer indication. They need a scoping review
 of:
+
 - Recent (last 5 years) Phase II/III trials in the
   indication.
 - Primary endpoints used and the rationale.
@@ -571,6 +572,7 @@ sources for each claim.
 a 32-row trial table and a synthesis paragraph.
 
 **Step 3: verify.** The researcher verifies:
+
 - The 32 trials cited exist (check PMID).
 - For 6 randomly-selected trials, the extracted
   primary endpoint matches the published trial.

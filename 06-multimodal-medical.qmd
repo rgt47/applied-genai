@@ -640,6 +640,7 @@ two prior published cohorts.
 
 **Step 2: choose the extraction approach.** The team
 considers three options:
+
 - Manual scoring by a radiologist: gold standard, ~5
   minutes per image, ~$10/image, total ~$30,000 across
   3,000 images.
@@ -659,6 +660,7 @@ radiologist, moderate-substantial agreement. The
 agreement is weaker for severe fibrosis (kappa 0.61 for
 score 3-4) than for mild (kappa 0.78 for score 0-1).
 The team documents the validation and decides:
+
 - Use the LLM scores for all 3,000 images.
 - Include kappa = 0.71 in the methods.
 - Plan a sensitivity analysis where the longitudinal
@@ -683,6 +685,7 @@ fibrosis progresses at roughly the published rate is
 robust.
 
 **Step 7: report.** The methods section discloses:
+
 - The fibrosis scoring rubric.
 - The multimodal LLM extraction with kappa against
   radiologist reference.

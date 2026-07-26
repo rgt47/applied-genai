@@ -192,6 +192,7 @@ or does it produce confident-sounding non-answers?
 **Real-world task benchmarking.** A small set (5–20)
 of expert-designed tasks that reflect the team's
 actual work. Examples for a research-analytics team:
+
 - Generate the SAS code for a stratified Cox model
   given a data dictionary and pre-specified strata.
 - Draft a methods section for a published study (the
@@ -689,6 +690,7 @@ system will serve.
 
 A model is not evaluated once. It is evaluated
 continuously, because:
+
 - The model itself can change (provider-side updates).
 - The team's tasks change as projects evolve.
 - New failure modes are discovered in production.
@@ -733,6 +735,7 @@ when to reconsider.
 **Step 1: catalogue the team's actual work.** The
 team lists what they currently use AI assistance
 for or want to use it for:
+
 - Generate `dplyr` and `data.table` code from
   data-dictionary descriptions.
 - Generate SAS PROC FREQ / PROC MEANS code for
@@ -751,6 +754,7 @@ for or want to use it for:
 work, the team creates 2–4 representative tasks.
 Total: 22 tasks. For each, a senior researcher
 writes:
+
 - The task input (the data dictionary, the analysis
   plan, etc.).
 - The expected output or rubric for evaluation.

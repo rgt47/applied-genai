@@ -517,6 +517,7 @@ identification risk is acceptably low.
 The expert-determination path requires written
 documentation. The researcher produces a report
 that includes:
+
 - The synthesis method and parameters.
 - The DP budget (epsilon, delta) if applicable.
 - The audit results (membership-inference AUC,

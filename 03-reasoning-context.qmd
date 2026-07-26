@@ -630,6 +630,7 @@ point at 0.45 is informative.
 
 The reasoning-model attempt is structured differently.
 The researcher provides:
+
 - The trial protocol (relevant sections only)
 - The pre-specified analysis plan
 - A summary of the missing-data pattern (12% missing,
@@ -693,6 +694,7 @@ accepted by EMA in the regulatory submission.
 The reasoning model's output is not the answer; it is a
 proposal that the researcher evaluates. The
 researcher verifies:
+
 - The parameter interpretation against the original MAR
   formulation in the SAP.
 - The bound rationale against the EU trial document

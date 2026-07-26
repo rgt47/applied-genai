@@ -159,6 +159,7 @@ Customisation pays off when context is genuinely
 insufficient, not when it is annoying to set up.
 
 Signs context engineering is sufficient:
+
 - The frontier API produces correct output most of
   the time on the team's tasks.
 - The remaining failures can be addressed by improved
@@ -166,6 +167,7 @@ Signs context engineering is sufficient:
 - The latency and cost are acceptable.
 
 Signs context engineering is genuinely insufficient:
+
 - The model consistently fails on tasks that require
   domain-specific terminology or conventions even
   with substantial context.
@@ -305,6 +307,7 @@ empirically achieves similar performance on most tasks
 [@hu_2022_lora].
 
 The training process:
+
 1. Collect training data, usually 1,000–10,000
    examples of input/output pairs in the desired
    style.
@@ -352,6 +355,7 @@ lacks the teacher's capability outside the trained
 distribution.
 
 For applied analytic work, distillation makes sense when:
+
 - A specific repetitive task dominates inference cost
   (e.g., abstract screening for a living systematic
   review).
@@ -493,6 +497,7 @@ Mollick's *Cybernetic Teammate* RCT
 at Procter & Gamble in a 4-arm trial: alone or in
 two-person teams, with or without AI access, on
 realistic product-development tasks. Findings:
+
 - AI-enabled individuals matched the performance of
   two-person teams without AI (about a 0.37 SD
   improvement over baseline).
@@ -572,6 +577,7 @@ from people who actually do the work.
 
 The researcher (or team lead) supporting good
 adoption:
+
 - Encourages individual experimentation with AI
   tools.
 - Sets up channels (Slack, internal Wiki, weekly
@@ -587,6 +593,7 @@ adoption:
 
 A specific working pattern for a 6–10 person
 research-analytics group:
+
 - A shared `prompts/` directory in the team's
   internal repo, with per-task prompt templates.
 - A `runbooks/` directory with specific workflows

@@ -299,6 +299,7 @@ risk, minimal-risk. Most medical AI falls into
 obligations.
 
 High-risk AI in the medical domain includes:
+
 - AI as part of a regulated medical device (most
   clinical AI).
 - AI used for triage of patients in healthcare
@@ -307,6 +308,7 @@ High-risk AI in the medical domain includes:
   healthcare staffing (separately).
 
 High-risk AI obligations include:
+
 - Risk management system.
 - Data governance (training-data documentation,
   bias mitigation).
@@ -509,6 +511,7 @@ retrospective observational study using the
 institutional EHR. The study examines outcomes after
 a specific procedure across the past 5 years (~3,000
 patients). AI assistance will be used for:
+
 - Literature review (deep research).
 - Phenotype identification from clinical notes
   (LLM-based extraction).

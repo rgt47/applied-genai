@@ -282,6 +282,7 @@ running in Claude Code or a similar client has access to
 all three. A request like 'run the survival analysis for
 the patients in our prostate-cancer cohort using the
 methods from our 2023 paper' becomes:
+
 - Read the methods from the protocol library (MCP
   knowledge server).
 - Pull the cohort from the database (MCP database

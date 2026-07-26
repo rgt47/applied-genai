@@ -229,6 +229,7 @@ intervention?
 non-users are not using it and to address the
 interface friction those users face, rather than
 mandating use. Common causes:
+
 - The non-users work primarily in tools that are not
   the web chat (SAS programmer in a terminal,
   protocol writer in Word). Web-chat workflow is
@@ -420,6 +421,7 @@ evaluation showing kappa 0.78 against expert
 reviewers. Six weeks after deployment, the weekly
 evaluation drops to kappa 0.69, a 9-point drop. The
 team:
+
 1. Reviews the model provider's release notes;
    confirms a new model version was released two
    weeks earlier.
