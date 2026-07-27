@@ -36,7 +36,7 @@ jobs:
             any::glmnet
 
       - name: Render book
-        run: quarto render
+        run: quarto render --to html
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3
