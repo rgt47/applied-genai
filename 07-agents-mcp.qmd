@@ -27,7 +27,7 @@ By the end of this chapter you should be able to:
 - Design agent loops with appropriate termination
   conditions, error handling, and human-in-the-loop
   checkpoints.
-- Recognise when an agent is the right tool, when a
+- Recognize when an agent is the right tool, when a
   reasoning model with tools is sufficient, and when
   neither is appropriate.
 
@@ -81,7 +81,7 @@ for delegation: 'fit these candidate models to the data
 and report which performs best on the held-out fold',
 'reproduce the analyses in this paper using our cohort',
 'find all the trials in our institutional database that
-used a stratified Cox model and summarise the
+used a stratified Cox model and summarize the
 stratification choices'. Each is a multi-step task with
 defined success criteria, the kind of work an agent
 can complete autonomously in the time it would take a
@@ -95,26 +95,26 @@ databases, and other systems. **Agent loops in practice**:
 designing the loop with termination conditions, error
 handling, and verification points so the work is
 trustworthy. The chapter is the most contemporary in
-the book; the technology stabilised in 2024–2025 and
+the book; the technology stabilized in 2024–2025 and
 is moving fast. Pointers to current source documentation
 are essential.
 
 ## The researcher's contribution {#sec-agents-mcp-human}
 
-Three judgements are not delegable.
+Three judgments are not delegable.
 
-**(Judgement 1.) The decision about what to delegate.** An
+**(Judgment 1.) The decision about what to delegate.** An
 agent can run an analysis, draft a report, file a
 ticket, send an email. The question is whether the work
 should be delegated. Some work, pre-trial decisions,
 DMC reports, regulatory submissions, should not be
 agent-completed regardless of capability, because the
-human attestation is part of the artefact's value. The
+human attestation is part of the artifact's value. The
 researcher decides what the agent does and what
 remains in human hands; the choice is a professional
-judgement, not a technology one.
+judgment, not a technology one.
 
-**(Judgement 2.) The specification of the deliverable.**
+**(Judgment 2.) The specification of the deliverable.**
 Mollick [@mollick_2026_management_superpower] frames effective AI
 collaboration as importing management fundamentals:
 clear product requirement documents, iterative feedback,
@@ -125,7 +125,7 @@ are. An under-specified delegation is the leading cause
 of agent runs that produce plausible-looking but wrong
 work.
 
-**(Judgement 3.) The verification regime.** Agent output
+**(Judgment 3.) The verification regime.** Agent output
 has a different failure mode than chat or reasoning-
 model output. Errors compound across steps; intermediate
 results may never be inspected; the final output may
@@ -136,7 +136,7 @@ specification, key calculation, final output. Skipping
 these because the agent reported success is the
 characteristic failure mode of the era.
 
-These judgements are what distinguish agent use that
+These judgments are what distinguish agent use that
 saves the researcher's time from agent use that
 produces work that has to be redone, distrusted, or
 retracted.
@@ -159,7 +159,7 @@ to a junior colleague, with the same fundamentals.
 **Specification before assignment.** Before kicking off
 an agent run, write down the deliverable as if for a
 human: what is being produced, what makes it
-acceptable, what the bounds are. Not 'analyse the data'
+acceptable, what the bounds are. Not 'analyze the data'
 but 'fit a Cox model with these covariates, produce a
 forest plot of the hazard ratios with 95% CIs, and
 write a paragraph interpreting the result for the
@@ -185,7 +185,7 @@ who expects one-shot success is using the tool wrong.
 **Choose what to delegate.** Some work is well-shaped
 for agents (well-specified, verifiable end-to-end,
 contained in scope); some is not (open-ended, requires
-ongoing judgement, has high blast radius). The
+ongoing judgment, has high blast radius). The
 researcher's first decision is whether to delegate
 at all.
 
@@ -196,7 +196,7 @@ The decision rule, simplified:
 | Defined deliverable, verifiable output, contained scope | agent |
 | Multi-step reasoning, single deliverable, no autonomous action needed | reasoning model |
 | Single-turn output, surface verification | chat model |
-| Open-ended judgement, unrecoverable consequences | the researcher |
+| Open-ended judgment, unrecoverable consequences | the researcher |
 
 ::: {.callout-note icon=false collapse=true}
 ## Check your understanding: when not to delegate
@@ -217,7 +217,7 @@ against the published methods), and the scope is
 contained. (b) is not. It involves clinical, regulatory,
 and stakeholder considerations the agent cannot weigh;
 the deliverable is a decision with substantial blast
-radius; verification is by professional judgement, not
+radius; verification is by professional judgment, not
 a calculation. An agent could produce a plausible
 analysis to inform the decision (and probably should),
 but the decision itself stays with the researcher
@@ -231,7 +231,7 @@ The Model Context Protocol (MCP) [@anthropic_2024_mcp;
 @mcp_2025_specification] is an open specification for connecting
 LLMs to external systems. An MCP server exposes a set
 of tools (functions the model can call) and resources
-(data the model can read) over a standardised protocol.
+(data the model can read) over a standardized protocol.
 An MCP client (the LLM application) discovers what is
 available and uses it.
 
@@ -254,14 +254,14 @@ For applied analytic work, three classes of MCP server
 matter.
 
 **R/Python execution servers.** Run code in an isolated
-environment, return output and any generated artefacts.
+environment, return output and any generated artifacts.
 The agent can fit models, produce figures, run
 simulations. Care is required around environment
 isolation, file-system access, and resource limits.
 
 **Database servers.** Execute queries against a database
 (typically with read-only credentials), return result
-sets. The agent can pull cohorts, summarise data,
+sets. The agent can pull cohorts, summarize data,
 identify cases. The discipline that matters: the database
 server should expose a read-only credential, the schema
 the agent sees should be appropriately scoped, and the
@@ -551,7 +551,7 @@ audit. It is less good at identifying steps that
 should not have been allowed in the first place (the
 agent should not have had access to that database;
 the agent should have paused before that operation).
-The researcher brings the policy judgement.
+The researcher brings the policy judgment.
 
 *Verification.* Run the verification the LLM
 recommends. If issues are found, decide whether they

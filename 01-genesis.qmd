@@ -39,7 +39,7 @@ roughly seventy years of work in computing, statistics,
 and the cognitive sciences. None of the underlying ideas
 appeared in 2022 with ChatGPT. The transformer
 architecture was published in 2017. Backpropagation,
-which makes today's networks trainable, was popularised in
+which makes today's networks trainable, was popularized in
 1986. The first artificial neuron model was published in
 1943. The recursion-and-symbolic-expression style of
 programming that anchored early artificial-intelligence
@@ -52,7 +52,7 @@ its node to the chain; the point to take from it now is
 that the interval between a conceptual milestone and
 its practical consequence is measured in decades, not
 years, and that the apparent suddenness of 2022 is an
-artefact of where the public happened to be looking.
+artifact of where the public happened to be looking.
 
 ```{mermaid}
 %%| label: fig-genesis-timeline
@@ -90,25 +90,25 @@ the selection and verification decisions sharper.
 ## The researcher's contribution {#sec-genesis-human}
 
 History is not a substitute for technique, but it
-disciplines technique. Three judgements that thread
+disciplines technique. Three judgments that thread
 through the chapter and the rest of the book have
 historical anchors worth naming.
 
-**(Judgement 1.) Distinguishing scale from novelty.** Many
+**(Judgment 1.) Distinguishing scale from novelty.** Many
 of the capabilities that appear most striking in 2026
 language models, fluent prose, in-context arithmetic, the
 ability to draft a regression specification, are
 emergent consequences of scale rather than new
 algorithmic ideas. The next-token prediction that
 underlies GPT-style models is technically continuous with
-n-gram language modelling from the 1980s. What changed
+n-gram language modeling from the 1980s. What changed
 is the size of the model, the size of the training
 corpus, and the architecture's ability to exploit both.
 The researcher's contribution is to see through the gloss
-and recognise that scale alone does not solve problems
+and recognize that scale alone does not solve problems
 the underlying statistical machinery cannot solve.
 
-**(Judgement 2.) Recognising the inductive-bias choices
+**(Judgment 2.) Recognizing the inductive-bias choices
 behind every model.** Each milestone in this chapter
 embodies a choice about *what kinds of structure* the
 model is permitted to learn easily. CART makes axis-
@@ -120,7 +120,7 @@ model finds. A clinical or public-health researcher who
 deploys a model without thinking about its inductive
 biases is implicitly trusting a choice someone else made.
 
-**(Judgement 3.) Reading the literature in its arc, not
+**(Judgment 3.) Reading the literature in its arc, not
 its surface.** A 2024 paper that claims a new technique
 is often a refinement of an idea from the 1990s. A 2026
 benchmark that appears to demonstrate near-human
@@ -128,19 +128,19 @@ performance often rests on training-set leakage that
 echoes a critique made of perceptron evaluation in 1969.
 Reading new claims with the historical arc in mind makes
 the discount factor on hype calibrated rather than
-sceptical or credulous.
+skeptical or credulous.
 
 ## From symbols to functions: the Lisp era
 
 The phrase *artificial intelligence* enters the
-literature at the 1956 Dartmouth workshop organised by
+literature at the 1956 Dartmouth workshop organized by
 McCarthy, Minsky, Rochester, and Shannon. The optimism of
 the period (researchers expected human-level AI within a
 generation) shaped both the theoretical agenda and the
 programming languages built to pursue it.
 
 McCarthy's *Lisp* [@mccarthy_1960_recursive] is the
-foundational artefact of this era. Lisp is a functional
+foundational artifact of this era. Lisp is a functional
 language in which programs and data share a single
 representation, the symbolic expression or *s-expression*.
 A function in Lisp is a list; a list of lists is a tree;
@@ -159,7 +159,7 @@ substitutable. It also produced two structural
 limitations that the rest of this chapter is, in part, a
 response to. First, encoding any but the simplest world
 into logical expressions turned out to be brutally
-labour-intensive; the *knowledge engineering bottleneck*
+labor-intensive; the *knowledge engineering bottleneck*
 of the 1980s expert-system era was the practical face of
 this. Second, real-world data are noisy and ambiguous in
 ways logical inference handles poorly. The symbolic
@@ -217,7 +217,7 @@ default applied-statistical-learning toolkit for
 tabular data. For the clinical or public-health researcher
 the relevant modern descendant is `xgboost` and its
 relatives, still the dominant choice for risk-score
-modelling and electronic-health-record outcome
+modeling and electronic-health-record outcome
 prediction.
 
 ## The neural network arc: perceptron, winter, deep learning
@@ -263,7 +263,7 @@ which weights deserve which share of the blame?
 **The backpropagation revival.** The credit-assignment
 problem was solved (or rather, a sufficiently practical
 solution was found) in the 1980s. Rumelhart, Hinton, and
-Williams [@rumelhart_1986_backprop] popularised
+Williams [@rumelhart_1986_backprop] popularized
 *backpropagation*: a careful application of the chain
 rule of calculus that propagates the error gradient
 backwards through the network and apportions blame
@@ -284,8 +284,8 @@ networks that worked were small, and training them on
 **The deep-learning boom.** The 2010s saw both obstacles
 fall. New activation functions (notably the rectified
 linear unit, ReLU) attenuated the vanishing-gradient
-problem. New normalisation techniques and architectural
-choices stabilised training. Most consequentially, GPUs
+problem. New normalization techniques and architectural
+choices stabilized training. Most consequentially, GPUs
 made the matrix multiplications that dominate neural-
 network training tractable at scales that had previously
 been infeasible. The *AlexNet* result of Krizhevsky,
@@ -304,7 +304,7 @@ vocabulary that subsequent generative AI inherits:
 *recurrent* layers for sequence structure; *embeddings*
 that map discrete inputs (words, tokens) to dense
 real-valued vectors. The 2015 LeCun, Bengio, and Hinton
-*Nature* review [@lecun_2015_deep] summarises the
+*Nature* review [@lecun_2015_deep] summarizes the
 state of play at the inflection point.
 
 ## Statistical learning theory: the kernel detour
@@ -334,9 +334,9 @@ read against.
 
 The kernel era also clarified an idea that recurs in
 modern neural-network practice: a network's capacity to
-generalise is governed by the interaction of model
+generalize is governed by the interaction of model
 complexity, training-set size, and the implicit or
-explicit regularisation applied during training. The
+explicit regularization applied during training. The
 classical *bias-variance* decomposition is the
 theoretical home of this idea; modern neural networks
 appear to violate the classical decomposition in
@@ -370,7 +370,7 @@ recurrent training cannot reach in any reasonable
 budget. This single property explains a great deal of
 why scaling worked.
 
-**Scaling behaviour.** The transformer's parameter count
+**Scaling behavior.** The transformer's parameter count
 and training-data appetite scale together, and the
 relationship between them and model performance turns
 out to follow approximately predictable *scaling laws*
@@ -385,7 +385,7 @@ descendants.
 learning, multi-step reasoning, code generation) appear
 relatively suddenly at certain scales rather than
 improving smoothly. The phenomenon is contested, some
-of the apparent emergence is artefact of how
+of the apparent emergence is artifact of how
 capabilities are evaluated [@schaeffer_2023_emergent], but
 it is part of the lived experience of building models in
 this era and shapes the field's expectations.
@@ -393,7 +393,7 @@ this era and shapes the field's expectations.
 The transformer was not novel as an idea; attention had
 been studied for some years. What was novel was the
 combination of attention-as-the-only-mechanism with the
-hardware (GPUs and later specialised tensor processors)
+hardware (GPUs and later specialized tensor processors)
 and the scale of training data (most of the high-
 quality text on the open internet) that the major
 labs by then had access to.
@@ -448,7 +448,7 @@ adaptation step that costs nothing to run.
 The scale claim is easier to feel than to state.
 @fig-genesis-scale plots approximate parameter counts
 for a handful of milestone models on a logarithmic
-axis; each labelled gridline is a factor of a thousand.
+axis; each labeled gridline is a factor of a thousand.
 The climb from the perceptron's hundreds of adjustable
 weights to the trillion-parameter frontier spans
 roughly nine orders of magnitude, and most of it
@@ -505,13 +505,13 @@ steps that turn a raw pre-trained model into a useful
 assistant, *supervised fine-tuning* and *reinforcement
 learning from human feedback* [@ouyang_2022_instructgpt], are
 the alignment recipe. Later variants substitute, for
-part of the human labelling, feedback generated by a
+part of the human labeling, feedback generated by a
 model working from an explicit written set of
 principles [@bai_2022_constitutional_ai]. The
 InstructGPT and ChatGPT releases of late 2022 are the
 public manifestation. The *foundation model* framing of
 Bommasani and colleagues [@bommasani_2021_foundation]
-names the resulting class of artefacts.
+names the resulting class of artifacts.
 
 **Reasoning and openness.** Two further developments
 complete the arc to 2026. First, *chain-of-thought*
@@ -547,7 +547,7 @@ before responding; agentic models add infrastructure for
 tool use and multi-step action; multimodal models share
 weights across text, image, audio, and structured-
 document tokens. The capabilities of @sec-landscape are
-specialisations and combinations of this base recipe.
+specializations and combinations of this base recipe.
 
 @tbl-genesis-eras consolidates the chapter to this
 point. The final column is the one we ask the reader to
@@ -565,7 +565,7 @@ exception.
 | Transformer and scaling | 2017-2021 | attention as the only mechanism; predictable gains from joint scaling | GPT-3 | follow instructions; behave as a reliable assistant |
 | Reasoning and agentic | 2022-2026 | post-training on feedback; extended chains of thought; tool use | ChatGPT; o1-style reasoning models; the mid-2026 frontier | verify its own factual claims; the burden of verification stays with the user |
 
-: Six eras of the genealogy. Each era is characterised by its defining idea, a representative system, and the limitation that the next era addressed. {#tbl-genesis-eras}
+: Six eras of the genealogy. Each era is characterized by its defining idea, a representative system, and the limitation that the next era addressed. {#tbl-genesis-eras}
 
 ## The view from public health {#sec-genesis-public-health}
 
@@ -606,7 +606,7 @@ overestimating peak influenza activity by roughly a
 factor of two [@lazer_2014_google_flu]. The failure
 was not computational. It was statistical:
 the data-generating process was non-stationary (search
-behaviour changed, partly because the search interface
+behavior changed, partly because the search interface
 changed), and the model was maintained apart from the
 surveillance system it was meant to serve. We note the
 parallel deliberately, since the pattern-matching
@@ -616,7 +616,7 @@ discipline of the later chapters is the response.
 
 ## What this means for your work: not magic
 
-The historical arc above licences three claims that the
+The historical arc above licenses three claims that the
 rest of this book treats as background.
 
 **Generative AI is statistical pattern matching.** The
@@ -650,7 +650,7 @@ gains. This matters for the researcher because it implies
 that capabilities a model lacks today may appear in
 the next-version model with no architectural change.
 The flip side is that capabilities a model demonstrates
-on a benchmark may not generalise to the researcher's
+on a benchmark may not generalize to the researcher's
 specific task; benchmark gains are not user-task gains.
 The discipline is to evaluate on the researcher's task
 rather than on the field's benchmarks.
@@ -678,7 +678,7 @@ A useful exercise for building intuition is to trace,
 informally, what happens when a transformer-based chat
 model receives the prompt:
 
-> *In a randomised controlled trial, the primary outcome
+> *In a randomized controlled trial, the primary outcome
 > was reduction in HbA1c at 12 weeks. What baseline
 > covariates would you adjust for?*
 
@@ -686,7 +686,7 @@ The model does not consult a database of trial-design
 principles. It does not call a function to look up
 HbA1c. The mechanical sequence is roughly as follows.
 
-1. **Tokenisation.** The prompt is split into tokens,
+1. **Tokenization.** The prompt is split into tokens,
    integer indices into a vocabulary of around 50,000
    tokens depending on the model. *HbA1c* may become one
    token or three.
@@ -776,7 +776,7 @@ Three habits define defensible engagement with the
 genealogy and the contemporary practice it underpins.
 
 **Read backward.** When a contemporary technique appears
-new, ask which earlier idea it specialises or scales.
+new, ask which earlier idea it specializes or scales.
 The mapping is rarely empty and the discount factor on
 hype is calibrated by knowing the prior art.
 
@@ -808,9 +808,9 @@ any number of secondary explainers.
    words) tracing what happens to the prompt *Write a
    one-paragraph summary of the CONSORT 2010 reporting
    guidelines* through the mechanical pipeline of
-   tokenisation, embedding, attention, and sampling. The
+   tokenization, embedding, attention, and sampling. The
    essay does not need to be technically deep; it needs
-   to convince a sceptical clinical colleague that the
+   to convince a skeptical clinical colleague that the
    model is doing computation rather than thinking.
 
 3. **The Minsky-Papert critique today.** Identify a
@@ -823,9 +823,9 @@ any number of secondary explainers.
 4. **Inductive bias inventory.** For a clinical
    application of your choice (e.g., predicting 30-day
    readmission, classifying chest X-rays for
-   pneumothorax, summarising a cohort of clinical
+   pneumothorax, summarizing a cohort of clinical
    notes), list the inductive biases of three candidate
-   models: a generalised linear model, a gradient-
+   models: a generalized linear model, a gradient-
    boosted tree ensemble, and a transformer-based deep
    network. Which biases are appropriate for the task?
    Which are not?

@@ -29,10 +29,10 @@ By the end of this chapter you should be able to:
   standards as they apply to multimodal medical AI
   studies.
 - Situate multimodal models within a population-screening
-  programme (diabetic retinopathy, tuberculosis, skin and
+  program (diabetic retinopathy, tuberculosis, skin and
   cervical screening) and evaluate screening performance
   for equity across demographic subgroups and sites.
-- Recognise multimodal AI as a tool for digital
+- Recognize multimodal AI as a tool for digital
   epidemiology and disease surveillance, and appreciate
   health misinformation as a multimodal population-health
   concern.
@@ -40,7 +40,7 @@ By the end of this chapter you should be able to:
 ## Orientation
 
 The arrival of robust multimodal capability changes what
-can be analysed in clinical research. Datasets that
+can be analyzed in clinical research. Datasets that
 previously required manual abstraction, chest X-rays,
 pathology slides, clinical-photograph series, free-text
 notes, scanned forms, ultrasound video, voice
@@ -71,7 +71,7 @@ designs the validation to match the use.
 
 For the public-health reader, the setting where these
 models matter most is not the single clinical encounter
-but the screening programme run across a whole
+but the screening program run across a whole
 population. Diabetic-retinopathy screening from fundus
 photographs, tuberculosis screening from chest X-rays in
 high-burden districts, cervical and skin screening from
@@ -80,9 +80,9 @@ model can extend expert-level triage to settings that
 have few experts, and each is a task where a model that
 performs well on average can still perform poorly for a
 subgroup that the headline figure conceals. But how well
-does 'well on average' serve the people the programme is
+does 'well on average' serve the people the program is
 meant to reach? That question, more than raw accuracy,
-organises the population-health parts of this chapter.
+organizes the population-health parts of this chapter.
 
 The models divide along the modality they read and the
 task they perform. @fig-multimodal-taxonomy gives that
@@ -134,9 +134,9 @@ flowchart TB
 
 ## The researcher's contribution {#sec-multimodal-medical-human}
 
-Three judgements are not delegable.
+Three judgments are not delegable.
 
-**(Judgement 1.) Distribution shift in imaging is
+**(Judgment 1.) Distribution shift in imaging is
 silent.** A model trained on Stanford radiographs may
 underperform on Brigham radiographs in ways that produce
 plausible-looking but biased extractions. Different
@@ -148,7 +148,7 @@ typically by reserving a substantial site-specific
 holdout, and treats inter-site variability as a first-
 order concern.
 
-**(Judgement 2.) AI-extracted variables are not
+**(Judgment 2.) AI-extracted variables are not
 interchangeable with manually-extracted variables.** A
 'left-ventricular ejection fraction' field populated by
 multimodal extraction from echocardiogram reports is
@@ -160,7 +160,7 @@ characteristic ways. The researcher documents the
 extraction method and validates against a manual
 reference on a sample.
 
-**(Judgement 3.) Reporting standards are part of the
+**(Judgment 3.) Reporting standards are part of the
 analysis.** CONSORT-AI [@liu_2020_consort_ai] and TRIPOD-
 LLM [@gallifant_2025_tripod_llm] specify what must be
 reported when AI is involved in a clinical study:
@@ -181,7 +181,7 @@ models from major providers) are trained on broad
 image-text pairs from the web. They
 handle natural images, diagrams, screenshots, and
 moderate-quality medical images reasonably. They
-perform poorly on specialised modalities (histopathology
+perform poorly on specialized modalities (histopathology
 slides, fundus photographs, mammograms) because the
 training distribution is sparse on these. They are the
 right starting point for OCR-shaped tasks (extract a
@@ -191,16 +191,16 @@ classification is enough.
 
 **Domain-specific foundation models** are trained on
 biomedical image-text pairs and substantially outperform
-general-purpose models on specialised modalities. Three
+general-purpose models on specialized modalities. Three
 have become reference points:
 
 - **MedSAM** [@ma_2024_medsam] is a foundation model for
   medical image segmentation. Given an image and a
   prompt (a bounding box or a text description), it
   produces a segmentation mask. Useful for organ
-  segmentation, lesion delineation, and tumour
+  segmentation, lesion delineation, and tumor
   measurement. Outperforms general-purpose segmentation
-  on specialised modalities.
+  on specialized modalities.
 
 - **RETFound** [@zhou_2023_retfound] is a foundation
   model for retinal images, trained on 1.6 million
@@ -221,8 +221,8 @@ have become reference points:
   consequence is zero-shot classification: one can score
   a fundus photograph against the text prompts
   'referable diabetic retinopathy' and 'no referable
-  disease' without a labelled training set, which is
-  useful when a screening programme has images but few
+  disease' without a labeled training set, which is
+  useful when a screening program has images but few
   labels. BiomedCLIP also serves as an embedding model
   for biomedical image-text retrieval pipelines. A
   further step is taken by broader medical multimodal
@@ -250,9 +250,9 @@ The decision rule:
 | Cross-modal retrieval (image ↔ text) | BiomedCLIP |
 | Specialty radiology / pathology | Specialty model where available, else BiomedCLIP |
 
-The decision rule above is organised by task. @tbl-modality-task-models
-re-organises the same material around the population-health
-screening programmes this chapter foregrounds, so that a
+The decision rule above is organized by task. @tbl-modality-task-models
+re-organizes the same material around the population-health
+screening programs this chapter foregrounds, so that a
 reader who starts from a use case (screen a district for
 tuberculosis, extend retinopathy screening to primary
 care) can read across to the modality, task, and
@@ -272,7 +272,7 @@ everything to its left.
 | Image + text | Visual question answering | BiomedGPT; general multimodal LLM | Triage question answering and patient-facing explanation |
 | Clinical or web text | Surveillance / extraction | GatorTron; general LLM | Syndromic surveillance; social-determinant extraction |
 
-: Modality and task mapped to representative foundation-model families and the population-health screening use case that fixes the stakes. Model families are placed where they are strongest; a general multimodal LLM is the pragmatic starting point for triage-grade tasks, with a specialty or domain foundation model substituted where the modality is specialised or the sensitivity target is demanding. {#tbl-modality-task-models}
+: Modality and task mapped to representative foundation-model families and the population-health screening use case that fixes the stakes. Model families are placed where they are strongest; a general multimodal LLM is the pragmatic starting point for triage-grade tasks, with a specialty or domain foundation model substituted where the modality is specialized or the sensitivity target is demanding. {#tbl-modality-task-models}
 
 A workflow for using a foundation model on a research
 task:
@@ -316,7 +316,7 @@ purpose multimodal LLM would not produce per-pixel
 segmentation. A specialty liver-segmentation model
 (several exist) might outperform MedSAM on the
 specific task, but would require more setup and may
-not generalise to the cohort's specific scanner mix. The
+not generalize to the cohort's specific scanner mix. The
 right workflow: start with MedSAM, validate on the 100
 manual segmentations, and consider specialty models
 only if MedSAM falls short on Dice coefficient or
@@ -346,8 +346,8 @@ average performance, a single sensitivity and
 specificity on a held-out set. But a population is not
 homogeneous, and the training data that produced the
 model is rarely a representative sample of the population
-the programme will screen. A retinopathy model trained
-mostly on lighter-skinned patients from tertiary centres
+the program will screen. A retinopathy model trained
+mostly on lighter-skinned patients from tertiary centers
 may grade darker fundus images less reliably; a model
 trained on younger cohorts may miss disease in the
 oldest patients; a model validated at an urban teaching
@@ -364,10 +364,10 @@ that clears a plausible target hides subgroups (the
 darkest skin tones, the oldest age band, the rural
 mobile-clinic site) that fall several points short, and
 these are frequently the subgroups with the fewest
-training examples. A screening programme evaluated only
+training examples. A screening program evaluated only
 on the pooled figure would report success while quietly
 under-serving exactly the populations a public-health
-programme exists to reach.
+program exists to reach.
 
 ```{r}
 #| label: fig-screening-equity
@@ -413,7 +413,7 @@ ggplot(eq, aes(sensitivity, subgroup, colour = axis)) +
 The remedy is not exotic; it is disaggregated reporting.
 A screening evaluation should report sensitivity and
 specificity by the subgroups that matter for the
-programme (skin tone, age band, sex, site, and any axis
+program (skin tone, age band, sex, site, and any axis
 along which the training data was thin) and should set an
 acceptance criterion on the worst-performing subgroup,
 not the average. This is the multimodal-imaging
@@ -449,7 +449,7 @@ exposures, photographs of vector-breeding sites for
 arbovirus surveillance, and social-media images alongside
 their captions for early signals of an emerging outbreak.
 
-The generalist-medical-AI programme
+The generalist-medical-AI program
 [@moor_2023_gmai] frames this as one capability among
 many: a model that reads images, text, and signals
 together can, in principle, support surveillance, triage,
@@ -473,7 +473,7 @@ public-health researcher this is not a peripheral concern
 but a population-health exposure in its own right, and
 one that multimodal models sit on both sides of: they can
 help detect coordinated misinformation (by matching
-recycled images, flagging synthetic artefacts, clustering
+recycled images, flagging synthetic artifacts, clustering
 narratives across posts) and they can lower the cost of
 producing it. We shall return to the generation side in
 the chapter on safety and bias; here we note only that a
@@ -539,7 +539,7 @@ includes such groups and whether systematic bias in
 note quality could affect the analysis.
 
 A clinical AI scribe is in the literature beginning to
-be evaluated in randomised trials for its effects on
+be evaluated in randomized trials for its effects on
 clinician workload, note quality, and patient outcomes.
 [@tu_2025_amie] is the canonical example. The empirical
 findings: documentation time falls substantially,
@@ -611,7 +611,7 @@ changes.
 
 **Distribution checks.** For continuous variables, the
 distribution of extracted values should look like the
-expected clinical distribution (heart rate centred near
+expected clinical distribution (heart rate centerd near
 75, not near 750 because of unit confusion). Outliers
 flag both genuine outliers and extraction errors;
 investigate either way.
@@ -631,7 +631,7 @@ A pulmonology team wants to study trajectories of
 pulmonary fibrosis in a cohort of 800 patients with
 serial chest X-rays. Each patient has 3–6 X-rays over
 2–10 years; the goal is to extract a fibrosis severity
-score from each X-ray for longitudinal modelling.
+score from each X-ray for longitudinal modeling.
 
 **Step 1: define the variable.** The team specifies a
 0–4 fibrosis severity score, with anchored definitions
@@ -647,7 +647,7 @@ considers three options:
 - Multimodal LLM with the score definitions as part of
   the prompt: $0.05 per image, total $150, fast.
 - Specialty CXR model fine-tuned for fibrosis scoring:
-  requires a labelled training set; not available.
+  requires a labeled training set; not available.
 
 The team chooses a hybrid: multimodal LLM for the bulk
 of the cohort, plus radiologist scoring on a 200-image

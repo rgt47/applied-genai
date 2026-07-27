@@ -58,7 +58,7 @@ model's training data may be a year stale.
 The staleness argument is at its sharpest in public
 health. Consider an epidemiologist tracking a novel
 respiratory outbreak in the first weeks after it is
-recognised. The relevant case definitions, transmission
+recognized. The relevant case definitions, transmission
 estimates, and interim guidance are being revised almost
 daily, and none of it existed when the model was trained.
 A model asked directly will answer confidently from a
@@ -70,7 +70,7 @@ not a matter of polish; it is the difference between
 guidance that is current and guidance that is quietly
 obsolete. But how do we build such a pipeline so that it
 retrieves the right material, and refuses gracefully when
-it cannot? That question organises the chapter.
+it cannot? That question organizes the chapter.
 
 @fig-rag-pipeline gives the shape of the whole system
 before we take it apart stage by stage.
@@ -105,9 +105,9 @@ and for the end-to-end answer.
 
 ## The researcher's contribution {#sec-rag-biomedical-human}
 
-Three judgements are not delegable.
+Three judgments are not delegable.
 
-**(Judgement 1.) Corpus selection is part of the analysis.**
+**(Judgment 1.) Corpus selection is part of the analysis.**
 A RAG pipeline is only as defensible as the corpus it
 retrieves from. A pipeline pointed at all of arXiv plus
 all of PubMed will produce different answers from one
@@ -115,10 +115,10 @@ pointed at the team's institutional protocol library
 alone. The researcher decides what corpus to
 include, what to exclude, and what to disclose. A
 literature-search RAG that silently excludes papers from
-journals not in PMC is a methodological artefact, not a
+journals not in PMC is a methodological artifact, not a
 systematic search.
 
-**(Judgement 2.) The retrieval failure mode determines
+**(Judgment 2.) The retrieval failure mode determines
 the answer's reliability.** A RAG pipeline can fail in
 two ways: it retrieves the wrong documents (and the
 model produces a confident answer based on irrelevant
@@ -127,10 +127,10 @@ back on parametric knowledge (and produces an answer
 that looks grounded but is not). The researcher
 designs the pipeline to fail loudly: a 'no relevant
 documents found' response that the model is instructed
-to honour, rather than a graceful degradation that hides
+to honor, rather than a graceful degradation that hides
 the retrieval failure.
 
-**(Judgement 3.) The evaluation contract.** RAG
+**(Judgment 3.) The evaluation contract.** RAG
 evaluation is not a one-time benchmark; it is an
 ongoing discipline. A pipeline that worked yesterday on
 sample queries may fail today on production queries
@@ -140,7 +140,7 @@ sets up evaluation queries that are run periodically
 and treats degradation as a maintenance problem, not a
 catastrophe.
 
-These judgements are what distinguish a RAG-supported
+These judgments are what distinguish a RAG-supported
 analysis from one that uses RAG as a way to launder
 unsupported claims through the appearance of citation.
 
@@ -163,7 +163,7 @@ piece). The default convention for general text is
 For biomedical text, the structure of the source matters
 more than token counts: a PubMed abstract is naturally
 one chunk; a clinical guideline section is naturally one
-chunk; a randomised-trial paper benefits from chunking
+chunk; a randomized-trial paper benefits from chunking
 by section (Methods, Results, etc.) so a query about a
 specific outcome retrieves the relevant Results
 paragraph rather than the whole paper.
@@ -222,7 +222,7 @@ retrieval is the default recommendation for biomedical
 RAG; the additional engineering is small and the
 retrieval quality is consistently better.
 
-@tbl-retrieval-comparison summarises the three strategies
+@tbl-retrieval-comparison summarizes the three strategies
 side by side. The reader designing a first pipeline may
 treat the final column as a decision rule: start hybrid
 unless there is a specific reason not to.
@@ -364,7 +364,7 @@ produce a good answer?). Evaluating only the end-to-end
 answer hides which layer is failing when results
 disappoint.
 
-**Retrieval evaluation.** Construct a labelled query set:
+**Retrieval evaluation.** Construct a labeled query set:
 50–200 representative queries, each paired with the
 chunk IDs that should be retrieved for the answer. The
 construction is manual and time-consuming but is the
@@ -376,7 +376,7 @@ the pipeline on the query set and compute:
   Recall@10 is a useful headline number.
 - **Mean reciprocal rank (MRR)**: average of 1/rank of
   the first relevant chunk. Higher is better.
-- **NDCG**: normalised discounted cumulative gain,
+- **NDCG**: normalized discounted cumulative gain,
   weights high-ranked relevant results more heavily.
 
 Recall@10 below 0.8 is a sign the retrieval needs
@@ -400,7 +400,7 @@ metrics matter:
   proportion are actually used in the answer? Low
   precision wastes context window.
 - **Context recall**: did retrieval find all the
-  information needed? Requires labelled ground truth.
+  information needed? Requires labeled ground truth.
 
 For a biomedical pipeline, faithfulness is the most
 important metric, unfaithful answers are unsupported
@@ -496,7 +496,7 @@ QUESTION: {query}
     return claude_call(prompt)
 ```
 
-The evaluation set is 80 queries hand-labelled by the
+The evaluation set is 80 queries hand-labeled by the
 research-analytics team: 40 'historical' queries (we know
 the answer because we wrote the document) and 40
 'methodological' queries (we know the answer because
@@ -629,10 +629,10 @@ user queries. Ask for a mix of query types: factual
 lookup, comparative, methodological, edge cases.
 
 *Verification.* The evaluation set should be ground-
-truth-labelled by humans. The LLM can generate
+truth-labeled by humans. The LLM can generate
 candidates, but the labels (which chunks should be
 retrieved, what the answer should be) require human
-judgement.
+judgment.
 
 The meta-pattern: **LLMs are useful for RAG-pipeline
 construction but cannot replace the empirical eval
@@ -646,7 +646,7 @@ remains the work.
 Three habits define defensible work in this area:
 
 1. **Build the eval set before the pipeline.** A
-   labelled query set with expected retrieval and
+   labeled query set with expected retrieval and
    expected answers is the asset that makes pipeline
    improvements measurable. Building it after the fact
    is harder and biases toward the queries the pipeline
@@ -677,8 +677,8 @@ Three habits define defensible work in this area:
    each retriever alone on your eval set.
 
 3. Implement a faithfulness check using LLM-as-judge.
-   Compare its judgements against your manual
-   judgements on 30 queries. Document the agreement
+   Compare its judgments against your manual
+   judgments on 30 queries. Document the agreement
    rate.
 
 4. Take an existing RAG pipeline and write a query that

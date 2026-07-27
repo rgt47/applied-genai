@@ -21,7 +21,7 @@ series:
   the introductory graduate computing volume.
 - [*Advanced Statistical Computing in the Age of AI*](https://scai-advanced.rgtlab.org),
   the advanced computing volume covering numerical
-  stability, optimisation, Monte Carlo, and high-dimensional
+  stability, optimization, Monte Carlo, and high-dimensional
   methods.
 - [*Biostatistics Practicum*](https://practicum.rgtlab.org),
   the workflow companion covering Git, Docker, renv,

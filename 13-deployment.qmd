@@ -17,7 +17,7 @@
 
 By the end of this chapter you should be able to:
 
-- Recognise that interface design, not raw model
+- Recognize that interface design, not raw model
   capability, is now the binding constraint on real-world
   AI value, and design deployments accordingly.
 - Apply a shadow-mode rollout pattern: run the AI in
@@ -71,7 +71,7 @@ The stakes are sharpest, and the maintenance burden
 heaviest, in public health. A clinical AI that assists
 one physician at one point of care fails locally; a
 population-scale surveillance or triage model, deployed
-across a health department or a national programme,
+across a health department or a national program,
 fails at scale and often silently. The anchoring lesson
 of this chapter is Google Flu Trends, a well-publicised
 influenza-nowcasting model that tracked physician visits
@@ -83,7 +83,7 @@ was not wrong at launch; it decayed. That distinction,
 between a system that is wrong on day one (which
 validation catches) and a system that is right on day
 one and wrong by month six (which only monitoring
-catches), is the organising problem of deployment. We
+catches), is the organizing problem of deployment. We
 begin, then, not with a static picture of a deployed
 model but with a loop.
 
@@ -113,9 +113,9 @@ flowchart TB
 
 ## The researcher's contribution {#sec-deployment-human}
 
-Three judgements are not delegable.
+Three judgments are not delegable.
 
-**(Judgement 1.) Deployment is a continuous practice.**
+**(Judgment 1.) Deployment is a continuous practice.**
 The temptation to treat deployment as a one-time event
 ('we built the AI tool and rolled it out') misses
 that the underlying technology drifts, the team's
@@ -125,7 +125,7 @@ treats deployment as ongoing operational work, like
 maintaining a clinical-trial database, not like
 publishing a paper.
 
-**(Judgement 2.) The decision to deploy is not a
+**(Judgment 2.) The decision to deploy is not a
 technology decision.** Whether to deploy AI for a
 specific workflow depends on whether deployment
 improves the work, fits the team's capacity to
@@ -135,7 +135,7 @@ deployment-decision question explicitly rather than
 defaulting to 'we have the capability, we should
 use it'.
 
-**(Judgement 3.) Some workflows should not be
+**(Judgment 3.) Some workflows should not be
 deployed.** Not every task is a candidate for AI
 assistance, even when the capability exists.
 Mollick's *15 Times to Use AI, and 5 Not To*
@@ -143,10 +143,10 @@ Mollick's *15 Times to Use AI, and 5 Not To*
 cases: learning that requires personal struggle,
 high-accuracy work where plausible hallucinations
 slip past readers, decisions requiring human
-ethical judgement. The researcher decides what
+ethical judgment. The researcher decides what
 to leave untouched.
 
-These judgements are what distinguish deployment
+These judgments are what distinguish deployment
 that creates lasting value from deployment that
 produces a brief productivity bump followed by
 operational debt.
@@ -236,7 +236,7 @@ mandating use. Common causes:
   high-friction for them.
 - The non-users do work that is not well-suited to
   the team's current AI applications (they do more
-  domain-judgement-heavy work; AI is less
+  domain-judgment-heavy work; AI is less
   immediately useful).
 - The non-users have tried it, found verification
   burdensome, and stopped.
@@ -256,7 +256,7 @@ existing workflow, logs both outputs, and uses the
 comparison to evaluate whether the AI should replace,
 augment, or be discarded. The pattern is borrowed
 from clinical decision support and from financial
-machine learning; it generalises to any deployment
+machine learning; it generalizes to any deployment
 where the existing workflow is the standard against
 which the AI is measured.
 
@@ -332,7 +332,7 @@ the canonical public-health illustration.
 @fig-google-flu reconstructs its trajectory in schematic
 form. The lesson to take from it is not that the model
 was built badly but that a model can track its target
-closely for a season and then, as search behaviour and
+closely for a season and then, as search behavior and
 the platform underneath it change, drift steadily and
 substantially above the truth while reporting nothing
 amiss. A model that cannot see its own error is a model
@@ -393,7 +393,7 @@ deployed model. If the score drops materially:
 say, by more than the suite's noise level, investigate
 whether the underlying model has changed. The
 provider's release notes should be checked; if the
-model has changed and the new behaviour is not what
+model has changed and the new behavior is not what
 was expected, the deployment may need adjustment.
 
 **Version pinning.** Some API providers offer pinned
@@ -428,7 +428,7 @@ team:
 2. Switches to the pinned previous version (kappa
    recovers to 0.78).
 3. Tests the new version on a larger evaluation
-   sample; finds the new version's behaviour has
+   sample; finds the new version's behavior has
    shifted on certain RoB domains.
 4. Adjusts the prompt to compensate for the
    shift; re-evaluates with the new version and
@@ -448,7 +448,7 @@ suffered a longer disruption.
 The preceding sections have treated deployment as an
 engineering and monitoring problem. It is also a
 resource problem, and the resource constraints fall
-unevenly. A well-funded academic medical centre paying
+unevenly. A well-funded academic medical center paying
 $1,200 per month in API charges (the figure from the
 worked example below) barely notices the cost. A
 district health office in a low-resource setting,
@@ -477,7 +477,7 @@ sustainability commitments, or simply with an interest
 in proportion, the relevant question is whether the task
 warrants a frontier model at all. Many deployment
 workloads (classification, extraction, routine
-summarisation) are handled by a small model at a
+summarization) are handled by a small model at a
 fraction of the energy and cost of the largest available
 one. The trade is named on both sides: on the plus side,
 a smaller or distilled model is cheaper, faster, and
@@ -570,7 +570,7 @@ for analytic context):
    approaches.
 2. Translating across vocabularies (statistical to
    clinical, technical to lay).
-3. Summarising long documents (papers, protocols,
+3. Summarizing long documents (papers, protocols,
    reports).
 4. Generating boilerplate code in standard languages.
 5. Producing first drafts of routine prose.
@@ -597,7 +597,7 @@ The five not-to cases:
    hallucinations slip past readers.** Citation
    work, regulatory submissions, anywhere the
    reader will not check.
-3. **Decisions requiring human ethical judgement.**
+3. **Decisions requiring human ethical judgment.**
    IRB protocol decisions, decisions about
    research subjects, decisions about authorship.
 4. **Communication that should reflect personal
@@ -616,7 +616,7 @@ default.
 
 ## Worked example: a complete deployment
 
-A research-analytics group at an academic medical centre
+A research-analytics group at an academic medical center
 deploys AI-assistance across their workflow over six
 months. The deployment integrates everything from the
 preceding chapters.
@@ -626,7 +626,7 @@ its evaluation suite (Ch 9), conducted bias audits on
 the models they use (Ch 10), set up HIPAA-compliant
 API configurations (Ch 11), and adopted a context-
 engineering-first stance with a shared prompt library
-(Ch 12). Now they are operationalising.
+(Ch 12). Now they are operationalizing.
 
 **Deployment 1: code generation in RStudio.**
 
@@ -673,7 +673,7 @@ reviews.**
   100% review; high-confidence outputs receive
   20% review.
 - Shadow-mode period: kappa against expert review on
-  100 papers; kappa = 0.74. Disagreements analysed.
+  100 papers; kappa = 0.74. Disagreements analyzed.
 - Rollout: as augmentation, not replacement.
 
 **Deployment 4: literature scoping (deep research).**

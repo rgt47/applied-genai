@@ -24,7 +24,7 @@ By the end of this chapter you should be able to:
   acceleration and exploration, and choose between them
   deliberately for a given task.
 - Read, test, and verify AI-generated analysis code rather
-  than accepting it, and recognise the failure modes that
+  than accepting it, and recognize the failure modes that
   make plausible statistical code wrong.
 - Use AI in ways that build durable programming skill
   (learning idioms, requesting explanations, refactoring,
@@ -42,7 +42,7 @@ We begin with an apparent contradiction. In an early and
 much-cited controlled experiment, developers given GitHub
 Copilot completed a programming task 55.8% faster than a
 control group [@peng_2023_copilot_productivity]. Two years
-later, a carefully run randomised trial of experienced
+later, a carefully run randomized trial of experienced
 open-source developers working in their own repositories
 found the opposite: with early-2025 AI tools the developers
 were about 19% *slower*, even as they believed, before and
@@ -106,10 +106,10 @@ and Python and a worked public-health example.
 
 ## The researcher's contribution {#sec-ai-programming-human}
 
-Three judgements are not delegable.
+Three judgments are not delegable.
 
-**(Judgement 1.) What to delegate, and what to keep.** The
-first judgement is about your own competence. Some of the
+**(Judgment 1.) What to delegate, and what to keep.** The
+first judgment is about your own competence. Some of the
 work you could hand to a model is work you need to keep
 doing in order to remain able to check the model. A
 researcher who has never written a survival analysis by
@@ -121,7 +121,7 @@ yours, and it is not a decision you can make once and
 forget. It shifts as your expertise grows and as the tasks
 change.
 
-**(Judgement 2.) The verification of what comes back.** The
+**(Judgment 2.) The verification of what comes back.** The
 model produces code; you sign the analysis. Between those
 two facts sits the reading, testing, and sanity-checking
 that the model cannot do on your behalf, because it is
@@ -132,7 +132,7 @@ more likely to believe their insecure code was secure
 [@perry_2023_insecure_code]. The verification regime is not
 optional and it is not the model's responsibility.
 
-**(Judgement 3.) The learning contract with yourself.** It
+**(Judgment 3.) The learning contract with yourself.** It
 is possible to use these tools in a way that makes each
 task easier and leaves you no more capable at the end of a
 year than at the start. It is also possible to use them as
@@ -146,7 +146,7 @@ gap between the two widening rather than closing
 yourself: to use the assistance in the service of
 understanding rather than as a substitute for it.
 
-These judgements distinguish the researcher who becomes
+These judgments distinguish the researcher who becomes
 better through AI from the one who becomes dependent on it.
 
 ## What the evidence actually shows
@@ -167,7 +167,7 @@ For well-bounded, familiar-shaped tasks, the assistance is
 real.
 
 On the cautionary side, the picture darkens as tasks become
-larger and developers more expert. The randomised trial of
+larger and developers more expert. The randomized trial of
 experienced open-source developers found a 19% slowdown on
 real tasks in mature codebases, together with a striking
 perception gap: the same developers forecast a 24% speed-up
@@ -182,7 +182,7 @@ will systematically overuse.
 
 ```{r}
 #| label: fig-metr-perception
-#| fig-cap: "The perception gap in the METR randomised trial of experienced open-source developers. Positive values are a speed-up. Developers forecast a 24% speed-up and, even after the study, believed they had gained 20%; the measured effect was a 19% slowdown. The lesson is not that AI tools always slow experts down (the task and codebase matter), but that self-reported speed is an unreliable guide to actual speed. Values from the cited study."
+#| fig-cap: "The perception gap in the METR randomized trial of experienced open-source developers. Positive values are a speed-up. Developers forecast a 24% speed-up and, even after the study, believed they had gained 20%; the measured effect was a 19% slowdown. The lesson is not that AI tools always slow experts down (the task and codebase matter), but that self-reported speed is an unreliable guide to actual speed. Values from the cited study."
 #| echo: false
 #| fig-width: 7
 #| fig-height: 3.4
@@ -262,7 +262,7 @@ self-reinforcing. If a tool makes a task feel quick and
 effortless, we will reach for it more often and defer to it
 more readily, regardless of whether it is actually saving
 time or introducing errors. The slowdown in one study on
-one class of task may or may not generalise; the general
+one class of task may or may not generalize; the general
 lesson is that subjective ease is not evidence of either
 speed or correctness, so the decision to use AI, and the
 level of verification applied, should rest on measured
@@ -346,15 +346,15 @@ one a genuinely better programmer? The practices below are
 not exotic; each is available in any chat interface or
 IDE-integrated assistant, and each turns a moment of
 assistance into a moment of learning. @tbl-ai-practices
-summarises them.
+summarizes them.
 
 | Practice | What it builds | How to do it |
 |:---|:---|:---|
 | Ask for an explanation | Understanding of unfamiliar code | 'Explain what this function does and why, line by line' |
 | Request the idiom | Fluency in the language's own style | 'Show me the idiomatic tidyverse way, and why it is preferred' |
-| Ask for alternatives | Judgement about trade-offs | 'Give me two other approaches and their trade-offs' |
+| Ask for alternatives | Judgment about trade-offs | 'Give me two other approaches and their trade-offs' |
 | Write tests first | Specification and verification | Ask for tests or `stopifnot()` checks before the implementation |
-| Refactor with it | Reading and design skill | 'Refactor this for clarity without changing behaviour, and explain each change' |
+| Refactor with it | Reading and design skill | 'Refactor this for clarity without changing behavior, and explain each change' |
 | Have it review your code | Error-spotting, style | 'Review this for bugs and idiom; be specific about what could go wrong' |
 
 : Practices that make AI assistance build skill rather than erode it. Each converts a moment of code generation into a moment of deliberate learning; the common thread is that the researcher ends the interaction understanding something they did not understand at the start. {#tbl-ai-practices}
@@ -362,7 +362,7 @@ summarises them.
 Two of these deserve emphasis for the analyst. The first is
 **learning the idiom**. A model asked merely to 'write R
 code' will often return correct but graceless code, a base-R
-loop where a vectorised `dplyr` pipeline would be clearer,
+loop where a vectorized `dplyr` pipeline would be clearer,
 or the reverse. Asked to show the idiomatic form and to
 explain why it is preferred, the same model becomes a
 guide to the language's conventions, which is much of what
@@ -434,7 +434,7 @@ two rows per month, one per reporting subsystem, so the join
 silently doubled the case-count rows before the rate was
 computed, and the model, asked only for code that runs,
 had no reason to check. The significant coefficient is an
-artefact of the duplicated rows. Nothing in the output
+artifact of the duplicated rows. Nothing in the output
 announced the error.
 
 On the deliberate path, the analyst asks the same question
@@ -452,7 +452,7 @@ stopifnot(nrow(monthly) == nrow(cases))
 ```
 
 The check fails on the real data, and the failure, not a
-buried artefact, is what the analyst sees. Investigating,
+buried artifact, is what the analyst sees. Investigating,
 the analyst finds the duplicated denominator rows, corrects
 the join to aggregate the subsystems first, and only then
 proceeds to the model. In the course of doing so the analyst
@@ -487,7 +487,7 @@ has ties, or a missing value?'
 
 *Verification.* Run the code on the edge cases the model
 names, and on one it did not. The explanation is useful; the
-behaviour on real inputs is the truth.
+behavior on real inputs is the truth.
 
 **Prompt 2: 'Write the tests and checks first, then the
 implementation.'** State the task and ask for the
@@ -578,7 +578,7 @@ Three habits define defensible practice in this area.
   reference productivity experiment.
 - @metr_2025_dev_productivity, *Measuring the Impact of
   Early-2025 AI on Experienced Open-Source Developer
-  Productivity*. The randomised trial with the perception
+  Productivity*. The randomized trial with the perception
   gap; read for the caveats as much as the headline.
 - @perry_2023_insecure_code, *Do Users Write More Insecure
   Code with AI Assistants?* The over-reliance and

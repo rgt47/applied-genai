@@ -109,9 +109,9 @@ release and useful enough to draw conclusions from.
 
 ## The researcher's contribution {#sec-synthetic-data-human}
 
-Three judgements are not delegable.
+Three judgments are not delegable.
 
-**(Judgement 1.) The use case dictates the generator.**
+**(Judgment 1.) The use case dictates the generator.**
 Synthetic data for software-testing tutorials is a
 different problem from synthetic data for methods
 development is a different problem from synthetic data
@@ -122,7 +122,7 @@ privacy guarantees. The researcher chooses the
 generator and the privacy regime to match the use case
 rather than defaulting to whatever tool is most familiar.
 
-**(Judgement 2.) Privacy-utility tradeoffs are explicit
+**(Judgment 2.) Privacy-utility tradeoffs are explicit
 choices.** Differential privacy with small epsilon
 provides strong privacy and weak utility; large epsilon
 provides weak privacy and strong utility; no formal
@@ -133,7 +133,7 @@ reviewers and IRB. 'We used synthetic data' is not a
 disclosure; the operating point and the audit results
 are.
 
-**(Judgement 3.) Synthetic data does not bypass the
+**(Judgment 3.) Synthetic data does not bypass the
 IRB.** A common misconception is that synthetic data
 generation, being on derived data, escapes the IRB
 process that governs the original. This is wrong. The
@@ -144,7 +144,7 @@ original data. The researcher confirms IRB approval
 covers synthetic-data generation and documents the
 provenance accordingly.
 
-These judgements are what distinguish responsible
+These judgments are what distinguish responsible
 synthetic-data use from the kind of work that produces
 re-identification incidents and IRB violations.
 
@@ -180,7 +180,7 @@ starting fresh, Synthcity is the recommended starting
 point.
 
 **MedGAN** [@choi_2017_medgan] and its descendants are
-specialised for binary high-dimensional medical-claims
+specialized for binary high-dimensional medical-claims
 data: ICD codes, procedure codes, medication codes,
 where each patient has hundreds or thousands of binary
 indicators and the data is sparse. The general-purpose
@@ -314,7 +314,7 @@ or queries.
 **Post-processing.** Any function of a DP output is at
 most as DP as the input. You cannot reduce privacy
 guarantees by post-processing the output. This means a
-DP-synthesised dataset can be analysed downstream with
+DP-synthesized dataset can be analyzed downstream with
 no further privacy loss.
 
 **Robust to auxiliary information.** DP guarantees hold
@@ -359,7 +359,7 @@ an audit would recover. The lesson to take is that the two
 curves move together: there is no epsilon that is both far
 to the left (private) and high on the utility line, so the
 operating point is a choice about which loss to accept
-rather than a value to be optimised away. The shaded band
+rather than a value to be optimized away. The shaded band
 marks the moderate range where most cross-institutional
 work lands.
 
@@ -429,10 +429,10 @@ failures have crept in. Two attacks dominate.
 data and a candidate record, can an adversary determine
 whether the candidate was in the training set? The
 attack is implemented as a classifier: train a model to
-distinguish 'records whose nearest synthetic neighbour
+distinguish 'records whose nearest synthetic neighbor
 is very close' from 'records whose nearest synthetic
-neighbour is far'. The 'in-training' records tend to
-have closer synthetic neighbours (the generator
+neighbor is far'. The 'in-training' records tend to
+have closer synthetic neighbors (the generator
 overfits slightly). High accuracy on this classifier
 means the synthetic data leaks training-set membership.
 
@@ -462,7 +462,7 @@ def membership_inference_audit(real, synthetic,
 AUC near 0.5 means the attack fails (good privacy). AUC
 near 1.0 means the attack succeeds (bad privacy).
 Practical thresholds: AUC > 0.6 is concerning, > 0.7
-suggests the synthesis is close to a memorised copy.
+suggests the synthesis is close to a memorized copy.
 
 **Attribute-inference attack.** Given the synthetic data
 and partial information about a candidate (e.g., age,
@@ -474,7 +474,7 @@ information. The attack succeeds if the model performs
 well on real held-out individuals.
 
 The attack model trained on synthetic data is allowed to
-generalise; the question is whether it generalises in a
+generalize; the question is whether it generalizes in a
 way that compromises real individuals. Measure
 performance on held-out real records and compare against
 a baseline (predicting the mode or marginal). Substantial
@@ -536,7 +536,7 @@ fact is harder than as you go.
 We return to the state health department from the
 orientation. The department maintains a notifiable-disease
 surveillance system and wants external epidemiologists to
-develop analyses (age-standardised incidence, spatial
+develop analyses (age-standardized incidence, spatial
 clustering, disparities by race and ethnicity) without
 touching identifiable case records. The real file is
 40,000 line-listed cases over five years with age, sex,
@@ -547,7 +547,7 @@ hides precisely the rare strata that outbreak and
 disparities work depends on. Synthetic data is the
 proposed replacement.
 
-Step 1: characterise the use case. The synthetic file will
+Step 1: characterize the use case. The synthetic file will
 be posted publicly for unvetted external analysts and will
 persist indefinitely. The privacy regime is therefore
 strong. Target $\epsilon = 1$ as the privacy budget. The
@@ -558,7 +558,7 @@ disparities are preserved.
 Step 2: choose the method. The data is mixed numeric-
 categorical, roughly a dozen variables, with sparse
 county-by-age-by-outcome strata. Following @tbl-methods, a
-DP-synthesiser is indicated because release is public;
+DP-synthesizer is indicated because release is public;
 Synthcity's DP-CTGAN with $\epsilon = 1, \delta = 10^{-5}$
 is the chosen method.
 
@@ -694,7 +694,7 @@ Three habits define defensible work in this area:
 ## Exercises
 
 1. Take a small research dataset of your choice
-   and synthesise it with two methods (e.g., CTGAN and
+   and synthesize it with two methods (e.g., CTGAN and
    TVAE). Compare utility (correlation preservation,
    marginal preservation) and runtime.
 

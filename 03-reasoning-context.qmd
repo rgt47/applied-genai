@@ -24,7 +24,7 @@ By the end of this chapter you should be able to:
 - Construct context (system messages, structured
   outputs, few-shot examples) for biomedical tasks in a
   way that supports rather than obscures verification.
-- Recognise when reasoning models help and when they
+- Recognize when reasoning models help and when they
   introduce overhead without benefit.
 - Apply verification patterns appropriate to opaque
   outputs, provisional trust, output connoisseurship,
@@ -69,7 +69,7 @@ The stakes of that verification skill are clearest when
 the output feeds a population-level decision. Consider a
 health department that asks a reasoning model to draft a
 rapid risk assessment for an emerging outbreak, or a
-policy brief weighing a screening programme against its
+policy brief weighing a screening program against its
 harms. The model returns a fluent, confidently argued
 document. If a single figure in it is silently wrong, the
 effective reproduction number computed against a stale
@@ -77,14 +77,14 @@ vaccination-coverage estimate, say, the error does not
 announce itself; it propagates into a recommendation and
 from there into practice. But how does one verify a
 document whose reasoning one cannot inspect? That question
-organises the chapter.
+organizes the chapter.
 
 ## The researcher's contribution {#sec-reasoning-context-human}
 
-Three judgements are not delegable in this chapter's
+Three judgments are not delegable in this chapter's
 domain.
 
-**(Judgement 1.) The decision about when to invoke
+**(Judgment 1.) The decision about when to invoke
 reasoning.** Extended thinking is not a free upgrade. It
 costs more, takes longer, and produces output that is
 opaque in characteristic ways. For routine tasks
@@ -96,7 +96,7 @@ opacity are warranted. A team that defaults to reasoning
 mode for everything will spend more and verify less than
 a team that uses reasoning selectively.
 
-**(Judgement 2.) The verification regime.** Reasoning
+**(Judgment 2.) The verification regime.** Reasoning
 model outputs cannot be verified by the same methods that
 work for chat-model outputs. A chat model's mistakes
 often appear as obvious surface errors (wrong syntax,
@@ -109,7 +109,7 @@ results, source-checking for citations, cross-model
 comparison for novel claims. The verification regime is
 not optional and is not the model's responsibility.
 
-**(Judgement 3.) The provisional-trust contract.** Some
+**(Judgment 3.) The provisional-trust contract.** Some
 work cannot be verified end-to-end at the budget
 available. A 50-page literature review cannot be
 exhaustively fact-checked; a complex sensitivity analysis
@@ -122,7 +122,7 @@ with the model: 'I verified these specific claims; I
 sampled these others; I take responsibility for the
 unsampled remainder'.
 
-These judgements are what distinguish defensible
+These judgments are what distinguish defensible
 reasoning-model use from the pattern that produces
 publication scandals: confident output, no verification,
 silent error.
@@ -135,7 +135,7 @@ extended thinking, Google's Gemini 3.5, and DeepSeek R1
 [@openai_2024_o1_system_card; @deepseek_2025_r1; @anthropic_2025_extended_thinking]:
 add a thinking phase between input and output. The model
 generates intermediate tokens that are not shown to the
-user (or are shown in summarised form), then collapses
+user (or are shown in summarized form), then collapses
 to a final answer. The thinking phase is reinforcement-
 learned: models are trained to think more on harder
 problems and less on easier ones, with the reward
@@ -145,7 +145,7 @@ benchmarks.
 @fig-reasoning-flow contrasts the two shapes. We note
 that the reasoning model's competence gain is bought with
 tokens the user never sees, which is precisely what makes
-the output harder to inspect: the visible artefact is a
+the output harder to inspect: the visible artifact is a
 confident answer, and the working that produced it has
 been collapsed away.
 
@@ -243,11 +243,11 @@ model, not contriving the right phrasing.
 **Higher capability ceiling, lower verifiability floor.**
 Reasoning models solve harder problems. They also produce
 output whose internal reasoning is harder to inspect. The
-thinking trace is partial, summarised, or hidden,
+thinking trace is partial, summarized, or hidden,
 depending on the model. Even when shown, the trace is
 not always faithful to the actual computation that
 produced the answer; it is closer to a post-hoc
-rationalisation than a transparent log. The user gets a
+rationalization than a transparent log. The user gets a
 better answer with less visibility into how the answer
 was reached.
 
@@ -305,12 +305,12 @@ applications.
 **Pattern 1: Structure the input.** Plain-text dumps of
 clinical narratives, protocol documents, or trial data
 work but produce noisy results. Structured input:
-clearly labelled sections, explicit data dictionaries,
+clearly labeled sections, explicit data dictionaries,
 key-value summaries of relevant facts, produces better
 results because the model can attend to specific parts
 without confusing them. For a clinical question that
 hinges on a particular lab value, lead with the lab
-value labelled clearly; do not bury it in a paragraph of
+value labeled clearly; do not bury it in a paragraph of
 narrative.
 
 ```
@@ -339,7 +339,7 @@ explicit material to ground in.
 
 **Pattern 2: Specify the output schema.** Free-form
 output is fine for prose drafting; for any output that
-will be parsed, summarised, or compared, specify the
+will be parsed, summarized, or compared, specify the
 shape. Modern models support structured-output modes
 (JSON schema, Pydantic, regex-constrained generation)
 that produce machine-readable output reliably. For a
@@ -392,7 +392,7 @@ makes the verification path explicit.
 
 Reasoning model outputs cannot be verified by the same
 patterns that work for chat models. Three patterns
-generalise across biomedical applications.
+generalize across biomedical applications.
 
 **Independent computation as ground truth.** Where the
 output is something computable, a regression coefficient,
@@ -424,7 +424,7 @@ way, but disagreement is strong evidence that further
 investigation is warranted.
 
 Beyond these three, a set of named inference-time
-techniques operationalise verification when the answer is
+techniques operationalize verification when the answer is
 generated rather than looked up. **Self-consistency**
 [@wang_2023_self_consistency] samples several independent
 reasoning paths for the same question and takes the
@@ -751,7 +751,7 @@ identify weaknesses in their own arguments that they did
 not flag in the original answer. The self-critique is
 useful for the user even when the user knew the
 weakness already, because it makes the model's
-acknowledgement of the weakness explicit.
+acknowledgment of the weakness explicit.
 
 *Verification.* Read the self-critique critically. Does
 the model identify the weakness you would identify? If

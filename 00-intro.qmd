@@ -18,10 +18,10 @@ why its subject belongs inside your training rather than at
 its edge. If you are a first-year medical or public-health
 student holding this book, the working life you are
 preparing for will not resemble the one your instructors
-trained in. Within the span of a single graduate programme,
+trained in. Within the span of a single graduate program,
 generative AI has moved from a curiosity to a fixture of the
 clinic and the health department. Models now conduct
-diagnostic dialogue that clinicians rate favourably against
+diagnostic dialogue that clinicians rate favorably against
 their own [@tu_2025_amie], and the field has begun, in
 earnest, to build generalist medical systems that read
 images, notes, and signals within one model
@@ -92,7 +92,7 @@ flowchart TB
 A word on emphasis. The book serves the full range of
 health-sciences researchers, and its worked examples are
 drawn from across that range (clinical, pharmacological,
-laboratory). The centre of gravity, however, sits with
+laboratory). The center of gravity, however, sits with
 public health and population-scale work: disease
 surveillance, epidemiology, health equity and disparities,
 and evidence for policy. A reader in a School of Public
@@ -113,10 +113,10 @@ structure:
    what the chapter is, why it matters, and how it relates
    to adjacent chapters.
 3. **The researcher's contribution.** A front-loaded
-   section articulating the judgements at the centre of
+   section articulating the judgments at the center of
    the chapter that no large language model can make on
    the reader's behalf. Three to five paragraphs, each
-   leading with a bold-tag judgement and followed by
+   leading with a bold-tag judgment and followed by
    elaboration.
 4. **Content sections.** The chapter's substantive
    material, broken into sections with descriptive
@@ -143,7 +143,7 @@ reference to return to while navigating any chapter.
 |---|---|
 | Learning objectives | The capabilities to acquire; use them to self-assess afterwards |
 | Orientation | Why the topic matters and how it joins the chapters around it |
-| The researcher's contribution | The judgements no model can make on the reader's behalf |
+| The researcher's contribution | The judgments no model can make on the reader's behalf |
 | Content sections | The substantive method, with *Check your understanding* pauses |
 | Worked example | The chapter's tools exercised end to end on one problem |
 | Collaborating with an LLM | Prompt patterns paired with what to watch for and how to verify |
@@ -167,7 +167,7 @@ introductory and advanced sister volumes:
   with a self-administered practice test; this volume,
   by contrast, treats the exercises as the equivalent
   assessment.
-- **Researcher-centred framing.** The sister volumes
+- **Researcher-centerd framing.** The sister volumes
   address the biostatistician explicitly. This volume,
   whose audience extends across health-sciences research
   (clinicians, biostatisticians, epidemiologists,
@@ -193,7 +193,7 @@ the practicum at <https://practicum.rgtlab.org>.
 
 We describe the visual cues used throughout the book on the
 [Conventions](conventions.qmd) page. Code blocks default
-to R; Python and shell snippets are labelled. LLM prompts
+to R; Python and shell snippets are labeled. LLM prompts
 are shown in fenced blocks with the prompt text and, where
 relevant, the literal verbatim model response.
 
@@ -209,5 +209,5 @@ The book repository at
 - `references.bib`, the working bibliography.
 
 Both companion documents are intended as audit-trail
-artefacts; that is, they explain why the book is shaped the
+artifacts; that is, they explain why the book is shaped the
 way it is, and we shall update them as the field evolves.

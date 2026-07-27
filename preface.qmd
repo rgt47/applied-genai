@@ -32,7 +32,7 @@ practice in the health sciences, in the specific sense
 that a professional who can use these systems, and who can
 say precisely when they should not be trusted, will hold a
 measurable advantage over one who cannot. The advantage is
-not the tool. The advantage is the judgement that governs
+not the tool. The advantage is the judgment that governs
 the tool.
 
 That distinction matters because the same models that pass
@@ -60,9 +60,9 @@ two full generations further on. What does not change at
 that pace is the shape of the problem: capability and the
 difficulty of verifying it rise together, and the durable
 skill is learning to work at that moving edge rather than
-memorising the tool of the season. A reader who internalises
+memorizing the tool of the season. A reader who internalises
 the method will remain competent across releases that a
-reader who memorised one interface will not.
+reader who memorized one interface will not.
 
 For the public-health researcher the argument carries an
 additional weight, because the unit of consequence is a
@@ -111,7 +111,7 @@ encounter.
 
 ## What this book covers
 
-The 14-chapter structure is organised in five parts:
+The 14-chapter structure is organized in five parts:
 
 1. **Foundations**: a brief
    genealogy of generative AI; the contemporary
@@ -134,7 +134,7 @@ The 14-chapter structure is organised in five parts:
 
 The chapter list was constructed by surveying current
 graduate-level applied-AI curricula across major US
-biostatistics, public-health, and adjacent programmes (the
+biostatistics, public-health, and adjacent programs (the
 survey is documented in `docs/syllabi-survey.md`) and
 cross-checking the result against a 24-month digest of
 Ethan Mollick's *One Useful Thing* Substack
@@ -152,7 +152,7 @@ elsewhere in the sequence or in dedicated courses:
   scratch, including pre-training and reinforcement
   learning from human feedback. We treat models as
   capability tiers to be selected and verified, not
-  artefacts to be trained.
+  artifacts to be trained.
 - Classical machine learning, which is treated in
   *Advanced Statistical Computing in the Age of AI*,
   Chapter 10.
@@ -172,7 +172,7 @@ uneven: superhuman in some dimensions, subhuman in
 adjacent ones. The frontier is also opaque, capability
 and verification difficulty grow together. The researcher's
 contribution is to identify which jagged edges still
-require human judgement and which do not, and to design
+require human judgment and which do not, and to design
 verification proportionate to the stakes.
 
 **The cybernetic teammate.** Modern AI assistance is more
@@ -180,13 +180,13 @@ fruitfully framed as collaboration with a teammate than as
 operation of a tool. The 2024–2026 arc has shifted the
 human role from prompter to manager: the binding skill is
 precise specification of deliverables, fast evaluation,
-and judicious delegation. This framing organises the book
+and judicious delegation. This framing organizes the book
 from Chapter 1 forward.
 
 **Verification as a first-class concern.** Every chapter
 treats verification not as a final step but as a design
 property. The section template in every chapter front-loads
-*The researcher's contribution*, the judgements no AI
+*The researcher's contribution*, the judgments no AI
 can make on the reader's behalf, and ends with
 *Collaborating with an LLM*, where specific prompts are
 paired with what to watch for and how to verify. The
@@ -206,10 +206,10 @@ a chain of dependencies (e.g., Chapter 8 builds on
 Chapter 3; Chapter 14 builds on Chapter 13) are noted in
 the relevant Orientation sections.
 
-## Acknowledgements
+## Acknowledgments
 
 The chapter list reflects a survey of graduate-level genAI
-curricula across roughly twenty US programmes and several
+curricula across roughly twenty US programs and several
 industry-adjacent open courses. Ethan Mollick's *One
 Useful Thing* Substack provided the contemporary frame
 against which the chapter list was tested. The authors of

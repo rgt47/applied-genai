@@ -43,7 +43,7 @@ take multi-step autonomous action, and multimodal models
 that read images, audio, and structured documents
 alongside text. Each class is genuinely useful and
 genuinely limited; none is a general substitute for
-researcher judgement; and the field changes faster
+researcher judgment; and the field changes faster
 than any textbook chapter can keep pace with.
 
 This chapter establishes the framing the rest of the
@@ -71,15 +71,15 @@ collaboration is in play.
 
 ## The researcher's contribution {#sec-landscape-human}
 
-Before the practical taxonomy, name the judgements that
+Before the practical taxonomy, name the judgments that
 are not delegable. Generative AI in 2026 is sufficiently
 capable that the temptation to outsource analytical
 decisions to it has become real and is, in specific
-ways, dangerous. Three judgements remain the
+ways, dangerous. Three judgments remain the
 researcher's responsibility regardless of how
 capable the tooling becomes.
 
-**(Judgement 1.) Selection of the question.** A model can
+**(Judgment 1.) Selection of the question.** A model can
 help phrase a research question, draft an analysis plan,
 and produce code that addresses the plan. It cannot tell
 you whether the question being asked is the question
@@ -89,27 +89,27 @@ clinically meaningful question (does treatment X reduce
 treatment X associated with reduced 30-day mortality
 controlling for severity?, where severity is a
 post-treatment confounder). Distinguishing the two is
-domain judgement, not a prompt-engineering problem. The
+domain judgment, not a prompt-engineering problem. The
 researcher's first contribution is to insist on the
 right question being asked and to push back when the AI
 tooling produces a clean answer to the wrong one.
 
-**(Judgement 2.) Verification proportionate to stakes.** A
+**(Judgment 2.) Verification proportionate to stakes.** A
 chat model's code output can be verified by running it.
 A reasoning model's conclusion about whether a
 non-inferiority margin is appropriate cannot, verifying
-it requires statistical judgement about the clinical
+it requires statistical judgment about the clinical
 context. Agents that take multi-step action produce
-artefacts whose intermediate steps may be partially
+artifacts whose intermediate steps may be partially
 correct, partially fabricated, and partially the product
 of opaque internal reasoning. The researcher
 designs the verification regime to match the stakes:
 heavier verification for clinical-grade analyses, lighter
 verification for exploratory work, and honest
-acknowledgement when verification is impossible at the
+acknowledgment when verification is impossible at the
 budget available.
 
-**(Judgement 3.) The decision about delegation itself.**
+**(Judgment 3.) The decision about delegation itself.**
 Generative AI is now capable enough that the right
 choice is sometimes 'do not use it'. Some
 research questions are better answered by reading
@@ -121,7 +121,7 @@ discipline includes saying no, and saying so explicitly
 in the analysis report so reviewers can understand which
 parts of the work were AI-assisted and which were not.
 
-These judgements are what distinguish an analysis that
+These judgments are what distinguish an analysis that
 survives review from one that does not. They do not
 diminish as AI capability grows; if anything, the more
 capable the tooling, the more load they bear, because
@@ -173,7 +173,7 @@ plausible answer is hard to detect.
 
 For clinical and public-health researchers, chat models are the right tool for:
 boilerplate code generation (write me a `dplyr` pipeline
-that filters and summarises this data), prose drafting
+that filters and summarizes this data), prose drafting
 (turn this bullet list into a methods paragraph), and
 quick conceptual lookups (what is the difference between
 ROC and PR curves). They are wrong tools for: novel
@@ -220,7 +220,7 @@ Protocol stack [@mcp_2025_specification].[^model-names]
 capabilities described here will outlast specific model
 versions.
 
-Agents are powerful and dangerous. They can complete
+Agents are capable and dangerous. They can complete
 tasks that no single chat or reasoning prompt can: 'go
 read these 200 papers, extract the trial design and
 primary endpoint from each, and produce a structured
@@ -243,7 +243,7 @@ interfaces), video (procedural videos, ultrasound), and
 structured documents (PDFs with tables, EHR exports).
 Multimodal frontier models from major providers handle
 image, audio, and document inputs as a built-in
-capability, alongside specialised biomedical models like
+capability, alongside specialized biomedical models like
 MedSAM [@ma_2024_medsam], RETFound [@zhou_2023_retfound],
 and BiomedCLIP [@zhang_2025_biomedclip]. The direction of
 travel is toward *generalist* medical AI, a single model
@@ -276,13 +276,13 @@ syndrome categories; a chat model applies the codebook
 at a volume no analyst team could match, and the
 epidemiologist double-codes a subsample to measure
 agreement. The weekly evidence scan for the state
-immunisation advisory group is a screening task over
+immunization advisory group is a screening task over
 hundreds of abstracts; an agent screens against
 pre-specified inclusion criteria, and a second reviewer
 audits a random sample. Planning the outbreak
 investigation itself, choosing the study design,
 anticipating confounding, is reasoning-model territory,
-with the epidemiologist's judgement as the check. And
+with the epidemiologist's judgment as the check. And
 the case-report forms faxed in by rural clinics arrive
 as scanned PDFs; a multimodal model extracts the fields,
 and a sample is traced back to the source pages.
@@ -302,7 +302,7 @@ distinguishes a defensible workflow from a hopeful one.
 | Surveillance signal triage | Chat | Codes free-text chief complaints into syndrome categories | Double-code a subsample; monitor agreement over time |
 | Systematic review for evidence-based policy | Agentic | Screens abstracts against inclusion criteria; extracts study characteristics | Dual-screen a random sample; audit extracted fields |
 | Open-ended survey coding | Chat | Applies a codebook to community-health-assessment responses at scale | Double-code a subsample; reconcile disagreements |
-| Outbreak investigation planning | Reasoning | Works through design, confounding, and sensitivity analyses | Check against epidemiological judgement and prior investigations |
+| Outbreak investigation planning | Reasoning | Works through design, confounding, and sensitivity analyses | Check against epidemiological judgment and prior investigations |
 | Health communication | Chat | Drafts plain-language and translated materials for target audiences | Community review; readability checks; accuracy against current guidance |
 | Environmental-exposure document review | Multimodal + agentic | Extracts monitoring values from heterogeneous scanned reports | Trace a sample of extracted values to source pages |
 
@@ -310,12 +310,12 @@ distinguishes a defensible workflow from a hopeful one.
 ## Check your understanding: choosing the class
 
 **Question.** A collaborator asks you to use AI to
-'analyse this trial dataset and produce a report'. Which
+'analyze this trial dataset and produce a report'. Which
 capability class is the right starting point, and what
 should your follow-up question be?
 
 **Answer.** The honest answer is *none of them yet*, because the
-ask is under-specified. 'Analyse and produce a report'
+ask is under-specified. 'Analyze and produce a report'
 hides decisions about: what is the primary endpoint, what
 adjustments are pre-specified, what level of statistical
 rigour is required (exploratory vs registration-grade),
@@ -379,7 +379,7 @@ provider websites usually do not isolate this.
 **The cost is real and rising.** Agentic harnesses
 consume tokens at three to four orders of magnitude
 beyond a single chat-model query. Benedict Evans
-characterises 2026 as a structural compute shortage:
+characterizes 2026 as a structural compute shortage:
 'agentic models, and especially agentic coding, have
 increased demand for raw capacity by orders of
 magnitude and the company can't keep up'
@@ -427,12 +427,12 @@ Claude (Anthropic), whose Fable 5 release of June
 2026 introduced a tier above the established Opus
 class (Claude Opus 4.8 remains the top Opus-tier
 model, and a variant, Mythos 5, is released only to
-approved organisations); GPT-5.6 (OpenAI), previewed
+approved organizations); GPT-5.6 (OpenAI), previewed
 in late June 2026 in three tiers, Sol (flagship
 reasoning and long-horizon agentic work), Terra
 (balanced, roughly half the cost), and Luna (fastest
 and cheapest), initially gated to roughly twenty
-partner organisations at US-government request with
+partner organizations at US-government request with
 general availability expected within weeks of this
 writing; Gemini 3.5 (Google), launched May 2026,
 with Flash generally available, Pro following
@@ -521,7 +521,7 @@ override them.
 | Capability ceiling | At or near the frontier | Within a few points; ahead in some niches |
 | Ecosystem maturity | Mature SDKs, tooling, dashboards | Maturing rapidly but uneven |
 | Fine-tuning | Provider-controlled tooling only | Full freedom (LoRA, QLoRA, full SFT) |
-| Auditability | Opaque; behaviour can change without notice | Weights, generation, and logs all inspectable |
+| Auditability | Opaque; behavior can change without notice | Weights, generation, and logs all inspectable |
 
 ### A decision framework
 
@@ -651,9 +651,9 @@ frontier failures:
 ## The cybernetic teammate
 
 The third concept is a stance, not a technology. Mollick
-[@mollick_2025_cybernetic_teammate] reports a randomised
+[@mollick_2025_cybernetic_teammate] reports a randomized
 controlled trial of 776 professionals at Procter &
-Gamble, randomised to alone-versus-team and AI-versus-no-
+Gamble, randomized to alone-versus-team and AI-versus-no-
 AI conditions on realistic product-development workshops.
 The findings: AI-enabled individuals matched the
 performance of two-person teams without AI. Teams with
@@ -680,17 +680,17 @@ skill is precise specification of deliverables, fast
 evaluation of output, and judicious choice of what to
 delegate. These are management fundamentals: clear
 product requirement documents, iterative feedback,
-recognising when to assign and when to retain. The
+recognizing when to assign and when to retain. The
 researcher who sees AI as a tool will write
 under-specified prompts and accept under-evaluated
 output. The researcher who sees AI as a teammate
 will specify deliverables, set up rapid evaluation, and
-maintain judgement over the work.
+maintain judgment over the work.
 
 **Domain expertise becomes more valuable, not less.** In a
 world where compute is abundant and execution is cheap,
 the binding constraint shifts to knowing what to ask and
-recognising when the answer is wrong. The
+recognizing when the answer is wrong. The
 researcher's domain expertise, clinical-trial
 methodology, statistical inference, the regulatory
 context, is what makes good delegation possible. The AI
@@ -701,12 +701,12 @@ the code is solving the right problem.
 [@mollick_2024_latent_expertise] documents that the most useful AI
 applications come from individual practitioners
 discovering workflows in their own work, not from
-centralised IT prescription. For a research-analytics group,
+centralized IT prescription. For a research-analytics group,
 this means encouraging individual experimentation,
 sharing what works, and treating the discovery of useful
 patterns as part of the work rather than overhead. The
 runbook conventions established in
-@sec-customisation-teams formalise this.
+@sec-customisation-teams formalize this.
 
 ## Cost, latency, and context-window tradeoffs
 
@@ -715,7 +715,7 @@ costs and how long each takes. The constraints are not
 fixed (cost has fallen substantially across all classes
 in 2024–2026 and continues to fall), but the relative
 ranking is stable enough to inform routine decisions.
-@tbl-class-costs summarises the profiles; the orders of
+@tbl-class-costs summarizes the profiles; the orders of
 magnitude, not the specific figures, are what to retain.
 
 : Latency, cost, and context-window profiles of the four capability classes. Figures are order-of-magnitude and illustrative as of mid-2026; the relative ranking is more durable than the absolute values. {#tbl-class-costs}
@@ -804,7 +804,7 @@ beginning and end of long contexts and weakly to the
 middle, an effect colloquially called 'lost in the
 middle'. For applied analytic work where every detail
 matters (a trial protocol, a regulatory submission), the
-right move is usually to summarise input down to the
+right move is usually to summarize input down to the
 relevant parts rather than dump the whole document.
 Reasoning models with extended thinking partially
 compensate but do not eliminate the issue.
@@ -837,11 +837,11 @@ per-correct-output, not cost-per-query.
 ## Worked example: choosing tools for a trial-data analysis
 
 A specific worked example fixes the framework. The trial
-is a multi-centre randomised study of a novel diabetes
+is a multi-center randomized study of a novel diabetes
 medication; the primary endpoint is HbA1c change at 26
 weeks; secondary endpoints include weight loss, adverse
 events, and patient-reported outcomes. The dataset is
-3,400 patients across 18 centres. The researcher
+3,400 patients across 18 centers. The researcher
 is the lead researcher; the report is for the data
 monitoring committee.
 
@@ -893,7 +893,7 @@ whether subgroups are pre-specified versus exploratory
 and ensures the report makes the distinction.
 
 **7. Adverse-event tabulation.** Chat model: standard
-tabulation, easy to verify, no analytical judgement.
+tabulation, easy to verify, no analytical judgment.
 
 **8. Patient-reported outcome scoring.** Chat model:
 deterministic scoring rules from the questionnaire
@@ -972,7 +972,7 @@ fail silently.
 its own failure modes when asked directly, but it will
 tend to flag generic risks (hallucination, calibration)
 without being specific to the analysis. Ask follow-up
-questions about specific calculations or judgements in
+questions about specific calculations or judgments in
 the plan.
 
 *Verification.* Compare the LLM's flagged risks against
@@ -1001,7 +1001,7 @@ elevated risk explicitly.
 
 The meta-pattern: the LLM is a useful **first-pass
 collaborator** for thinking about its own use. It is not
-a substitute for the researcher's judgement about
+a substitute for the researcher's judgment about
 which work is appropriate to delegate. Treat its
 recommendations the way you would treat recommendations
 from a fluent intern, useful starting points, never
@@ -1076,7 +1076,7 @@ Three habits define defensible work in this area:
   Bottlenecks and Salients*. The reference treatment of
   the jagged-frontier concept.
 - @mollick_2025_cybernetic_teammate, *The Cybernetic Teammate*.
-  The randomised-controlled-trial evidence underwriting
+  The randomized-controlled-trial evidence underwriting
   the teammate framing.
 - @bubeck_2023_sparks_agi, *Sparks of Artificial General
   Intelligence: Early experiments with GPT-4*. The

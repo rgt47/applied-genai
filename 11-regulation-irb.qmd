@@ -138,9 +138,9 @@ ggplot(gov, aes(date, 0)) +
 
 ## The researcher's contribution {#sec-regulation-irb-human}
 
-Three judgements are not delegable.
+Three judgments are not delegable.
 
-**(Judgement 1.) Identifying when a tool is a medical
+**(Judgment 1.) Identifying when a tool is a medical
 device.** A model that produces a clinical decision:
 'this patient is high risk for sepsis', that informs
 clinician action is potentially regulated by the FDA as
@@ -151,7 +151,7 @@ research-only does not. The researcher identifies
 where on the line a project sits and ensures the
 appropriate framing is documented.
 
-**(Judgement 2.) Knowing the data-flow path.** Patient
+**(Judgment 2.) Knowing the data-flow path.** Patient
 data may flow through multiple parties in an AI-
 assisted analysis: the institution, an API provider,
 possibly a hosted RAG corpus, possibly a logging
@@ -160,7 +160,7 @@ analysis cannot proceed with PHI. The researcher
 maps the data flow, confirms the BAAs are in place, and
 documents the configuration.
 
-**(Judgement 3.) Drafting IRB language that survives
+**(Judgment 3.) Drafting IRB language that survives
 review.** IRB protocols for AI-assisted research need
 to address questions the IRB will ask: what AI is
 being used, what data flows where, what verification
@@ -169,11 +169,11 @@ AI use. The researcher drafts this language so
 the IRB's review is informed and the protocol is
 approvable.
 
-These judgements are what distinguish AI-assisted work
+These judgments are what distinguish AI-assisted work
 that proceeds from work that is held up at IRB or
 regulatory review.
 
-The three judgements can be arranged as a short decision
+The three judgments can be arranged as a short decision
 path, which is worth internalising because it determines
 which regime attaches before any project work begins.
 @fig-regulatory-decision walks the reader from the first
@@ -212,8 +212,8 @@ output that is presented to a clinician.
 **Treatment recommending** AI: the model recommends a
 specific treatment.
 
-**Workflow-prioritising** AI in safety-critical contexts:
-e.g., a model that prioritises ED triage, stroke
+**Workflow-prioritizing** AI in safety-critical contexts:
+e.g., a model that prioritizes ED triage, stroke
 detection on imaging, sepsis alerts.
 
 Tools that are clearly outside SaMD include:
@@ -359,14 +359,14 @@ infrastructure. For PHI use, this is the appropriate
 configuration. Verify the configuration is in place
 before sending PHI; the default is often retention.
 
-**On-prem alternatives.** For organisations that
+**On-prem alternatives.** For organizations that
 cannot or will not use API providers, on-prem
 deployment of open-weights models (Llama family,
 Mistral, etc.) is an alternative. The trade is
 substantial: on-prem deployment requires GPU
 infrastructure, MLOps, and the operational work of
 maintaining a model. The cost calculus depends on the
-organisation; for high-volume use with sensitive data,
+organization; for high-volume use with sensitive data,
 on-prem may pencil out; for moderate-volume research
 use with appropriate BAAs, API is usually
 operationally simpler.
@@ -420,11 +420,11 @@ Second, **the public-health surveillance exemption governs
 collection and use, not the vendor hop.** The HIPAA Privacy
 Rule permits a covered entity to disclose PHI to a public
 health authority for surveillance without individual
-authorisation (the public-health-activities provision), and
+authorization (the public-health-activities provision), and
 the Common Rule treats public-health surveillance as an
 activity that is not research, so the IRB requirement may not
 attach at all. But how far does that exemption reach? It
-authorises the surveillance itself; it says nothing about
+authorizes the surveillance itself; it says nothing about
 sending the data through a third-party API. That hop still
 needs a BAA, a zero-retention configuration, or prior
 de-identification. In sum, the exemption removes the IRB
@@ -432,7 +432,7 @@ question, not the data-flow question.
 
 Third, **IRB and ethics review for LLM studies on population
 data attends to group-level harm, not only individual
-re-identification.** When a model classifies or summarises
+re-identification.** When a model classifies or summarizes
 data on small subgroups (a rare condition in a specific
 county, an immigrant community, an occupational cohort), the
 output can enable stigmatising or discriminatory inference
@@ -669,7 +669,7 @@ Three habits define defensible work in this area:
 
 3. **Pre-draft the IRB AI-assistance appendix.**
    Maintain the team's template appendix as a
-   reusable artefact. Each study customises but
+   reusable artifact. Each study customises but
    does not write from scratch.
 
 ## Exercises
@@ -687,7 +687,7 @@ Three habits define defensible work in this area:
    review it.
 
 4. Read the FDA's most recent SaMD-AI guidance and
-   summarise it in 2 paragraphs. Compare against
+   summarize it in 2 paragraphs. Compare against
    what you would have expected.
 
 5. For a clinical AI deployment in your

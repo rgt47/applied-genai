@@ -5,9 +5,9 @@
 \begin{flushright}\small
 ```
 *It is surely a great criticism of our profession that we
-have not organised a critical summary, by specialty or
+have not organized a critical summary, by specialty or
 subspecialty, adapted periodically, of all relevant
-randomised controlled trials.*
+randomized controlled trials.*
 
 [Archie Cochrane]{.smallcaps} (1979)
 ```{=latex}
@@ -51,7 +51,7 @@ it's actively engaging with it at a level that actually
 approaches human scholarly work'. The empirical evidence
 matches the framing. A graduate-level research question
 that would have taken a senior researcher a day of
-literature work, pull and read 60 papers, organise the
+literature work, pull and read 60 papers, organize the
 themes, draft a synthesis, can be done by Deep Research
 in 15 minutes with output that requires verification but
 is broadly defensible.
@@ -75,7 +75,7 @@ methods-singularity (autonomous experiments and
 analysis) is closest to this chapter's topic.
 
 The stakes are clearest in public health. A systematic
-review does not merely summarise a literature; it is the
+review does not merely summarize a literature; it is the
 evidentiary spine of a guideline, and a guideline sets
 what a clinician is told to do and what a health system
 pays for. Consider a rapid review commissioned in the
@@ -86,7 +86,7 @@ months, to weigh the evidence. Automation is attractive
 here precisely because the timeline is compressed; but
 what does it cost to be wrong? An automated screener
 that quietly drops the one trial showing an intervention
-does not work has not saved labour, it has corrupted the
+does not work has not saved labor, it has corrupted the
 synthesis that a population-level recommendation rests
 on. We shall return to this asymmetry repeatedly: in a
 review, missing a relevant study is the expensive error,
@@ -120,9 +120,9 @@ flowchart TB
 
 ## The researcher's contribution {#sec-deep-research-human}
 
-Three judgements are not delegable.
+Three judgments are not delegable.
 
-**(Judgement 1.) Deep research is a draft, not a
+**(Judgment 1.) Deep research is a draft, not a
 finished product.** The output of a deep-research run
 is a structured document with citations and synthesis.
 The researcher verifies the citations exist, the
@@ -133,7 +133,7 @@ collaborator without verification is the analytic
 equivalent of submitting a draft your intern wrote
 without reading it.
 
-**(Judgement 2.) Search comprehensiveness is a
+**(Judgment 2.) Search comprehensiveness is a
 methodological choice.** Formal systematic reviews
 require comprehensive search of multiple databases,
 explicit search strings, and deduplication. Deep
@@ -142,20 +142,20 @@ it is not a substitute for the formal search step.
 The researcher decides which kind of search the
 work requires and uses deep research where appropriate.
 A clinical guideline informed by a deep-research-only
-search is not the same artefact as one informed by a
+search is not the same artifact as one informed by a
 PRISMA-aligned systematic review.
 
-**(Judgement 3.) The interpretation of evidence remains
+**(Judgment 3.) The interpretation of evidence remains
 the researcher's.** Deep research can produce a
 synthesis paragraph with citations. The conclusion 'the
 evidence supports treatment X for indication Y' is a
-clinical judgement informed by the evidence, not a
+clinical judgment informed by the evidence, not a
 literal output of the synthesis tool. The researcher
 weighs the evidence, considers the limitations, and
 forms the conclusion, with the deep-research output as
 input rather than output.
 
-These judgements are what distinguish deep-research-
+These judgments are what distinguish deep-research-
 assisted work that informs decisions from work that
 launders unsupported claims through the appearance of
 literature support.
@@ -169,7 +169,7 @@ Deep-research products share a common architecture:
 2. **Iterative search.** For each sub-question, the
    system performs web searches, reads results,
    identifies follow-up searches.
-3. **Synthesis.** The system organises findings into a
+3. **Synthesis.** The system organizes findings into a
    structured report, with citations to specific
    sources for specific claims.
 4. **Self-critique.** Some implementations include a
@@ -192,7 +192,7 @@ view in less time than manual searching takes to even
 formulate the right search terms.
 
 **Methodological lookups.** 'What approaches have been
-used to analyse Z type of trial' or 'how have other
+used to analyze Z type of trial' or 'how have other
 groups handled the missing-data problem in W kind of
 study'. Deep research produces a synthesis of methods
 across multiple papers more efficiently than manual
@@ -234,7 +234,7 @@ and supplements.
 to support a decision about whether to add an
 adaptive-design feature to a planned Phase III trial.
 The team has 2 weeks before the protocol must be
-finalised. Should they use deep research or commission
+finalized. Should they use deep research or commission
 a formal systematic review?
 
 **Answer.** For a 2-week timeline, deep research is the right
@@ -262,8 +262,8 @@ A living systematic review is one that is updated
 continuously as new papers are published rather than
 producing a single static output. Living reviews are
 better matched to fast-moving fields than traditional
-fixed reviews; they are also more labour-intensive.
-LLM assistance changes the labour math in ways that
+fixed reviews; they are also more labor-intensive.
+LLM assistance changes the labor math in ways that
 make living reviews tractable.
 
 To make this concrete, we shall carry a public-health
@@ -322,7 +322,7 @@ silently excluded or a field silently mis-stated.
 | Title/abstract screen | Score each record include / exclude / unclear with rationale | False exclude: a relevant study dropped at high confidence | Second reviewer confirms includes; all excludes auditable; kappa tracked |
 | Full-text screen | Flag eligibility against inclusion criteria | Plausible but wrong eligibility call on a borderline design | Human adjudicates every exclusion; disagreements to a third reviewer |
 | Data extraction | Draft structured fields (design, sample size, outcome, effect) | Mis-stated numbers or transposed arms presented fluently | Reviewer verifies each extracted field against source text |
-| Synthesis + GRADE | Draft synthesis paragraphs; summarise across studies | Over- or under-states certainty; smooths over heterogeneity | Reviewer forms the certainty judgement; LLM output is input, not conclusion |
+| Synthesis + GRADE | Draft synthesis paragraphs; summarize across studies | Over- or under-states certainty; smooths over heterogeneity | Reviewer forms the certainty judgment; LLM output is input, not conclusion |
 
 : PRISMA stage mapped to LLM assistance, principal failure mode, and the human verification that must catch it. The recurring worst case, a relevant study excluded or a field mis-stated, is why the gate sits after every LLM-assisted stage rather than once at the end. {#tbl-prisma-mapping}
 
@@ -331,7 +331,7 @@ pipeline weekly. The researcher's time per update
 is on the order of 1–2 hours; the time per LLM-assisted
 extraction is 30 seconds rather than 30 minutes manual.
 The trade is the verification overhead; for a 5-paper-
-per-week update rate, the math works out favourably.
+per-week update rate, the math works out favorably.
 
 A worked construction of the screening prompt:
 
@@ -385,7 +385,7 @@ automated screening is a reduction in the number of
 records a human must read, and what it pays is a risk of
 missing relevant studies. These two are not independent:
 the more aggressively the screener auto-excludes, the
-more labour it saves, and the more likely it is to drop
+more labor it saves, and the more likely it is to drop
 something relevant. The literature on screening
 automation frames the goal as workload reduction at a
 fixed, high recall (that is, hold sensitivity near one so
@@ -401,7 +401,7 @@ are buried among many plausible-looking irrelevant ones.
 
 ```{r}
 #| label: fig-screening-workload
-#| fig-cap: "Illustrative trade-off between reviewer workload saved and the recall the automated screener is calibrated to hold, for a living review feeding an outbreak-response guideline. Higher recall (fewer missed relevant studies) leaves less to auto-exclude, so workload saved falls; the fall steepens as recall approaches one. The dashed line marks a common operating target of ninety-five percent recall. The vertical band on the right is the region where the costly error, missing a relevant study, is minimised but the labour saved is small. Numbers are illustrative, not from a specific review."
+#| fig-cap: "Illustrative trade-off between reviewer workload saved and the recall the automated screener is calibrated to hold, for a living review feeding an outbreak-response guideline. Higher recall (fewer missed relevant studies) leaves less to auto-exclude, so workload saved falls; the fall steepens as recall approaches one. The dashed line marks a common operating target of ninety-five percent recall. The vertical band on the right is the region where the costly error, missing a relevant study, is minimized but the labor saved is small. Numbers are illustrative, not from a specific review."
 #| echo: false
 #| fig-width: 7
 #| fig-height: 4.0
@@ -459,12 +459,12 @@ wrong in the direction that matters.
 
 ## Risk-of-bias assessment with verification
 
-Risk-of-bias assessment is one of the most labour-
+Risk-of-bias assessment is one of the most labor-
 intensive steps in a systematic review. Each included
 study is rated across multiple domains (sequence
 generation, allocation concealment, blinding, missing
 data, reporting bias, etc.) using a structured tool
-(Cochrane RoB 2 for RCTs, ROBINS-I for non-randomised
+(Cochrane RoB 2 for RCTs, ROBINS-I for non-randomized
 studies). Manual rating takes 30–60 minutes per study.
 
 LLM-assisted rating has been formally evaluated and
@@ -507,25 +507,25 @@ STUDY METHODS: [...]
 The structured rationale field is what makes
 verification tractable. The reviewer can read the
 quote, judge whether it actually supports the
-judgement, and override where appropriate. The
+judgment, and override where appropriate. The
 confidence field is the auto-flag for unclear
 methods sections; reviewers focus their time on the
 flagged studies.
 
 The end-to-end pipeline:
 
-1. LLM produces RoB judgements for all studies.
-2. Reviewer audits 100% of low-confidence judgements.
+1. LLM produces RoB judgments for all studies.
+2. Reviewer audits 100% of low-confidence judgments.
 3. Reviewer spot-checks 20% of high-confidence
-   judgements.
+   judgments.
 4. Disagreements between LLM and reviewer are
    adjudicated by a second reviewer.
 5. The final RoB table for the review uses adjudicated
-   judgements.
+   judgments.
 6. Methods section discloses LLM-assisted RoB with
    audit and adjudication procedure.
 
-The labour math: 30 minutes/study manual × 50 studies
+The labor math: 30 minutes/study manual × 50 studies
 = 25 hours. LLM-assisted: 30 seconds/study × 50 +
 ~15 minutes audit on the 30% requiring it (15 studies)
 + 15 minutes adjudication on the 5–10 disagreements
@@ -649,14 +649,14 @@ Manually verify a 20% random sample of the
 unflagged citations. The combination is more
 efficient than full manual verification.
 
-**Prompt 3: 'Compare this LLM-assisted RoB judgement
+**Prompt 3: 'Compare this LLM-assisted RoB judgment
 with the published Cochrane assessment.'** Provide the
 LLM's RoB output and the Cochrane assessment for the
 same study.
 
 *What to watch for.* The LLM is good at noting
-specific differences but may rationalise its own
-judgement when pressed. For high-stakes use, a
+specific differences but may rationalize its own
+judgment when pressed. For high-stakes use, a
 second LLM (different family) provides a more
 independent comparison.
 
@@ -668,10 +668,10 @@ recent re-evaluation of the methodology.
 The meta-pattern: **deep research is a force
 multiplier for the literature-engagement phase of
 applied analytic work, not a replacement for the
-researcher's judgement about the evidence.** Use
+researcher's judgment about the evidence.** Use
 it where the speed-up is substantial, the verification
 is tractable, and the use case can absorb a deep-
-research-shaped artefact rather than a formal
+research-shaped artifact rather than a formal
 systematic review.
 
 ## Principle in use
@@ -715,7 +715,7 @@ Three habits define defensible work in this area:
 
 3. Use an LLM-assisted RoB approach on a study you
    have manually rated. Compare per-domain
-   judgements; identify systematic differences.
+   judgments; identify systematic differences.
 
 4. Compare deep-research outputs across two providers
    (e.g., OpenAI Deep Research vs Anthropic's
