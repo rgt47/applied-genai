@@ -22,20 +22,21 @@ trained in. Within the span of a single graduate program,
 generative AI has moved from a curiosity to a fixture of the
 clinic and the health department. Models now conduct
 diagnostic dialogue that clinicians rate favorably against
-their own [@tu_2025_amie], and the field has begun, in
+their own [@tu_2025_amie]. The field has also begun, in
 earnest, to build generalist medical systems that read
 images, notes, and signals within one model
 [@moor_2023_gmai]. The preface makes the fuller case; here
 we state only its conclusion. The professionals who will do
-the best work with these systems are not those who trust
-them most, nor those who refuse them, but those who have
-learned to direct them and to verify what comes back. That
-is a learnable skill, and it is the subject of this book.
+the best work with these systems are neither those who
+trust them most nor those who refuse them. They are those
+who have learned to direct them and to verify what comes
+back. That is a learnable skill, and it is the subject of
+this book.
 
 We would enter one caution against waiting. It is tempting
 to treat a fast-moving technology as something to take up
 later, once it has settled. It will not settle on any
-schedule that rewards waiting: across the period in which
+schedule that rewards waiting. Across the period in which
 this book was written, the capability frontier advanced by
 roughly a model generation every few months. The reader who
 learns the method now, while the tools are still imperfect
@@ -56,9 +57,9 @@ lays out the five parts and their fourteen chapters,
 together with the two reading dependencies the preface
 notes: Chapter 8 builds on Chapter 3, and Chapter 14 builds
 on Chapter 13. A reader who wants a path through the book,
-rather than a straight march front to back, can read it off
-the figure directly, since most chapters can be entered on
-their own and only the two dashed arrows impose an order.
+rather than a straight march front to back, can read it
+directly off the figure. Most chapters can be entered on
+their own, and only the two dashed arrows impose an order.
 
 ```{mermaid}
 %%| label: fig-book-map
@@ -97,7 +98,7 @@ public health and population-scale work: disease
 surveillance, epidemiology, health equity and disparities,
 and evidence for policy. A reader in a School of Public
 Health should, in general, find the running examples
-pitched at the settings in which they already work; a
+pitched at the settings in which they already work. A
 reader elsewhere in the health sciences will, we hope, find
 the transfer a short one.
 
@@ -167,16 +168,16 @@ introductory and advanced sister volumes:
   with a self-administered practice test; this volume,
   by contrast, treats the exercises as the equivalent
   assessment.
-- **Researcher-centerd framing.** The sister volumes
-  address the biostatistician explicitly. This volume,
-  whose audience extends across health-sciences research
+- **Researcher-centered framing.** The sister volumes
+  address the biostatistician explicitly. This volume's
+  audience extends across health-sciences research
   (clinicians, biostatisticians, epidemiologists,
-  pharmacists, public-health researchers), refers instead
-  to *the researcher*: that is, whoever is running the
-  analysis and signing the report. Where a chapter
+  pharmacists, public-health researchers), and it refers
+  instead to *the researcher*: that is, whoever is running
+  the analysis and signing the report. Where a chapter
   contains a worked example with an explicit role, we name
   the role (clinical fellow, pharmacoepidemiologist,
-  biostatistician); the surrounding prose, however, stays
+  biostatistician). The surrounding prose, however, stays
   role-neutral.
 
 ## Cross-references
@@ -209,5 +210,5 @@ The book repository at
 - `references.bib`, the working bibliography.
 
 Both companion documents are intended as audit-trail
-artifacts; that is, they explain why the book is shaped the
+artifacts. That is, they explain why the book is shaped the
 way it is, and we shall update them as the field evolves.

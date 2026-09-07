@@ -4,15 +4,15 @@ This is the online version of **Applied Generative AI for
 Health Sciences Research** by The rgtlab Curriculum Project,
 a graduate textbook for clinical and public-health research.
 
-The book covers the practical use of generative AI, large
-language models, reasoning models, agents, and multimodal
-systems, in clinical, public-health, and biostatistical
-research and practice. It is designed for graduate students
-and working researchers, clinical, public-health, and
-biostatistical, who already know quantitative methods at
-the level of a first-year graduate sequence and are now
-adding AI assistance to their workflow with appropriate
-discipline and verification.
+We cover the practical use of generative AI, large language
+models, reasoning models, agents, and multimodal systems, in
+clinical, public-health, and biostatistical research and
+practice. The book is intended for graduate students and
+working researchers, in clinical, public-health, and
+biostatistical fields, who already know quantitative methods
+at the level of a first-year graduate sequence. We assume the
+reader is now adding AI assistance to that workflow and wants
+to do so with appropriate discipline and verification.
 
 The book sits alongside three companion volumes in the
 series:
@@ -27,11 +27,11 @@ series:
   the workflow companion covering Git, Docker, renv,
   Quarto, CDISC, and SAS.
 
-This fourth volume treats generative AI as the orthogonal
-axis: not a method to be added to the curriculum but a
-collaborator to be integrated into every stage of clinical
-and public-health research, from exploratory analysis
-through deployment.
+We treat generative AI in this fourth volume as an
+orthogonal axis. That is, it is not simply another method to
+add to the curriculum. Rather, it is a collaborator to be
+integrated into every stage of clinical and public-health
+research, from exploratory analysis through deployment.
 
 See the [Preface](preface.qmd) for motivation and the
 [Conventions](conventions.qmd) page for visual cues used

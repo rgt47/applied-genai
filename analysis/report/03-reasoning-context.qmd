@@ -36,10 +36,11 @@ The 'prompt engineering' framing that dominated 2023–2024
 applied-AI material does not survive the arrival of
 reasoning models. When the model can spend tens of
 seconds working through a problem internally, the user's
-prompt-phrasing tricks (zero-shot vs few-shot vs chain-of-
-thought) matter much less than what the user puts in
-context, what the user asks for as output, and how the
-user verifies what comes back. The skill that scales is
+prompt-phrasing tricks (zero-shot vs few-shot vs
+chain-of-thought) matter much less. What matters more is
+what the user puts in context, what the user asks for as
+output, and how the user verifies what comes back. The
+skill that scales is
 **context engineering**: assembling the right inputs and
 expected outputs so that the model has what it needs and
 the verification path is clear.

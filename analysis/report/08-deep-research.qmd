@@ -39,11 +39,11 @@ Deep research is the name that emerged in 2025 for a
 class of narrow agent that combines a reasoning model
 with autonomous web access, runs for ten to thirty
 minutes, and produces a structured report with citations.
-OpenAI Deep Research, Anthropic's research mode, Google's
-research-with-agents, plus Elicit and Scite at the
-research-tool layer. The capability has changed what is
-possible at the literature-search and evidence-synthesis
-end of applied analytic work.
+Examples include OpenAI Deep Research, Anthropic's research
+mode, and Google's research-with-agents, with Elicit and
+Scite sitting at the research-tool layer. The capability has
+changed what is possible at the literature-search and
+evidence-synthesis end of applied analytic work.
 
 Mollick [@mollick_2025_deep_research] frames the shift: 'for
 the first time, an AI isn't just summarizing research,

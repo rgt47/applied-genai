@@ -669,7 +669,7 @@ Three habits define defensible work in this area:
 
 3. **Pre-draft the IRB AI-assistance appendix.**
    Maintain the team's template appendix as a
-   reusable artifact. Each study customises but
+   reusable artifact. Each study customizes it but
    does not write from scratch.
 
 ## Exercises

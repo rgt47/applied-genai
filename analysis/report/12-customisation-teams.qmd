@@ -1,4 +1,4 @@
-# Customisation and Adoption: Fine-Tuning, Distillation, and AI-Augmented Teams {#sec-customisation-teams}
+# Customization and Adoption: Fine-Tuning, Distillation, and AI-Augmented Teams {#sec-customisation-teams}
 
 ::: {.bookepigraph}
 ```{=latex}
@@ -17,7 +17,7 @@ of Giants.*
 
 By the end of this chapter you should be able to:
 
-- Apply a decision framework for when to customise: when
+- Apply a decision framework for when to customize: when
   context engineering is sufficient, when fine-tuning
   (PEFT/LoRA) is warranted, and when distillation or on-
   prem deployment is the right answer.
@@ -36,46 +36,47 @@ By the end of this chapter you should be able to:
 
 ## Orientation
 
-The decision to customise, fine-tune a model on
-institutional data, distill a smaller model from a
-larger one, deploy an open-weights model on-prem, is
-expensive in setup and maintenance. The default for most
-research-analytics teams should be context engineering: use
-a frontier API, supply institutional context per query
-through RAG and prompt scaffolding, and let the model do
-the work. Customisation pays off in a narrow set of
-cases that are worth identifying explicitly.
+The decision to customize a model, whether that means
+fine-tuning it on institutional data, distilling a smaller
+model from a larger one, or deploying an open-weights model
+on-prem, is expensive in setup and maintenance. The default
+for most research-analytics teams should be context
+engineering: use a frontier API, supply institutional
+context per query through RAG and prompt scaffolding, and
+let the model do the work. Customization pays off only in a
+narrow set of cases, and those are worth identifying
+explicitly.
 
 The adoption side of the chapter is equally important.
-The empirical evidence, Mollick's
-*Cybernetic Teammate* RCT [@mollick_2025_cybernetic_teammate]
-showing AI-enabled individuals matching the performance
-of unaugmented two-person teams, points to a specific
-adoption pattern that works: latent-expertise discovery
-at the team-member level, knowledge-sharing across the
-team, and gradual codification of useful patterns into
-team-level conventions. The anti-pattern, centralized
-IT prescription of when and how AI should be used, is
-documented to underperform.
+Mollick's *Cybernetic Teammate* RCT
+[@mollick_2025_cybernetic_teammate] found that AI-enabled
+individuals matched the performance of unaugmented
+two-person teams. That evidence points to a specific
+adoption pattern that works: latent-expertise discovery at
+the team-member level, knowledge-sharing across the team,
+and gradual codification of useful patterns into team-level
+conventions. The anti-pattern, centralized IT prescription
+of when and how AI should be used, is documented to
+underperform.
 
-The chapter develops three threads. **The customisation
+The chapter develops three threads. **The customization
 decision**: when context wins, when fine-tuning is
-warranted, when on-prem becomes necessary. **PEFT and
-LoRA at a working level**: enough to make sound choices
-without going into the training mechanics that belong
-in a different book. **Adoption patterns for
-research-analytics teams**: how to organize the team's
-discovery and use of AI assistance so the team's
-collective knowledge grows over time.
+warranted, and when on-prem becomes necessary. **PEFT and
+LoRA at a working level**: enough to make sound choices,
+without going into the training mechanics that belong in a
+different book. **Adoption patterns for research-analytics
+teams**: how to organize the team's discovery and use of AI
+assistance so the team's collective knowledge grows over
+time.
 
 ## The researcher's contribution {#sec-customisation-teams-human}
 
 Three judgments are not delegable.
 
-**(Judgment 1.) The customisation question is a cost-
-benefit calculation, not an engineering preference.**
-The temptation to fine-tune is strong: the customised
-model feels like it is 'really yours'. The reality is
+**(Judgment 1.) The customization question is a
+cost-benefit calculation, not an engineering preference.**
+The temptation to fine-tune is strong. The customized model
+feels like it is 'really yours'. The reality, however, is
 that fine-tuning is expensive (in API cost, in
 infrastructure, in maintenance) and obsoletes when the
 underlying model is updated (which is often). Most
@@ -106,10 +107,10 @@ rather than productivity.
 
 These judgments are what distinguish thoughtful
 adoption from the patterns that produce expensive
-failures (over-customised stacks, mandated tooling
+failures (over-customized stacks, mandated tooling
 that no one uses).
 
-## Decision framework: when to customise
+## Decision framework: when to customize
 
 We find it helpful to picture the options as a ladder,
 ordered from cheapest and least data-hungry at the
@@ -127,7 +128,7 @@ within the first two or three rungs.
 
 ```{mermaid}
 %%| label: fig-customisation-ladder
-%%| fig-cap: "The customisation ladder as a decision tree. Rungs are ordered by cost and by the volume of labelled data required, from prompting at the bottom to continued pretraining at the top. The gate at each rung is the same: climb only if the rung below fails the team's evaluation suite. Note that a shortfall of facts sends the researcher back to the retrieval corpus rather than up to a fine-tune, and that a full fine-tune is warranted only when a parameter-efficient adapter is insufficient and labelled data are plentiful."
+%%| fig-cap: "The customization ladder as a decision tree. Rungs are ordered by cost and by the volume of labeled data required, from prompting at the bottom to continued pretraining at the top. The gate at each rung is the same: climb only if the rung below fails the team's evaluation suite. Note that a shortfall of facts sends the researcher back to the retrieval corpus rather than up to a fine-tune, and that a full fine-tune is warranted only when a parameter-efficient adapter is insufficient and labeled data are plentiful."
 flowchart TB
   S["Task with acceptance<br/>criteria and an eval suite"] --> R0{"Zero-shot prompting<br/>passes the eval suite?"}
   R0 -->|Yes| Stop["Stop. Do not climb.<br/>Higher rungs add cost,<br/>not quality."]
@@ -154,7 +155,7 @@ choice once the lower rungs are exhausted.
 Most tasks can be addressed by frontier-API + good
 context (system prompt + retrieved documents +
 structured input/output). If the model produces
-acceptable results with this setup, do not customise.
+acceptable results with this setup, do not customize.
 Customisation pays off when context is genuinely
 insufficient, not when it is annoying to set up.
 
@@ -177,9 +178,9 @@ Signs context engineering is genuinely insufficient:
 - Latency is unacceptable due to the size of context
   required per query.
 
-**Step 2: If insufficient, what kind of customisation?**
+**Step 2: If insufficient, what kind of customization?**
 
-Three customisation paths.
+Three customization paths.
 
 **Fine-tuning (PEFT / LoRA)** trains a small
 adapter on top of a frontier model, leaving the base
@@ -219,7 +220,7 @@ configuration is not adequate, this is the path.
 | Most everything else | Context engineering |
 
 A common pattern: start with context engineering, observe
-what specifically is failing, and customise narrowly to
+what specifically is failing, and customize narrowly to
 address that. A blanket fine-tune of a frontier model
 because 'we want our own model' is rarely the right
 answer.
@@ -336,14 +337,14 @@ RoB assessment. At inference, the appropriate adapter
 is loaded for the task. Adapter swapping is cheaper
 than maintaining multiple full models and is the
 emerging pattern for organization-specific
-customisation.
+customization.
 
 **Maintenance.** When the base model is updated (a
 new release of the same family, e.g., Llama 3.5 →
 Llama 4), the adapter does not automatically
 transfer. Re-training is required to get the
 benefits of the base-model improvements while
-preserving the customised behavior. This maintenance
+preserving the customized behavior. This maintenance
 overhead is the under-appreciated cost of fine-
 tuning.
 
@@ -449,7 +450,7 @@ whose 'when appropriate' condition matches the task.
 | RLHF | Policy + reward model | 10k–100k preferences | Multi-GPU, unstable | Aligning behavior to preferences |
 | DPO | All or a PEFT subset | 10k–100k preferences | One to a few GPUs | Preference alignment without the RL machinery |
 
-: Customisation and post-training techniques compared. The methods are ordered roughly by cost and by the labeled data they require. Prompting and RAG train no parameters at all and belong at the bottom of the ladder; the preference-alignment methods (RLHF, DPO) and continued pretraining sit at the top and are seldom in scope for teams that use rather than build models. {#tbl-customisation-methods}
+: Customization and post-training techniques compared. The methods are ordered roughly by cost and by the labeled data they require. Prompting and RAG train no parameters at all and belong at the bottom of the ladder; the preference-alignment methods (RLHF, DPO) and continued pretraining sit at the top and are seldom in scope for teams that use rather than build models. {#tbl-customisation-methods}
 
 The parameter-count column is the crux of the PEFT
 argument. @fig-trainable-params makes it concrete: on a
@@ -462,7 +463,7 @@ empirically reach comparable task performance
 
 ```{r}
 #| label: fig-trainable-params
-#| fig-cap: "Illustrative trainable-parameter counts for four customisation methods applied to a seven-billion-parameter base model, on a log scale. LoRA and QLoRA train the same small set of parameters (QLoRA's saving is in memory, not in parameter count), a few million against the roughly seven billion of a full fine-tune. The gap of three to four orders of magnitude is why parameter-efficient methods dominate when a behavior gap must be closed on modest hardware. Counts are illustrative and vary with adapter rank, targeted modules, and base size."
+#| fig-cap: "Illustrative trainable-parameter counts for four customization methods applied to a seven-billion-parameter base model, on a log scale. LoRA and QLoRA train the same small set of parameters (QLoRA's saving is in memory, not in parameter count), a few million against the roughly seven billion of a full fine-tune. The gap of three to four orders of magnitude is why parameter-efficient methods dominate when a behavior gap must be closed on modest hardware. Counts are illustrative and vary with adapter rank, targeted modules, and base size."
 #| echo: false
 #| fig-width: 7
 #| fig-height: 3.8
@@ -644,7 +645,7 @@ verification steps that explicitly cover AI-generated
 artifacts. Onboarding for a new junior researcher
 includes the conventions.
 
-**Month 6: customisation question.** The team
+**Month 6: customization question.** The team
 considers fine-tuning. Looking at the data, the only
 task where context engineering consistently
 underperforms is generating SAS code in the
@@ -667,11 +668,11 @@ assistance have been reported; verification has
 caught all material errors before they reached
 publication.
 
-The pattern reproducible: encourage experimentation,
-share what works, codify patterns, defer
-customisation until clearly necessary.
+The pattern is reproducible: encourage experimentation,
+share what works, codify patterns, and defer
+customization until clearly necessary.
 
-## Collaborating with an LLM on customisation and team adoption
+## Collaborating with an LLM on customization and team adoption
 
 Three prompt patterns illustrate working with LLMs on
 adoption-shaped problems.
@@ -761,7 +762,7 @@ Three habits define defensible work in this area:
    Aggregate the patterns at the end of the month.
 
 4. Calculate the cost of a LoRA fine-tune for a
-   task you would consider customising. Include
+   task you would consider customizing. Include
    compute, training data construction, and
    maintenance over a year. Compare to context
    engineering.

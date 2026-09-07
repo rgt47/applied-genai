@@ -22,7 +22,7 @@ By the end of this chapter you should be able to:
   data composition, demographic skew, label-leakage in
   evaluation) and conduct subgroup-fairness audits.
 - Recognize the distinct public-health risk of AI-
-  tailored persuasion at scale (vaccination counselling,
+  tailored persuasion at scale (vaccination counseling,
   clinical-trial recruitment) and design mitigations.
 - Conduct adversarial evaluation and red-teaming of
   clinical agents, including jailbreak and prompt-
@@ -48,7 +48,7 @@ demographic groups, and how to audit for it.
 **AI-tailored persuasion**: the recently-emerged finding
 that LLMs given personal data persuade ~80% more
 effectively than human debaters, and what this means
-for vaccination counselling, clinical-trial recruitment,
+for vaccination counseling, clinical-trial recruitment,
 and public-health communication. **Adversarial
 evaluation**: jailbreaks, prompt injection, and the
 red-teaming discipline. **Documentation**: model cards,
@@ -397,14 +397,14 @@ conversation about AI in health communication.
 Three classes of public-health context where this
 matters.
 
-**Vaccination counselling.** Conventional vaccination
-counselling is unreliable; people who arrive vaccine-
+**Vaccination counseling.** Conventional vaccination
+counseling is unreliable; people who arrive vaccine-
 hesitant often leave the same way. AI-tailored
-counselling, in early studies, produces meaningful
+counseling, in early studies, produces meaningful
 shifts in stated intention to vaccinate. The
 implication is straightforwardly positive in
 underserved settings; it also raises questions about
-whether AI-tailored counselling is consistent with the
+whether AI-tailored counseling is consistent with the
 standards of informed consent for vaccination
 discussions.
 
@@ -429,7 +429,7 @@ mechanism works for both.
   message they are receiving is AI-generated and
   tailored. The disclosure does not eliminate the
   effectiveness but ensures consent is informed.
-- **Symmetric framing.** AI-generated counselling
+- **Symmetric framing.** AI-generated counseling
   presents counter-arguments at the same depth as
   the recommended course of action.
 - **IRB review.** Studies using AI-tailored
@@ -438,7 +438,7 @@ mechanism works for both.
   of the consent and methods.
 - **Subject-side filters.** Subjects can opt out of
   AI-tailored messaging in favor of standard
-  counselling.
+  counseling.
 
 The mitigations do not solve the underlying
 asymmetry, the AI knows more about the subject than
@@ -451,8 +451,8 @@ requires.
 Before deployment we owe the system a structured search
 for the ways it can be made to fail on purpose.
 @fig-threat-model organizes the threats a clinical LLM
-deployment faces into five families; the point of the
-taxonomy is that the defences differ by family, so a
+deployment faces into five families. The point of the
+taxonomy is that the defenses differ by family, so a
 red-team that probes only for jailbreaks leaves four
 doors unlocked. Finlayson et al.
 [@finlayson_2019_adversarial_medical] showed early that

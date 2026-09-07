@@ -10,73 +10,75 @@ for the clinician to correct and sign
 reasons against was sketched, in part, by a model that now
 answers medical-licensing questions at a level that would
 pass the examination [@nori_2023_gpt4_medical;
-@singhal_2025_medpalm2], and that, in a controlled
-comparison, produced answers to patient questions that
-blinded clinicians rated as more responsive and more
-empathetic than the physicians' own [@ayers_2023_chatbot_empathy].
-Down the hall, the systematic review that will anchor next
-quarter's guideline update was screened, at first pass, by
-a language model working through several thousand abstracts
-overnight. In the public-health department across the
-city, an analyst is drafting a rapid risk assessment for an
-emerging outbreak with the same class of tool. None of
-this was routine when today's entering students sat their
-undergraduate examinations.
+@singhal_2025_medpalm2]. In a controlled comparison, that
+same class of model produced answers to patient questions
+that blinded clinicians rated as more responsive and more
+empathetic than the physicians' own
+[@ayers_2023_chatbot_empathy]. Down the hall, the
+systematic review that will anchor next quarter's guideline
+update was screened, at first pass, by a language model
+working through several thousand abstracts overnight. In
+the public-health department across the city, an analyst is
+drafting a rapid risk assessment for an emerging outbreak
+with the same class of tool. None of this was routine when
+today's entering students sat their undergraduate
+examinations.
 
 We do not rehearse these developments to impress the
 reader, and the reader should be wary of anyone who
-recounts them in order to. The case this book makes is
+recounts them for that purpose. The case this book makes is
 narrower and, we think, more durable. A working knowledge
 of generative AI is becoming a condition of competent
-practice in the health sciences, in the specific sense
-that a professional who can use these systems, and who can
-say precisely when they should not be trusted, will hold a
-measurable advantage over one who cannot. The advantage is
-not the tool. The advantage is the judgment that governs
-the tool.
+practice in the health sciences. We mean this in a specific
+sense: a professional who can use these systems, and who
+can say precisely when they should not be trusted, will
+hold a measurable advantage over one who cannot. The
+advantage is not the tool. The advantage is the judgment
+that governs the tool.
 
-That distinction matters because the same models that pass
-the licensing examination also reproduce race-based
-clinical claims that the field discredited decades ago
-[@omiye_2023_race_based], and the most fluent paragraph a
-model produces is, often enough, the one that is most
-confidently wrong. Unfortunately, the failures are rarely
-loud. They arrive as a plausible citation to a paper that
-does not exist, a summary that quietly inverts a study's
-finding, a subgroup the model never saw and therefore
-never served. The professional's task, then, is neither
-uncritical adoption nor principled refusal, both of which
-are abdications, but disciplined use: knowing what to
-delegate, what to verify, and how much verification the
-stakes demand. That habit of mind, not fluency with any
-particular product, is what this book sets out to build.
+That distinction matters for a reason worth stating
+plainly. The same models that pass the licensing
+examination also reproduce race-based clinical claims that
+the field discredited decades ago [@omiye_2023_race_based].
+The most fluent paragraph a model produces is, often
+enough, the one that is most confidently wrong.
+Unfortunately, the failures are rarely loud. They arrive as
+a plausible citation to a paper that does not exist, a
+summary that quietly inverts a study's finding, or a
+subgroup the model never saw and therefore never served.
+The professional's task is neither uncritical adoption nor
+principled refusal; both are abdications. The task is
+disciplined use: knowing what to delegate, what to verify,
+and how much verification the stakes demand. That habit of
+mind, not fluency with any particular product, is what this
+book sets out to build.
 
 But why learn this now, when the specific systems are
 changing month to month? Precisely because they are. The
 models named in this preface will be superseded, in all
-likelihood before the second printing; the frontier that
+likelihood before the second printing. The frontier that
 belonged to GPT-4 in 2023 is held, as we write, by models
 two full generations further on. What does not change at
 that pace is the shape of the problem: capability and the
-difficulty of verifying it rise together, and the durable
-skill is learning to work at that moving edge rather than
-memorizing the tool of the season. A reader who internalises
-the method will remain competent across releases that a
-reader who memorized one interface will not.
+difficulty of verifying it rise together. The durable skill
+is learning to work at that moving edge rather than
+memorizing the tool of the season. A reader who internalizes
+the method will remain competent across releases; a reader
+who memorized one interface will not.
 
-For the public-health researcher the argument carries an
+For the public-health researcher the argument carries
 additional weight, because the unit of consequence is a
-population rather than a patient. When the World Health
-Organization judges it necessary to issue governance
-specifically for large multi-modal models in health
-[@who_2024_lmm_guidance], and when disease surveillance,
-evidence synthesis for policy, and health communication
-are already being reshaped by these tools, the technology
-has passed from novelty into infrastructure. The field has
-been here before in miniature: Google Flu Trends was, for a
+population rather than a patient. The World Health
+Organization has judged it necessary to issue governance
+specifically for large multimodal models in health
+[@who_2024_lmm_guidance]. Disease surveillance, evidence
+synthesis for policy, and health communication are already
+being reshaped by these tools, and the technology has
+passed from novelty into infrastructure. The field has been
+here before in miniature. Google Flu Trends was, for a
 season, a celebrated instance of population-scale
-prediction, until it drifted and overshot and taught a
-generation of epidemiologists why a model that is not
+prediction, until it drifted and overshot. It taught a
+generation of epidemiologists that a model which is not
 maintained and verified is worse than no model at all
 [@lazer_2014_google_flu]. The lesson did not expire; it
 scaled. This book is written so that its readers, whether
@@ -128,7 +130,7 @@ The 14-chapter structure is organized in five parts:
 4. **Evaluation, safety, and governance**: evaluation
    beyond the benchmark; safety, bias, and red-teaming;
    regulation, privacy, and the IRB.
-5. **Customisation, deployment, and practice**:
+5. **Customization, deployment, and practice**:
    fine-tuning, distillation, and AI-augmented teams;
    deploying AI in clinical and public-health practice.
 
@@ -164,33 +166,33 @@ Pointers to relevant chapters appear where they arise.
 
 ## Three load-bearing concepts
 
-Three concepts thread through every chapter and earn the
-'applied' framing.
+Three concepts thread through every chapter, and they earn
+the 'applied' framing.
 
 **The jagged frontier.** Generative AI capability is
 uneven: superhuman in some dimensions, subhuman in
-adjacent ones. The frontier is also opaque, capability
+adjacent ones. The frontier is also opaque; capability
 and verification difficulty grow together. The researcher's
 contribution is to identify which jagged edges still
-require human judgment and which do not, and to design
+require human judgment and which do not, and then to design
 verification proportionate to the stakes.
 
-**The cybernetic teammate.** Modern AI assistance is more
-fruitfully framed as collaboration with a teammate than as
-operation of a tool. The 2024–2026 arc has shifted the
-human role from prompter to manager: the binding skill is
-precise specification of deliverables, fast evaluation,
-and judicious delegation. This framing organizes the book
-from Chapter 1 forward.
+**The cybernetic teammate.** We find it more useful to
+frame modern AI assistance as collaboration with a teammate
+than as operation of a tool. The 2024 to 2026 arc has
+shifted the human role from prompter to manager. The
+binding skill is now precise specification of deliverables,
+fast evaluation, and judicious delegation. This framing
+organizes the book from Chapter 1 forward.
 
 **Verification as a first-class concern.** Every chapter
 treats verification not as a final step but as a design
-property. The section template in every chapter front-loads
-*The researcher's contribution*, the judgments no AI
-can make on the reader's behalf, and ends with
-*Collaborating with an LLM*, where specific prompts are
-paired with what to watch for and how to verify. The
-dialectic structures the chapter rather than decorating it.
+property. The section template front-loads *The
+researcher's contribution*, the judgments no AI can make on
+the reader's behalf, and it closes with *Collaborating with
+an LLM*, where specific prompts are paired with what to
+watch for and how to verify. This dialectic structures each
+chapter; it is not decoration.
 
 ## How to read this book
 

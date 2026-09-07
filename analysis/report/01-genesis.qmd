@@ -45,14 +45,14 @@ which makes today's networks trainable, was popularized in
 programming that anchored early artificial-intelligence
 research was published in 1958.
 
-@fig-genesis-timeline arranges these milestones, and
-the ones this chapter treats in detail, into five eras.
-We suggest returning to the figure as each section adds
-its node to the chain; the point to take from it now is
-that the interval between a conceptual milestone and
-its practical consequence is measured in decades, not
-years, and that the apparent suddenness of 2022 is an
-artifact of where the public happened to be looking.
+@fig-genesis-timeline arranges these milestones, and the
+ones this chapter treats in detail, into five eras. We
+suggest returning to the figure as each section adds its
+node to the chain. The point to take from it now is that the
+interval between a conceptual milestone and its practical
+consequence is measured in decades, not years. The apparent
+suddenness of 2022 is, in our view, an artifact of where the
+public happened to be looking.
 
 ```{mermaid}
 %%| label: fig-genesis-timeline

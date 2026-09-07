@@ -42,9 +42,9 @@ with extended internal computation, agentic systems that
 take multi-step autonomous action, and multimodal models
 that read images, audio, and structured documents
 alongside text. Each class is genuinely useful and
-genuinely limited; none is a general substitute for
-researcher judgment; and the field changes faster
-than any textbook chapter can keep pace with.
+genuinely limited. None is a general substitute for
+researcher judgment, and the field changes faster than any
+textbook chapter can keep pace with.
 
 This chapter establishes the framing the rest of the
 book inherits. Three concepts do most of the work:

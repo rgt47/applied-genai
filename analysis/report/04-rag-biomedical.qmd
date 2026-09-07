@@ -48,12 +48,12 @@ when the answer needs to draw on a specific corpus that
 the model was not trained on (or was trained on
 incompletely): institutional protocol libraries,
 regulatory submissions, recent literature, internal
-SOPs, the team's prior trial reports. The RAG output is
-defensible in a way that pure model output is not, the
-citations exist and can be checked, and is stable
-against the training cutoff: a RAG over current PubMed
-will reflect last week's papers, while the underlying
-model's training data may be a year stale.
+SOPs, the team's prior trial reports. The RAG output is defensible in a way that pure model
+output is not. The citations exist and can be checked, and
+the answer is stable against the training cutoff. That is,
+a RAG pipeline over current PubMed will reflect last week's
+papers, while the underlying model's training data may be a
+year stale.
 
 The staleness argument is at its sharpest in public
 health. Consider an epidemiologist tracking a novel
