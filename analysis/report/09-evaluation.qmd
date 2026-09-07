@@ -100,7 +100,7 @@ choice holds across the populations the system will
 serve, and adversarial stress testing probes what
 remains. The single lesson to carry from the figure
 is that these families are cumulative rather than
-interchangeable; a strong score at the first stage
+interchangeable. A strong score at the first stage
 does not substitute for the work at the last, and
 fitness for a deployment is a judgment made at that
 final stage rather than read off the first.

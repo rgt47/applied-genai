@@ -331,9 +331,9 @@ is screening: applying a triage classifier to a whole
 population so that the scarce expert time is spent on the
 cases the model flags. A retinal foundation model can
 grade diabetic retinopathy from fundus photographs
-captured by a technician in a primary-care clinic; a
+captured by a technician in a primary-care clinic. A
 chest-X-ray classifier can flag probable tuberculosis in
-a mobile-screening van in a high-burden district; a
+a mobile-screening van in a high-burden district. A
 teledermatology triage model can sort skin photographs
 into 'refer' and 'reassure'. In each case the model does
 not replace the specialist but rations access to one,

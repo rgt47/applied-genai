@@ -357,7 +357,7 @@ succeeds with probability roughly $p^{n}$, and $p^{n}$
 falls fast even when $p$ is high. @fig-compounding-error
 makes the point quantitatively. The lesson to take from
 it is not that agents are unreliable, but that reliability
-has to be manufactured step by step; a verification gate
+has to be manufactured step by step. A verification gate
 that lifts the effective per-step reliability from 0.95
 to 0.99 is worth far more over a long task than the
 figures for a single step would suggest.

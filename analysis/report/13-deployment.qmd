@@ -504,7 +504,7 @@ under-resourced setting is the scarcest resource of all.
 
 This is the equity concern stated precisely. The
 capability to run a triage or surveillance model is
-increasingly available to any agency; the capacity to
+increasingly available to any agency. The capacity to
 monitor, retrain, and roll it back safely over years is
 not, and it is the second capacity, not the first, that
 separates a durable public-health deployment from one

@@ -465,10 +465,10 @@ between a correct result and a confident error in a document
 that would inform policy.
 
 The example is deliberately ordinary. The synergy that makes
-one a better programmer is not found in exotic uses; it is
+one a better programmer is not found in exotic uses. It is
 found in the routine insistence on checks, explanations, and
-understanding that turns each assisted task into a small
-lesson and keeps the analyst the author of the analysis.
+understanding, a habit that turns each assisted task into a
+small lesson and keeps the analyst the author of the analysis.
 
 ## Collaborating with an LLM on your own code
 
