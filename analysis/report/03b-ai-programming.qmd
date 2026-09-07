@@ -222,10 +222,10 @@ The measurements are observational and the causal story is
 not settled, but the direction is a plausible consequence
 of accepting generated blocks rather than integrating them.
 On learning, Osmani's widely-read account of the '70%
-problem' captures the differential effect: AI carries a
+problem' captures the differential effect. AI carries a
 task most of the way, but the final portion, the edge
 cases, the integration, the correctness under real
-conditions, is where expertise is required, and it is
+conditions, is where expertise is required. It is
 exactly the portion a novice cannot supply
 [@osmani_2024_seventy_percent]. The senior developer uses
 AI to accelerate what they already know how to do; the
@@ -233,7 +233,7 @@ novice too often uses it to skip learning what to do.
 
 @tbl-ai-evidence collects these findings. The reader will
 note that they do not contradict one another so much as
-describe different regions of a single surface: assistance
+describe different regions of a single surface. Assistance
 helps most where the task is bounded and the user is able
 to verify, and helps least, or harms, where the task is
 open-ended and the user cannot.
@@ -262,9 +262,9 @@ self-reinforcing. If a tool makes a task feel quick and
 effortless, we will reach for it more often and defer to it
 more readily, regardless of whether it is actually saving
 time or introducing errors. The slowdown in one study on
-one class of task may or may not generalize; the general
+one class of task may or may not generalize. The general
 lesson is that subjective ease is not evidence of either
-speed or correctness, so the decision to use AI, and the
+speed or correctness. The decision to use AI, and the
 level of verification applied, should rest on measured
 outcomes and deliberate checks rather than on how fluent
 the interaction felt.

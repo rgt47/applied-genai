@@ -576,7 +576,7 @@ with intermediate decision points) rather than
 single-step tasks (write the regression code).
 
 Second, the researcher should expect the benchmark
-landscape to shift in this direction. Medical AI
+field to shift in this direction. Medical AI
 evaluation in 2026 is mid-transition; the
 publication of CES, of similar simulator-based
 proposals across radiology, oncology, and emergency
@@ -837,11 +837,12 @@ judging same-family outputs). Calibrate.
 correlation between LLM-judge and human rater is the
 useful number; track it over time.
 
-The meta-pattern: **evaluation is a discipline, not a
-benchmark.** The team that maintains a custom
-evaluation suite has a measurable basis for AI-related
-decisions. The team that relies on public benchmarks
-has anecdotes.
+The meta-pattern, and it is worth stating plainly, is
+that **evaluation is a discipline, not a benchmark.**
+The team that maintains a custom evaluation suite has a
+measurable basis for its AI-related decisions. The team
+that relies on public benchmarks has, in our
+experience, little more than anecdotes.
 
 ## Principle in use
 

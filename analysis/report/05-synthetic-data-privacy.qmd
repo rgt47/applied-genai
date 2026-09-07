@@ -78,9 +78,9 @@ and it is the running public-health example we shall
 return to in the worked example below.
 
 @fig-synth-pipeline gives the shape of the whole process
-before we take it apart stage by stage; the point to carry
+before we take it apart stage by stage. The point to carry
 forward is that differential privacy enters at a single
-place, when the generator is fit, and that release is
+place, when the generator is fit. Release is
 gated on both a utility check and a privacy audit rather
 than on either alone.
 
@@ -356,8 +356,8 @@ The tension is easiest to see as a single curve.
 @fig-privacy-utility traces downstream utility against the
 epsilon budget, alongside the re-identification risk that
 an audit would recover. The lesson to take is that the two
-curves move together: there is no epsilon that is both far
-to the left (private) and high on the utility line, so the
+curves move together. There is no epsilon that is both far
+to the left (private) and high on the utility line. The
 operating point is a choice about which loss to accept
 rather than a value to be optimized away. The shaded band
 marks the moderate range where most cross-institutional

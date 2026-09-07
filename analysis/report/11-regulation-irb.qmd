@@ -33,13 +33,13 @@ By the end of this chapter you should be able to:
 
 ## Orientation
 
-The regulatory landscape for AI in health is moving
-faster than any textbook chapter can keep up with. The
+The regulatory field for AI in health is moving faster
+than any textbook chapter can keep up with. The
 specifics in this chapter are accurate as of early 2026
-and will date. The conceptual structure, what kinds of
-AI uses fall under what regulatory regimes, what
-documentation is expected, is more stable and is the
-emphasis of the chapter.
+and will date. The conceptual structure is more stable,
+that is, which kinds of AI use fall under which
+regulatory regimes and what documentation each expects,
+and it is that structure the chapter emphasizes.
 
 The researcher's role in the regulatory side of AI
 work is often underestimated. The role is not to be the
@@ -645,11 +645,11 @@ guidance.
 reviewed against the IRB's published guidance and
 recent decisions.
 
-The meta-pattern: **regulatory work is human-authored
-even when AI-assisted.** The LLM accelerates drafting;
-the responsibility for accuracy and completeness
-remains with the regulatory affairs team and the
-investigator.
+The meta-pattern is that **regulatory work is
+human-authored even when AI-assisted.** The LLM
+accelerates drafting. The responsibility for accuracy
+and completeness remains, as it should, with the
+regulatory affairs team and the investigator.
 
 ## Principle in use
 

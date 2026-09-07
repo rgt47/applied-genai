@@ -328,7 +328,7 @@ Should we add a GLP-1 agonist?
 
 PROTOCOL CONTEXT
 [paste relevant ADA guideline section here, clearly
-labelled, with the recommendation and the supporting
+labeled, with the recommendation and the supporting
 evidence quotes]
 ```
 

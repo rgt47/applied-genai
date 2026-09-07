@@ -72,12 +72,12 @@ designs the validation to match the use.
 For the public-health reader, the setting where these
 models matter most is not the single clinical encounter
 but the screening program run across a whole
-population. Diabetic-retinopathy screening from fundus
+population. Consider diabetic-retinopathy screening from fundus
 photographs, tuberculosis screening from chest X-rays in
-high-burden districts, cervical and skin screening from
-clinical photographs: each is a task where a foundation
+high-burden districts, and cervical and skin screening from
+clinical photographs. Each is a task where a foundation
 model can extend expert-level triage to settings that
-have few experts, and each is a task where a model that
+have few experts. And each is a task where a model that
 performs well on average can still perform poorly for a
 subgroup that the headline figure conceals. But how well
 does 'well on average' serve the people the program is
@@ -86,12 +86,12 @@ organizes the population-health parts of this chapter.
 
 The models divide along the modality they read and the
 task they perform. @fig-multimodal-taxonomy gives that
-division before we take the classes apart; the point to
+division before we take the classes apart. The point to
 carry from it is that a single input modality (an image)
 feeds several distinct tasks (classification,
 segmentation, report generation, visual question
 answering), and different model families are strong at
-different tasks, so 'which model' is answered only once
+different tasks. So 'which model' is answered only once
 'which task' is fixed.
 
 ```{mermaid}
@@ -348,9 +348,9 @@ homogeneous, and the training data that produced the
 model is rarely a representative sample of the population
 the program will screen. A retinopathy model trained
 mostly on lighter-skinned patients from tertiary centers
-may grade darker fundus images less reliably; a model
+may grade darker fundus images less reliably. A model
 trained on younger cohorts may miss disease in the
-oldest patients; a model validated at an urban teaching
+oldest patients. A model validated at an urban teaching
 hospital may degrade at a rural mobile clinic with older
 cameras and different lighting. The average sensitivity
 can look reassuring while the subgroup sensitivity that
@@ -362,8 +362,8 @@ numbers. What to take from it is not the specific values,
 which are invented, but the shape: a pooled sensitivity
 that clears a plausible target hides subgroups (the
 darkest skin tones, the oldest age band, the rural
-mobile-clinic site) that fall several points short, and
-these are frequently the subgroups with the fewest
+mobile-clinic site) that fall several points short.
+These are frequently the subgroups with the fewest
 training examples. A screening program evaluated only
 on the pooled figure would report success while quietly
 under-serving exactly the populations a public-health
@@ -456,7 +456,7 @@ together can, in principle, support surveillance, triage,
 and documentation with a single backbone. We should treat
 that framing with the standing caution of this book. A
 model good enough to draft a note is not thereby good
-enough to call an outbreak; the surveillance use has its
+enough to call an outbreak. The surveillance use has its
 own validation burden, its own baseline of false alarms,
 and its own equity problem, because the populations most
 visible in digital traces are not the populations most at
@@ -470,11 +470,11 @@ image, a doctored chart, a synthetic testimonial video,
 or a plausible-looking but invented study figure, any of
 which can circulate faster than the correction. For the
 public-health researcher this is not a peripheral concern
-but a population-health exposure in its own right, and
-one that multimodal models sit on both sides of: they can
+but a population-health exposure in its own right. It is
+also one that multimodal models sit on both sides of: they can
 help detect coordinated misinformation (by matching
 recycled images, flagging synthetic artifacts, clustering
-narratives across posts) and they can lower the cost of
+narratives across posts), and they can lower the cost of
 producing it. We shall return to the generation side in
 the chapter on safety and bias; here we note only that a
 surveillance pipeline reading social media for health

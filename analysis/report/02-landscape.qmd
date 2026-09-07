@@ -36,7 +36,7 @@ By the end of this chapter you should be able to:
 
 A researcher in 2026 has access to four classes of
 generative AI capability that did not exist as a coherent
-toolkit five years earlier: chat models that converse
+toolkit five years earlier. These are chat models that converse
 fluently, reasoning models that work through problems
 with extended internal computation, agentic systems that
 take multi-step autonomous action, and multimodal models
@@ -422,22 +422,23 @@ parameters proprietary. Access is through an API or
 a hosted product. The user cannot download the
 weights, run the model locally, or fine-tune it
 outside the provider's sanctioned tooling. As of
-mid-2026, the frontier closed-weight families are
-Claude (Anthropic), whose Fable 5 release of June
-2026 introduced a tier above the established Opus
-class (Claude Opus 4.8 remains the top Opus-tier
+mid-2026, three frontier closed-weight families lead
+the field. Claude (Anthropic) released Fable 5 in
+June 2026, introducing a tier above the established
+Opus class; Claude Opus 4.8 remains the top Opus-tier
 model, and a variant, Mythos 5, is released only to
-approved organizations); GPT-5.6 (OpenAI), previewed
+approved organizations. GPT-5.6 (OpenAI) was previewed
 in late June 2026 in three tiers, Sol (flagship
 reasoning and long-horizon agentic work), Terra
 (balanced, roughly half the cost), and Luna (fastest
-and cheapest), initially gated to roughly twenty
-partner organizations at US-government request with
+and cheapest); it was initially gated to roughly twenty
+partner organizations at US-government request, with
 general availability expected within weeks of this
-writing; Gemini 3.5 (Google), launched May 2026,
-with Flash generally available, Pro following
+writing. Gemini 3.5 (Google), launched May 2026,
+offers Flash generally available, Pro following
 shortly after, and Omni handling multimodal video
-generation; and Grok (xAI). The names will date
+generation. A fourth family, Grok (xAI), rounds out
+the field. The names will date
 quickly, as every list in this paragraph
 demonstrates. What is durable is the *tier
 structure* now standard within each family: a

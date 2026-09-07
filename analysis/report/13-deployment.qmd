@@ -762,10 +762,11 @@ rollback is at best speculative.
 controlled scenario before deployment. Document
 what worked and what did not.
 
-The meta-pattern: **deployment is operational
-discipline.** The LLM accelerates planning; the
-discipline of running the deployment over time
-remains the work.
+The meta-pattern, closing the book's argument, is that
+**deployment is operational discipline.** The LLM
+accelerates planning. The discipline of running the
+deployment over time remains the work, and it remains
+the researcher's to sustain.
 
 ## Principle in use
 

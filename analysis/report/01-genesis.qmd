@@ -521,7 +521,7 @@ on multi-step problems, in the few-shot setting
 [@wei_2022_chain_of_thought] and, strikingly, with
 nothing more than the instruction to think step by
 step [@kojima_2022_zero_shot_reasoners]. The o1 family
-of 2024 internalised the idea, training models to
+of 2024 internalized the idea, training models to
 produce extended reasoning traces before responding
 [@openai_2024_o1_system_card], and open-weight
 reasoning models followed within months
@@ -847,7 +847,7 @@ any number of secondary explainers.
 
 - @russell_2021_aima, *Artificial Intelligence: A
   Modern Approach* (4th ed.). The standard textbook;
-  encyclopaedic and authoritative.
+  encyclopedic and authoritative.
 - @goodfellow_2016_deep, *Deep Learning*. The 2010s deep-
   learning canon; freely available online.
 - @bishop_2024_deep, *Deep Learning: Foundations and

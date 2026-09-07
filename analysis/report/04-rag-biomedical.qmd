@@ -161,9 +161,9 @@ average vector that does not represent any specific
 piece). The default convention for general text is
 500–1,000 tokens per chunk with 100–200 token overlap.
 For biomedical text, the structure of the source matters
-more than token counts: a PubMed abstract is naturally
-one chunk; a clinical guideline section is naturally one
-chunk; a randomized-trial paper benefits from chunking
+more than token counts. A PubMed abstract is naturally
+one chunk, and a clinical guideline section is naturally one
+chunk. A randomized-trial paper benefits from chunking
 by section (Methods, Results, etc.) so a query about a
 specific outcome retrieves the relevant Results
 paragraph rather than the whole paper.

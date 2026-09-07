@@ -704,11 +704,12 @@ basis for clinical governance.
 clinical-governance committee. Their review is the
 final gate.
 
-The meta-pattern: **safety in clinical AI is a
-discipline, not a capability.** The discipline
-includes auditing, documenting, red-teaming, and
-ongoing monitoring. The LLM accelerates each step;
-the discipline itself remains the work.
+The meta-pattern, and we would stress it, is that
+**safety in clinical AI is a discipline, not a
+capability.** The discipline includes auditing,
+documenting, red-teaming, and ongoing monitoring. The
+LLM accelerates each step; the discipline itself
+remains the work, and it remains the researcher's.
 
 ## Principle in use
 

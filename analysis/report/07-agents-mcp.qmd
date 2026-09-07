@@ -106,10 +106,11 @@ Three judgments are not delegable.
 **(Judgment 1.) The decision about what to delegate.** An
 agent can run an analysis, draft a report, file a
 ticket, send an email. The question is whether the work
-should be delegated. Some work, pre-trial decisions,
-DMC reports, regulatory submissions, should not be
-agent-completed regardless of capability, because the
-human attestation is part of the artifact's value. The
+should be delegated. Some work should not be
+agent-completed regardless of capability: pre-trial
+decisions, DMC reports, regulatory submissions. In each
+case the human attestation is part of the artifact's
+value, not a formality layered on top of it. The
 researcher decides what the agent does and what
 remains in human hands; the choice is a professional
 judgment, not a technology one.
@@ -144,11 +145,11 @@ retracted.
 ## The manager mindset: prompting as delegation
 
 The shift from prompt engineering to agent management is
-qualitative. A chat-model prompt is a request for a
-deliverable in one turn. An agent assignment is a
-delegation that the agent will work on for minutes,
-hours, or days, taking actions that affect data and
-systems along the way.
+qualitative, not incremental. A chat-model prompt is a
+request for a deliverable in one turn. An agent
+assignment is a delegation. The agent works on it for
+minutes, hours, or days, and along the way it takes
+actions that affect real data and real systems.
 
 The skills that matter shift accordingly. Mollick
 [@mollick_2026_management_superpower; @mollick_2025_real_agents]
@@ -235,7 +236,8 @@ of tools (functions the model can call) and resources
 An MCP client (the LLM application) discovers what is
 available and uses it.
 
-The protocol has emerged as the de-facto standard for
+The protocol has emerged, at least as far as we can tell
+from current practice, as the de-facto standard for
 agent–system integration in 2025–2026. Its strengths:
 
 - **Decoupled**, the same MCP server works with any
@@ -577,14 +579,15 @@ inputs (SQL injection in the query, oversized
 inputs, repeated calls). Verify the audit log captures
 all calls. Verify the credentials are scoped read-only.
 
-The meta-pattern: **agents amplify both your
-productivity and your blast radius.** A well-specified
-agent run with a tight verification regime is among
-the highest-leverage moves the researcher can
-make. An under-specified agent run with weak
-verification is among the lowest. The difference is
-the discipline of specification and verification, not
-the technology.
+The meta-pattern, and we think it is the single most
+useful thing to carry out of this chapter, is that
+agents amplify both the researcher's productivity and
+the researcher's blast radius. A well-specified agent
+run with a tight verification regime is among the
+highest-leverage moves the researcher can make. An
+under-specified agent run with weak verification is
+among the lowest. The difference is the discipline of
+specification and verification, not the technology.
 
 ## Principle in use
 

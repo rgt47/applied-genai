@@ -182,14 +182,14 @@ bibliography. The latency is 5–30 minutes; the cost is
 typically $1–$5 per run; the citation count is
 typically 30–100 sources per report.
 
-For clinical and public-health researchers, three classes of task are well-
-suited.
+For clinical and public-health researchers, we would
+identify three classes of task as well suited.
 
 **Background scoping.** 'What's known about X in
 indication Y' as the starting point for a research
-project. Deep research produces a competent landscape
-view in less time than manual searching takes to even
-formulate the right search terms.
+project. Deep research produces a competent overview
+of the field in less time than manual searching takes
+to even formulate the right search terms.
 
 **Methodological lookups.** 'What approaches have been
 used to analyze Z type of trial' or 'how have other
@@ -221,11 +221,12 @@ research's tabular extraction is helpful as a draft
 input.
 
 **Niche or recent literature.** Deep research depends
-on web indexing. Very recent papers (last few weeks),
-papers in subscription-only journals not indexed in
-PMC, and papers in non-English literatures are
-under-represented. The researcher notices the gap
-and supplements.
+on web indexing, and that dependency has a shape. Very
+recent papers (the last few weeks), papers in
+subscription-only journals not indexed in PMC, and
+papers in non-English literatures are
+under-represented. It falls to the researcher to notice
+the gap and to supplement it.
 
 ::: {.callout-note icon=false collapse=true}
 ## Check your understanding: deep research vs systematic review
@@ -665,13 +666,13 @@ investigate. The Cochrane reviewers are usually right
 but not always; the disagreement may indicate a
 recent re-evaluation of the methodology.
 
-The meta-pattern: **deep research is a force
-multiplier for the literature-engagement phase of
-applied analytic work, not a replacement for the
-researcher's judgment about the evidence.** Use
-it where the speed-up is substantial, the verification
-is tractable, and the use case can absorb a deep-
-research-shaped artifact rather than a formal
+The meta-pattern, in our view, is that **deep research
+is a force multiplier for the literature-engagement
+phase of applied analytic work, not a replacement for
+the researcher's judgment about the evidence.** We
+would use it where the speed-up is substantial, the
+verification is tractable, and the use case can absorb
+a deep-research-shaped artifact rather than a formal
 systematic review.
 
 ## Principle in use
