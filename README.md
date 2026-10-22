@@ -2,8 +2,7 @@
 *2026-04-26 11:45 PDT*
 
 A graduate textbook on applied generative AI for
-biostatisticians and public-health researchers, by Ronald
-'Ryy' G. Thomas.
+biostatisticians and public-health researchers, by rgtlab curriculum team.
 
 The book is the fourth in a graduate sequence on
 biostatistical computing. The other three volumes:
