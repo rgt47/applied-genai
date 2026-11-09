@@ -9,3 +9,10 @@ $endif$
 }
 \restoregeometry
 \end{titlepage}
+% DRAFT: delete at release. eso-pic draws on every page from
+% here on, whatever the page style, so the KOMA headers and
+% page numbers are untouched and the cover stays clean.
+\AddToShipoutPictureFG{%
+  \AtPageLowerLeft{\makebox[\paperwidth]{\raisebox{0.15in}{%
+    \footnotesize\sffamily\color{gray}%
+    Draft, \today. Content may change.}}}}
