@@ -83,7 +83,9 @@ jobs:
           # Quarto calls these itself (knitr engine, code-link). The
           # project .Rprofile skips renv in CI, so packages restored
           # above are not on the library path; install them directly.
-          Rscript -e "install.packages(c('knitr', 'rmarkdown', 'downlit', 'xml2'), repos = 'https://cloud.r-project.org')"
+          # No repos argument: setup-r points R at Posit's prebuilt
+          # Linux binaries; CRAN source failed to compile fs.
+          Rscript -e "install.packages(c('knitr', 'rmarkdown', 'downlit', 'xml2'))"
 
       - name: Set up Python (host)
         if: steps.mode.outputs.backend == 'host' && steps.mode.outputs.python == 'true'
