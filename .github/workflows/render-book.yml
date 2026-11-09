@@ -101,6 +101,13 @@ jobs:
         if: steps.mode.outputs.backend == 'host'
         run: quarto install tinytex --no-prompt
 
+      # Mermaid diagrams become images in the PDF through a headless
+      # Chrome. Without it installed up front, the render waits on
+      # Chrome and never finishes.
+      - name: Install Chrome Headless Shell (host)
+        if: steps.mode.outputs.backend == 'host'
+        run: quarto install chrome-headless-shell --no-prompt
+
       # One render for all formats: separate --to html and --to pdf
       # runs each clear _book, and Quarto adds the sidebar 'Download
       # PDF' link only when it builds the PDF in the same run.
