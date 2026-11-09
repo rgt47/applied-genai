@@ -135,6 +135,9 @@ format:
         \usepackage{eso-pic}
         \newenvironment{bookepigraph}{\par\begin{flushright}\small}{\end{flushright}\par\medskip}
 
+filters:
+  - _filters/contents-html-only.lua
+
 bibliography: references.bib
 csl: https://www.zotero.org/styles/apa
 
