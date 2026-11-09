@@ -6,6 +6,8 @@ _book/
 *.html
 !nav-toggle.html
 *.pdf
+# Frozen PDF figures are build inputs for CI, not outputs.
+!analysis/report/_freeze/**/figure-pdf/*.pdf
 
 # R
 .Rproj.user/
