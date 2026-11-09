@@ -83,9 +83,9 @@ jobs:
           # Quarto calls these itself (knitr engine, code-link). The
           # project .Rprofile skips renv in CI, so packages restored
           # above are not on the library path; install them directly.
-          # No repos argument: setup-r points R at Posit's prebuilt
-          # Linux binaries; CRAN source failed to compile fs.
-          Rscript -e "install.packages(c('knitr', 'rmarkdown', 'downlit', 'xml2'))"
+          # RSPM (set by setup-r) is Posit's prebuilt Linux binary
+          # repository; CRAN source failed to compile fs.
+          Rscript -e "install.packages(c('knitr', 'rmarkdown', 'downlit', 'xml2'), repos = Sys.getenv('RSPM'))"
 
       - name: Set up Python (host)
         if: steps.mode.outputs.backend == 'host' && steps.mode.outputs.python == 'true'
