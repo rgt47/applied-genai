@@ -7,7 +7,7 @@ informatics, and public health that informed the chapter list of
 *Applied Generative AI for Health Sciences Research*. It is referenced
 from the preface. The survey was conducted by structured web search in
 July 2026 and is confined to courses for which a syllabus, schedule, or
-official course description could be located. Epistemic labels are used
+official course description could be located. Confidence labels are used
 throughout: **[verified]** denotes a syllabus or schedule page read
 directly; **[partial]** a confirmed course with incomplete topic
 detail; **[program]** a degree or track confirmed without a single
